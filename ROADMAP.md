@@ -14,7 +14,7 @@ One TypeScript-first, evidence-based compatibility analysis engine serving **CLI
 
 | Milestone | Dates (2026) | Deliverables | Exit gate |
 |---|---|---|---|
-| [**M0 · Charter & feasibility**](https://github.com/hu-qi/arkcompat/issues/1) ◻ | Nov 2–6 | PRD, ADRs, threat model, benchmark methodology, dependency/DevEco plugin spikes, legacy PR #2 audit | Boundaries and disputed acceptance definitions documented; unknowns have owners; DevEco plugin feasibility recorded |
+| [**M0 · Charter & feasibility**](https://github.com/hu-qi/arkcompat/issues/1) ◻ | Nov 2–6 | PRD, ADRs, threat model, benchmark methodology, **day-one GitHub Actions + gh CLI checks**, dependency/DevEco plugin spikes, legacy PR #2 audit | Boundaries and disputed acceptance definitions documented; unknowns have owners; DevEco plugin feasibility recorded |
 | [**M1 · Deterministic scanning**](https://github.com/hu-qi/arkcompat/issues/3) ◻ | Nov 7–16 | TypeScript workspace, dependency graph (direct/transitive), JS/TS AST analysis, version-aware rules, CLI JSON output | Fixtures cover multiple lockfiles and API import alias cases; errors reported as unknown instead of false compatible |
 | [**M2 · Knowledge & evaluation**](https://github.com/hu-qi/arkcompat/issues/4) ◻ | Nov 17–27 | Curated NPM↔OHPM mapping, provenance/version fields, missing-library classification, labeled independent benchmark | Reproducible scores, baseline and error analysis; source and label provenance recorded |
 | [**M3 · Advice & reports**](https://github.com/hu-qi/arkcompat/issues/5) ◻ | Nov 28–Dec 6 | Explainable migration guidance, AI assist with evidence-only constraints, Markdown/JSON/SARIF, CLI beta | Every finding traceable to location, rule/data version and evidence; CI regression dataset frozen |
@@ -33,6 +33,8 @@ One TypeScript-first, evidence-based compatibility analysis engine serving **CLI
 5. **Deliver the replacement-relationship knowledge base**, with version ranges, origin/evidence URLs, confidence/verification tier, update date, and export.
 
 The precise scoring functions, sample composition, tolerance and Huawei adjudication are pending decision; see [QUALITY-GATES](docs/QUALITY-GATES.md).
+
+**CI quality gate:** [M0 GitHub Actions + gh CLI Issue #11](https://github.com/hu-qi/arkcompat/issues/11); [strategy](docs/CI-STRATEGY.md). Initial docs/workflow checks are not substitutes for independent scanner accuracy evaluation.
 
 **Critical parallel tasks:** [DevEco plugin SDK feasibility spike](https://github.com/hu-qi/arkcompat/issues/2) (M0) and [legacy PR #2 audit](https://github.com/hu-qi/arkcompat/issues/9) (M0/M1).
 
