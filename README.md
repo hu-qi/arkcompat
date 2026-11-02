@@ -2,18 +2,35 @@
 
 > AI-assisted HarmonyOS dependency and API compatibility analysis toolkit.
 
-ArkCompat 是面向前端与跨端开发者的 HarmonyOS 三方库兼容性扫描与适配工具链，目标是分析 NPM/OHPM 依赖及源码 API 调用、识别兼容性风险与缺失生态库、推荐有证据的替代方案，并输出可追溯的迁移报告。
+**ArkCompat** 是面向前端与跨端开发者的 HarmonyOS 三方库兼容性扫描与适配工具链。扫描 NPM/OHPM 依赖及 JS/TS 源码 API 调用，识别与目标 HarmonyOS 环境相关的风险，推荐有证据支持的替代库，并输出可追溯的迁移报告。
 
-- **开发策略**：TypeScript First；共享核心引擎，多形态入口。
-- **产品入口（规划）**：CLI、VS Code/Cursor、DevEco Studio、Web、MCP、CI/CD。
-- **首个交付节点**：2026-12-23（HarmonyOS 6.0.0+ 课题验收）。
-- **当前状态**：项目规划与工程基线初始化中；**尚未发布可用扫描器**。
+- **策略**：TypeScript First；确定性规则 + 版本化知识库 + 可选 AI 辅助分析。
+- **目标形态**：CLI / VS Code-Cursor / DevEco Studio / Web / MCP / CI/CD，共享同一扫描引擎。
+- **首个验收节点**：2026-12-23（HarmonyOS 6.0.0+）。
+- **进度**：**设计与规划阶段**；目前尚未发布可工作的 ArkCompat 扫描器。参见 [ROADMAP](ROADMAP.md)。
 
-> 重要：这是独立开源社区项目，非华为官方发布、认证或背书的产品。兼容性结论需要标明证据级别；AI 推荐不等于验证通过。
+## Project documentation
 
-详细规划将通过独立 PR 提交，合并后以 [ROADMAP.md](ROADMAP.md) 与 `docs/` 为项目开发依据。
+- [ROADMAP — milestones, dates, exit gates](ROADMAP.md)
+- [PRD — scope and user journeys](docs/PRD.md)
+- [Architecture — shared engine and adapters](docs/ARCHITECTURE.md)
+- [Monorepo target structure](docs/REPOSITORY-STRUCTURE.md)
+- [Acceptance & quality gates](docs/QUALITY-GATES.md)
+- [Engineering execution plan](docs/ENGINEERING-PLAN.md)
+- [Open decisions / Huawei expert questions](docs/DECISIONS.md)
+- [Previous prototype reuse audit](docs/LEGACY-AUDIT.md)
+- [Contributing](CONTRIBUTING.md) · [Agent instructions](AGENTS.md)
 
-## Links
+## Non-negotiable design rules
 
-- [Repository](https://github.com/hu-qi/arkcompat)
-- [Original project scope](https://github.com/hu-qi/ohpm-npm-compat-assistant/issues/1) — 仅供需求及历史实现核验，不能视为已交付。
+- No "compatible" claim based only on package name or static presence in OHPM.
+- Findings include target profile, rules/data versions and evidence; uncertainty is visible.
+- AI advice is not verified code execution; external source uploads require consent.
+- Test claims use independent labeled cases, not only fixtures written alongside implementation.
+- DevEco plugin feasibility must be validated; don't assume VS Code plugin APIs are compatible.
+
+## Related work
+
+[Legacy prototype PR #2](https://github.com/hu-qi/ohpm-npm-compat-assistant/pull/2) is a candidate for independently reviewed reuse, **not** an imported implementation.
+
+**Trademark / affiliation:** Independent community project; not an official or certified Huawei product. License selection and related third-party data reuse will be settled during M0.
