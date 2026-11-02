@@ -17,7 +17,7 @@ Read in order: [ROADMAP.md](ROADMAP.md) → [PRD](docs/PRD.md) → [ARCHITECTURE
 2. Read existing contracts and tests before coding.
 3. Introduce negative/edge-case fixture and expected output.
 4. Implement smallest safe vertical change.
-5. Run formatting, typecheck, unit/fixture/integration and relevant parity checks.
+5. Run formatting, typecheck, unit/fixture/integration and relevant parity checks; use GitHub Actions as the authoritative PR status. Do not bypass mandatory checks. For failed runs use `gh pr checks` and `gh run view RUN_ID --log-failed`.
 6. Open PR with changes, evidence, uncertainty and rollback; get review before merge.
 7. Update docs/ADR and Roadmap status **only after verified gate is satisfied**.
 
