@@ -14,13 +14,13 @@ One TypeScript-first, evidence-based compatibility analysis engine serving **CLI
 
 | Milestone | Dates (2026) | Deliverables | Exit gate |
 |---|---|---|---|
-| **M0 · Charter & feasibility** ◻ | Nov 2–6 | PRD, ADRs, threat model, benchmark methodology, dependency/DevEco plugin spikes, legacy PR #2 audit | Boundaries and disputed acceptance definitions documented; unknowns have owners; DevEco plugin feasibility recorded |
-| **M1 · Deterministic scanning** ◻ | Nov 7–16 | TypeScript workspace, dependency graph (direct/transitive), JS/TS AST analysis, version-aware rules, CLI JSON output | Fixtures cover multiple lockfiles and API import alias cases; errors reported as unknown instead of false compatible |
-| **M2 · Knowledge & evaluation** ◻ | Nov 17–27 | Curated NPM↔OHPM mapping, provenance/version fields, missing-library classification, labeled independent benchmark | Reproducible scores, baseline and error analysis; source and label provenance recorded |
-| **M3 · Advice & reports** ◻ | Nov 28–Dec 6 | Explainable migration guidance, AI assist with evidence-only constraints, Markdown/JSON/SARIF, CLI beta | Every finding traceable to location, rule/data version and evidence; CI regression dataset frozen |
-| **M4 · Multi-entry delivery** ◻ | Dec 7–14 | VS Code/Cursor extension, DevEco plugin adapter (subject to feasibility), Web report viewer, MCP server, CI action | Each entry point can scan same fixture and yields semantically equivalent results; install/run smoke tests |
-| **M5 · Release candidate** ◻ | Dec 15–19 | Integration tests, privacy/security review, packaging, performance baseline, independent acceptance rehearsal | Quality gates pass with independent holdout set; no unresolved blocking defects |
-| **M6 · 2026-12-23 acceptance** ◻ | Dec 20–23 | Release artifacts, documentation, demo/reproduction scripts, benchmark evidence, handover | Reproducible installation, metrics and sign-off record; no unsupported acceptance claims |
+| [**M0 · Charter & feasibility**](https://github.com/hu-qi/arkcompat/issues/1) ◻ | Nov 2–6 | PRD, ADRs, threat model, benchmark methodology, dependency/DevEco plugin spikes, legacy PR #2 audit | Boundaries and disputed acceptance definitions documented; unknowns have owners; DevEco plugin feasibility recorded |
+| [**M1 · Deterministic scanning**](https://github.com/hu-qi/arkcompat/issues/3) ◻ | Nov 7–16 | TypeScript workspace, dependency graph (direct/transitive), JS/TS AST analysis, version-aware rules, CLI JSON output | Fixtures cover multiple lockfiles and API import alias cases; errors reported as unknown instead of false compatible |
+| [**M2 · Knowledge & evaluation**](https://github.com/hu-qi/arkcompat/issues/4) ◻ | Nov 17–27 | Curated NPM↔OHPM mapping, provenance/version fields, missing-library classification, labeled independent benchmark | Reproducible scores, baseline and error analysis; source and label provenance recorded |
+| [**M3 · Advice & reports**](https://github.com/hu-qi/arkcompat/issues/5) ◻ | Nov 28–Dec 6 | Explainable migration guidance, AI assist with evidence-only constraints, Markdown/JSON/SARIF, CLI beta | Every finding traceable to location, rule/data version and evidence; CI regression dataset frozen |
+| [**M4 · Multi-entry delivery**](https://github.com/hu-qi/arkcompat/issues/6) ◻ | Dec 7–14 | VS Code/Cursor extension, DevEco plugin adapter (subject to feasibility), Web report viewer, MCP server, CI action | Each entry point can scan same fixture and yields semantically equivalent results; install/run smoke tests |
+| [**M5 · Release candidate**](https://github.com/hu-qi/arkcompat/issues/7) ◻ | Dec 15–19 | Integration tests, privacy/security review, packaging, performance baseline, independent acceptance rehearsal | Quality gates pass with independent holdout set; no unresolved blocking defects |
+| [**M6 · 2026-12-23 acceptance**](https://github.com/hu-qi/arkcompat/issues/8) ◻ | Dec 20–23 | Release artifacts, documentation, demo/reproduction scripts, benchmark evidence, handover | Reproducible installation, metrics and sign-off record; no unsupported acceptance claims |
 
 **Critical path**: trustworthy reference data → deterministic classification → independent benchmark → consistent multi-entry integration → delivery verification.
 
@@ -33,6 +33,8 @@ One TypeScript-first, evidence-based compatibility analysis engine serving **CLI
 5. **Deliver the replacement-relationship knowledge base**, with version ranges, origin/evidence URLs, confidence/verification tier, update date, and export.
 
 The precise scoring functions, sample composition, tolerance and Huawei adjudication are pending decision; see [QUALITY-GATES](docs/QUALITY-GATES.md).
+
+**Critical parallel tasks:** [DevEco plugin SDK feasibility spike](https://github.com/hu-qi/arkcompat/issues/2) (M0) and [legacy PR #2 audit](https://github.com/hu-qi/arkcompat/issues/9) (M0/M1).
 
 ## Cross-cutting workstreams
 
