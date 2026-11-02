@@ -16,6 +16,7 @@
 - [Architecture — shared engine and adapters](docs/ARCHITECTURE.md)
 - [Monorepo target structure](docs/REPOSITORY-STRUCTURE.md)
 - [Acceptance & quality gates](docs/QUALITY-GATES.md)
+- [CI strategy — Actions, gh CLI and staged quality gates](docs/CI-STRATEGY.md)
 - [Engineering execution plan](docs/ENGINEERING-PLAN.md)
 - [Open decisions / Huawei expert questions](docs/DECISIONS.md)
 - [Previous prototype reuse audit](docs/LEGACY-AUDIT.md)
