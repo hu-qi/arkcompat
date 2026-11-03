@@ -5,6 +5,8 @@ import { extname, join, relative, sep } from "node:path";
 import ts from "typescript";
 import { dependencies, publicSpecifier } from "./declarations.js";
 import { npmGraph } from "./npm-lock.js";
+import { pnpmGraph } from "./pnpm-lock.js";
+import { selectLockfile } from "./lockfiles.js";
 import type {
   Finding,
   Limitation,
@@ -226,20 +228,15 @@ export async function scanProject(
     { code: "excluded-directories-not-analyzed" },
   ];
   const rootEntries = await readdir(root);
-  const source = rootEntries.includes("npm-shrinkwrap.json")
-    ? "npm-shrinkwrap.json"
-    : rootEntries.includes("package-lock.json")
-      ? "package-lock.json"
-      : null;
+  const source = selectLockfile(rootEntries, manifest);
+  const text = source ? await read(join(root, source)) : null;
   const {
     graph: dependencyGraph,
     limitations: graphLimitations,
     parsed,
-  } = npmGraph(
-    source ? await read(join(root, source)) : null,
-    source,
-    rawDeclared,
-  );
+  } = source === "pnpm-lock.yaml"
+    ? pnpmGraph(text!, rawDeclared)
+    : npmGraph(text, source, rawDeclared);
   limitations.push(...graphLimitations);
   let sourceFiles = 0;
   async function walk(dir: string, depth: number): Promise<void> {
@@ -267,7 +264,9 @@ export async function scanProject(
         )
           limitations.push({
             code:
-              dir === root && source && entry.name === "package-lock.json"
+              dir === root &&
+              source === "npm-shrinkwrap.json" &&
+              entry.name === "package-lock.json"
                 ? "lockfile-ignored-by-shrinkwrap"
                 : "lockfile-not-analyzed",
             path,
@@ -330,7 +329,7 @@ export async function scanProject(
       reference.kind,
     );
   return {
-    schemaVersion: "0.2.0",
+    schemaVersion: "0.3.0",
     scannerVersion: "0.0.0",
     snapshots: { rules: "none", knowledge: "none" },
     target,
@@ -339,7 +338,11 @@ export async function scanProject(
     references: moduleReferences,
     findings,
     coverage: {
-      dependencyGraph: parsed ? "npm-lockfile-partial" : "declarations-only",
+      dependencyGraph: !parsed
+        ? "declarations-only"
+        : source === "pnpm-lock.yaml"
+          ? "pnpm-lockfile-partial"
+          : "npm-lockfile-partial",
       compatibility: "not-evaluated",
       sourceFiles,
       limitations,

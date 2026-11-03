@@ -45,3 +45,22 @@ export function dependencies(
       });
   });
 }
+
+export function packageName(name: string): boolean {
+  return (
+    /^(?:@[a-zA-Z0-9._~-]+\/)?[a-zA-Z0-9._~-]+$/.test(name) &&
+    name.split("/").every((part) => part !== "." && part !== "..")
+  );
+}
+export function effectiveDependencies(
+  entries: DeclaredDependency[],
+): DeclaredDependency[] {
+  const optionalNames = new Set(
+    entries
+      .filter((d) => d.section === "optionalDependencies")
+      .map((d) => d.name),
+  );
+  return entries.filter(
+    (d) => d.section !== "dependencies" || !optionalNames.has(d.name),
+  );
+}

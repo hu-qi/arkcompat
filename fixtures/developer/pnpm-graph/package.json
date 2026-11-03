@@ -1,0 +1,8 @@
+{
+  "name": "arkcompat-pnpm-graph-fixture",
+  "private": true,
+  "packageManager": "pnpm@10.34.9",
+  "dependencies": { "ui": "npm:@example/viewer@^1" },
+  "optionalDependencies": { "native-addon": "^1" },
+  "peerDependencies": { "platform": "^2" }
+}

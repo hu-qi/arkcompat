@@ -7,7 +7,7 @@
 - **策略**：TypeScript First；确定性规则 + 版本化知识库 + 可选 AI 辅助分析。
 - **目标形态**：CLI / VS Code-Cursor / DevEco Studio / Web / MCP / CI/CD，共享同一扫描引擎。
 - **首个验收节点**：2026-12-23（HarmonyOS 6.0.0+）。
-- **进度**：**规划与工程原型阶段**；已提供本地依赖声明、npm 锁文件依赖图与 import 清单扫描，兼容性结果均为 `unknown`，尚未发布兼容性扫描产品。参见 [ROADMAP](ROADMAP.md)。
+- **进度**：**规划与工程原型阶段**；已提供本地依赖声明、npm/pnpm 锁文件依赖图与 import 清单扫描，兼容性结果均为 `unknown`，尚未发布兼容性扫描产品。参见 [ROADMAP](ROADMAP.md)。
 
 ## Local development
 

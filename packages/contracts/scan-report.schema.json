@@ -5,7 +5,7 @@
   "additionalProperties": false,
   "properties": {
     "schemaVersion": {
-      "const": "0.2.0"
+      "const": "0.3.0"
     },
     "scannerVersion": {
       "const": "0.0.0"
@@ -204,7 +204,11 @@
       "additionalProperties": false,
       "properties": {
         "dependencyGraph": {
-          "enum": ["declarations-only", "npm-lockfile-partial"]
+          "enum": [
+            "declarations-only",
+            "npm-lockfile-partial",
+            "pnpm-lockfile-partial"
+          ]
         },
         "compatibility": {
           "const": "not-evaluated"
@@ -242,10 +246,15 @@
       "additionalProperties": false,
       "properties": {
         "source": {
-          "enum": [null, "package-lock.json", "npm-shrinkwrap.json"]
+          "enum": [
+            null,
+            "package-lock.json",
+            "npm-shrinkwrap.json",
+            "pnpm-lock.yaml"
+          ]
         },
         "lockfileVersion": {
-          "type": ["integer", "null"],
+          "type": ["number", "null"],
           "minimum": 1
         },
         "nodes": {

@@ -5,14 +5,14 @@ import type {
   Limitation,
   LockedPackage,
 } from "@arkcompat/contracts";
-import { dependencies, publicSpecifier, record } from "./declarations.js";
+import {
+  dependencies,
+  publicSpecifier,
+  record,
+  packageName,
+  effectiveDependencies,
+} from "./declarations.js";
 
-function packageName(name: string): boolean {
-  return (
-    /^(?:@[a-zA-Z0-9._~-]+\/)?[a-zA-Z0-9._~-]+$/.test(name) &&
-    name.split("/").every((part) => part !== "." && part !== "..")
-  );
-}
 function safeLocation(path: string): boolean {
   return (
     path.length <= 2048 &&
@@ -37,18 +37,6 @@ function parentLocation(path: string): string {
   const index = path.lastIndexOf("/node_modules/");
   return index < 0 ? "" : path.slice(0, index);
 }
-function effectiveDependencies(
-  entries: DeclaredDependency[],
-): DeclaredDependency[] {
-  const optionalNames = new Set(
-    entries
-      .filter((d) => d.section === "optionalDependencies")
-      .map((d) => d.name),
-  );
-  return entries.filter(
-    (d) => d.section !== "dependencies" || !optionalNames.has(d.name),
-  );
-}
 function lookup(
   from: string,
   name: string,
@@ -69,7 +57,7 @@ function lookup(
 /** Pure metadata adapter: never follows a link or reads node_modules. */
 export function npmGraph(
   text: string | null,
-  source: DependencyGraph["source"],
+  source: Exclude<DependencyGraph["source"], "pnpm-lock.yaml">,
   declared: DeclaredDependency[],
 ): { graph: DependencyGraph; limitations: Limitation[]; parsed: boolean } {
   const graph: DependencyGraph = {
