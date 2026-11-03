@@ -7,7 +7,17 @@
 - **策略**：TypeScript First；确定性规则 + 版本化知识库 + 可选 AI 辅助分析。
 - **目标形态**：CLI / VS Code-Cursor / DevEco Studio / Web / MCP / CI/CD，共享同一扫描引擎。
 - **首个验收节点**：2026-12-23（HarmonyOS 6.0.0+）。
-- **进度**：**设计与规划阶段**；目前尚未发布可工作的 ArkCompat 扫描器。参见 [ROADMAP](ROADMAP.md)。
+- **进度**：**规划与工程原型阶段**；已提供本地依赖声明与 import 清单扫描，结果均为 `unknown`，尚未发布兼容性扫描产品。参见 [ROADMAP](ROADMAP.md)。
+
+## Local development
+
+```bash
+pnpm install --frozen-lockfile --ignore-scripts
+pnpm check
+pnpm --silent scan fixtures/developer/inventory --runtime arkts --release 6.0.0
+```
+
+Node 22.13+（22 系列）或 Node 24，pnpm 10.34.9。实现范围、报告语义与限制见 [扫描原型说明](docs/SCANNER-SLICE.md)。
 
 ## Project documentation
 

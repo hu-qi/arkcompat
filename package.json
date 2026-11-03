@@ -1,0 +1,31 @@
+{
+  "name": "arkcompat",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.34.9",
+  "engines": {
+    "node": "^22.13.0 || ^24.0.0"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "typecheck": "tsc -b && tsc -p tests/tsconfig.json",
+    "lint": "eslint .",
+    "format": "prettier --write \"{packages,apps,tests}/**/*.{ts,json}\" \"*.{json,yaml,mjs}\" .github/workflows/quality.yml",
+    "format:check": "prettier --check \"{packages,apps,tests}/**/*.{ts,json}\" \"*.{json,yaml,mjs}\" .github/workflows/quality.yml",
+    "test": "pnpm build && vitest run",
+    "scan": "node apps/cli/dist/index.js scan",
+    "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && node scripts/validate-docs.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "22.19.1",
+    "ajv": "8.20.0",
+    "eslint": "10.14.0",
+    "prettier": "3.9.10",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.72.1",
+    "vitest": "5.1.0",
+    "@arkcompat/core": "workspace:*",
+    "@arkcompat/contracts": "workspace:*"
+  }
+}
