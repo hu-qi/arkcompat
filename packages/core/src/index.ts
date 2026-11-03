@@ -3,9 +3,9 @@ import { constants } from "node:fs";
 import { open, readdir, realpath } from "node:fs/promises";
 import { extname, join, relative, sep } from "node:path";
 import ts from "typescript";
+import { dependencies, publicSpecifier } from "./declarations.js";
+import { npmGraph } from "./npm-lock.js";
 import type {
-  DeclaredDependency,
-  DependencySection,
   Finding,
   Limitation,
   ModuleReference,
@@ -13,12 +13,6 @@ import type {
   TargetProfile,
 } from "@arkcompat/contracts";
 
-const sections: DependencySection[] = [
-  "dependencies",
-  "devDependencies",
-  "optionalDependencies",
-  "peerDependencies",
-];
 const excluded = new Set([
   "node_modules",
   "dist",
@@ -46,40 +40,6 @@ const lockfiles = new Set([
 const maxFileBytes = 1024 * 1024;
 const maxTotalBytes = 32 * maxFileBytes;
 
-function record(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-function publicSpecifier(value: string): string {
-  // URL declarations may contain registry credentials or signed query parameters.
-  if (/:\/\//.test(value) || /^(git@|github:|gitlab:|bitbucket:)/.test(value))
-    return "[redacted-url]";
-  if (/^(file:|link:|\/|[A-Za-z]:\\)/.test(value)) return "[local-reference]";
-  return value;
-}
-function dependencies(manifest: unknown): DeclaredDependency[] {
-  if (!record(manifest)) throw new Error("package.json must contain an object");
-  return sections.flatMap((section) => {
-    const entries = manifest[section];
-    if (entries === undefined) return [];
-    if (!record(entries))
-      throw new Error(`package.json ${section} must be an object`);
-    return Object.keys(entries)
-      .sort()
-      .map((name) => {
-        const specifier = entries[name];
-        if (typeof specifier !== "string" || !specifier.trim())
-          throw new Error(
-            `package.json ${section} contains an invalid dependency specifier`,
-          );
-        return {
-          name,
-          specifier: publicSpecifier(specifier),
-          section,
-          status: "unknown",
-        };
-      });
-  });
-}
 function declarationLocations(text: string): Map<string, Finding["location"]> {
   const source = ts.parseJsonText("package.json", text);
   const locations = new Map<string, Finding["location"]>();
@@ -251,17 +211,36 @@ export async function scanProject(
   } catch {
     throw new Error("Invalid JSON in package.json");
   }
-  const declared = dependencies(manifest);
+  const rawDeclared = dependencies(manifest);
+  const declared = rawDeclared.map((d) => ({
+    ...d,
+    specifier: publicSpecifier(d.specifier),
+  }));
   const locations = declarationLocations(manifestText);
   const moduleReferences: ModuleReference[] = [];
   const limitations: Limitation[] = [
     { code: "compatibility-not-evaluated" },
-    { code: "transitive-dependencies-not-analyzed" },
     { code: "commonjs-not-analyzed" },
     { code: "import-types-not-analyzed" },
     { code: "gitignore-not-applied" },
     { code: "excluded-directories-not-analyzed" },
   ];
+  const rootEntries = await readdir(root);
+  const source = rootEntries.includes("npm-shrinkwrap.json")
+    ? "npm-shrinkwrap.json"
+    : rootEntries.includes("package-lock.json")
+      ? "package-lock.json"
+      : null;
+  const {
+    graph: dependencyGraph,
+    limitations: graphLimitations,
+    parsed,
+  } = npmGraph(
+    source ? await read(join(root, source)) : null,
+    source,
+    rawDeclared,
+  );
+  limitations.push(...graphLimitations);
   let sourceFiles = 0;
   async function walk(dir: string, depth: number): Promise<void> {
     if (depth > 64) throw new Error("Scan directory depth limit exceeded (64)");
@@ -282,8 +261,17 @@ export async function scanProject(
       } else if (entry.isFile()) {
         if (entry.name === "package.json" && dir !== root)
           limitations.push({ code: "nested-manifest-not-analyzed", path });
-        if (lockfiles.has(entry.name))
-          limitations.push({ code: "lockfile-not-analyzed", path });
+        if (
+          lockfiles.has(entry.name) &&
+          !(dir === root && entry.name === source)
+        )
+          limitations.push({
+            code:
+              dir === root && source && entry.name === "package-lock.json"
+                ? "lockfile-ignored-by-shrinkwrap"
+                : "lockfile-not-analyzed",
+            path,
+          });
         if (extname(entry.name) === ".ets")
           limitations.push({ code: "unsupported-ets", path });
         if (sourceExtensions.has(extname(entry.name))) {
@@ -342,15 +330,16 @@ export async function scanProject(
       reference.kind,
     );
   return {
-    schemaVersion: "0.1.0",
+    schemaVersion: "0.2.0",
     scannerVersion: "0.0.0",
     snapshots: { rules: "none", knowledge: "none" },
     target,
     dependencies: declared,
+    dependencyGraph,
     references: moduleReferences,
     findings,
     coverage: {
-      dependencyGraph: "declarations-only",
+      dependencyGraph: parsed ? "npm-lockfile-partial" : "declarations-only",
       compatibility: "not-evaluated",
       sourceFiles,
       limitations,

@@ -1,0 +1,6 @@
+{
+  "name": "arkcompat-npm-graph-fixture",
+  "private": true,
+  "dependencies": { "alpha": "^1.0.0", "beta": "^1.0.0" },
+  "optionalDependencies": { "native-addon": "^1.0.0" }
+}

@@ -26,7 +26,7 @@ One TypeScript-first, evidence-based compatibility analysis engine serving **CLI
 
 ## Engineering progress · 2026-11-03
 
-Issue #3 now has an experimental [offline inventory slice](docs/SCANNER-SLICE.md): TypeScript workspace, direct declarations, AST module references, strict JSON schema, CLI and regression/parity tests. This is partial M1 implementation, not an exit-gate pass. Lockfile graphs, compatibility rules, knowledge and independent accuracy remain pending; M0 decisions and PR #10 review remain open.
+Issue #3 now has an experimental [offline inventory slice](docs/SCANNER-SLICE.md): TypeScript workspace, direct declarations, AST module references, strict JSON schema, CLI and regression/parity tests. This is partial M1 implementation, not an exit-gate pass. npm v2/v3 metadata graphs now add direct/transitive edges, hoisting and unresolved/link limitations ([scope](docs/NPM-LOCKFILES.md)). pnpm/yarn graphs, compatibility rules, knowledge and independent accuracy remain pending; M0 decisions and PR #10 review remain open.
 
 ## Acceptance mapping (do not change the original targets)
 

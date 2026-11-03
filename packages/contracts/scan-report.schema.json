@@ -5,7 +5,7 @@
   "additionalProperties": false,
   "properties": {
     "schemaVersion": {
-      "const": "0.1.0"
+      "const": "0.2.0"
     },
     "scannerVersion": {
       "const": "0.0.0"
@@ -204,7 +204,7 @@
       "additionalProperties": false,
       "properties": {
         "dependencyGraph": {
-          "const": "declarations-only"
+          "enum": ["declarations-only", "npm-lockfile-partial"]
         },
         "compatibility": {
           "const": "not-evaluated"
@@ -236,6 +236,85 @@
         "sourceFiles",
         "limitations"
       ]
+    },
+    "dependencyGraph": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "enum": [null, "package-lock.json", "npm-shrinkwrap.json"]
+        },
+        "lockfileVersion": {
+          "type": ["integer", "null"],
+          "minimum": 1
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "installName": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "version": {
+                "type": ["string", "null"]
+              },
+              "link": {
+                "type": "boolean"
+              }
+            },
+            "required": ["id", "installName", "name", "version", "link"]
+          }
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "from": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "specifier": {
+                "type": "string"
+              },
+              "section": {
+                "enum": [
+                  "dependencies",
+                  "devDependencies",
+                  "optionalDependencies",
+                  "peerDependencies"
+                ]
+              },
+              "to": {
+                "type": ["string", "null"]
+              },
+              "resolution": {
+                "enum": ["locked", "missing", "unsupported"]
+              }
+            },
+            "required": [
+              "from",
+              "name",
+              "specifier",
+              "section",
+              "to",
+              "resolution"
+            ]
+          }
+        }
+      },
+      "required": ["source", "lockfileVersion", "nodes", "edges"]
     }
   },
   "required": [
@@ -244,6 +323,7 @@
     "snapshots",
     "target",
     "dependencies",
+    "dependencyGraph",
     "references",
     "findings",
     "coverage"

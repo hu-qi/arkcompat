@@ -119,7 +119,7 @@ describe("offline scan slice", () => {
   });
   it("reports lockfiles, ETS and CommonJS blind spots as incomplete coverage", async () => {
     const root = await project();
-    await source(root, "{}", "package-lock.json");
+    await source(root, "# yarn lockfile fixture", "yarn.lock");
     await source(root, "struct View {}", "view.ets");
     await source(root, 'const fs = require("fs");', "main.cjs");
     const report = await scanProject(root, target);
