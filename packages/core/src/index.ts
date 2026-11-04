@@ -4,9 +4,11 @@ import { open, readdir, realpath } from "node:fs/promises";
 import { extname, join, relative, sep } from "node:path";
 import ts from "typescript";
 import { dependencies, publicSpecifier } from "./declarations.js";
-import { npmGraph } from "./npm-lock.js";
-import { pnpmGraph } from "./pnpm-lock.js";
-import { selectLockfile } from "./lockfiles.js";
+import {
+  selectLockfile,
+  parseDependencyGraph,
+  graphCoverage,
+} from "./lockfiles.js";
 import type {
   Finding,
   Limitation,
@@ -234,9 +236,7 @@ export async function scanProject(
     graph: dependencyGraph,
     limitations: graphLimitations,
     parsed,
-  } = source === "pnpm-lock.yaml"
-    ? pnpmGraph(text!, rawDeclared)
-    : npmGraph(text, source, rawDeclared);
+  } = parseDependencyGraph(text, source, rawDeclared);
   limitations.push(...graphLimitations);
   let sourceFiles = 0;
   async function walk(dir: string, depth: number): Promise<void> {
@@ -329,7 +329,7 @@ export async function scanProject(
       reference.kind,
     );
   return {
-    schemaVersion: "0.3.0",
+    schemaVersion: "0.4.0",
     scannerVersion: "0.0.0",
     snapshots: { rules: "none", knowledge: "none" },
     target,
@@ -338,11 +338,7 @@ export async function scanProject(
     references: moduleReferences,
     findings,
     coverage: {
-      dependencyGraph: !parsed
-        ? "declarations-only"
-        : source === "pnpm-lock.yaml"
-          ? "pnpm-lockfile-partial"
-          : "npm-lockfile-partial",
+      dependencyGraph: graphCoverage(source, parsed),
       compatibility: "not-evaluated",
       sourceFiles,
       limitations,

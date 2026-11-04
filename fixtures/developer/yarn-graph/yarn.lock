@@ -1,0 +1,15 @@
+# Synthetic developer fixture. Do not install or execute.
+# yarn lockfile v1
+
+"alias@npm:@example/real@^2":
+  version "2.0.0"
+  dependencies:
+    shared "^1"
+
+alpha@^1:
+  version "1.0.0"
+  dependencies:
+    shared "~1"
+
+"shared@^1", "shared@~1":
+  version "1.5.0"

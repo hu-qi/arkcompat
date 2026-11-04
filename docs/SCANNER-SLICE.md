@@ -19,9 +19,9 @@ node apps/cli/dist/index.js scan fixtures/developer/inventory --runtime arkts --
 
 ## Implemented boundary
 
-- Root `package.json`: retain declarations in dependencies/devDependencies/optionalDependencies/peerDependencies. Alias/workspace specifiers stay declarations. npm/pnpm graph metadata is separate from declarations and is not proof of actual installation. Optional entries can also appear in dependencies and remain section-specific records.
+- Root `package.json`: retain declarations in dependencies/devDependencies/optionalDependencies/peerDependencies. Alias/workspace specifiers stay declarations. npm/pnpm/Yarn graph metadata is separate from declarations and is not proof of actual installation. Optional entries can also appear in dependencies and remain section-specific records.
 - JS/JSX/TS/TSX/MJS/MTS/CJS/CTS: Compiler API extracts static import/export module specifiers and dynamic imports. A nonliteral dynamic import has a null specifier. Locations are relative paths and one-based line/column positions. Source text and comments are not copied into reports.
-- Report schema 0.3.0: deterministic inventory IDs, explicit target, evidence and `unknown` status; rules/knowledge snapshots are `none`. No timestamps or absolute project root in successful reports. IDs distinguish inventory sites; they are not guaranteed stable across edits or future schema versions.
+- Report schema 0.4.0: deterministic inventory IDs, explicit target, evidence and `unknown` status; rules/knowledge snapshots are `none`. No timestamps or absolute project root in successful reports. IDs distinguish inventory sites; they are not guaranteed stable across edits or future schema versions.
 - Scanner reads local files only and never installs dependencies or executes source, project hooks or lifecycle scripts. URL-like declarations/imports are redacted, and file/link dependency specifiers are replaced with a local-reference marker.
 - Invalid manifests, source syntax errors, I/O errors and exhausted limits fail the scan. CLI exits 1, prints a diagnostic on stderr and leaves stdout empty. Exit 0 means inventory was produced, **not** that compatibility passed.
 
@@ -29,7 +29,7 @@ The public TypeScript types live in [contracts](../packages/contracts/src/index.
 
 ## Coverage and resource policy
 
-- npm v2/v3 package-lock/shrinkwrap and pnpm v9 root importer/snapshot metadata are parsed into partial graphs; see [npm adapter](NPM-LOCKFILES.md) and [pnpm adapter](PNPM-LOCKFILES.md). Yarn/older pnpm formats, workspace/link targets, nested/OHPM manifests and source import resolution remain unimplemented. Declaration ranges must not be interpreted as installed versions.
+- npm v2/v3 package-lock/shrinkwrap, pnpm v9 root importer/snapshot and Yarn Classic v1 descriptor metadata are parsed into partial graphs; see [npm adapter](NPM-LOCKFILES.md), [pnpm adapter](PNPM-LOCKFILES.md) and [Yarn adapter](YARN-LOCKFILES.md). Yarn Berry/older pnpm formats, workspace/link targets, nested/OHPM manifests and source import resolution remain unimplemented. Declaration ranges must not be interpreted as installed versions.
 - CommonJS require/import-equals, TypeScript import types, API calls, symbols, compatibility rules, replacements and build/runtime verification remain unimplemented. ETS files are surfaced as unsupported.
 - Hidden directories and node_modules/dist/build/coverage/vendor are excluded. `.gitignore` is not applied; the coverage report states this. Nested package manifests and encountered symlinks are reported as limitations. No installable artifact or real-world accuracy metric is claimed.
 - Files and directory symlinks are skipped; a symlinked root manifest is rejected. Limits: 1 MiB per read file, 32 MiB total input, 10,000 visited entries, 64 directory levels; lockfile graphs also cap package/snapshot/importer records at 10,000 per table and effective edges at 20,000. Limit errors abort rather than presenting a partial report as complete.
@@ -37,4 +37,4 @@ The public TypeScript types live in [contracts](../packages/contracts/src/index.
 
 ## Remaining gates
 
-Issue #3 remains open for yarn, full workspace/older pnpm and broader graph support, symbol/API analysis, target-aware evidence-backed rules and broader fixtures. Issue #11 remains open for coverage, independent benchmark/release gates and verified branch protection. M0 decisions D-01–D-10 and the DevEco/legacy audits retain their existing statuses; this spike does not approve licensing, acceptance methodology or platform support.
+Issue #3 remains open for Yarn Berry, full workspace/older pnpm and broader graph support, symbol/API analysis, target-aware evidence-backed rules and broader fixtures. Issue #11 remains open for coverage, independent benchmark/release gates and verified branch protection. M0 decisions D-01–D-10 and the DevEco/legacy audits retain their existing statuses; this spike does not approve licensing, acceptance methodology or platform support.

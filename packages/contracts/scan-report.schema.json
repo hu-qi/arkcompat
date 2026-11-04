@@ -5,7 +5,7 @@
   "additionalProperties": false,
   "properties": {
     "schemaVersion": {
-      "const": "0.3.0"
+      "const": "0.4.0"
     },
     "scannerVersion": {
       "const": "0.0.0"
@@ -207,7 +207,8 @@
           "enum": [
             "declarations-only",
             "npm-lockfile-partial",
-            "pnpm-lockfile-partial"
+            "pnpm-lockfile-partial",
+            "yarn-classic-lockfile-partial"
           ]
         },
         "compatibility": {
@@ -250,7 +251,8 @@
             null,
             "package-lock.json",
             "npm-shrinkwrap.json",
-            "pnpm-lock.yaml"
+            "pnpm-lock.yaml",
+            "yarn.lock"
           ]
         },
         "lockfileVersion": {

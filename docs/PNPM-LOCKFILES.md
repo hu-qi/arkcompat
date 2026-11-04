@@ -14,7 +14,7 @@ pnpm --silent scan . --runtime arkts --release 6.0.0
 
 The authored fixture yields three snapshot nodes and five edges, including a scoped alias, a root peer and one missing optional dependency. All fixture metadata is synthetic; never install or execute it. A separate lockfile-only smoke with pinned pnpm 10.34.9 uses an alias and React peer relationship, producing seven nodes and ten locked edges without package installation or lifecycle scripts. Neither fixture nor smoke is an independent acceptance benchmark.
 
-## Contract 0.3.0
+## Contract 0.4.0
 
 - `dependencyGraph.source` now also accepts `pnpm-lock.yaml`. Numeric `lockfileVersion` is 9 for pnpm v9.0; unimplemented older/future versions produce explicit uncertainty. Graph shape stays shared with npm, while coverage is `pnpm-lockfile-partial`.
 - pnpm node IDs are `pnpm:<snapshot-key>`, including scoped names and nested peer suffixes. These are logical IDs, **not paths** to read. For pnpm snapshots, name/installName represent the registry identity; aliases are preserved in edge names. npm retains its installation-location IDs and installation names.
@@ -23,13 +23,13 @@ The authored fixture yields three snapshot nodes and five edges, including a sco
 - Both package metadata and a snapshot are required for a registry node. Missing records are reported; matching by package name alone never manufactures a resolved node. Different peer contexts remain distinct even when names/versions match.
 - `locked` still means metadata reference found, not range satisfaction, actual installation, or HarmonyOS compatibility. Findings remain `unknown`; no rules, replacements or verified runtime claim is introduced.
 
-Schema 0.3.0 expands graph source/coverage/version values and ID semantics; 0.1/0.2 consumers must update. The strict [schema](../packages/contracts/scan-report.schema.json) and [types](../packages/contracts/src/index.ts) remain experimental.
+Schema 0.3 introduced pnpm graph source/coverage/version values and ID semantics; 0.4 also adds Yarn Classic descriptor graphs. Consumers of 0.1–0.3 must update. The strict [schema](../packages/contracts/scan-report.schema.json) and [types](../packages/contracts/src/index.ts) remain experimental.
 
 ## Selection and unsupported cases
 
-When both npm and pnpm lock families exist, `package.json` must declare an npm or pnpm packageManager. The selected manager's file is parsed; ignored content is not read. npm shrinkwrap still precedes package-lock. Without an explicit supported manager, ambiguous input fails. With only one supported lock family, that family is selected. Other/nested locks remain visible as unparsed limitations.
+When more than one npm/pnpm/Yarn lock family exists, `package.json` must declare a present packageManager. The selected manager's file is parsed; ignored content is not read. npm shrinkwrap still precedes package-lock. Without an explicit supported manager, ambiguous input fails. With only one supported lock family, that family is selected. Other/nested locks remain visible as unparsed limitations.
 
-Workspace importers other than `.` are surfaced but not traversed. Link/file/workspace references, remote registry/tarball/Git identities, patches/hash contexts, old pnpm formats, complete workspace graphs and Yarn/OHPM remain unsupported. Optional-peer/platform conditions, transitive peer policy, range satisfaction, settings/overrides policy and actual install integrity are not evaluated. Overlapping declarations across sections are compared conservatively and can require review.
+Workspace importers other than `.` are surfaced but not traversed. Link/file/workspace references, remote registry/tarball/Git identities, patches/hash contexts, old pnpm formats, complete workspace graphs, Yarn Berry and OHPM remain unsupported. Yarn Classic has a separate [adapter](YARN-LOCKFILES.md). Optional-peer/platform conditions, transitive peer policy, range satisfaction, settings/overrides policy and actual install integrity are not evaluated. Overlapping declarations across sections are compared conservatively and can require review.
 
 ## Parser and privacy boundary
 
