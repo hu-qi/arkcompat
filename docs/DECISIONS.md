@@ -31,3 +31,7 @@ Discuss API/compatibility edge cases without published answers, access to vetted
 - **R4 Time pressure:** tests and release engineering included in milestones, not deferred until final week.
 - **R5 Licensing/IP:** import none of the legacy or third-party data until checked.
 - **R6 Silent false positives:** negative fixtures and post-classification verification; track false-confidence count.
+
+## D-07 engineering spike defaults · 2026-11-03
+
+The Issue #3 implementation uses Node 22.13+ (22 line) / Node 24, pnpm 10.34.9, TypeScript 5.9.3 Compiler API and project references, ESLint, Vitest and Prettier. These are reversible engineering defaults selected for an executable local inventory spike; D-07 remains Proposed pending owner confirmation. TypeScript remains on the supported typescript-eslint range. Packages are private; no repository license, publication or staffing decision is inferred. Revisit when the runtime matrix, parser requirements or maintainer approval changes.

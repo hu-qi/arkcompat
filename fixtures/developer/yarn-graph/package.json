@@ -1,0 +1,8 @@
+{
+  "name": "arkcompat-yarn-graph-fixture",
+  "private": true,
+  "packageManager": "yarn@1.22.22",
+  "dependencies": { "alpha": "^1", "alias": "npm:@example/real@^2" },
+  "optionalDependencies": { "native-addon": "^1" },
+  "peerDependencies": { "peer": "^2" }
+}

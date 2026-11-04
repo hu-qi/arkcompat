@@ -1,0 +1,342 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ArkCompat experimental inventory report",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "0.4.0"
+    },
+    "scannerVersion": {
+      "const": "0.0.0"
+    },
+    "snapshots": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "rules": {
+          "const": "none"
+        },
+        "knowledge": {
+          "const": "none"
+        }
+      },
+      "required": ["rules", "knowledge"]
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "os": {
+          "const": "HarmonyOS"
+        },
+        "release": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "runtime": {
+          "enum": ["arkts", "arkweb", "react-native"]
+        },
+        "apiLevel": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": ["os", "release", "runtime"]
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "specifier": {
+            "type": "string"
+          },
+          "section": {
+            "enum": [
+              "dependencies",
+              "devDependencies",
+              "optionalDependencies",
+              "peerDependencies"
+            ]
+          },
+          "status": {
+            "const": "unknown"
+          }
+        },
+        "required": ["name", "specifier", "section", "status"]
+      }
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "enum": ["import", "export", "dynamic-import"]
+          },
+          "specifier": {
+            "type": ["string", "null"]
+          },
+          "location": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "path": {
+                "type": "string"
+              },
+              "line": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "column": {
+                "type": "integer",
+                "minimum": 1
+              }
+            },
+            "required": ["path", "line", "column"]
+          }
+        },
+        "required": ["kind", "specifier", "location"]
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "ruleId": {
+            "enum": ["inventory.dependency", "inventory.module-reference"]
+          },
+          "status": {
+            "const": "unknown"
+          },
+          "tier": {
+            "const": "rule-static"
+          },
+          "severity": {
+            "const": "info"
+          },
+          "target": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "os": {
+                "const": "HarmonyOS"
+              },
+              "release": {
+                "type": "string",
+                "pattern": "^\\d+\\.\\d+\\.\\d+$"
+              },
+              "runtime": {
+                "enum": ["arkts", "arkweb", "react-native"]
+              },
+              "apiLevel": {
+                "type": "integer",
+                "minimum": 1
+              }
+            },
+            "required": ["os", "release", "runtime"]
+          },
+          "location": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "path": {
+                "type": "string"
+              },
+              "line": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "column": {
+                "type": "integer",
+                "minimum": 1
+              }
+            },
+            "required": ["path", "line", "column"]
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "enum": ["manifest-declaration", "ast-module-reference"]
+                },
+                "value": {
+                  "type": ["string", "null"]
+                }
+              },
+              "required": ["kind", "value"]
+            }
+          },
+          "explanation": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "ruleId",
+          "status",
+          "tier",
+          "severity",
+          "target",
+          "location",
+          "evidence",
+          "explanation"
+        ]
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "dependencyGraph": {
+          "enum": [
+            "declarations-only",
+            "npm-lockfile-partial",
+            "pnpm-lockfile-partial",
+            "yarn-classic-lockfile-partial"
+          ]
+        },
+        "compatibility": {
+          "const": "not-evaluated"
+        },
+        "sourceFiles": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              }
+            },
+            "required": ["code"]
+          }
+        }
+      },
+      "required": [
+        "dependencyGraph",
+        "compatibility",
+        "sourceFiles",
+        "limitations"
+      ]
+    },
+    "dependencyGraph": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "enum": [
+            null,
+            "package-lock.json",
+            "npm-shrinkwrap.json",
+            "pnpm-lock.yaml",
+            "yarn.lock"
+          ]
+        },
+        "lockfileVersion": {
+          "type": ["number", "null"],
+          "minimum": 1
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "installName": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "version": {
+                "type": ["string", "null"]
+              },
+              "link": {
+                "type": "boolean"
+              }
+            },
+            "required": ["id", "installName", "name", "version", "link"]
+          }
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "from": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "specifier": {
+                "type": "string"
+              },
+              "section": {
+                "enum": [
+                  "dependencies",
+                  "devDependencies",
+                  "optionalDependencies",
+                  "peerDependencies"
+                ]
+              },
+              "to": {
+                "type": ["string", "null"]
+              },
+              "resolution": {
+                "enum": ["locked", "missing", "unsupported"]
+              }
+            },
+            "required": [
+              "from",
+              "name",
+              "specifier",
+              "section",
+              "to",
+              "resolution"
+            ]
+          }
+        }
+      },
+      "required": ["source", "lockfileVersion", "nodes", "edges"]
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "scannerVersion",
+    "snapshots",
+    "target",
+    "dependencies",
+    "dependencyGraph",
+    "references",
+    "findings",
+    "coverage"
+  ]
+}

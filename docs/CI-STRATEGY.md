@@ -69,3 +69,7 @@ gh run view RUN_ID --log-failed
 ## Deferred decisions
 
 Whether to use `act` locally (optional), CodeQL timing and language support, publishing permissions/OIDC, and upload retention costs. Resolve based on measured value, not ceremony.
+
+## M1 inventory checks · 2026-11-03
+
+The workspace job runs `pnpm check` after a pinned pnpm 10.34.9 frozen install with dependency scripts disabled. Linux checks Node 22 and 24; macOS checks Node 24. This adds real build/type/lint/format, negative fixtures, schema validation and CLI/core parity checks alongside docs-integrity/actionlint. It does not implement coverage thresholds, benchmarks or release packaging, and does not configure branch protection. See [slice reproduction](SCANNER-SLICE.md).
