@@ -69,6 +69,29 @@ function parsedObject(text: string): Record<string, unknown> {
     return fail("Invalid or conflicted Yarn Classic input");
   }
 }
+function checkQuotedStrings(line: string): void {
+  let quoted = false;
+  let escaped = false;
+  for (let index = 0; index < line.length; index++) {
+    const character = line[index];
+    if (quoted && escaped) {
+      escaped = false;
+      continue;
+    }
+    if (quoted && character === "\\") {
+      escaped = true;
+      continue;
+    }
+    if (character === '"') quoted = !quoted;
+    else if (
+      !quoted &&
+      character === "#" &&
+      (index === 0 || /\s/.test(line[index - 1]!))
+    )
+      break;
+  }
+  if (quoted) return fail("unterminated quoted string");
+}
 function checkHeaders(lines: string[]): void {
   const selectors = new Set<string>();
   for (const line of lines) {
@@ -77,7 +100,9 @@ function checkHeaders(lines: string[]): void {
       return fail("indentation limit exceeded (128)");
     if (/^(?:<{7}|={7}|>{7}|\|{7})/.test(line))
       return fail("unresolved merge conflict");
-    if (!line.trim() || /^[ \t#]/.test(line)) continue;
+    if (!line.trim() || /^[ \t]*#/.test(line)) continue;
+    checkQuotedStrings(line);
+    if (/^[ \t]/.test(line)) continue;
     if (!line.endsWith(":")) return fail("expected a Classic selector header");
     // Use the same official grammar for grouped/quoted selectors, not a comma-split approximation.
     const header = parsedObject(`${line}\n  version "0.0.0"\n`);

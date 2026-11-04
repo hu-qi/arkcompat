@@ -187,7 +187,7 @@ it.each([
         "--release",
         "6.0.0",
       ],
-      { encoding: "utf8" },
+      { encoding: "utf8", timeout: 3000 },
     );
     expect({
       code: result.status,
@@ -308,13 +308,14 @@ it("keeps raw tokens out of CLI parser diagnostics", async () => {
       "--release",
       "6.0.0",
     ],
-    { encoding: "utf8" },
+    { encoding: "utf8", timeout: 3000 },
   );
   expect({
     code: result.status,
     stdout: result.stdout,
     leak: result.stderr.includes("fixture-secret"),
-  }).toEqual({ code: 1, stdout: "", leak: false });
+    quoted: result.stderr.includes("unterminated quoted string"),
+  }).toEqual({ code: 1, stdout: "", leak: false, quoted: true });
 });
 
 it("scans the documented Classic fixture without hiding missing optional or unsupported peer edges", async () => {
@@ -334,4 +335,29 @@ it("scans the documented Classic fixture without hiding missing optional or unsu
     missing: ["native-addon"],
     unsupported: ["peer"],
   });
+});
+
+it.each([
+  'a@^1:\n  version "unterminated\n',
+  'a@^1:\n  version "trailing-escape\\\n',
+])(
+  "rejects an unterminated quoted token before legacy parsing",
+  async (text) => {
+    await expect(scanProject(await fixture(text), target)).rejects.toThrow(
+      /unterminated quoted string/,
+    );
+  },
+);
+it("allows comment quotes and escaped quoted scalar content", async () => {
+  const root = await fixture(
+    String.raw`# unclosed " comment
+"a@^1":
+  version "1.0.0" # unclosed trailing " comment
+  note "escaped \"quote\" and \\slash"
+`,
+    { dependencies: { a: "^1" } },
+  );
+  expect(
+    (await scanProject(root, target)).dependencyGraph.edges[0]?.resolution,
+  ).toBe("locked");
 });

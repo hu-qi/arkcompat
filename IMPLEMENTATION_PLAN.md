@@ -15,3 +15,5 @@
 **Success Criteria**: Frozen install, full quality command and actual GitHub matrix pass; remove plan when done; M1 remains open for semantic/acceptance gaps.
 **Tests**: pnpm check, workflow lint, built CLI smoke, Linux Node 22/24 and macOS Node 24 CI.
 **Status**: In Progress
+
+**CI regression (2026-11-04):** Run 41824055957 exposed slow legacy-parser failure on unterminated strings (two CLI tests exceeded 5 seconds on all runners). Add linear quote prevalidation and bounded child-process regression checks; retain the existing test timeout and all negative assertions.
