@@ -8,6 +8,16 @@ Adopt **GitHub Actions** for mandatory PR checks, **GitHub CLI (`gh`)** for loca
 
 No CI design should claim accurate HarmonyOS compatibility findings unless independent benchmark and authoritative source validation are in place.
 
+## Temporary development dependency security override · 2026-11-05
+
+Issue #11 / [Dependabot alert #2](https://github.com/hu-qi/arkcompat/security/dependabot/2): the [upstream advisory](https://github.com/isaacs/minimatch/security/advisories/GHSA-g3hv-75wg-m249) fixes globstar-parent pattern amplification starting at minimatch 11.0.1. Registry inspection found no patched 10.x release; ESLint 10.14.0 still declares `^10.2.6`. `pnpm-workspace.yaml` therefore temporarily overrides **only minimatch 10.2.6 to 11.0.4**, through ESLint, config-array and typescript-estree. No scanner runtime dependency changes.
+
+This crosses a major version. The [11.x changelog](https://github.com/isaacs/minimatch/blob/v11.0.4/changelog.md) removes `makeRe`, regex-valued set entries and several internal APIs, and changes some matching semantics. Inspection of the installed consumers found `Minimatch` construction / `match` and the `minimatch` function; those APIs remain available. Node requirements remain within our Node 22/24 matrix. Full lint checks supplement focused CLI tests for nested brace globs, directory traversal and ignores; this does not establish compatibility with every possible ESLint configuration.
+
+`tests/toolchain-globs.test.ts` resolves the matcher through ESLint rather than adding a direct test dependency. Its bounded negative case expanded to 256 patterns on 10.2.6 despite a limit of 16; 11.0.4 respects that limit. The old-version input stays small and the subprocess has a timeout. The initial lint selection test exposed macOS `/var` versus `/private/var` canonical paths; the fixture now uses `realpath`. Local frozen installation and `pnpm check` pass all 124 tests; `pnpm audit` reports zero known vulnerabilities at this snapshot. GitHub Actions remains the authoritative PR gate; audit results are time-dependent, not a security acceptance claim.
+
+Remove the override after upstream consumers select patched releases, retaining the regressions. Roll back this scoped change by reverting its PR and reinstalling with the frozen lockfile; that restores the known vulnerable development dependency and requires reevaluating alert #2. Branch protection, coverage and independent benchmark gates in Issue #11 remain open.
+
 ## Delivery phases
 
 | When | Automated checks | Why / exit evidence |
