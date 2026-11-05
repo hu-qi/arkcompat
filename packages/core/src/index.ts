@@ -3,6 +3,7 @@ import { constants } from "node:fs";
 import { open, readdir, realpath } from "node:fs/promises";
 import { extname, join, relative, sep } from "node:path";
 import ts from "typescript";
+import { analyzeSource } from "./source.js";
 import { dependencies, publicSpecifier } from "./declarations.js";
 import {
   selectLockfile,
@@ -13,6 +14,7 @@ import type {
   Finding,
   Limitation,
   ModuleReference,
+  ApiUsage,
   ScanReport,
   TargetProfile,
 } from "@arkcompat/contracts";
@@ -79,71 +81,6 @@ function declarationLocations(text: string): Map<string, Finding["location"]> {
   }
   return locations;
 }
-function references(text: string, path: string): ModuleReference[] {
-  const source = ts.createSourceFile(path, text, ts.ScriptTarget.Latest, true);
-  // createProgram reports syntax diagnostics without resolving imports or reading disk.
-  const host: ts.CompilerHost = {
-    getSourceFile: (name) => (name === path ? source : undefined),
-    getDefaultLibFileName: () => "",
-    writeFile: () => {},
-    getCurrentDirectory: () => "",
-    getDirectories: () => [],
-    fileExists: (name) => name === path,
-    readFile: () => undefined,
-    getCanonicalFileName: (name) => name,
-    useCaseSensitiveFileNames: () => true,
-    getNewLine: () => "\n",
-  };
-  const program = ts.createProgram(
-    [path],
-    { noLib: true, noResolve: true, allowJs: true, checkJs: false },
-    host,
-  );
-  const errors = program.getSyntacticDiagnostics(source);
-  if (errors.length) {
-    const error = errors[0]!;
-    const position = source.getLineAndCharacterOfPosition(error.start ?? 0);
-    throw new Error(
-      `${path}:${position.line + 1}:${position.character + 1}: source syntax error (${error.code})`,
-    );
-  }
-  const found: ModuleReference[] = [];
-  function add(
-    node: ts.Node,
-    kind: ModuleReference["kind"],
-    specifier: ts.Expression | undefined,
-  ) {
-    const position = source.getLineAndCharacterOfPosition(
-      node.getStart(source),
-    );
-    found.push({
-      kind,
-      specifier:
-        specifier && ts.isStringLiteralLike(specifier)
-          ? publicSpecifier(specifier.text)
-          : null,
-      location: {
-        path,
-        line: position.line + 1,
-        column: position.character + 1,
-      },
-    });
-  }
-  function visit(node: ts.Node) {
-    if (ts.isImportDeclaration(node)) add(node, "import", node.moduleSpecifier);
-    else if (ts.isExportDeclaration(node) && node.moduleSpecifier)
-      add(node, "export", node.moduleSpecifier);
-    else if (
-      ts.isCallExpression(node) &&
-      node.expression.kind === ts.SyntaxKind.ImportKeyword
-    )
-      add(node, "dynamic-import", node.arguments[0]);
-    ts.forEachChild(node, visit);
-  }
-  visit(source);
-  return found;
-}
-
 function validateTarget(target: TargetProfile): void {
   if (
     target.os !== "HarmonyOS" ||
@@ -222,10 +159,12 @@ export async function scanProject(
   }));
   const locations = declarationLocations(manifestText);
   const moduleReferences: ModuleReference[] = [];
+  const apiUsages: ApiUsage[] = [];
   const limitations: Limitation[] = [
     { code: "compatibility-not-evaluated" },
-    { code: "commonjs-not-analyzed" },
-    { code: "import-types-not-analyzed" },
+    { code: "commonjs-exports-not-analyzed" },
+    { code: "global-apis-not-analyzed" },
+    { code: "module-mutations-and-returned-values-not-analyzed" },
     { code: "gitignore-not-applied" },
     { code: "excluded-directories-not-analyzed" },
   ];
@@ -274,7 +213,10 @@ export async function scanProject(
         if (extname(entry.name) === ".ets")
           limitations.push({ code: "unsupported-ets", path });
         if (sourceExtensions.has(extname(entry.name))) {
-          moduleReferences.push(...references(await read(full), path));
+          const analyzed = analyzeSource(await read(full), path);
+          moduleReferences.push(...analyzed.references);
+          apiUsages.push(...analyzed.apiUsages);
+          limitations.push(...analyzed.limitations);
           sourceFiles++;
         }
       } else {
@@ -306,7 +248,9 @@ export async function scanProject(
           kind:
             ruleId === "inventory.dependency"
               ? "manifest-declaration"
-              : "ast-module-reference",
+              : ruleId === "inventory.api-usage"
+                ? "module-api-access"
+                : "ast-module-reference",
           value,
         },
       ],
@@ -328,14 +272,22 @@ export async function scanProject(
       reference.specifier,
       reference.kind,
     );
+  for (const usage of apiUsages)
+    finding(
+      "inventory.api-usage",
+      usage.location,
+      JSON.stringify([usage.module, usage.path, usage.kind]),
+      JSON.stringify(usage),
+    );
   return {
-    schemaVersion: "0.4.0",
+    schemaVersion: "0.5.0",
     scannerVersion: "0.0.0",
     snapshots: { rules: "none", knowledge: "none" },
     target,
     dependencies: declared,
     dependencyGraph,
     references: moduleReferences,
+    apiUsages,
     findings,
     coverage: {
       dependencyGraph: graphCoverage(source, parsed),

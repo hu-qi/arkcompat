@@ -12,9 +12,9 @@ pnpm --silent scan fixtures/developer/npm-graph --runtime arkts --release 6.0.0
 
 This authored fixture contains four locked package locations, five effective edges and one missing optional dependency. `alpha` uses its nested `shared@1`, while `beta` uses hoisted `shared@2`. These are synthetic names and metadata, not package compatibility claims. Never install or execute the fixture.
 
-## Contract 0.4.0
+## Contract 0.5.0
 
-The experimental report requires a new `dependencyGraph` object and `schemaVersion: "0.4.0"`; consumers of 0.1–0.3 must update. Version 0.2 introduced npm graphs, 0.3 added pnpm snapshot IDs, and 0.4 adds Yarn Classic descriptor IDs. Findings still use only `unknown` compatibility status. The report records:
+The experimental report requires a new `dependencyGraph` object and `schemaVersion: "0.5.0"`; consumers of 0.1–0.4 must update. Version 0.2 introduced npm graphs, 0.3 added pnpm snapshot IDs, and 0.4 adds Yarn Classic descriptor IDs. Findings still use only `unknown` compatibility status. The report records:
 
 - `source`: selected root filename or null; shrinkwrap takes precedence over package-lock. [pnpm v9](PNPM-LOCKFILES.md) is also supported. [Yarn Classic](YARN-LOCKFILES.md) is also supported. When multiple npm/pnpm/Yarn lock families coexist, an explicit packageManager selects a present family; otherwise scanning fails as ambiguous. Other/nested locks remain unparsed and are reported.
 - `lockfileVersion`: version from the selected file, or null when absent. Unsupported positive integer versions return an empty graph and explicit limitations, without automatic npm upgrades or registry requests.
@@ -35,3 +35,5 @@ Resolution walks the requesting package's local node_modules and ancestor instal
 ## Verification boundary
 
 Regression fixtures exercise v2/v3, nested/hoisted/scoped/aliased packages, peers, optional overrides, cycles, missing/link/versionless packages, stale roots, malformed/traversal/symlink input, package-count limits and deterministic CLI/schema parity. A separate local smoke creates a lockfile through npm using `--package-lock-only --ignore-scripts --no-audit --no-fund`; it neither installs nor runs package code. Developer regression and smoke results do not measure the independent ≥80% dependency-scanning acceptance target. M1 remains open.
+
+Schema 0.5.0 adds [source API call inventory](SOURCE-API-INVENTORY.md) alongside the existing lockfile graph; compatibility remains unknown.

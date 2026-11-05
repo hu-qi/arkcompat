@@ -24,9 +24,9 @@ One TypeScript-first, evidence-based compatibility analysis engine serving **CLI
 
 **Critical path**: trustworthy reference data → deterministic classification → independent benchmark → consistent multi-entry integration → delivery verification.
 
-## Engineering progress · 2026-11-04
+## Engineering progress · 2026-11-05
 
-Issue #3 now has an experimental [offline inventory slice](docs/SCANNER-SLICE.md): TypeScript workspace, direct declarations, AST module references, strict JSON schema, CLI and regression/parity tests. This is partial M1 implementation, not an exit-gate pass. npm v2/v3 metadata graphs now add direct/transitive edges, hoisting and unresolved/link limitations ([scope](docs/NPM-LOCKFILES.md)). pnpm v9 root importer/snapshot graphs now retain peer contexts, alias identity and explicit missing/link cases ([scope](docs/PNPM-LOCKFILES.md)). Yarn Classic v1 now adds exact descriptor graphs, grouped selector expansion and explicit peer/hoisting limits ([scope](docs/YARN-LOCKFILES.md)). Berry, full workspace/older pnpm graphs, compatibility rules, knowledge and independent accuracy remain pending; M0 decisions and PR #10 review remain open.
+Issue #3 now has an experimental [offline inventory slice](docs/SCANNER-SLICE.md): TypeScript workspace, direct declarations, AST module references, strict JSON schema, CLI and regression/parity tests. This is partial M1 implementation, not an exit-gate pass. npm v2/v3 metadata graphs now add direct/transitive edges, hoisting and unresolved/link limitations ([scope](docs/NPM-LOCKFILES.md)). pnpm v9 root importer/snapshot graphs now retain peer contexts, alias identity and explicit missing/link cases ([scope](docs/PNPM-LOCKFILES.md)). Yarn Classic v1 now adds exact descriptor graphs, grouped selector expansion and explicit peer/hoisting limits ([scope](docs/YARN-LOCKFILES.md)). Berry, full workspace/older pnpm graphs, compatibility rules, knowledge and independent accuracy remain pending; M0 decisions remain open; planning #10 and inventory #12 are merged. Source inventory now adds lexical-symbol-aware import/require calls, constructors and type references ([scope](docs/SOURCE-API-INVENTORY.md)), while all compatibility findings remain unknown.
 
 ## Acceptance mapping (do not change the original targets)
 

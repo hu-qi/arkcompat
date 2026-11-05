@@ -1,4 +1,4 @@
-/** Version 0.4 is an experimental inventory contract, not a compatibility verdict. */
+/** Version 0.5 is an experimental inventory contract, not a compatibility verdict. */
 export interface TargetProfile {
   os: "HarmonyOS";
   release: string;
@@ -22,20 +22,29 @@ export interface DeclaredDependency {
   status: "unknown";
 }
 export interface ModuleReference {
-  kind: "import" | "export" | "dynamic-import";
+  kind:
+    | "import"
+    | "export"
+    | "dynamic-import"
+    | "require"
+    | "import-equals"
+    | "import-type";
   specifier: string | null;
   location: SourceLocation;
 }
 export interface Finding {
   id: string;
-  ruleId: "inventory.dependency" | "inventory.module-reference";
+  ruleId:
+    | "inventory.dependency"
+    | "inventory.module-reference"
+    | "inventory.api-usage";
   status: "unknown";
   tier: "rule-static";
   severity: "info";
   target: TargetProfile;
   location: SourceLocation;
   evidence: {
-    kind: "manifest-declaration" | "ast-module-reference";
+    kind: "manifest-declaration" | "ast-module-reference" | "module-api-access";
     value: string | null;
   }[];
   explanation: string;
@@ -45,13 +54,14 @@ export interface Limitation {
   path?: string;
 }
 export interface ScanReport {
-  schemaVersion: "0.4.0";
+  schemaVersion: "0.5.0";
   scannerVersion: "0.0.0";
   snapshots: { rules: "none"; knowledge: "none" };
   target: TargetProfile;
   dependencies: DeclaredDependency[];
   dependencyGraph: DependencyGraph;
   references: ModuleReference[];
+  apiUsages: ApiUsage[];
   findings: Finding[];
   coverage: {
     dependencyGraph:
@@ -92,4 +102,13 @@ export interface DependencyGraph {
   lockfileVersion: number | null;
   nodes: LockedPackage[];
   edges: DependencyEdge[];
+}
+
+/** Observed call syntax through an imported binding; no runtime or export verification. */
+export interface ApiUsage {
+  module: string;
+  path: string[];
+  kind: "call" | "construct";
+  optional: boolean;
+  location: SourceLocation;
 }

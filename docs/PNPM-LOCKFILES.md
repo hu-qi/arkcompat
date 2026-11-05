@@ -14,7 +14,7 @@ pnpm --silent scan . --runtime arkts --release 6.0.0
 
 The authored fixture yields three snapshot nodes and five edges, including a scoped alias, a root peer and one missing optional dependency. All fixture metadata is synthetic; never install or execute it. A separate lockfile-only smoke with pinned pnpm 10.34.9 uses an alias and React peer relationship, producing seven nodes and ten locked edges without package installation or lifecycle scripts. Neither fixture nor smoke is an independent acceptance benchmark.
 
-## Contract 0.4.0
+## Contract 0.5.0
 
 - `dependencyGraph.source` now also accepts `pnpm-lock.yaml`. Numeric `lockfileVersion` is 9 for pnpm v9.0; unimplemented older/future versions produce explicit uncertainty. Graph shape stays shared with npm, while coverage is `pnpm-lockfile-partial`.
 - pnpm node IDs are `pnpm:<snapshot-key>`, including scoped names and nested peer suffixes. These are logical IDs, **not paths** to read. For pnpm snapshots, name/installName represent the registry identity; aliases are preserved in edge names. npm retains its installation-location IDs and installation names.
@@ -23,7 +23,7 @@ The authored fixture yields three snapshot nodes and five edges, including a sco
 - Both package metadata and a snapshot are required for a registry node. Missing records are reported; matching by package name alone never manufactures a resolved node. Different peer contexts remain distinct even when names/versions match.
 - `locked` still means metadata reference found, not range satisfaction, actual installation, or HarmonyOS compatibility. Findings remain `unknown`; no rules, replacements or verified runtime claim is introduced.
 
-Schema 0.3 introduced pnpm graph source/coverage/version values and ID semantics; 0.4 also adds Yarn Classic descriptor graphs. Consumers of 0.1–0.3 must update. The strict [schema](../packages/contracts/scan-report.schema.json) and [types](../packages/contracts/src/index.ts) remain experimental.
+Schema 0.3 introduced pnpm graph source/coverage/version values and ID semantics; 0.4 also adds Yarn Classic descriptor graphs. Consumers of 0.1–0.4 must update. The strict [schema](../packages/contracts/scan-report.schema.json) and [types](../packages/contracts/src/index.ts) remain experimental.
 
 ## Selection and unsupported cases
 
@@ -40,3 +40,5 @@ The shared bounded reader and graph limits apply: 1 MiB/file, 32 MiB total, 10,0
 ## Verification and remaining gate
 
 Regression tests cover nested peer identity, scoped aliases, root peer normalization, missing metadata/snapshots/peers, workspace links/importers, stale declarations, patched/remote identities, cardinality, YAML ambiguity/aliases/tags, manager selection, symlinks and deterministic CLI/schema parity. Existing npm fixtures remain in the same suite. M1 stays open for remaining graph formats, full workspace resolution, API/symbol analysis, deterministic compatibility rules and independently measured acceptance.
+
+Schema 0.5.0 adds [source API call inventory](SOURCE-API-INVENTORY.md) alongside the existing lockfile graph; compatibility remains unknown.
