@@ -112,3 +112,40 @@ export interface ApiUsage {
   optional: boolean;
   location: SourceLocation;
 }
+
+/** Experimental metadata only; schema/review state cannot establish compatibility. */
+export interface KnowledgeSnapshot {
+  schemaVersion: "0.1.0";
+  snapshotId: string;
+  generatedAt: string;
+  records: KnowledgeRecord[];
+}
+export interface KnowledgeRecord {
+  id: string;
+  source: { name: string; versionRange: string };
+  target: {
+    registry: "ohpm" | "gitcode" | "npm";
+    name: string;
+    versionRange: string;
+  } | null;
+  availability:
+    "ohpm-release" | "gitcode-port" | "pure-js" | "missing-port" | "unknown";
+  relation: "full" | "partial" | "none" | "unknown";
+  profile: {
+    os: "HarmonyOS";
+    releaseRange: string;
+    apiLevel: number;
+    runtime: "arkts" | "arkweb" | "react-native" | "unknown";
+  };
+  features: { included: string[]; excluded: string[] };
+  provenance: {
+    url: string;
+    license: string;
+    sourceVersion: string;
+    retrievedAt: string;
+  }[];
+  review:
+    | { state: "candidate"; reviewer: null; reviewedAt: null }
+    | { state: "reviewed"; reviewer: string; reviewedAt: string };
+  validUntil: string;
+}
