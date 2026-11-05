@@ -117,7 +117,7 @@ describe("offline scan slice", () => {
       ["unknown", target, "rule-static"],
     ]);
   });
-  it("reports lockfiles, ETS and CommonJS blind spots as incomplete coverage", async () => {
+  it("reports lockfiles, ETS and CommonJS exports blind spots as incomplete coverage", async () => {
     const root = await project();
     await source(root, "{}", "oh-package-lock.json5");
     await source(root, "struct View {}", "view.ets");
@@ -127,7 +127,7 @@ describe("offline scan slice", () => {
       expect.arrayContaining([
         "lockfile-not-analyzed",
         "unsupported-ets",
-        "commonjs-not-analyzed",
+        "commonjs-exports-not-analyzed",
         "compatibility-not-evaluated",
       ]),
     );
