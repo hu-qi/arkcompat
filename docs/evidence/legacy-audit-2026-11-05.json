@@ -1,0 +1,107 @@
+{
+  "commit": "621e97984393c43acbc344fa0b154ed37726b2fc",
+  "node": "v22.23.4",
+  "tests": {
+    "passed": 24,
+    "failed": 0
+  },
+  "probes": {
+    "shadow": {
+      "imports": [
+        "node:fs"
+      ],
+      "apiCount": 1,
+      "apis": [
+        "fs.readFile"
+      ],
+      "warningCount": 0,
+      "canaryLeak": false
+    },
+    "typeOnly": {
+      "imports": [
+        "node:fs"
+      ],
+      "apiCount": 1,
+      "apis": [
+        "fs.readFile"
+      ],
+      "warningCount": 0,
+      "canaryLeak": false
+    },
+    "dynamic": {
+      "imports": [],
+      "apiCount": 0,
+      "apis": [],
+      "warningCount": 0,
+      "canaryLeak": false
+    },
+    "privacy": {
+      "imports": [
+        "[synthetic-url-omitted]"
+      ],
+      "apiCount": 1,
+      "apis": [
+        "[synthetic-url-omitted]"
+      ],
+      "warningCount": 0,
+      "canaryLeak": true
+    },
+    "syntax": {
+      "imports": [
+        "node:fs"
+      ],
+      "apiCount": 0,
+      "apis": [],
+      "warningCount": 0,
+      "canaryLeak": false
+    }
+  },
+  "typescript": "5.9.3",
+  "probeCount": 5,
+  "publicRepositories": [
+    {
+      "name": "p-limit",
+      "repo": "https://github.com/sindresorhus/p-limit",
+      "sha": "a8a6fbec4e0e866d6d779b10889bb4f5567e70eb",
+      "legacy": {
+        "references": 24,
+        "apiSites": 218,
+        "dependencyDeclarations": 7,
+        "warnings": 0
+      },
+      "arkcompat": {
+        "references": 24,
+        "apiSites": 161,
+        "dependencyDeclarations": 7,
+        "sourceFiles": 6
+      },
+      "accuracy": "not-measured-no-independent-labels"
+    },
+    {
+      "name": "yocto-queue",
+      "repo": "https://github.com/sindresorhus/yocto-queue",
+      "sha": "72a8fa96a9d389765cdf2bb9c6daba8302fc375d",
+      "legacy": {
+        "references": 4,
+        "apiSites": 16,
+        "dependencyDeclarations": 3,
+        "warnings": 0
+      },
+      "arkcompat": {
+        "references": 4,
+        "apiSites": 16,
+        "dependencyDeclarations": 3,
+        "sourceFiles": 4
+      },
+      "accuracy": "not-measured-no-independent-labels"
+    }
+  ],
+  "provenance": {
+    "apiEntries": 99,
+    "apiRowsWithSource": 0,
+    "mappings": 44,
+    "mappingRowsWithSource": 0
+  },
+  "decision": "no-code-or-data-import; independent implementation only",
+  "accuracy": "not-measured-no-independent-labels"
+}
