@@ -69,12 +69,14 @@ gh run view RUN_ID --log-failed
 
 ## Activation checklist
 
-- [ ] Check/workflow committed on review branch (not merely proposed in docs)
-- [ ] PR triggers real workflow runs on GitHub
-- [ ] Green and red-path behavior verified using safe negative testcase
-- [ ] Branch Ruleset/Protection requires stable check jobs and blocks red merges
-- [ ] Tests are real; no dummy `echo passed` jobs set as required
-- [ ] Maintainers can inspect artifacts/logs via web or `gh`
+- [x] Check/workflow committed on review branch (not merely proposed in docs)
+- [x] PR triggers real workflow runs on GitHub
+- [x] Green and red-path behavior verified using safe negative testcase
+- [x] Branch Protection requires the five stable Actions jobs, strict up-to-date checks, and enforcement for administrators (API read-back 2026-11-05)
+- [x] Tests are real; no dummy `echo passed` jobs set as required
+- [x] Maintainers can inspect logs via web or `gh`
+
+Protection now requires `docs-integrity`, `actionlint`, `workspace (ubuntu-24.04, Node 22)`, `workspace (ubuntu-24.04, Node 24)` and `workspace (macos-15, Node 24)`, bound to the GitHub Actions app (15368). Force pushes and branch deletion are disabled. This was configured using existing administrator authorization through `gh`; the earlier connector 403 is no longer the current protection state. There is no required independent-review approval configured; author self-review does not establish independent acceptance. Protection can be inspected with `gh api repos/hu-qi/arkcompat/branches/main/protection`. Never bypass checks to merge.
 
 ## Deferred decisions
 
@@ -82,4 +84,16 @@ Whether to use `act` locally (optional), CodeQL timing and language support, pub
 
 ## M1 inventory checks · 2026-11-03
 
-The workspace job runs `pnpm check` after a pinned pnpm 10.34.9 frozen install with dependency scripts disabled. Linux checks Node 22 and 24; macOS checks Node 24. This adds real build/type/lint/format, negative fixtures, schema validation and CLI/core parity checks alongside docs-integrity/actionlint. It does not implement coverage thresholds, benchmarks or release packaging, and does not configure branch protection. See [slice reproduction](SCANNER-SLICE.md).
+The workspace job runs `pnpm check` after a pinned pnpm 10.34.9 frozen install with dependency scripts disabled. Linux checks Node 22 and 24; macOS checks Node 24. This adds real build/type/lint/format, negative fixtures, schema validation and CLI/core parity checks alongside docs-integrity/actionlint. Core unit coverage and branch protection are added below; benchmarks and release packaging remain pending. See [slice reproduction](SCANNER-SLICE.md).
+
+## Core unit coverage gate · 2026-11-05
+
+Issue #11: `pnpm test` builds the packages and runs Vitest with pinned `@vitest/coverage-istanbul` 5.1.0. [Vitest coverage configuration](https://vitest.dev/config/coverage.html) explicitly includes **every `packages/core/src/**/*.ts` file**, including files no test imports. Test-only aliases resolve workspace core/contracts imports to source so that compiled `dist` output is not mistaken for measured source. Existing subprocess CLI tests still execute the built distribution and compare it with the source API. CLI subprocess code, type-only contracts and developer fixtures are outside this **core unit** denominator; this is not whole-product coverage or compatibility accuracy.
+
+The initial 124-test local baseline is 554/611 statements (90.67%), 514/580 branches (88.62%), 72/76 functions (94.73%), and 516/553 lines (93.30%). Each core file must meet 85% statements, 85% branches, 80% functions and 89% lines. These initial engineering floors sit below the least-covered existing file in each category; no auto-update, coverage-ignore annotation or failing-file exclusion is used. The function floor is unrelated to the original product acceptance threshold. Review missing behavior before changing these floors.
+
+Negative probe: an unimported temporary core file with an uncalled function was included at 0% and made coverage exit 1 on line/function/statement thresholds; it was then removed. Reports are regenerated in `coverage/` (text, JSON summary and LCOV). The Linux Node 24 job uploads `core-unit-coverage` for 14 days using a pinned official action, including reports from a failing test/coverage run. Missing reports fail upload. An installation/build failure may prevent coverage generation and should be diagnosed from the earlier step, not hidden by skipping upload.
+
+Reproduce: `pnpm install --frozen-lockfile --ignore-scripts && pnpm check`. Inspect `coverage/coverage-summary.json` for full per-file numerators/denominators. Unit execution coverage does not prove independently measured dependency/API accuracy, replacement precision, SDK support or shipped integrations. Revert the coverage PR to roll back this tooling change; branch protection is separately managed repository configuration.
+
+The initial [V8 PR run](https://github.com/hu-qi/arkcompat/actions/runs/41943965021) failed the existing 10,001-snapshot count-limit test at the unchanged 5-second timeout on all three workspace runners. The protected PR remained `BLOCKED`. V8 collects runtime-wide coverage, including dependency execution; the corrected provider instruments only the included core source. Local Istanbul results retain the same numerators and pass all 124 tests without increasing timeouts, changing scanner behavior or excluding the boundary test. `reportOnFailure: true` also ensures test failures produce coverage evidence; the initial run had no report and its upload correctly failed. Authoritative corrected Actions results must still pass before merge.
