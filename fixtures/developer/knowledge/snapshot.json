@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "0.1.0",
+  "snapshotId": "developer-fixture-only",
+  "generatedAt": "2026-11-05T00:00:00Z",
+  "records": [
+    {
+      "id": "synthetic.mapping",
+      "source": {
+        "name": "synthetic-source",
+        "versionRange": "^1.0.0"
+      },
+      "target": {
+        "registry": "ohpm",
+        "name": "synthetic-target",
+        "versionRange": "^2.0.0"
+      },
+      "availability": "ohpm-release",
+      "relation": "partial",
+      "profile": {
+        "os": "HarmonyOS",
+        "releaseRange": "6.0.0",
+        "apiLevel": 20,
+        "runtime": "arkts"
+      },
+      "features": {
+        "included": [
+          "synthetic-feature"
+        ],
+        "excluded": [
+          "synthetic-gap"
+        ]
+      },
+      "provenance": [
+        {
+          "url": "https://example.invalid/evidence",
+          "license": "LicenseRef-DeveloperFixture",
+          "sourceVersion": "fixture-1",
+          "retrievedAt": "2026-11-05T00:00:00Z"
+        }
+      ],
+      "review": {
+        "state": "candidate",
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "validUntil": "2026-12-01T00:00:00Z"
+    }
+  ]
+}

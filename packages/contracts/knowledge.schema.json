@@ -1,0 +1,422 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ArkCompat experimental knowledge metadata (not verified compatibility)",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "0.1.0"
+    },
+    "snapshotId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generatedAt": {
+      "$ref": "#/definitions/timestamp"
+    },
+    "records": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/record"
+      },
+      "uniqueItems": true
+    }
+  },
+  "required": ["schemaVersion", "snapshotId", "generatedAt", "records"],
+  "definitions": {
+    "timestamp": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+    },
+    "publicUrl": {
+      "type": "string",
+      "pattern": "^https://[A-Za-z0-9.-]+(?::[0-9]+)?(?:/[^\\s?#@]*)?$"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "versionRange": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": ["name", "versionRange"]
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "registry": {
+          "enum": ["ohpm", "gitcode", "npm"]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "versionRange": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": ["registry", "name", "versionRange"]
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "os": {
+          "const": "HarmonyOS"
+        },
+        "releaseRange": {
+          "type": "string",
+          "minLength": 1
+        },
+        "apiLevel": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "runtime": {
+          "enum": ["arkts", "arkweb", "react-native", "unknown"]
+        }
+      },
+      "required": ["os", "releaseRange", "apiLevel", "runtime"]
+    },
+    "features": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "included": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "excluded": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": ["included", "excluded"]
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "url": {
+          "$ref": "#/definitions/publicUrl"
+        },
+        "license": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sourceVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "retrievedAt": {
+          "$ref": "#/definitions/timestamp"
+        }
+      },
+      "required": ["url", "license", "sourceVersion", "retrievedAt"]
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "state": {
+          "enum": ["candidate", "reviewed"]
+        },
+        "reviewer": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reviewedAt": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/timestamp"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": ["state", "reviewer", "reviewedAt"],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "reviewed"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "reviewer": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reviewedAt": {
+                "$ref": "#/definitions/timestamp"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "candidate"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "reviewer": {
+                "type": "null"
+              },
+              "reviewedAt": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "record": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source": {
+          "$ref": "#/definitions/source"
+        },
+        "target": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/target"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "availability": {
+          "enum": [
+            "ohpm-release",
+            "gitcode-port",
+            "pure-js",
+            "missing-port",
+            "unknown"
+          ]
+        },
+        "relation": {
+          "enum": ["full", "partial", "none", "unknown"]
+        },
+        "profile": {
+          "$ref": "#/definitions/profile"
+        },
+        "features": {
+          "$ref": "#/definitions/features"
+        },
+        "provenance": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/provenance"
+          }
+        },
+        "review": {
+          "$ref": "#/definitions/review"
+        },
+        "validUntil": {
+          "$ref": "#/definitions/timestamp"
+        }
+      },
+      "required": [
+        "id",
+        "source",
+        "target",
+        "availability",
+        "relation",
+        "profile",
+        "features",
+        "provenance",
+        "review",
+        "validUntil"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "availability": {
+                "const": "unknown"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "target": {
+                "type": "null"
+              },
+              "relation": {
+                "const": "unknown"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "availability": {
+                "const": "missing-port"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "target": {
+                "type": "null"
+              },
+              "relation": {
+                "const": "none"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "availability": {
+                "const": "pure-js"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "target": {
+                "type": "null"
+              },
+              "relation": {
+                "enum": ["full", "partial"]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "availability": {
+                "const": "ohpm-release"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "target": {
+                "type": "object",
+                "properties": {
+                  "registry": {
+                    "const": "ohpm"
+                  }
+                }
+              },
+              "relation": {
+                "enum": ["full", "partial"]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "availability": {
+                "const": "gitcode-port"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "target": {
+                "type": "object",
+                "properties": {
+                  "registry": {
+                    "const": "gitcode"
+                  }
+                }
+              },
+              "relation": {
+                "enum": ["full", "partial"]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "relation": {
+                "const": "partial"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "features": {
+                "properties": {
+                  "included": {
+                    "minItems": 1
+                  },
+                  "excluded": {
+                    "minItems": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "relation": {
+                "const": "full"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "features": {
+                "properties": {
+                  "included": {
+                    "minItems": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
