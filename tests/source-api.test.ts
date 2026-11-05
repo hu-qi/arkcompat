@@ -157,7 +157,7 @@ it("extracts TS import-equals and import type references", async () => {
 });
 it("leaves computed member calls and reassigned aliases explicit instead of guessing", async () => {
   const root = await fixture(
-    'import * as fs from "node:fs";\nfs[privateKey]("x");\nconst read = fs.readFile; read("x");',
+    'import * as fs from "node:fs";\nfs[privateKey]("x");\nlet read = fs.readFile; read = custom; read("x");',
   );
   const report = await scanProject(root, target);
   expect({

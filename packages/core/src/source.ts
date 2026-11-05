@@ -116,20 +116,45 @@ export function analyzeSource(
     const symbol = checker.getSymbolAtLocation(name);
     if (symbol) bindings.set(symbol, value);
   }
-  function access(input: ts.Expression): Binding | undefined {
+  function access(
+    input: ts.Expression,
+    aliases = new Set<ts.Symbol>(),
+  ): Binding | undefined {
     const value = unwrap(input);
     if (ts.isIdentifier(value)) {
       const symbol = checker.getSymbolAtLocation(value);
-      return symbol ? bindings.get(symbol) : undefined;
+      if (!symbol) return undefined;
+      const binding = bindings.get(symbol);
+      if (binding) return binding;
+      const declaration = symbol.valueDeclaration;
+      if (
+        !declaration ||
+        !ts.isVariableDeclaration(declaration) ||
+        !ts.isIdentifier(declaration.name) ||
+        !declaration.initializer ||
+        !ts.isVariableDeclarationList(declaration.parent) ||
+        !(declaration.parent.flags & ts.NodeFlags.Const)
+      )
+        return undefined;
+      if (aliases.has(symbol)) {
+        limitation("module-alias-cycle-not-analyzed");
+        return undefined;
+      }
+      if (aliases.size >= 32) {
+        limitation("module-alias-depth-limit");
+        return undefined;
+      }
+      aliases.add(symbol);
+      return access(declaration.initializer, aliases);
     }
     if (ts.isPropertyAccessExpression(value)) {
-      const base = access(value.expression);
+      const base = access(value.expression, aliases);
       return base
         ? { module: base.module, path: [...base.path, value.name.text] }
         : undefined;
     }
     if (ts.isElementAccessExpression(value)) {
-      const base = access(value.expression);
+      const base = access(value.expression, aliases);
       if (!base) return undefined;
       const member = value.argumentExpression;
       if (ts.isStringLiteralLike(member))
@@ -274,7 +299,8 @@ export function analyzeSource(
       node.initializer &&
       !commonRequire(unwrap(node.initializer)) &&
       !awaitedImport(node.initializer) &&
-      access(node.initializer)
+      access(node.initializer) &&
+      (!ts.isIdentifier(node.name) || !access(node.name))
     )
       limitation("module-alias-dataflow-not-analyzed");
     ts.forEachChild(node, visit);
