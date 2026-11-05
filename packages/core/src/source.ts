@@ -119,8 +119,15 @@ export function analyzeSource(
         : undefined;
     }
     if (ts.isElementAccessExpression(value)) {
-      if (access(value.expression))
-        limitation("computed-module-member-not-analyzed");
+      const base = access(value.expression);
+      if (!base) return undefined;
+      const member = value.argumentExpression;
+      if (ts.isStringLiteralLike(member))
+        return {
+          module: base.module,
+          path: [...base.path, publicSpecifier(member.text)],
+        };
+      limitation("computed-module-member-not-analyzed");
       return undefined;
     }
     if (commonRequire(value)) {

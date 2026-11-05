@@ -179,6 +179,86 @@ it("records a direct imported API call but does not guess the returned object AP
     (await scanProject(root, target)).apiUsages.map((u) => u.path),
   ).toEqual([["*", "open"]]);
 });
+it("normalizes literal bracket members into the same path as static dot members", async () => {
+  const root = await fixture(
+    'import * as fs from "node:fs";\nfs["promises"][`readFile`]("private-payload");\nfs.promises.readFile("private-payload");',
+  );
+  expect(
+    (await scanProject(root, target)).apiUsages.map((u) => [
+      u.module,
+      u.path,
+      u.location.line,
+      u.location.column,
+    ]),
+  ).toEqual([
+    ["node:fs", ["*", "promises", "readFile"], 2, 1],
+    ["node:fs", ["*", "promises", "readFile"], 3, 1],
+  ]);
+});
+it("records bracket constructors and optional calls through wrapped imported bindings", async () => {
+  const root = await fixture(
+    'import client from "client";\nimport * as api from "api";\n(client!)["send"]?.();\napi?.["service"]?.[`run`]?.();\nnew api["Client"]();',
+  );
+  expect(
+    (await scanProject(root, target)).apiUsages.map((u) => [
+      u.path,
+      u.kind,
+      u.optional,
+    ]),
+  ).toEqual([
+    [["default", "send"], "call", true],
+    [["*", "service", "run"], "call", true],
+    [["*", "Client"], "construct", false],
+  ]);
+});
+it("does not evaluate identifiers, interpolation, numeric keys or expressions as member names", async () => {
+  const root = await fixture(
+    'import * as fs from "node:fs";\nconst key = "readFile";\nfs[key](); fs[`read${key}`](); fs[1](); fs["read" + "File"]();',
+  );
+  const report = await scanProject(root, target);
+  expect({
+    usages: report.apiUsages,
+    limitations: report.coverage.limitations.filter(
+      (l) => l.code === "computed-module-member-not-analyzed",
+    ),
+  }).toEqual({
+    usages: [],
+    limitations: [
+      { code: "computed-module-member-not-analyzed", path: "main.ts" },
+    ],
+  });
+});
+it("does not inventory literal bracket calls on shadowed or unrelated objects", async () => {
+  const root = await fixture(
+    'import * as fs from "node:fs";\nfunction local(fs: { readFile(): void }) { fs["readFile"](); }\nconst other = { readFile() {} }; other["readFile"]();\nfs["readFile"]();',
+  );
+  expect(
+    (await scanProject(root, target)).apiUsages.map((u) => u.location.line),
+  ).toEqual([4]);
+});
+it("retains CommonJS and named-import identity through literal bracket members", async () => {
+  const root = await fixture(
+    'import { client as c } from "client";\nc["send"]();\nrequire("node:fs")["promises"]["readFile"]();',
+  );
+  expect(
+    (await scanProject(root, target)).apiUsages.map((u) => [u.module, u.path]),
+  ).toEqual([
+    ["client", ["client", "send"]],
+    ["node:fs", ["*", "promises", "readFile"]],
+  ]);
+});
+it("sanitizes URL-like bracket keys and omits call arguments", async () => {
+  const root = await fixture(
+    'import * as client from "client";\nclient["https://example.invalid/?token=fixture-secret"]("private-payload");',
+  );
+  const report = await scanProject(root, target);
+  expect({
+    path: report.apiUsages[0]?.path,
+    leak: /fixture-secret|private-payload|example.invalid/.test(
+      JSON.stringify(report),
+    ),
+  }).toEqual({ path: ["*", "[redacted-url]"], leak: false });
+});
 it("keeps call arguments and credential-bearing module URLs out of reports", async () => {
   const root = await fixture(
     'import client from "https://example.invalid/pkg?token=fixture-secret";\nclient.send("private-payload");',
@@ -207,7 +287,7 @@ it("emits unknown API findings with the target and evidence rather than compatib
 });
 it("preserves schema validity and deterministic CLI/core API inventory", async () => {
   const root = await fixture(
-    'import * as fs from "node:fs";\nfs.readFileSync("x");',
+    'import * as fs from "node:fs";\nfs["readFileSync"]("x");',
   );
   const report = await scanProject(root, target);
   const raw = execFileSync(
@@ -231,6 +311,28 @@ it("preserves schema validity and deterministic CLI/core API inventory", async (
     repeat: await scanProject(root, target),
     valid: new Ajv().compile(schema)(report),
   }).toEqual({ cli: report, repeat: report, valid: true });
+});
+
+it("scans the static-member fixture with explicit dynamic-key and lexical-shadow limits", async () => {
+  const report = await scanProject("fixtures/developer/static-members", target);
+  expect({
+    references: report.references.length,
+    usages: report.apiUsages.map((u) => [u.module, u.path, u.optional]),
+    computed: report.coverage.limitations.filter(
+      (l) => l.code === "computed-module-member-not-analyzed",
+    ),
+    statuses: [...new Set(report.findings.map((f) => f.status))],
+  }).toEqual({
+    references: 2,
+    usages: [
+      ["node:fs", ["*", "promises", "readFile"], false],
+      ["example-client", ["default", "send"], true],
+    ],
+    computed: [
+      { code: "computed-module-member-not-analyzed", path: "src/imports.ts" },
+    ],
+    statuses: ["unknown"],
+  });
 });
 
 it("scans the documented source fixture without counting the shadowed local callback", async () => {
