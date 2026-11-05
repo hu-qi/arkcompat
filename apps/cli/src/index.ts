@@ -1,9 +1,10 @@
 #!/usr/bin/env node
-import { scanProject } from "@arkcompat/core";
+import { formatReport, scanProject } from "@arkcompat/core";
+import type { ReportFormat } from "@arkcompat/core";
 import type { TargetProfile } from "@arkcompat/contracts";
 
 const usage =
-  "Usage: arkcompat scan <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>]";
+  "Usage: arkcompat scan <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] [--format <json|markdown|sarif>]";
 async function main(args: string[]) {
   if (args.length === 1 && (args[0] === "--help" || args[0] === "-h")) {
     console.log(usage);
@@ -17,7 +18,7 @@ async function main(args: string[]) {
     const flag = flags[i]!;
     const value = flags[i + 1];
     if (
-      !["--runtime", "--release", "--api-level"].includes(flag) ||
+      !["--runtime", "--release", "--api-level", "--format"].includes(flag) ||
       !value ||
       value.startsWith("--") ||
       options.has(flag)
@@ -27,10 +28,12 @@ async function main(args: string[]) {
   }
   const runtime = options.get("--runtime");
   const release = options.get("--release");
+  const format = options.get("--format") ?? "json";
   if (
     !runtime ||
     !release ||
-    !["arkts", "arkweb", "react-native"].includes(runtime)
+    !["arkts", "arkweb", "react-native"].includes(runtime) ||
+    !["json", "markdown", "sarif"].includes(format)
   )
     throw new Error(usage);
   const target: TargetProfile = {
@@ -43,7 +46,9 @@ async function main(args: string[]) {
     if (!/^\d+$/.test(level)) throw new Error(usage);
     target.apiLevel = Number(level);
   }
-  console.log(JSON.stringify(await scanProject(project, target), null, 2));
+  console.log(
+    formatReport(await scanProject(project, target), format as ReportFormat),
+  );
 }
 try {
   await main(process.argv.slice(2));

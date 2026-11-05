@@ -3,6 +3,8 @@ import { constants } from "node:fs";
 import { open, readdir, realpath } from "node:fs/promises";
 import { extname, join, relative, sep } from "node:path";
 import ts from "typescript";
+export { formatReport } from "./reports.js";
+export type { ReportFormat } from "./reports.js";
 import { analyzeSource } from "./source.js";
 import { dependencies, publicSpecifier } from "./declarations.js";
 import {
