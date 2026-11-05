@@ -65,6 +65,7 @@ export function analyzeSource(
   const limitations: Limitation[] = [];
   const codes = new Set<string>();
   const bindings = new Map<ts.Symbol, Binding>();
+  const analyzedImports = new Set<ts.CallExpression>();
   function limitation(code: string) {
     if (!codes.has(code)) {
       codes.add(code);
@@ -102,6 +103,15 @@ export function analyzeSource(
     // Any actual declaration (including a parameter) makes loader identity uncertain.
     return !checker.getSymbolAtLocation(node.expression)?.declarations?.length;
   }
+  function awaitedImport(input: ts.Expression): ts.CallExpression | undefined {
+    const value = unwrap(input);
+    if (!ts.isAwaitExpression(value)) return undefined;
+    const call = unwrap(value.expression);
+    return ts.isCallExpression(call) &&
+      call.expression.kind === ts.SyntaxKind.ImportKeyword
+      ? call
+      : undefined;
+  }
   function bind(name: ts.Identifier, value: Binding) {
     const symbol = checker.getSymbolAtLocation(name);
     if (symbol) bindings.set(symbol, value);
@@ -130,13 +140,17 @@ export function analyzeSource(
       limitation("computed-module-member-not-analyzed");
       return undefined;
     }
-    if (commonRequire(value)) {
-      const module = literal(value.arguments[0]);
-      return module === null ? undefined : { module, path: ["*"] };
+    const loader = commonRequire(value) ? value : awaitedImport(value);
+    if (loader) {
+      const module = literal(loader.arguments[0]);
+      if (module === null) return undefined;
+      if (loader.expression.kind === ts.SyntaxKind.ImportKeyword)
+        analyzedImports.add(loader);
+      return { module, path: ["*"] };
     }
     return undefined;
   }
-  function requireBinding(name: ts.BindingName, value: Binding) {
+  function moduleBinding(name: ts.BindingName, value: Binding) {
     if (ts.isIdentifier(name)) {
       bind(name, value);
       return;
@@ -196,15 +210,18 @@ export function analyzeSource(
         bind(node.name, { module, path: ["*"] });
     } else if (ts.isVariableDeclaration(node) && node.initializer) {
       const initial = unwrap(node.initializer);
-      if (commonRequire(initial)) {
-        const module = literal(initial.arguments[0]);
+      const loader = commonRequire(initial) ? initial : awaitedImport(initial);
+      if (loader) {
+        const module = literal(loader.arguments[0]);
         if (module !== null) {
           if (
             ts.isVariableDeclarationList(node.parent) &&
             node.parent.flags & ts.NodeFlags.Const
-          )
-            requireBinding(node.name, { module, path: ["*"] });
-          else limitation("mutable-module-binding-not-analyzed");
+          ) {
+            moduleBinding(node.name, { module, path: ["*"] });
+            if (loader.expression.kind === ts.SyntaxKind.ImportKeyword)
+              analyzedImports.add(loader);
+          } else limitation("mutable-module-binding-not-analyzed");
         }
       }
     }
@@ -232,7 +249,8 @@ export function analyzeSource(
       node.expression.kind === ts.SyntaxKind.ImportKeyword
     ) {
       reference(node, "dynamic-import", node.arguments[0]);
-      limitation("dynamic-import-bindings-not-analyzed");
+      if (!analyzedImports.has(node))
+        limitation("dynamic-import-bindings-not-analyzed");
     } else if (commonRequire(node))
       reference(node, "require", node.arguments[0]);
     if (
@@ -255,6 +273,7 @@ export function analyzeSource(
       ts.isVariableDeclaration(node) &&
       node.initializer &&
       !commonRequire(unwrap(node.initializer)) &&
+      !awaitedImport(node.initializer) &&
       access(node.initializer)
     )
       limitation("module-alias-dataflow-not-analyzed");
