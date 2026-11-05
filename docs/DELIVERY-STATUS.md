@@ -23,7 +23,7 @@ The open engineering actions above remain actionable; they are not all blocked b
 
 - [Legacy audit PR #20](https://github.com/hu-qi/arkcompat/pull/20): main `7376eba5544d8927f06cdc6debb70846bff4bb5d`, [main run](https://github.com/hu-qi/arkcompat/actions/runs/41985048591), same-head AtomGit read-back, Issue #9 closed.
 - [Reports PR #21](https://github.com/hu-qi/arkcompat/pull/21): main `ed70615c49e6b831b571a2178d224cf5604bb8e4`, [main run](https://github.com/hu-qi/arkcompat/actions/runs/41986458203), 171 tests per workspace runner; GitCode and AtomGit separately read back the same head. One transient TLS read error after the successful push resolved on retry; no force push or network/security reconfiguration.
-- [Knowledge contract PR #22](https://github.com/hu-qi/arkcompat/pull/22): metadata foundation, 22 new structural/regression cases; no knowledge activated. Final merged-main and mirror evidence is recorded in the PR/Issue after actual checks.
+- [Knowledge contract PR #22](https://github.com/hu-qi/arkcompat/pull/22): metadata foundation, 22 new structural/regression cases; no knowledge activated. Main `e25c7e147a7fee56a2b151dce938a05e5a06f0fe`, [main run](https://github.com/hu-qi/arkcompat/actions/runs/42060620918), 193 tests per workspace; both GitCode and AtomGit read back the same head.
 
 CI runs are engineering evidence. Authored fixtures, structural schema validation and public inventory counts do not establish SDK runtime support or any independent 80%/100% requirement. CodeRabbit skipped automatic review; author self-review is not independent acceptance.
 
@@ -34,3 +34,7 @@ CI runs are engineering evidence. Authored fixtures, structural schema validatio
 3. DevEco installation path/version, official SDK/version constraints and supported distribution/signing route.
 
 These requests were raised while independent engineering continued. No response, scope change, reviewer identity, license choice or approval is inferred from silence. The project can advance its remaining engineering actions without fabricating these decisions.
+
+## Register publication state
+
+This register and the DevEco evidence record are locally committed. Three publication attempts failed as recorded in [the publication diagnostic](GITHUB-PUBLISH-BLOCKER.md); no public documentation PR/main presence is claimed. The three merged engineering/audit PRs and mirrored software remain verified.
