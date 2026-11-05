@@ -13,19 +13,20 @@
     "lint": "eslint .",
     "format": "prettier --write \"{packages,apps,tests}/**/*.{ts,json}\" \"*.{json,yaml,mjs}\" .github/workflows/quality.yml",
     "format:check": "prettier --check \"{packages,apps,tests}/**/*.{ts,json}\" \"*.{json,yaml,mjs}\" .github/workflows/quality.yml",
-    "test": "pnpm build && vitest run",
+    "test": "pnpm build && vitest run --coverage",
     "scan": "node apps/cli/dist/index.js scan",
     "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && node scripts/validate-docs.mjs"
   },
   "devDependencies": {
+    "@arkcompat/contracts": "workspace:*",
+    "@arkcompat/core": "workspace:*",
     "@types/node": "22.19.1",
+    "@vitest/coverage-v8": "5.1.0",
     "ajv": "8.20.0",
     "eslint": "10.14.0",
     "prettier": "3.9.10",
     "typescript": "5.9.3",
     "typescript-eslint": "8.72.1",
-    "vitest": "5.1.0",
-    "@arkcompat/core": "workspace:*",
-    "@arkcompat/contracts": "workspace:*"
+    "vitest": "5.1.0"
   }
 }

@@ -1,0 +1,29 @@
+import { fileURLToPath } from "node:url";
+import { defineConfig } from "vitest/config";
+
+export default defineConfig({
+  resolve: {
+    alias: {
+      "@arkcompat/core": fileURLToPath(
+        new URL("./packages/core/src/index.ts", import.meta.url),
+      ),
+      "@arkcompat/contracts": fileURLToPath(
+        new URL("./packages/contracts/src/index.ts", import.meta.url),
+      ),
+    },
+  },
+  test: {
+    coverage: {
+      provider: "v8",
+      include: ["packages/core/src/**/*.ts"],
+      reporter: ["text", "json-summary", "lcov"],
+      thresholds: {
+        perFile: true,
+        statements: 85,
+        branches: 85,
+        functions: 80,
+        lines: 89,
+      },
+    },
+  },
+});
