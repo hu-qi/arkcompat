@@ -17,3 +17,7 @@ Read-only checks found no remote delivery-status branch and no commit object for
 - Maintainer delivery: retain the clean local branch and reviewable documentation; an authorized maintainer can later publish the exact changes through a normal PR.
 
 The repository instruction caps attempts at three, so this publication attempt stops here. Existing protected main, Actions gates and mirrored code remain intact. No license, scope or acceptance decision is inferred. The local register and DevEco research are not claimed present on public main until a later verified PR delivers them.
+
+## Recovery · resumed work on 2026-11-06
+
+The user explicitly requested publishing all retained work and continuing. A resumed non-forced Git push succeeded; remote codex/delivery-status read back b25d3413c1928f0d29904b2820ef8a02545fd826. The original two commits and failure evidence were preserved. No reset/force push, credential broadening or alternate source tree was used. Required PR/main Actions and mirrored main read-back remain the delivery gate for the recovery documentation itself.

@@ -37,4 +37,4 @@ These requests were raised while independent engineering continued. No response,
 
 ## Register publication state
 
-This register and the DevEco evidence record are locally committed. Three publication attempts failed as recorded in [the publication diagnostic](GITHUB-PUBLISH-BLOCKER.md); no public documentation PR/main presence is claimed. The three merged engineering/audit PRs and mirrored software remain verified.
+The earlier publication attempt stopped after three failures, preserved in [the publication diagnostic](GITHUB-PUBLISH-BLOCKER.md). Following an explicit user request to resume, the retained branch was pushed successfully without replacing history. This register and DevEco record follow the normal required PR/main checks and mirror read-back; their delivery evidence is recorded in the associated PR/Issue. Existing engineering/audit PR evidence remains intact.
