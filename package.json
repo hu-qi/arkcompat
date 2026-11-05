@@ -21,7 +21,7 @@
     "@arkcompat/contracts": "workspace:*",
     "@arkcompat/core": "workspace:*",
     "@types/node": "22.19.1",
-    "@vitest/coverage-v8": "5.1.0",
+    "@vitest/coverage-istanbul": "5.1.0",
     "ajv": "8.20.0",
     "eslint": "10.14.0",
     "prettier": "3.9.10",

@@ -14,7 +14,8 @@ export default defineConfig({
   },
   test: {
     coverage: {
-      provider: "v8",
+      provider: "istanbul",
+      reportOnFailure: true,
       include: ["packages/core/src/**/*.ts"],
       reporter: ["text", "json-summary", "lcov"],
       thresholds: {
