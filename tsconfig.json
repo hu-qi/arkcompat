@@ -5,6 +5,8 @@
     { "path": "packages/core" },
     { "path": "apps/cli" },
     { "path": "apps/mcp" },
-    { "path": "packages/knowledge" }
+    { "path": "packages/knowledge" },
+    { "path": "packages/evaluation" },
+    { "path": "apps/evaluate" }
   ]
 }

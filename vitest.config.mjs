@@ -16,7 +16,11 @@ export default defineConfig({
     coverage: {
       provider: "istanbul",
       reportOnFailure: true,
-      include: ["packages/core/src/**/*.ts", "packages/knowledge/src/**/*.ts"],
+      include: [
+        "packages/core/src/**/*.ts",
+        "packages/knowledge/src/**/*.ts",
+        "packages/evaluation/src/**/*.ts",
+      ],
       reporter: ["text", "json-summary", "lcov"],
       thresholds: {
         perFile: true,
