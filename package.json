@@ -21,6 +21,7 @@
   "devDependencies": {
     "@arkcompat/contracts": "workspace:*",
     "@arkcompat/core": "workspace:*",
+    "@modelcontextprotocol/client": "2.4.0",
     "@types/node": "22.19.1",
     "@vitest/coverage-istanbul": "5.1.0",
     "ajv": "8.20.0",
