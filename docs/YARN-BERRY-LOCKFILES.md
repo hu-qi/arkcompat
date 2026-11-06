@@ -27,7 +27,7 @@ Versions other than8 yield declaration-only coverage with unsupported-version an
 
 ## Failure and privacy boundaries
 
-Recognized malformed/ambiguous YAML, duplicate keys or expanded descriptors, unsupported YAML tags/aliases, invalid dependency/optional metadata and merge conflicts abort with sanitized `yarn.lock` errors. No successful partial graph is returned on these failures. Source parser excerpts, resolution URLs, checksums and unsupported locator strings do not enter reports. Manifest patch/portal/exec/virtual references are now redacted as unsupported-protocol; existing URL/local redaction remains. Root workspace range declarations retain the existing inventory representation.
+Recognized malformed/ambiguous YAML, duplicate keys or expanded descriptors, unsupported YAML tags/aliases, invalid analyzed-registry dependency/optional metadata and merge conflicts abort with sanitized `yarn.lock` errors. No successful partial graph is returned on these failures. Source parser excerpts, resolution URLs, checksums and unsupported locator strings do not enter reports. Manifest patch/portal/exec/virtual references are now redacted as unsupported-protocol; existing URL/local redaction remains. Root workspace range declarations retain the existing inventory representation.
 
 Bounds:10000expanded selectors,20000edges,16384characters/line,128indentation characters, plus shared1MiB/file,32MiB total reads,10000filesystem entries,64directory depth and symlink policies. These are engineering scan limits, not a general sandbox or complete Yarn-format auditor. Other Yarn metadata fields are not adjudicated.
 
@@ -38,3 +38,12 @@ Schema0.6.0 adds `yarn-berry-lockfile-partial`; graph shape, finding IDs/status 
 Current Web import is strict0.6.0 and explicitly rejects historical0.5.0 reports; rebuild all adapters and rescan the stable source checkout. Keep historical reports as historical artifacts instead of editing their version field. This is an experimental contract migration, not a supported published-version upgrade policy. Knowledge metadata schema remains0.1.0 and does not become active in the scanner.
 
 Rollback by reverting the scoped Berry PR, rebuilding all consumers and regenerating schema0.5 reports. Earlier npm/pnpm/Classic adapters remain available; no package installation state was changed. Full workspaces, older pnpm/Berry formats, range/peer/hoisting resolution, broader source semantics, evidence-backed target rules and independent benchmarks still keep #3 open.
+
+## Read-only public metadata observations · 2026-11-07
+
+[Observation record and input/report hashes](evidence/yarn-berry-public-2026-11-07.json) pins two official Yarn repository commits. Only package.json/yarn.lock were downloaded into separate temporary directories as data; no source/plugin/package scripts were run and nothing was installed from those projects. Source manifests declare BSD-2-Clause. These are developer parser observations, not independent labels, installed trees or runtime support.
+
+- Yarn4.0.0 tag resolves to `c6764b28f8e8dbdac7ad318d6d98b5d5f0f4679e`: actual v8 metadata yields29root declarations,2317logical descriptor nodes and5311edges (4937locked,1missing,373unsupported); schema0.6 is valid, sourceFiles0, all findings unknown.
+- Upstream `8f638c0806ec8f3758adb13d93567fc782f9c903` uses actual v10 metadata:24root declarations,0nodes/edges and declaration-only coverage with explicit unsupported-version/transitive-not-analyzed limitations. It was not passed off as a v8 graph.
+
+The first v8 probe exposed version-qualified workspace build metadata being validated as registry optional flags. A negative fixture reproduced it before the fix: unsupported workspace/protocol internals are now skipped before registry dependency/optional interpretation; analyzed registry metadata still fails closed. A second probe produced the counts above. Workspace internals remain unvalidated/unscanned, not newly supported. The record retains full missing/unsupported denominators and no80%/100% accuracy claim.
