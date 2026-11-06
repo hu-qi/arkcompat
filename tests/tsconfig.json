@@ -1,5 +1,8 @@
 {
   "extends": "../tsconfig.base.json",
-  "compilerOptions": { "composite": false, "noEmit": true },
-  "include": ["**/*.ts"]
+  "compilerOptions": {
+    "composite": false,
+    "noEmit": true
+  },
+  "include": ["**/*.ts", "../apps/web/src/validator.d.ts"]
 }
