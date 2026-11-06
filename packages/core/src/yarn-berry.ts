@@ -133,14 +133,6 @@ export function berryGraph(text: string, declared: DeclaredDependency[]) {
       (typeof entry.version !== "string" || !entry.version.trim())
     )
       return fail("invalid entry version");
-    dependencies(entry, source);
-    metaDependencies(entry);
-    if (
-      entry.conditions !== undefined &&
-      entry.conditions !== null &&
-      typeof entry.conditions !== "string"
-    )
-      return fail("invalid conditions");
     const identity = locator(entry.resolution);
     const keys = key.split(/, */);
     for (const selector of keys) {
@@ -157,6 +149,16 @@ export function berryGraph(text: string, declared: DeclaredDependency[]) {
         });
         continue;
       }
+      // Workspace/other protocol internals are outside this registry adapter;
+      // do not reinterpret their build metadata as registry optional flags.
+      dependencies(entry, source);
+      metaDependencies(entry);
+      if (
+        entry.conditions !== undefined &&
+        entry.conditions !== null &&
+        typeof entry.conditions !== "string"
+      )
+        return fail("invalid conditions");
       if (
         requested.name !== identity.name ||
         (entry.version !== undefined && entry.version !== identity.version)

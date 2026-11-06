@@ -281,3 +281,22 @@ it("scans the documented Berry fixture with the complete missing/unsupported den
     unsupported: ["host"],
   });
 });
+
+it("does not validate unused workspace build metadata as registry optional flags", async () => {
+  const body =
+    '"root@workspace:.":\n  version: 0.0.0-use.local\n  resolution: "root@workspace:."\n  dependenciesMeta:\n    "synthetic-build-tool@2.1.0":\n      unplugged: true\n  linkType: soft\n' +
+    grouped;
+  const r = await scanProject(
+    await fixture(body, { dependencies: { a: "^1" } }),
+    target,
+  );
+  expect({
+    nodes: r.dependencyGraph.nodes.length,
+    resolution: r.dependencyGraph.edges[0]!.resolution,
+    codes: r.coverage.limitations.map((l) => l.code),
+  }).toMatchObject({
+    nodes: 3,
+    resolution: "locked",
+    codes: expect.arrayContaining(["yarn-berry-protocol-not-analyzed"]),
+  });
+});
