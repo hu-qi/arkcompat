@@ -74,11 +74,26 @@ jobs:
         run: pnpm install --frozen-lockfile --ignore-scripts
       - name: Check formatting, lint, types, fixtures, schema and CLI parity
         run: pnpm check
-      - name: Retain core unit coverage evidence
+      - name: Retain shared unit coverage evidence
         if: ${{ always() && matrix.os == 'ubuntu-24.04' && matrix.node == '24' }}
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: core-unit-coverage
           path: coverage/
+          if-no-files-found: error
+          retention-days: 14
+      - name: Generate developer-only evaluation example
+        if: ${{ matrix.os == 'ubuntu-24.04' && matrix.node == '24' }}
+        run: pnpm evaluate fixtures/developer/evaluation/labels.json fixtures/developer/evaluation/predictions.json "$RUNNER_TEMP/arkcompat-developer-evaluation"
+      - name: Verify developer example checksums
+        if: ${{ matrix.os == 'ubuntu-24.04' && matrix.node == '24' }}
+        working-directory: ${{ runner.temp }}/arkcompat-developer-evaluation
+        run: sha256sum --check SHA256SUMS
+      - name: Retain developer-only evaluation example
+        if: ${{ matrix.os == 'ubuntu-24.04' && matrix.node == '24' }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: developer-evaluation-example-not-acceptance
+          path: ${{ runner.temp }}/arkcompat-developer-evaluation/
           if-no-files-found: error
           retention-days: 14

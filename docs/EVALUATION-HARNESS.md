@@ -46,3 +46,5 @@ Inputs/artifacts can contain sensitive or blind labels. Keep them under evaluato
 Tests cover mixed errors, category/full denominators, all unknown/missing/empty data, duplicates/extra IDs, false approval fields, explicit external-unverified origin, exact hashes, output no-overwrite, deterministic bundles, symlink/size/UTF-8 failures and the actual built CLI. Evaluation source joins core/knowledge in the existing per-file coverage floors; it is not an independent benchmark denominator.
 
 Rollback by reverting this scoped optional harness/CLI PR. No scan/knowledge schema migration or platform claim changes. Actual scanner-to-label adapters, adjudicated rubric, independently labeled holdout, snapshot/SDK verification, release evidence and real acceptance remain open in #7/#8, with data/rules prerequisites in #3/#4.
+
+The Linux Node24 quality job also regenerates and verifies the committed **developer-only** example before retaining its explicitly named non-acceptance artifact for14days. This is a checksum/CLI regression gate. It does not load an external or hidden dataset, evaluate scanner accuracy or approve the proposed acceptance formula.
