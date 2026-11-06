@@ -1,0 +1,7 @@
+{
+  "name": "arkcompat-developer-berry-graph",
+  "private": true,
+  "packageManager": "yarn@4.0.0",
+  "dependencies": { "a": "^1", "alias": "npm:@scope/real@^2", "shared": "^1" },
+  "peerDependencies": { "host": "^1" }
+}

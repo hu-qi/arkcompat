@@ -133,9 +133,9 @@ it("does not infer peer context from absent Classic metadata", async () => {
     "yarn-peer-graph-not-recorded",
   );
 });
-it("classifies Berry YAML separately without parsing it as Classic", async () => {
+it("classifies future Berry YAML separately without parsing it as Classic", async () => {
   const report = await scanProject(
-    await fixture("__metadata:\n  version: 8\n", {}, ""),
+    await fixture("__metadata:\n  version: 99\n", {}, ""),
     target,
   );
   expect({
@@ -145,7 +145,7 @@ it("classifies Berry YAML separately without parsing it as Classic", async () =>
   }).toMatchObject({
     nodes: [],
     coverage: "declarations-only",
-    codes: expect.arrayContaining(["unsupported-yarn-berry-lockfile"]),
+    codes: expect.arrayContaining(["unsupported-yarn-berry-lockfile-version"]),
   });
 });
 it("marks future Classic format versions unsupported", async () => {

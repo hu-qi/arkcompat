@@ -5,7 +5,7 @@
   "additionalProperties": false,
   "properties": {
     "schemaVersion": {
-      "const": "0.5.0"
+      "const": "0.6.0"
     },
     "scannerVersion": {
       "const": "0.0.0"
@@ -223,7 +223,8 @@
             "declarations-only",
             "npm-lockfile-partial",
             "pnpm-lockfile-partial",
-            "yarn-classic-lockfile-partial"
+            "yarn-classic-lockfile-partial",
+            "yarn-berry-lockfile-partial"
           ]
         },
         "compatibility": {
