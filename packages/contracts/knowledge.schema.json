@@ -386,12 +386,15 @@
               "features": {
                 "properties": {
                   "included": {
-                    "minItems": 1
+                    "minItems": 1,
+                    "type": "array"
                   },
                   "excluded": {
-                    "minItems": 1
+                    "minItems": 1,
+                    "type": "array"
                   }
-                }
+                },
+                "type": "object"
               }
             }
           }
@@ -409,9 +412,11 @@
               "features": {
                 "properties": {
                   "included": {
-                    "minItems": 1
+                    "minItems": 1,
+                    "type": "array"
                   }
-                }
+                },
+                "type": "object"
               }
             }
           }

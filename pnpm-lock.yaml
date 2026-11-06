@@ -101,6 +101,22 @@ importers:
         specifier: 1.1.9
         version: 1.1.9
 
+  packages/knowledge:
+    dependencies:
+      "@arkcompat/contracts":
+        specifier: workspace:*
+        version: link:../contracts
+      ajv:
+        specifier: 8.20.0
+        version: 8.20.0
+      semver:
+        specifier: 7.8.6
+        version: 7.8.6
+    devDependencies:
+      "@types/semver":
+        specifier: 7.8.0
+        version: 7.8.0
+
 packages:
   "@babel/helper-string-parser@7.29.13":
     resolution:
@@ -968,6 +984,12 @@ packages:
     resolution:
       {
         integrity: sha512-LCCV0HdSZZZb34qifBsyWlUmok6W7ouER+oQIGBScS8EsZsQbrtFTUrDX4hOl+CS6p7cnNC4td+qrSVGSCTUfQ==,
+      }
+
+  "@types/semver@7.8.0":
+    resolution:
+      {
+        integrity: sha512-1mAINjtQCXXeLkJ9ehXkwOcBpqtLxiVtKhpUf83DdRNdQKV0iXZpaHYqRr7nj+wvxuJzoAmAwXI+sCNMv1CzLQ==,
       }
 
   "@types/yarnpkg__lockfile@1.1.9":
@@ -2284,6 +2306,8 @@ snapshots:
   "@types/node@22.19.1":
     dependencies:
       undici-types: 6.21.0
+
+  "@types/semver@7.8.0": {}
 
   "@types/yarnpkg__lockfile@1.1.9": {}
 

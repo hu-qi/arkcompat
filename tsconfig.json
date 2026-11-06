@@ -4,6 +4,7 @@
     { "path": "packages/contracts" },
     { "path": "packages/core" },
     { "path": "apps/cli" },
-    { "path": "apps/mcp" }
+    { "path": "apps/mcp" },
+    { "path": "packages/knowledge" }
   ]
 }
