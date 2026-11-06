@@ -8,14 +8,15 @@
     "node": "^22.13.0 || ^24.0.0"
   },
   "scripts": {
-    "build": "tsc -b",
-    "typecheck": "tsc -b && tsc -p tests/tsconfig.json",
+    "build": "tsc -b && pnpm --filter @arkcompat/web build",
+    "typecheck": "tsc -b && tsc -p tests/tsconfig.json && tsc -p apps/web/tsconfig.json",
     "lint": "eslint .",
-    "format": "prettier --write \"{packages,apps,tests}/**/*.{ts,json}\" \"*.{json,yaml,mjs}\" .github/workflows/quality.yml",
-    "format:check": "prettier --check \"{packages,apps,tests}/**/*.{ts,json}\" \"*.{json,yaml,mjs}\" .github/workflows/quality.yml",
+    "format": "prettier --write \"{packages,apps,tests}/**/*.{ts,json}\" \"*.{json,yaml,mjs}\" .github/workflows/quality.yml \"apps/web/*.{mjs,html,css}\"",
+    "format:check": "prettier --check \"{packages,apps,tests}/**/*.{ts,json}\" \"*.{json,yaml,mjs}\" .github/workflows/quality.yml \"apps/web/*.{mjs,html,css}\"",
     "test": "pnpm build && vitest run --coverage",
     "scan": "node apps/cli/dist/index.js scan",
-    "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && node scripts/validate-docs.mjs"
+    "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && node scripts/validate-docs.mjs",
+    "web": "pnpm --filter @arkcompat/web start"
   },
   "devDependencies": {
     "@arkcompat/contracts": "workspace:*",

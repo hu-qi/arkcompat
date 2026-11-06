@@ -1,0 +1,15 @@
+{
+  "name": "@arkcompat/web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "start": "node server.mjs"
+  },
+  "devDependencies": {
+    "@arkcompat/contracts": "workspace:*",
+    "ajv": "8.20.0",
+    "esbuild": "0.28.2"
+  }
+}

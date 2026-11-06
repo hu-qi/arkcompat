@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ArkCompat · Local report viewer</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <main>
+      <header>
+        <div class="brand">ArkCompat <span>LOCAL REPORT VIEWER</span></div>
+        <h1>Read the evidence.<br />Keep the uncertainty.</h1>
+        <p>
+          Open a scan report on this device. No source execution or report
+          upload.
+        </p>
+      </header>
+      <section class="import-panel" aria-label="Import report">
+        <label class="file-label"
+          >Open JSON report<input
+            id="file"
+            type="file"
+            accept=".json,application/json"
+        /></label>
+        <button id="reset" type="button">Clear report</button>
+        <p>Schema 0.5.0 · Up to 8 MiB · Data stays in this tab</p>
+      </section>
+      <p id="error" role="alert" hidden></p>
+      <p id="status" role="status">No report loaded.</p>
+      <section id="report" hidden>
+        <div class="notice">
+          Inventory only · Compatibility has not been evaluated. No verified
+          replacement knowledge is loaded.
+        </div>
+        <p id="target" class="metadata"></p>
+        <div class="metrics">
+          <div>
+            <strong id="dependencies">0</strong><span>Declarations</span>
+          </div>
+          <div>
+            <strong id="references">0</strong><span>Module references</span>
+          </div>
+          <div><strong id="api-sites">0</strong><span>API sites</span></div>
+          <div>
+            <strong id="total">0</strong><span>Findings · unknown</span>
+          </div>
+        </div>
+        <section class="findings" aria-label="Canonical findings">
+          <h2>Findings</h2>
+          <div class="filters">
+            <label
+              >Search ID, path or evidence<input
+                id="search"
+                type="search"
+                placeholder="Filter findings…" /></label
+            ><label
+              >Rule<select id="rule">
+                <option value="all">All rules</option>
+                <option value="inventory.dependency">Dependencies</option>
+                <option value="inventory.module-reference">
+                  Module references
+                </option>
+                <option value="inventory.api-usage">API sites</option>
+              </select></label
+            >
+          </div>
+          <p id="count"></p>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Rule / ID</th>
+                  <th>Status</th>
+                  <th>Location</th>
+                  <th>Evidence</th>
+                </tr>
+              </thead>
+              <tbody id="rows"></tbody>
+            </table>
+          </div>
+        </section>
+        <section aria-label="Coverage limitations">
+          <h2>Limitations</h2>
+          <p id="coverage"></p>
+          <ul id="limitations"></ul>
+        </section>
+      </section>
+      <footer>
+        Static inventory is a starting point. Review the target, source evidence
+        and unsupported cases before making a migration decision.
+      </footer>
+    </main>
+  </body>
+</html>
