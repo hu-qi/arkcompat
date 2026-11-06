@@ -1,0 +1,15 @@
+{
+  "name": "@arkcompat/mcp",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "arkcompat-mcp": "dist/index.js"
+  },
+  "dependencies": {
+    "@arkcompat/contracts": "workspace:*",
+    "@arkcompat/core": "workspace:*",
+    "@modelcontextprotocol/server": "2.4.0",
+    "zod": "4.6.7"
+  }
+}
