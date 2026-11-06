@@ -265,3 +265,27 @@ it("exits cleanly at stdin EOF and closes an oversized protocol message", async 
     diagnostic: "MCP transport error.\n",
   });
 });
+
+it("preserves Berry schema0.6 findings and graph across MCP/core and Web projection", async () => {
+  const { client } = await connect(
+    resolve("fixtures/developer/yarn-berry-graph"),
+  );
+  const result = await client.callTool({
+    name: "compat.scan",
+    arguments: { project: ".", target },
+  });
+  const report = await scanProject(
+    "fixtures/developer/yarn-berry-graph",
+    target,
+  );
+  const { parseReport } = await import("../apps/web/src/model.js");
+  expect({
+    mcp: result.structuredContent,
+    web: parseReport(JSON.stringify(report)),
+    coverage: report.coverage.dependencyGraph,
+  }).toEqual({
+    mcp: report,
+    web: report,
+    coverage: "yarn-berry-lockfile-partial",
+  });
+});

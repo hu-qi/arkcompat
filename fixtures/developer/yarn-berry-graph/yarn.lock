@@ -1,0 +1,25 @@
+# Authored developer fixture, not registry/runtime evidence. Never install.
+__metadata:
+  version: 8
+  cacheKey: fixture
+
+"a@npm:^1":
+  version: 1.0.0
+  resolution: "a@npm:1.0.0"
+  dependencies:
+    native: "npm:^1"
+    shared: "npm:~1"
+  dependenciesMeta:
+    native:
+      optional: true
+  linkType: hard
+
+"alias@npm:@scope/real@^2":
+  version: 2.1.0
+  resolution: "@scope/real@npm:2.1.0"
+  linkType: hard
+
+"shared@npm:^1, shared@npm:~1":
+  version: 1.2.0
+  resolution: "shared@npm:1.2.0"
+  linkType: hard

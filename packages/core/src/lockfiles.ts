@@ -48,13 +48,16 @@ export function parseDependencyGraph(
 export function graphCoverage(
   source: DependencyGraph["source"],
   parsed: boolean,
+  lockfileVersion: number | null,
 ): ScanReport["coverage"]["dependencyGraph"] {
   if (!parsed || source === null) return "declarations-only";
   switch (source) {
     case "pnpm-lock.yaml":
       return "pnpm-lockfile-partial";
     case "yarn.lock":
-      return "yarn-classic-lockfile-partial";
+      return lockfileVersion === 1
+        ? "yarn-classic-lockfile-partial"
+        : "yarn-berry-lockfile-partial";
     default:
       return "npm-lockfile-partial";
   }

@@ -16,6 +16,8 @@ export function publicSpecifier(value: string): string {
   if (/:\/\//.test(value) || /^(git@|github:|gitlab:|bitbucket:)/.test(value))
     return "[redacted-url]";
   if (/^(file:|link:|\/|[A-Za-z]:\\)/.test(value)) return "[local-reference]";
+  if (/^(patch:|portal:|exec:|virtual:)/.test(value))
+    return "[unsupported-protocol]";
   return value;
 }
 export function dependencies(

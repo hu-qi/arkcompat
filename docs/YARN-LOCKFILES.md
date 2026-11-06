@@ -25,7 +25,7 @@ The authored fixture produces four logical selector nodes and six edges: a scope
 
 The shared selector honors an explicit npm/pnpm/Yarn packageManager when multiple supported families exist. Without one selecting a present family, scanning fails as ambiguous. A single family is selected directly; npm shrinkwrap precedence still applies. Ignored lockfile content is not parsed.
 
-Berry files with `__metadata` are classified separately as unsupported; future Classic versions and headerless/unrecognized formats yield declaration-only coverage with explicit limitations. They are never passed off as parsed Classic graphs.
+Berry files with `__metadata` now dispatch to the separate [v8 adapter](YARN-BERRY-LOCKFILES.md); other versions remain unsupported; future Classic versions and headerless/unrecognized formats yield declaration-only coverage with explicit limitations. They are never passed off as parsed Classic graphs.
 
 Unterminated quoted strings are rejected before invoking the legacy parser to avoid slow malformed-input paths. For recognized v1 files, malformed input, invalid entry/dependency types, merge conflicts or repeated descriptors across entries abort with a sanitized `yarn.lock` diagnostic and empty stdout. The official parser is also used to understand grouped/quoted header keys for duplicate detection. Expanded selector tables are limited to 10,000, edges to 20,000, lines to 16,384 characters and indentation to 128 characters. The existing 1 MiB/file, total-read, symlink and stable-checkout policies apply. Dependency map duplicate semantics within one entry follow the pinned Classic parser; this is not a general lockfile auditor.
 
@@ -33,6 +33,6 @@ Only registry-safe descriptors become IDs. Resolved URLs/integrity values are no
 
 ## Remaining M1 work
 
-Berry/older pnpm/full workspace graphs, version-range satisfaction, peer/hoisting verification, API/symbol analysis, compatibility rules and independent acceptance remain open. The shared fixture/schema/CLI tests cover npm, pnpm and Classic together, but do not establish the ≥80% dependency scanning acceptance target or a shipped release.
+Other Berry versions/older pnpm/full workspace graphs, version-range satisfaction, peer/hoisting verification, API/symbol analysis, compatibility rules and independent acceptance remain open. The shared fixture/schema/CLI tests cover npm, pnpm and Classic together, but do not establish the ≥80% dependency scanning acceptance target or a shipped release.
 
 Schema 0.5.0 adds [source API call inventory](SOURCE-API-INVENTORY.md) alongside the existing lockfile graph; compatibility remains unknown.

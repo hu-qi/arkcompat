@@ -1,0 +1,105 @@
+{
+  "observedAt": "2026-11-07",
+  "kind": "developer-read-only-public-manifest-lock-observation",
+  "scannerSchema": "0.6.0",
+  "scope": "Only pinned package.json and yarn.lock downloaded as data; no installation, package scripts, repository source execution, compatibility data adoption or independent accuracy labels.",
+  "observations": [
+    {
+      "repository": "https://github.com/yarnpkg/berry",
+      "commit": "c6764b28f8e8dbdac7ad318d6d98b5d5f0f4679e",
+      "tag": "@yarnpkg/cli/4.0.0",
+      "declaredLicense": "BSD-2-Clause",
+      "files": {
+        "package.json": {
+          "bytes": 3762,
+          "sha256": "5e1a6c2c0c9abd387879356dee7d62bb3988ceb0004812c9bce9cca2a2e8578e"
+        },
+        "yarn.lock": {
+          "bytes": 695766,
+          "sha256": "e1e4f102945a2afd87a2ee0653ebe3b7b1cf653cc9625da526c8613060f82d0d"
+        },
+        "report.json": {
+          "bytes": 1956047,
+          "sha256": "f5fe71aaf55d9242bfb43ecaec6a99bfe074649130d53b5e707e599be7fdda8d"
+        }
+      },
+      "schemaValid": true,
+      "schemaVersion": "0.6.0",
+      "lockfileVersion": 8,
+      "coverage": "yarn-berry-lockfile-partial",
+      "declarations": 29,
+      "nodes": 2317,
+      "edges": 5311,
+      "edgeCounts": {
+        "locked": 4937,
+        "missing": 1,
+        "unsupported": 373
+      },
+      "sourceFiles": 0,
+      "findings": 29,
+      "allFindingsUnknown": true,
+      "limitationCounts": {
+        "compatibility-not-evaluated": 1,
+        "commonjs-exports-not-analyzed": 1,
+        "global-apis-not-analyzed": 1,
+        "module-mutations-and-returned-values-not-analyzed": 1,
+        "gitignore-not-applied": 1,
+        "excluded-directories-not-analyzed": 1,
+        "yarn-berry-conditions-not-evaluated": 24,
+        "yarn-berry-protocol-not-analyzed": 102,
+        "dependency-edge-unsupported": 373,
+        "dependency-edge-missing": 1,
+        "dependency-ranges-not-validated": 1,
+        "lockfile-install-state-not-verified": 1,
+        "yarn-peer-graph-not-recorded": 1,
+        "yarn-hoisting-not-recorded": 1,
+        "yarn-berry-workspaces-not-analyzed": 1
+      }
+    },
+    {
+      "repository": "https://github.com/yarnpkg/berry",
+      "commit": "8f638c0806ec8f3758adb13d93567fc782f9c903",
+      "tag": null,
+      "declaredLicense": "BSD-2-Clause",
+      "files": {
+        "package.json": {
+          "bytes": 3505,
+          "sha256": "62b9e529ac585b301ffeb769477be77b70f505ffebd82705e4cebb2681de8268"
+        },
+        "yarn.lock": {
+          "bytes": 810462,
+          "sha256": "9b6da38cc7b4796bef968c0a06677b3846c82707098d67455cd5fd6d5ef57eaa"
+        },
+        "report.json": {
+          "bytes": 20583,
+          "sha256": "fc1ddf3bf3db45bb564459fd92c19b897c02908a71c66d750af5701c12ec4269"
+        }
+      },
+      "schemaValid": true,
+      "schemaVersion": "0.6.0",
+      "lockfileVersion": 10,
+      "coverage": "declarations-only",
+      "declarations": 24,
+      "nodes": 0,
+      "edges": 0,
+      "edgeCounts": {
+        "locked": 0,
+        "missing": 0,
+        "unsupported": 0
+      },
+      "sourceFiles": 0,
+      "findings": 24,
+      "allFindingsUnknown": true,
+      "limitationCounts": {
+        "compatibility-not-evaluated": 1,
+        "commonjs-exports-not-analyzed": 1,
+        "global-apis-not-analyzed": 1,
+        "module-mutations-and-returned-values-not-analyzed": 1,
+        "gitignore-not-applied": 1,
+        "excluded-directories-not-analyzed": 1,
+        "unsupported-yarn-berry-lockfile-version": 1,
+        "transitive-dependencies-not-analyzed": 1
+      }
+    }
+  ]
+}

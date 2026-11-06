@@ -1,4 +1,5 @@
 import { createRequire } from "node:module";
+import { berryGraph } from "./yarn-berry.js";
 import type {
   DeclaredDependency,
   DependencyEdge,
@@ -130,15 +131,17 @@ export function yarnGraph(
   const limitations: Limitation[] = [];
   const text = input.replace(/^\uFEFF/, "");
   const headers = [...text.matchAll(/^#\s*yarn lockfile v(\d+)\s*$/gm)];
+  if (/^(?:__metadata|"__metadata"|'__metadata')\s*:/m.test(text)) {
+    if (headers.length) return fail("mixed Classic and Berry format headers");
+    return berryGraph(text, declared);
+  }
   if (headers.length === 0)
     return {
       graph,
       parsed: false,
       limitations: [
         {
-          code: /^__metadata\s*:/m.test(text)
-            ? "unsupported-yarn-berry-lockfile"
-            : "unrecognized-yarn-lockfile-format",
+          code: "unrecognized-yarn-lockfile-format",
           path: source,
         },
         { code: "transitive-dependencies-not-analyzed" },

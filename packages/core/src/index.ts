@@ -282,7 +282,7 @@ export async function scanProject(
       JSON.stringify(usage),
     );
   return {
-    schemaVersion: "0.5.0",
+    schemaVersion: "0.6.0",
     scannerVersion: "0.0.0",
     snapshots: { rules: "none", knowledge: "none" },
     target,
@@ -292,7 +292,11 @@ export async function scanProject(
     apiUsages,
     findings,
     coverage: {
-      dependencyGraph: graphCoverage(source, parsed),
+      dependencyGraph: graphCoverage(
+        source,
+        parsed,
+        dependencyGraph.lockfileVersion,
+      ),
       compatibility: "not-evaluated",
       sourceFiles,
       limitations,
