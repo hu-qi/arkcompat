@@ -25,10 +25,10 @@ pnpm check
 pnpm exec vitest run tests/knowledge-contract.test.ts
 ```
 
-## Semantic gates intentionally still open
+## Semantic processing and remaining evidence gates
 
-UTC timestamp strings have a shape constraint, not complete calendar validation. Version selector strings are required but semver satisfaction/intersection is not implemented. Arrays reject identical duplicate records; cross-record ID uniqueness/conflicts need a future semantic importer. Historical expiry is retained as data, not filtered or renewed by structural validation. Future consumers must reject stale/conflicting/inapplicable records before recommendation; no current recommendation path reads this schema.
+The structural schema alone checks timestamp shape and required selectors. The optional [offline semantic package](KNOWLEDGE-SEMANTICS.md) now validates calendar/chronology, satisfiable semver ranges and unique IDs, retains expiry history in deterministic export, and withholds candidate/stale/inapplicable/ambiguous records for exact queries. It returns unknown metadata only; no recommendation path reads the snapshot. Global range-conflict proof, source refresh and evidence authentication remain open.
 
-Source licensing/rights, reviewer authenticity, evidence validity, feature equivalence, runtime/build verification and independent holdout adjudication require separate review. No real Huawei/official compatibility dataset has been imported and no repository license chosen. Actual sourced adapters, refresh/import policy, semantic selection/export and independent benchmark remain #4 work; target-aware engine remains #3 and acceptance #7/#8.
+Source licensing/rights, reviewer authenticity, evidence validity, feature equivalence, runtime/build verification and independent holdout adjudication require separate review. No real Huawei/official compatibility dataset has been imported and no repository license chosen. Actual sourced adapters, refresh policy, verified selection and independent benchmark remain #4 work; target-aware engine remains #3 and acceptance #7/#8.
 
 Revert this scoped contract PR to remove the metadata schema/types/fixture. The scanner's JSON schema, engine and unknown-only behavior need no migration. There is no published knowledge release.
