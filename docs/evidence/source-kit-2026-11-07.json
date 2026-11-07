@@ -1,0 +1,59 @@
+{
+  "observedAt": "2026-11-07",
+  "kind": "source-install-rehearsal",
+  "sourceCommit": "f8de5d02e4997f101f7a901622446a09543097c5",
+  "sourceLicense": "MIT",
+  "sourceMainActionsRun": 42351945883,
+  "environment": {
+    "macOS": "27.2",
+    "arch": "arm64",
+    "node": "22.23.4",
+    "pnpm": "10.34.9",
+    "git": "2.51.0",
+    "gzip": "Apple gzip 487.40.2"
+  },
+  "archive": {
+    "name": "arkcompat-f8de5d0-source.tar.gz",
+    "sha256": "703240b02a0883f506ef5b748e37e1ecf230d9f7a2311f85a9a68396242e492f",
+    "bytes": 151522,
+    "repeatBytesIdentical": true,
+    "embeddedCommitVerified": true,
+    "checksumVerified": true
+  },
+  "cleanInstall": {
+    "gitMetadataPresent": false,
+    "nodeModulesPresentBeforeInstall": false,
+    "command": "pnpm install --offline --frozen-lockfile --ignore-scripts",
+    "cachedDependencyStoreRequired": true,
+    "checkCommand": "pnpm check",
+    "testsPassed": 305,
+    "testFilesPassed": 15
+  },
+  "cli": {
+    "fixture": "fixtures/developer/yarn-berry-graph",
+    "schemaVersion": "0.6.0",
+    "target": {
+      "os": "HarmonyOS",
+      "release": "6.0.0",
+      "runtime": "arkts",
+      "apiLevel": 20
+    },
+    "sha256": "69fd71612875360aaf7414f6bbd439651db4a3d09c2ae0dec2772aa19a2e927f",
+    "schemaValid": true,
+    "findings": 4,
+    "allUnknown": true,
+    "nodes": 4,
+    "edges": 6
+  },
+  "evaluation": {
+    "example": "authored developer-only all-unknown fixture",
+    "checksumsVerified": 4,
+    "labeled": 3,
+    "abstained": 3,
+    "precision": null,
+    "acceptance": "not-adjudicated",
+    "independence": "unverified"
+  },
+  "releasePublished": false,
+  "acceptanceClaimed": false
+}
