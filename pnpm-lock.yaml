@@ -53,6 +53,12 @@ importers:
         specifier: workspace:*
         version: link:../../packages/core
 
+  apps/evaluate:
+    dependencies:
+      "@arkcompat/evaluation":
+        specifier: workspace:*
+        version: link:../../packages/evaluation
+
   apps/mcp:
     dependencies:
       "@arkcompat/contracts":
@@ -100,6 +106,12 @@ importers:
       "@types/yarnpkg__lockfile":
         specifier: 1.1.9
         version: 1.1.9
+
+  packages/evaluation:
+    dependencies:
+      ajv:
+        specifier: 8.20.0
+        version: 8.20.0
 
   packages/knowledge:
     dependencies:

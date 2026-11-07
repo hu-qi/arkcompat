@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "0.1.0",
+  "datasetId": "developer-all-unknown",
+  "origin": "developer-fixture",
+  "provenance": {
+    "source": "Authored binary-count fixture; no independent labels",
+    "license": "LicenseRef-DeveloperFixture",
+    "labelAuthor": "synthetic-fixture-author",
+    "sdk": "not-runtime-verified",
+    "target": "synthetic context; no platform acceptance claim"
+  },
+  "cases": [
+    { "id": "api-positive", "category": "api", "expected": "positive" },
+    { "id": "api-negative", "category": "api", "expected": "negative" },
+    { "id": "port-positive", "category": "missing-port", "expected": "positive" }
+  ]
+}

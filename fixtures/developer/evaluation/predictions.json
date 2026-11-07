@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "0.1.0",
+  "datasetId": "developer-all-unknown",
+  "scannerVersion": "0.0.0",
+  "rulesSnapshot": "none",
+  "knowledgeSnapshot": "none",
+  "predictions": [
+    { "id": "api-positive", "actual": "unknown" },
+    { "id": "api-negative", "actual": "unknown" },
+    { "id": "port-positive", "actual": "unknown" }
+  ]
+}

@@ -16,7 +16,8 @@
     "test": "pnpm build && vitest run --coverage",
     "scan": "node apps/cli/dist/index.js scan",
     "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && node scripts/validate-docs.mjs",
-    "web": "pnpm --filter @arkcompat/web start"
+    "web": "pnpm --filter @arkcompat/web start",
+    "evaluate": "node apps/evaluate/dist/index.js"
   },
   "devDependencies": {
     "@arkcompat/contracts": "workspace:*",
