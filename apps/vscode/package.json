@@ -1,0 +1,68 @@
+{
+  "name": "arkcompat-local",
+  "displayName": "ArkCompat Local Inventory",
+  "publisher": "arkcompat-local",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "main": "./dist/extension.cjs",
+  "engines": {
+    "vscode": "^1.144.0"
+  },
+  "extensionKind": [
+    "workspace"
+  ],
+  "capabilities": {
+    "virtualWorkspaces": false,
+    "untrustedWorkspaces": {
+      "supported": true
+    }
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "arkcompat.scanLocal",
+        "title": "ArkCompat: Scan Local Workspace"
+      }
+    ],
+    "configuration": {
+      "title": "ArkCompat",
+      "properties": {
+        "arkcompat.nodePath": {
+          "type": "string",
+          "scope": "machine",
+          "default": "",
+          "description": "Absolute path to a trusted Node 22.13+ or Node 24 executable."
+        },
+        "arkcompat.runtime": {
+          "type": "string",
+          "scope": "resource",
+          "enum": [
+            "arkts",
+            "arkweb",
+            "react-native"
+          ],
+          "default": "arkts",
+          "description": "Inventory target runtime."
+        },
+        "arkcompat.release": {
+          "type": "string",
+          "scope": "resource",
+          "default": "6.0.0",
+          "description": "Explicit HarmonyOS release (x.y.z)."
+        },
+        "arkcompat.apiLevel": {
+          "type": "integer",
+          "scope": "resource",
+          "minimum": 0,
+          "default": 0,
+          "description": "Explicit API level; zero leaves it unspecified."
+        }
+      }
+    }
+  },
+  "devDependencies": {
+    "@arkcompat/contracts": "workspace:*",
+    "@types/vscode": "1.144.0"
+  }
+}
