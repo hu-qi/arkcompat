@@ -1,6 +1,6 @@
 # Quality and Acceptance Plan · ArkCompat
 
-**Status:** Proposed evaluation methodology, pending Huawei agreement. Initial delivery **2026-12-23**.
+**Status:** Product thresholds confirmed by the project requester on 2026-11-07. Evaluation methodology, independent labels, target profiles and adjudication remain pending. Initial delivery **2026-12-23**.
 
 ## Official requirements (preserve wording/threshold)
 

@@ -62,4 +62,6 @@ Node 22.13+（22 系列）或 Node 24，pnpm 10.34.9。实现范围、报告语�
 
 [Legacy prototype PR #2](https://github.com/hu-qi/ohpm-npm-compat-assistant/pull/2) is a candidate for independently reviewed reuse, **not** an imported implementation.
 
-**Trademark / affiliation:** Independent community project; not an official or certified Huawei product. License selection and related third-party data reuse will be settled during M0.
+**License:** [MIT](LICENSE) for original ArkCompat contributions. Third-party material retains its own terms.
+
+**Trademark / affiliation:** Independent community project; not an official or certified Huawei product.

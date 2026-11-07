@@ -23,4 +23,4 @@ Please avoid disclosing security-sensitive findings in public issues. Until a de
 
 ## Current state
 
-Documentation/architecture bootstrap. Exact development tooling and project license are pending M0 decision; do not infer package publication or licensing from the existence of this repository.
+Original ArkCompat contributions use the [MIT license](LICENSE). Follow the recorded toolchain baseline and provenance requirements in [DECISIONS](docs/DECISIONS.md). Package publication, external data reuse and trademarks have separate decisions.

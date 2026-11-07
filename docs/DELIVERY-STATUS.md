@@ -6,7 +6,7 @@ Issue #1 / M0 coordination. All original thresholds, target surfaces and human d
 
 | Issue | Verified engineering / evidence | Next engineering action | Closure boundary |
 |---|---|---|---|
-| [#1 · M0](https://github.com/hu-qi/arkcompat/issues/1) | TypeScript/Node/pnpm defaults, JSON vertical slice, versioned inventory contracts, protected CI; this register | Keep owners/decisions explicit and reconcile gate evidence | Runtime/API matrix, release surfaces, license and acceptance ownership need human decisions; M0 remains open |
+| [#1 · M0](https://github.com/hu-qi/arkcompat/issues/1) | TypeScript/Node/pnpm defaults, JSON vertical slice, versioned inventory contracts, protected CI; this register | Keep owners/decisions explicit and reconcile gate evidence | MIT and original thresholds confirmed; runtime profiles, release surfaces and independent adjudication remain open |
 | [#2 · DevEco](https://github.com/hu-qi/arkcompat/issues/2) | [Bounded official-source/environment investigation](DEVECO-FEASIBILITY.md) | Verify exact installation/SDK, then smallest install/process/location PoC | No DevEco distribution or feasibility claim until target/SDK/install evidence and human route confirmation |
 | [#3 · M1 core](https://github.com/hu-qi/arkcompat/issues/3) | npm/pnpm/Yarn Classic and [Berry v8](YARN-BERRY-LOCKFILES.md) inventory; lexical calls, static brackets, awaited imports and bounded const aliases | Full workspace/other Berry/older-format graph coverage, broader source semantics, target-aware rule contracts | Experimental contracts, missing rule/runtime/source coverage and independent evaluation still open |
 | [#4 · M2 knowledge](https://github.com/hu-qi/arkcompat/issues/4) | [Metadata schema](KNOWLEDGE-CONTRACT.md), [offline semantic import/query/export](KNOWLEDGE-SEMANTICS.md), one synthetic candidate | Licensed curated adapters, refresh/evidence authentication and verified selection | Zero real/verified recommendations; reviewed provenance/labels and agreed independent benchmark still required |
@@ -30,10 +30,10 @@ CI runs are engineering evidence. Authored fixtures, structural schema validatio
 ## Human inputs requested, still pending
 
 1. Target runtime/release/API matrix and named independent acceptance reviewer/owner, with authorized holdout labels and scoring adjudication. Existing proposed scoring is not silently approved.
-2. Repository license and any approved data import/attribution policy. No legacy/Huawei mapping dataset is adopted by this work.
+2. MIT selected for original repository contributions. External data import/attribution and trademark policy remain separate; no legacy/Huawei mapping dataset has been adopted.
 3. DevEco installation path/version, official SDK/version constraints and supported distribution/signing route.
 
-These requests were raised while independent engineering continued. No response, scope change, reviewer identity, license choice or approval is inferred from silence. The project can advance its remaining engineering actions without fabricating these decisions.
+These requests were raised while independent engineering continued. The requester confirmed MIT and the original thresholds on 2026-11-07. Other approvals and reviewer identity are not inferred. The project can advance its remaining engineering actions without fabricating these decisions.
 
 ## Register publication state
 

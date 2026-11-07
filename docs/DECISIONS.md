@@ -1,6 +1,6 @@
 # Decisions, Assumptions & Expert Escalations
 
-**Updated:** 2026-11-02. A question here is an actual **project decision** or request for non-public evidence, not something readily answerable by reading basic documentation.
+**Updated:** 2026-11-07. A question here is an actual **project decision** or request for non-public evidence, not something readily answerable by reading basic documentation.
 
 | ID | Status | Decision or dependency | Working default | Needed from Huawei / owner | Due |
 |---|---|---|---|---|---|
@@ -11,7 +11,7 @@
 | D-05 | Pending | DevEco Studio plugin SDK & distribution | Thin bridge + spike; no unsupported SDK assumptions | Confirm supported APIs, signing/packaging, extension policy | Nov 6 |
 | D-06 | Pending | Trusted ecosystem compatibility data | Provenance-based public data, no unverified mass matching | Access to reviewed official cases, license/reuse rules, feedback mechanism | Nov 9 |
 | D-07 | Proposed | Frontend/build stack | TypeScript First, pnpm Monorepo | Internal team owner confirms toolchain and staffing | Nov 6 |
-| D-08 | Pending | License/publication policy | No code or knowledge import before license review | Repo license choice, third-party data terms, attribution and trademarks | Nov 6 |
+| D-08 | MIT confirmed; related policies pending | License/publication policy | MIT for original contributions; third-party terms remain separate | External data terms, attribution, trademarks and release policy | Nov 6 |
 | D-09 | Proposed | Product entry points | CLI + VS Code/Cursor + DevEco + Web + MCP + CI | Confirm whether 2026-12-23 requires each as acceptance artifact or final longer-term goal | Nov 6 |
 | D-10 | Pending | Legacy code migration | Audit PR #2, do not blindly merge | Independent review outcome and ownership of migration | Nov 9 |
 
@@ -34,4 +34,10 @@ Discuss API/compatibility edge cases without published answers, access to vetted
 
 ## D-07 engineering spike defaults · 2026-11-03
 
-The Issue #3 implementation uses Node 22.13+ (22 line) / Node 24, pnpm 10.34.9, TypeScript 5.9.3 Compiler API and project references, ESLint, Vitest and Prettier. These are reversible engineering defaults selected for an executable local inventory spike; D-07 remains Proposed pending owner confirmation. TypeScript remains on the supported typescript-eslint range. Packages are private; no repository license, publication or staffing decision is inferred. Revisit when the runtime matrix, parser requirements or maintainer approval changes.
+The Issue #3 implementation uses Node 22.13+ (22 line) / Node 24, pnpm 10.34.9, TypeScript 5.9.3 Compiler API and project references, ESLint, Vitest and Prettier. These are reversible engineering defaults selected for an executable local inventory spike; D-07 remains Proposed pending owner confirmation. TypeScript remains on the supported typescript-eslint range. Packages are private; package publication and staffing remain separate decisions. Revisit when the runtime matrix, parser requirements or maintainer approval changes.
+
+## D-08 repository license and product thresholds · 2026-11-07
+
+The project requester explicitly selected MIT in the delivery conversation. This resolves the original repository license choice; leaving it unspecified was the earlier state. The [MIT license](../LICENSE) and root SPDX metadata record the selected terms for original ArkCompat contributions. This decision does not grant rights to third-party/Huawei data or trademarks and does not publish a package. Revisit if the owner changes the license policy or a proposed import requires separate rights/attribution review.
+
+The requester also confirmed the original dependency scan ≥80%, replacement identification 100%, incompatible API identification ≥80% for HarmonyOS 6.0.0 and later, missing-port identification ≥80%, and delivery of the replacement knowledge base. This confirms the thresholds in [QUALITY-GATES](QUALITY-GATES.md); it does not approve a scoring formula, name an independent reviewer or establish any measured result. [Huawei's 6.0.0 release overview](https://developer.huawei.com/consumer/en/doc/harmonyos-releases/overview-600) establishes API 20 as the minimum-version engineering reference. Device/runtime profiles, later release coverage and independent adjudication still need separate evidence under D-01–D-04.
