@@ -1,6 +1,6 @@
 # DevEco Studio feasibility evidence · Issue #2
 
-Current decision: **continue with an isolated, version-pinned local plugin route**. The exact macOS build can compile and load the ArkCompat probe. A first-run DevEco user/SDK agreement still gates scan-process and editor navigation verification; no shipped plugin or runtime compatibility result is established.
+Current decision: **continue with an isolated, version-pinned local plugin route**. The exact macOS build compiled, loaded and ran the ArkCompat probe; local scan-process communication and editor navigation were observed. Production plugin packaging/distribution and HarmonyOS runtime acceptance remain separate.
 
 ## Vendor route and version evidence · 2026-11-07
 
@@ -30,14 +30,16 @@ cmp /tmp/arkcompat-probe-new/expected-report.json /tmp/arkcompat-probe-new/plugi
 cat /tmp/arkcompat-probe-new/probe-result.txt
 ```
 
-These verification commands are ready for the next run. A successful result requires byte-identical CLI and plugin reports and the actual editor caret marker (including the original finding ID and unknown status). At this observation, DevEco is waiting in its first-run agreement window and **neither plugin report nor editor marker exists**. The operator must personally read/decide on the DevEco User Agreement and HarmonyOS SDK License Agreement. Loading a plugin is not proof that its startup activity or editor path ran.
+The operator personally read and accepted the first-run DevEco User Agreement and HarmonyOS SDK License Agreement in the isolated window. The probe then started the local CLI successfully. `cmp` verified identical report bytes; both SHA-256 values are `ad305851d732610cb09ee29c41dab7b447e62511afed46cad914819ff74ce9da`. The probe read the actual caret and recorded `main.ts:2:1`, finding `6a47b7649024f0fa4641ecd9c65bac07f5b549dcc65f03fbc15f59337cf5adf5`, status `unknown`. Native accessibility showed the editor and authored source; visual inspection showed `2:1` in the IDE status bar. The [observation record](evidence/deveco-local-probe-2026-11-07.json) carries the exact build, hashes and result.
+
+The IDE also showed **Project sync failed** for this plain TS fixture, which has no HarmonyOS/Hvigor project. That banner is retained as a limitation: the proof is the local scan/JSON/editor path, not successful HarmonyOS project sync, build, SDK runtime verification or a released diagnostics integration. A process-scoped JVM-options notice was expected for the isolated profile. No default IDE settings were changed.
 
 ## Failures, recovery and go/no-go
 
 1. Initial release/path inspection succeeded, then the `/Applications` bundle was temporarily absent/incomplete during the investigation. Compilation was first verified from the matching mounted installer and repeated against the restored exact installed bundle. No user app files or security settings were changed by the probe.
 2. Launch by bundle identifier resolved to a different external-volume copy. Its bundled OpenHarmony plugin failed to initialize because an AppleDouble `._*.jar` sidecar was treated as a ZIP. The isolated probe was also rejected when its descriptor used the full DS build suffix; the verifier reported platform build `IC-261.23567.138`. Closed the task-owned failed instance. Did not modify that external app.
-3. An absolute launch of the verified `/Applications` bundle with the exact platform range `261.23567.138` loaded the probe in a fresh isolated profile. First-run consent is the current gate; no further launch retries or agreement bypass. The full DevEco build remains checked by the prepare script independently of the manifest platform range.
+3. An absolute launch of the verified `/Applications` bundle with the exact platform range `261.23567.138` loaded the probe in a fresh isolated profile. After the operator accepted the first-run agreement personally, the scan/editor smoke passed. The full DevEco build remains checked by the prepare script independently of the manifest platform range.
 
-**Local decision:** exact-build local compile/package/load is feasible; complete the scan/editor smoke after operator consent. **Distribution decision:** hold public publishing/signing/update claims until Huawei trustlist/onboarding requirements and an actual delivery route are verified. Windows, other IDE builds, diagnostics integration, actual HarmonyOS builds and independent acceptance are outside this evidence. No SDK redistribution or user data/AI upload was introduced. Issue #2 remains open until the promised process/editor proof and closure boundary are resolved.
+**Local decision:** GO for exact-build macOS local development, CLI bridging and editor navigation. **Distribution decision:** hold public publishing/signing/update claims until Huawei trustlist/onboarding requirements and an actual delivery route are verified. The feasibility spike meets its viable-route criterion; production DevEco work remains tracked in [Issue #6](https://github.com/hu-qi/arkcompat/issues/6). Windows, other IDE builds, the disk-install UI, product diagnostics integration, actual HarmonyOS builds and independent acceptance are outside this proof. The probe neither redistributes SDK files nor issues model/network requests.
 
 Earlier November5 evidence consisted of two timed-out FAQ retrievals, named-vendor-plugin installation hints and no known local path. Those were earlier observations; the source, build and loading evidence above supersede them.

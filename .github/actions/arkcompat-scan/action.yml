@@ -1,0 +1,42 @@
+name: ArkCompat local inventory
+description: Run the pinned ArkCompat source CLI without executing the scanned project.
+inputs:
+  project:
+    description: Relative directory inside the checked-out workspace, or .
+    default: .
+  runtime:
+    description: Target runtime, arkts, arkweb or react-native.
+    required: true
+  release:
+    description: Explicit HarmonyOS release in x.y.z form.
+    required: true
+  api-level:
+    description: Optional explicit positive API level.
+    default: ""
+outputs:
+  report-path:
+    description: Canonical JSON in a private runner temporary directory.
+    value: ${{ steps.scan.outputs.report-path }}
+runs:
+  using: composite
+  steps:
+    - name: Build the pinned ArkCompat source CLI
+      shell: bash
+      working-directory: ${{ github.action_path }}/../../..
+      run: |
+        if [[ "$(pnpm --version)" != 10.34.9 ]]; then
+          echo 'ArkCompat requires pnpm 10.34.9 on the runner.' >&2
+          exit 1
+        fi
+        pnpm install --frozen-lockfile --ignore-scripts
+        pnpm exec tsc -b apps/cli
+    - name: Scan the workspace without executing it
+      id: scan
+      shell: bash
+      env:
+        ARKCOMPAT_ACTION_PATH: ${{ github.action_path }}
+        ARKCOMPAT_SCAN_PROJECT: ${{ inputs.project }}
+        ARKCOMPAT_SCAN_RUNTIME: ${{ inputs.runtime }}
+        ARKCOMPAT_SCAN_RELEASE: ${{ inputs.release }}
+        ARKCOMPAT_SCAN_API_LEVEL: ${{ inputs.api-level }}
+      run: node "$ARKCOMPAT_ACTION_PATH/run.mjs"

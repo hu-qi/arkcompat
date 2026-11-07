@@ -82,6 +82,22 @@ jobs:
           path: coverage/
           if-no-files-found: error
           retention-days: 14
+      - name: Run the local inventory action on a developer fixture
+        if: ${{ matrix.os == 'ubuntu-24.04' && matrix.node == '24' }}
+        id: inventory-action
+        uses: ./.github/actions/arkcompat-scan
+        with:
+          project: fixtures/developer/yarn-berry-graph
+          runtime: arkts
+          release: "6.0.0"
+          api-level: "20"
+      - name: Verify action and CLI report parity
+        if: ${{ matrix.os == 'ubuntu-24.04' && matrix.node == '24' }}
+        env:
+          ARKCOMPAT_ACTION_REPORT: ${{ steps.inventory-action.outputs.report-path }}
+        run: |
+          node apps/cli/dist/index.js scan fixtures/developer/yarn-berry-graph --runtime arkts --release 6.0.0 --api-level 20 > "$RUNNER_TEMP/arkcompat-action-expected.json"
+          cmp "$RUNNER_TEMP/arkcompat-action-expected.json" "$ARKCOMPAT_ACTION_REPORT"
       - name: Generate developer-only evaluation example
         if: ${{ matrix.os == 'ubuntu-24.04' && matrix.node == '24' }}
         run: pnpm evaluate fixtures/developer/evaluation/labels.json fixtures/developer/evaluation/predictions.json "$RUNNER_TEMP/arkcompat-developer-evaluation"
