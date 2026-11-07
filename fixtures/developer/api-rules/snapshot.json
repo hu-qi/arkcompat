@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "0.1.0",
+  "snapshotId": "developer-static-example",
+  "rules": [
+    {
+      "id": "demo.sample-call",
+      "selector": {
+        "module": "demo-library",
+        "path": ["sample"],
+        "kind": "call"
+      },
+      "profile": { "runtime": "arkts", "release": "6.0.0", "apiLevel": 20 },
+      "source": {
+        "url": "https://example.invalid/arkcompat-fixture",
+        "revision": "developer-fixture"
+      }
+    }
+  ]
+}
