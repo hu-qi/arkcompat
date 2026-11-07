@@ -1,0 +1,12 @@
+<idea-plugin>
+  <id>org.arkcompat.deveco.feasibility</id>
+  <name>ArkCompat Feasibility Probe</name>
+  <version>0.0.0</version>
+  <vendor>ArkCompat contributors</vendor>
+  <description>Runs only on an explicitly configured synthetic fixture in an isolated DevEco profile.</description>
+  <idea-version since-build="261.23567.138" until-build="261.23567.138"/>
+  <depends>com.intellij.modules.platform</depends>
+  <extensions defaultExtensionNs="com.intellij">
+    <postStartupActivity implementation="org.arkcompat.probe.ProbeActivity"/>
+  </extensions>
+</idea-plugin>

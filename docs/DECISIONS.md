@@ -8,7 +8,7 @@
 | D-02 | Pending | Independent acceptance set and adjudicator | Maintain own fixtures but no self-only acceptance | Provide/review blind cases, calculation denominator, sign-off owner | Nov 6 |
 | D-03 | Pending | Substitute recognition 100% interpretation | Only verified, scoped substitutions; abstain on unknown; disclose coverage | Confirm partial equivalence and false-positive/abstention policy | Nov 6 |
 | D-04 | Pending | Verified port / missing port definitions | Distinguish published OHPM, GitCode fork, direct JS use, unknown | Confirm reviewer rubric and data interfaces | Nov 9 |
-| D-05 | Pending | DevEco Studio plugin SDK & distribution | Thin bridge + spike; no unsupported SDK assumptions | Confirm supported APIs, signing/packaging, extension policy | Nov 6 |
+| D-05 | Pinned local go; public route pending | DevEco Studio plugin SDK & distribution | [Exact-build isolated probe](DEVECO-FEASIBILITY.md); local route first | Verify public trustlist, signing and update policy under #6 | Nov 6 |
 | D-06 | Pending | Trusted ecosystem compatibility data | Provenance-based public data, no unverified mass matching | Access to reviewed official cases, license/reuse rules, feedback mechanism | Nov 9 |
 | D-07 | Proposed | Frontend/build stack | TypeScript First, pnpm Monorepo | Internal team owner confirms toolchain and staffing | Nov 6 |
 | D-08 | MIT confirmed; related policies pending | License/publication policy | MIT for original contributions; third-party terms remain separate | External data terms, attribution, trademarks and release policy | Nov 6 |

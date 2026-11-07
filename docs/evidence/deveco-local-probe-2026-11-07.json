@@ -1,0 +1,52 @@
+{
+  "observedAt": "2026-11-07",
+  "kind": "developer-local-devEco-feasibility",
+  "platform": {
+    "macOS": "27.2",
+    "arch": "arm64",
+    "product": "DevEco Studio",
+    "version": "26.0.0.865",
+    "build": "DS-261.23567.138.36.2600865",
+    "platformBuild": "IC-261.23567.138",
+    "jbr": "25.0.2",
+    "sdk": {
+      "release": "26.0.0",
+      "version": "26.0.0.105",
+      "apiVersion": 26
+    },
+    "appSignatureVerification": "codesign --verify --strict passed"
+  },
+  "probe": {
+    "id": "org.arkcompat.deveco.feasibility",
+    "version": "0.0.0",
+    "sourceCommit": "c3618783944b9e3b0a3b4dc3cf4ca3a8c512c0dd",
+    "compiledAgainstInstalledPlatform": true,
+    "compilerWarnings": false,
+    "isolatedCustomPluginLoaded": true,
+    "loadedJarSha256": "e4b66de490423b25f46facd540f7ce0788744603b0dbfe009431e161a1508eb5",
+    "firstRunAgreementAcceptedByOperator": true,
+    "subprocessStderrBytes": 0,
+    "baselineReportSha256": "ad305851d732610cb09ee29c41dab7b447e62511afed46cad914819ff74ce9da",
+    "pluginReportSha256": "ad305851d732610cb09ee29c41dab7b447e62511afed46cad914819ff74ce9da",
+    "byteParity": true,
+    "findings": 2,
+    "editor": {
+      "file": "main.ts",
+      "line": 2,
+      "column": 1,
+      "status": "unknown",
+      "findingId": "6a47b7649024f0fa4641ecd9c65bac07f5b549dcc65f03fbc15f59337cf5adf5",
+      "accessibilityEditor": "Editor for main.ts",
+      "visibleStatusBar": "2:1"
+    },
+    "projectSync": "failed for plain TS developer fixture without HarmonyOS project metadata"
+  },
+  "decision": {
+    "pinnedLocalPluginRoute": "go",
+    "productionDistribution": "pending trustlist/signing/update evidence",
+    "windowsVerified": false,
+    "diskInstallUiVerified": false,
+    "harmonyOSRuntimeVerified": false,
+    "independentAcceptanceVerified": false
+  }
+}
