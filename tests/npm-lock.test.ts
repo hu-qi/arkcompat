@@ -125,6 +125,79 @@ it("preserves missing, optional, peer and unsupported workspace edges", async ()
     ["peer", "peerDependencies", "missing"],
   ]);
 });
+it.each([2, 3])(
+  "reads npm v%i local-link target dependencies from the lock table",
+  async (version) => {
+    const root = await fixture(
+      {
+        "node_modules/@scope/local": { link: true, resolved: "packages/local" },
+        "node_modules/shared": { version: "2.0.0" },
+        "node_modules/peer": { version: "3.0.0" },
+        "node_modules/test-helper": { version: "1.0.0" },
+        "packages/local": {
+          name: "@scope/local",
+          version: "1.0.0",
+          dependencies: { shared: "^1" },
+          peerDependencies: { peer: "^3" },
+          devDependencies: { "test-helper": "^1" },
+        },
+        "packages/local/node_modules/shared": { version: "1.0.0" },
+      },
+      { workspaces: ["packages/*"], dependencies: { "@scope/local": "^1" } },
+      version,
+    );
+    // There is no workspace directory or installed node_modules on disk.
+    const graph = (await scanProject(root, target)).dependencyGraph;
+    expect(
+      graph.nodes.find((node) => node.id === "node_modules/@scope/local"),
+    ).toEqual({
+      id: "node_modules/@scope/local",
+      installName: "@scope/local",
+      name: "@scope/local",
+      version: "1.0.0",
+      link: true,
+    });
+    expect(
+      graph.edges.map(({ from, to, resolution }) => [from, to, resolution]),
+    ).toEqual([
+      ["", "node_modules/@scope/local", "unsupported"],
+      [
+        "node_modules/@scope/local",
+        "packages/local/node_modules/shared",
+        "locked",
+      ],
+      ["node_modules/@scope/local", "node_modules/test-helper", "locked"],
+      ["node_modules/@scope/local", "node_modules/peer", "locked"],
+    ]);
+  },
+);
+
+it.each([
+  "../outside-private",
+  "/outside-private",
+  "https://outside-private/x",
+  "packages/absent",
+  "packages/chained",
+])(
+  "does not traverse or expose unsupported link target %s",
+  async (resolved) => {
+    const root = await fixture(
+      {
+        "node_modules/local": { link: true, resolved },
+        "packages/chained": { link: true, resolved: "packages/real" },
+        "packages/real": { version: "1.0.0", dependencies: { hidden: "*" } },
+      },
+      { dependencies: { local: "*" } },
+    );
+    const report = await scanProject(root, target);
+    expect(report.dependencyGraph.edges).toMatchObject([
+      { from: "", to: "node_modules/local", resolution: "unsupported" },
+    ]);
+    expect(report.dependencyGraph.nodes[0]?.version).toBeNull();
+    expect(JSON.stringify(report)).not.toContain("outside-private");
+  },
+);
+
 it("uses shrinkwrap before package-lock even if the ignored package-lock is invalid", async () => {
   const root = await fixture({});
   await writeFile(join(root, "package-lock.json"), "{");
