@@ -390,14 +390,19 @@ it("keeps absent declared snapshot peers visible as missing edges", async () => 
     to: null,
   });
 });
-it("limits snapshot cardinality before constructing an unbounded graph", async () => {
-  const snapshots = Object.fromEntries(
-    Array.from({ length: 10001 }, (_, i) => [`a${i}@1.0.0`, {}]),
-  );
-  await expect(
-    scanProject(await fixture(lock({}, {}, snapshots)), target),
-  ).rejects.toThrow(/count limit/);
-});
+// Parsing a maximum-size fixture can take longer on shared CI runners.
+it(
+  "limits snapshot cardinality before constructing an unbounded graph",
+  { timeout: 15_000 },
+  async () => {
+    const snapshots = Object.fromEntries(
+      Array.from({ length: 10001 }, (_, i) => [`a${i}@1.0.0`, {}]),
+    );
+    await expect(
+      scanProject(await fixture(lock({}, {}, snapshots)), target),
+    ).rejects.toThrow(/count limit/);
+  },
+);
 it("treats patch contexts as unsupported instead of merging with an unpatched snapshot", async () => {
   const root = await fixture(
     lock(

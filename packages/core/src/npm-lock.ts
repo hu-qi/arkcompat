@@ -107,6 +107,31 @@ export function npmGraph(
   const nodes = new Map<string, LockedPackage>();
   const keys = Object.keys(lock.packages).sort();
   if (keys.length > 10000) return fail("package count limit exceeded (10000)");
+  const localLinks = new Map<string, string>();
+  const localRoots = new Set<string>();
+  for (const path of keys) {
+    const pkg = lock.packages[path];
+    if (
+      !path.startsWith("node_modules/") ||
+      !packageName(path.slice("node_modules/".length)) ||
+      !record(pkg) ||
+      pkg.link !== true ||
+      typeof pkg.resolved !== "string" ||
+      !safeLocation(pkg.resolved) ||
+      pkg.resolved.split("/").includes("node_modules")
+    )
+      continue;
+    const target = lock.packages[pkg.resolved];
+    if (
+      !record(target) ||
+      (target.link !== undefined && target.link !== false) ||
+      typeof target.version !== "string" ||
+      !target.version.trim()
+    )
+      continue;
+    localLinks.set(path, pkg.resolved);
+    localRoots.add(pkg.resolved);
+  }
   for (const path of keys) {
     const pkg = lock.packages[path];
     if (!record(pkg)) return fail("package metadata must be an object");
@@ -114,38 +139,55 @@ export function npmGraph(
     dependencies(pkg, source!);
     if (path === "") continue;
     if (!safeLocation(path)) return fail("unsafe package location");
-    const installed = installName(path);
+    if (localRoots.has(path)) continue;
+    const nested = path.indexOf("/node_modules/");
+    const nestedLocalInstall =
+      nested >= 0 && localRoots.has(path.slice(0, nested));
+    const installed = installName(
+      nestedLocalInstall ? path.slice(nested + 1) : path,
+    );
     if (!installed) {
-      if (path.startsWith("node_modules/"))
+      if (nestedLocalInstall || path.startsWith("node_modules/"))
         return fail("invalid installed package location");
       limitations.push({ code: "workspace-package-not-analyzed", path });
       continue;
     }
     if (pkg.link !== undefined && typeof pkg.link !== "boolean")
       return fail("link must be boolean");
+    const localRoot = localLinks.get(path);
+    const descriptor = localRoot
+      ? (lock.packages[localRoot] as Record<string, unknown>)
+      : pkg;
     if (
-      pkg.version !== undefined &&
-      (typeof pkg.version !== "string" || !pkg.version.trim())
+      descriptor.version !== undefined &&
+      (typeof descriptor.version !== "string" || !descriptor.version.trim())
     )
       return fail("package version must be a nonempty string");
     if (
-      pkg.name !== undefined &&
-      (typeof pkg.name !== "string" || !packageName(pkg.name))
+      descriptor.name !== undefined &&
+      (typeof descriptor.name !== "string" || !packageName(descriptor.name))
     )
       return fail("invalid package name");
     const node: LockedPackage = {
       id: path,
       installName: installed,
-      name: typeof pkg.name === "string" ? pkg.name : installed,
+      name: typeof descriptor.name === "string" ? descriptor.name : installed,
       version:
-        typeof pkg.version === "string" ? publicSpecifier(pkg.version) : null,
+        typeof descriptor.version === "string"
+          ? publicSpecifier(descriptor.version)
+          : null,
       link: pkg.link === true,
     };
     graph.nodes.push(node);
     nodes.set(path, node);
-    metadata.set(path, pkg);
+    metadata.set(path, descriptor);
     if (node.link)
-      limitations.push({ code: "linked-package-not-analyzed", path });
+      limitations.push({
+        code: localRoot
+          ? "local-link-target-metadata-only"
+          : "linked-package-not-analyzed",
+        path,
+      });
     else if (node.version === null)
       limitations.push({ code: "package-version-missing", path });
   }
@@ -159,13 +201,17 @@ export function npmGraph(
     { code: "dependency-ranges-not-validated" },
     { code: "lockfile-install-state-not-verified" },
   );
-  function addEdges(from: string, entries: DeclaredDependency[]) {
+  function addEdges(
+    from: string,
+    entries: DeclaredDependency[],
+    location = from,
+  ) {
     for (const dependency of effectiveDependencies(entries)) {
       if (graph.edges.length >= 20000)
         return fail("edge count limit exceeded (20000)");
       if (!packageName(dependency.name)) return fail("invalid dependency name");
       const node = lookup(
-        from,
+        location,
         dependency.name,
         dependency.section === "peerDependencies",
         nodes,
@@ -195,13 +241,15 @@ export function npmGraph(
   }
   addEdges("", declared);
   for (const node of graph.nodes) {
-    if (!node.link)
-      addEdges(
-        node.id,
-        dependencies(metadata.get(node.id)!, source!).filter(
-          (d) => d.section !== "devDependencies",
-        ),
-      );
+    const localRoot = localLinks.get(node.id);
+    if (node.link && !localRoot) continue;
+    addEdges(
+      node.id,
+      dependencies(metadata.get(node.id)!, source!).filter(
+        (d) => localRoot || d.section !== "devDependencies",
+      ),
+      localRoot ?? node.id,
+    );
   }
   return { graph, limitations, parsed: true };
 }

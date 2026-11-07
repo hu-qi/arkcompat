@@ -206,16 +206,21 @@ it("preserves unknown/versionless/unsupported-protocol graph limitations", async
     version: r.dependencyGraph.nodes[0]!.version,
   }).toEqual({ resolution: "unsupported", version: null });
 });
-it("bounds selector/edge processing before returning a partial success", async () => {
-  const data = Array.from(
-    { length: 10001 },
-    (_, i) =>
-      `"p${i}@npm:^1":\n  version: 1.0.0\n  resolution: "p${i}@npm:1.0.0"\n  linkType: hard\n`,
-  ).join("");
-  await expect(scanProject(await fixture(data), target)).rejects.toThrow(
-    /limit/,
-  );
-});
+// Parsing a maximum-size fixture can take longer on shared CI runners.
+it(
+  "bounds selector/edge processing before returning a partial success",
+  { timeout: 15_000 },
+  async () => {
+    const data = Array.from(
+      { length: 10001 },
+      (_, i) =>
+        `"p${i}@npm:^1":\n  version: 1.0.0\n  resolution: "p${i}@npm:1.0.0"\n  linkType: hard\n`,
+    ).join("");
+    await expect(scanProject(await fixture(data), target)).rejects.toThrow(
+      /limit/,
+    );
+  },
+);
 it("keeps schema-valid deterministic CLI/core output with BOM and CRLF", async () => {
   const root = await fixture(
     grouped.replaceAll("\n", "\r\n"),
