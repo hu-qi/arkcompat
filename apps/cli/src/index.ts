@@ -1,24 +1,31 @@
 #!/usr/bin/env node
-import { formatReport, scanProject } from "@arkcompat/core";
+import { evaluateApiRules, formatReport, scanProject } from "@arkcompat/core";
 import type { ReportFormat } from "@arkcompat/core";
 import type { TargetProfile } from "@arkcompat/contracts";
 
+import { readRuleInput } from "./rule-input.js";
+
 const usage =
-  "Usage: arkcompat scan <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] [--format <json|markdown|sarif>]";
+  "Usage: arkcompat scan <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] [--format <json|markdown|sarif>]\n       arkcompat api-rules <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] --rules <snapshot.json>";
 async function main(args: string[]) {
   if (args.length === 1 && (args[0] === "--help" || args[0] === "-h")) {
     console.log(usage);
     return;
   }
   const [command, project, ...flags] = args;
-  if (command !== "scan" || !project || project.startsWith("--"))
+  if (
+    (command !== "scan" && command !== "api-rules") ||
+    !project ||
+    project.startsWith("--")
+  )
     throw new Error(usage);
   const options = new Map<string, string>();
+  const specificFlag = command === "api-rules" ? "--rules" : "--format";
   for (let i = 0; i < flags.length; i += 2) {
     const flag = flags[i]!;
     const value = flags[i + 1];
     if (
-      !["--runtime", "--release", "--api-level", "--format"].includes(flag) ||
+      !["--runtime", "--release", "--api-level", specificFlag].includes(flag) ||
       !value ||
       value.startsWith("--") ||
       options.has(flag)
@@ -45,6 +52,19 @@ async function main(args: string[]) {
     const level = options.get("--api-level")!;
     if (!/^\d+$/.test(level)) throw new Error(usage);
     target.apiLevel = Number(level);
+  }
+  if (command === "api-rules") {
+    const snapshot = options.get("--rules");
+    if (!snapshot) throw new Error(usage);
+    const text = await readRuleInput(snapshot);
+    console.log(
+      JSON.stringify(
+        evaluateApiRules(await scanProject(project, target), text),
+        null,
+        2,
+      ),
+    );
+    return;
   }
   console.log(
     formatReport(await scanProject(project, target), format as ReportFormat),

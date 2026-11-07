@@ -3,6 +3,7 @@ import { constants } from "node:fs";
 import { open, readdir, realpath } from "node:fs/promises";
 import { extname, join, relative, sep } from "node:path";
 import ts from "typescript";
+export { apiRuleSnapshotByteLimit, evaluateApiRules } from "./api-rules.js";
 export { formatReport } from "./reports.js";
 export type { ReportFormat } from "./reports.js";
 import { analyzeSource } from "./source.js";
