@@ -1,0 +1,23 @@
+{
+  "observedAt": "2026-11-07",
+  "kind": "developer-vscode-extension-host-smoke",
+  "host": {
+    "macOS": "27.2",
+    "arch": "arm64",
+    "version": "1.144.1",
+    "build": "261c84cb1eddf11235f9e2c921425e9663fbe556",
+    "scannerNode": "22.23.4"
+  },
+  "fixture": "fixtures/developer/source-api copied into isolated ArkCompatVsCodeProbe",
+  "baselineReportSha256": "a92e4e0595ec34aef86db15df5d6714b4bfc22e8030e75e1d0b4cfa7b87fbaf1",
+  "proofSha256": "fb2d06efff27f96b3bae029d08b497f67455d2a32b5ecae203f36db9d8ff0108",
+  "diagnostics": 10,
+  "allUnknown": true,
+  "severity": "Information",
+  "canonicalIdsAndLocationsMatched": true,
+  "workspaceNodeOverrideIgnored": true,
+  "existingUserProfileUsed": false,
+  "cursorVerified": false,
+  "publishedVsix": false,
+  "independentAcceptanceVerified": false
+}
