@@ -11,7 +11,7 @@
 
 首个验收节点目标 HarmonyOS 6.0.0+，里程碑排期见 [ROADMAP](ROADMAP.md)；进度为按 P0 验收范围与已合入工程产出估算的粗估值。
 
-已具备：M0 文档基线（PRD / 架构 / 质量门禁 / CI 策略）、GitHub Actions 质量门禁、TypeScript 工作区与 npm/pnpm/Yarn Classic 锁文件依赖图、JS/TS import 清单扫描、版本化 JSON 报告与 CLI 原型。未具备：OHPM 知识库与替代规则、API 兼容规则、多格式报告与 AI 建议、多形态入口（IDE / Web / MCP / CI 动作）、独立基准与验收证据；兼容性结论仍全部为 `unknown`，验收指标（依赖扫描 ≥80% / API 识别 ≥80% / 替代推荐 100%）尚未评估。
+已具备：npm、pnpm 和 Yarn 锁文件的部分依赖图、JS/TS 导入与调用清单、JSON/Markdown/SARIF 报告、[本地静态 API 规则评估](docs/LOCAL-API-RULES.md)、[知识库快照导出](docs/KNOWLEDGE-SEMANTICS.md#cli-export)，以及本地 Web、MCP、VS Code 和 CI 入口。默认扫描的兼容状态仍为 `unknown`；当前知识库样例为合成数据。真实替代关系、经验证的兼容规则、正式分发和独立验收仍待完成。进度与验证范围见[交付记录](docs/DELIVERY-STATUS.md)。
 
 > 「交付时间」「当前进度」随项目进展更新。进度为沟通用粗估，不代表任何出口门禁通过；代码、数据与结论以 Issue/PR 中的验证证据为准，开发者自建 fixture 不构成真实准确率。
 

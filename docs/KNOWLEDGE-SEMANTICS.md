@@ -2,7 +2,17 @@
 
 The private `@arkcompat/knowledge`0.0.0 package adds semantic validation, conservative metadata matching and deterministic JSON export to [schema0.1.0](KNOWLEDGE-CONTRACT.md). It imports **no real mapping dataset**. The existing authored synthetic candidate remains the only fixture; scanner knowledge stays `none`, findings stay unknown, and MCP/Web do not load this package yet.
 
-## Import and export
+## CLI export
+
+After a frozen install and build, pass a local knowledge snapshot explicitly:
+
+```sh
+node apps/cli/dist/index.js knowledge-export fixtures/developer/knowledge/snapshot.json
+```
+
+The command writes only canonical JSON to stdout, including candidate and historical records. The built-in example is synthetic. Redirect to a new destination if you need a file; do not redirect back to the input path. The command accepts regular UTF-8 files up to 2 MiB, rejects symlinks and invalid metadata, and writes no JSON on failure. It fetches no data, does not authenticate the evidence, and does not activate the snapshot in the scanner. The same input yields the same bytes on repeated runs.
+
+## Library import and export
 
 ```sh
 pnpm install --frozen-lockfile --ignore-scripts

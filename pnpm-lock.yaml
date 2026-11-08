@@ -52,6 +52,9 @@ importers:
       "@arkcompat/core":
         specifier: workspace:*
         version: link:../../packages/core
+      "@arkcompat/knowledge":
+        specifier: workspace:*
+        version: link:../../packages/knowledge
 
   apps/evaluate:
     dependencies:

@@ -8,7 +8,7 @@ import type {
   TargetProfile,
 } from "@arkcompat/contracts";
 
-const maxBytes = 2 * 1024 * 1024;
+export const knowledgeSnapshotByteLimit = 2 * 1024 * 1024;
 const ajv = new Ajv();
 const validate = ajv.compile<KnowledgeSnapshot>(
   JSON.parse(
@@ -152,11 +152,14 @@ function check(snapshot: KnowledgeSnapshot) {
 /** Parses data only. Does not fetch sources, authenticate review or activate rules. */
 export function importKnowledge(text: string): KnowledgeSnapshot {
   try {
-    if (typeof text !== "string" || Buffer.byteLength(text, "utf8") > maxBytes)
+    if (
+      typeof text !== "string" ||
+      Buffer.byteLength(text, "utf8") > knowledgeSnapshotByteLimit
+    )
       throw new Error();
     const value: unknown = JSON.parse(text);
     if (!validate(value) || !check(value)) throw new Error();
-    if (Buffer.byteLength(exported(value), "utf8") > maxBytes)
+    if (Buffer.byteLength(exported(value), "utf8") > knowledgeSnapshotByteLimit)
       throw new Error();
     return value;
   } catch {

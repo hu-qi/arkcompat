@@ -1,15 +1,34 @@
 #!/usr/bin/env node
-import { evaluateApiRules, formatReport, scanProject } from "@arkcompat/core";
+import {
+  apiRuleSnapshotByteLimit,
+  evaluateApiRules,
+  formatReport,
+  scanProject,
+} from "@arkcompat/core";
 import type { ReportFormat } from "@arkcompat/core";
 import type { TargetProfile } from "@arkcompat/contracts";
 
-import { readRuleInput } from "./rule-input.js";
+import { readLocalUtf8 } from "./local-input.js";
 
 const usage =
-  "Usage: arkcompat scan <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] [--format <json|markdown|sarif>]\n       arkcompat api-rules <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] --rules <snapshot.json>";
+  "Usage: arkcompat scan <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] [--format <json|markdown|sarif>]\n       arkcompat api-rules <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] --rules <snapshot.json>\n       arkcompat knowledge-export <snapshot.json>";
 async function main(args: string[]) {
   if (args.length === 1 && (args[0] === "--help" || args[0] === "-h")) {
     console.log(usage);
+    return;
+  }
+  if (args[0] === "knowledge-export") {
+    const path = args[1];
+    if (args.length !== 2 || !path || path.startsWith("--"))
+      throw new Error(usage);
+    const { knowledgeSnapshotByteLimit, importKnowledge, exportKnowledge } =
+      await import("@arkcompat/knowledge");
+    const text = await readLocalUtf8(
+      path,
+      knowledgeSnapshotByteLimit,
+      "knowledge snapshot",
+    );
+    process.stdout.write(exportKnowledge(importKnowledge(text)));
     return;
   }
   const [command, project, ...flags] = args;
@@ -56,7 +75,11 @@ async function main(args: string[]) {
   if (command === "api-rules") {
     const snapshot = options.get("--rules");
     if (!snapshot) throw new Error(usage);
-    const text = await readRuleInput(snapshot);
+    const text = await readLocalUtf8(
+      snapshot,
+      apiRuleSnapshotByteLimit,
+      "API rule snapshot",
+    );
     console.log(
       JSON.stringify(
         evaluateApiRules(await scanProject(project, target), text),
