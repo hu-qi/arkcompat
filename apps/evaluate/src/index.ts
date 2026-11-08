@@ -3,10 +3,14 @@ import { constants } from "node:fs";
 import { isUtf8 } from "node:buffer";
 import { open, mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { evaluate, sha256 } from "@arkcompat/evaluation";
+import {
+  evaluate,
+  predictRootDependencies,
+  sha256,
+} from "@arkcompat/evaluation";
 
 const usage =
-  "Usage: arkcompat-evaluate <labels.json> <predictions.json> <new-output-directory>";
+  "Usage: arkcompat-evaluate <labels.json> <predictions.json> <new-output-directory>\n       arkcompat-evaluate predict-dependencies <project> <cases.json>";
 async function read(path: string) {
   const file = await open(
     path,
@@ -38,7 +42,24 @@ async function read(path: string) {
 try {
   const args = process.argv.slice(2);
   if (args.length === 1 && args[0] === "--help") console.log(usage);
-  else {
+  else if (args[0] === "predict-dependencies") {
+    const [, project, cases] = args;
+    if (
+      args.length !== 3 ||
+      !project ||
+      !cases ||
+      project.startsWith("--") ||
+      cases.startsWith("--")
+    )
+      throw new Error();
+    console.log(
+      JSON.stringify(
+        await predictRootDependencies(project, await read(cases)),
+        null,
+        2,
+      ),
+    );
+  } else {
     if (args.length !== 3 || args.some((a) => a.startsWith("--")))
       throw new Error();
     const labels = await read(args[0]!);
@@ -93,7 +114,7 @@ try {
   }
 } catch {
   console.error(
-    `Evaluation failed; verify JSON inputs, limits and a new output directory. ${usage}`,
+    `Evaluation failed; verify inputs, scan limits and any requested output directory. ${usage}`,
   );
   process.exitCode = 1;
 }

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "0.1.0",
+  "datasetId": "developer-root-dependency-probe",
+  "origin": "developer-fixture",
+  "provenance": {
+    "source": "fixtures/developer/inventory/package.json",
+    "license": "MIT",
+    "labelAuthor": "ArkCompat developer fixture",
+    "sdk": "not-tested",
+    "target": "HarmonyOS 6.0.0 / ArkTS / API 20 (input only)"
+  },
+  "cases": [
+    { "id": "present", "category": "root-dependency", "expected": "positive" },
+    {
+      "id": "wrong-section",
+      "category": "root-dependency",
+      "expected": "negative"
+    },
+    { "id": "absent", "category": "root-dependency", "expected": "negative" }
+  ]
+}

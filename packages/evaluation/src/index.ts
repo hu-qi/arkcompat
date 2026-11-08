@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { Ajv } from "ajv";
+import type { DependencySection, TargetProfile } from "@arkcompat/contracts";
 
 interface Labels {
   schemaVersion: "0.1.0";
@@ -20,6 +21,11 @@ interface Predictions {
   scannerVersion: string;
   rulesSnapshot: string;
   knowledgeSnapshot: string;
+  binding?: {
+    scope: "root-declaration-presence";
+    casesSha256: string;
+    scanReportSha256: string;
+  };
   predictions: { id: string; actual: "positive" | "negative" | "unknown" }[];
 }
 export interface Metrics {
@@ -42,6 +48,67 @@ export interface Metrics {
 }
 const ajv = new Ajv();
 const id = { type: "string", pattern: "^[A-Za-z0-9._:+-]{1,128}$" };
+const digest = { type: "string", pattern: "^[a-f0-9]{64}$" };
+interface DependencyCases {
+  schemaVersion: "0.1.0";
+  datasetId: string;
+  target: TargetProfile;
+  cases: { id: string; section: DependencySection; name: string }[];
+}
+const validateDependencyCases = ajv.compile<DependencyCases>({
+  type: "object",
+  additionalProperties: false,
+  required: ["schemaVersion", "datasetId", "target", "cases"],
+  properties: {
+    schemaVersion: { const: "0.1.0" },
+    datasetId: id,
+    target: {
+      type: "object",
+      additionalProperties: false,
+      required: ["os", "runtime", "release"],
+      properties: {
+        os: { const: "HarmonyOS" },
+        runtime: { enum: ["arkts", "arkweb", "react-native"] },
+        release: {
+          type: "string",
+          maxLength: 64,
+          pattern: "^\\d+\\.\\d+\\.\\d+$",
+        },
+        apiLevel: {
+          type: "integer",
+          minimum: 1,
+          maximum: Number.MAX_SAFE_INTEGER,
+        },
+      },
+    },
+    cases: {
+      type: "array",
+      maxItems: 10000,
+      items: {
+        type: "object",
+        additionalProperties: false,
+        required: ["id", "section", "name"],
+        properties: {
+          id,
+          section: {
+            enum: [
+              "dependencies",
+              "devDependencies",
+              "optionalDependencies",
+              "peerDependencies",
+            ],
+          },
+          name: {
+            type: "string",
+            maxLength: 214,
+            pattern:
+              "^(?:@[A-Za-z0-9][A-Za-z0-9._~-]*\/)?[A-Za-z0-9][A-Za-z0-9._~-]*$",
+          },
+        },
+      },
+    },
+  },
+});
 const metadata = {
   type: "string",
   minLength: 1,
@@ -101,6 +168,16 @@ const validatePredictions = ajv.compile<Predictions>({
     scannerVersion: id,
     rulesSnapshot: id,
     knowledgeSnapshot: id,
+    binding: {
+      type: "object",
+      additionalProperties: false,
+      required: ["scope", "casesSha256", "scanReportSha256"],
+      properties: {
+        scope: { const: "root-declaration-presence" },
+        casesSha256: digest,
+        scanReportSha256: digest,
+      },
+    },
     predictions: {
       type: "array",
       maxItems: 10000,
@@ -126,6 +203,69 @@ function parse(text: string): unknown {
   )
     throw new Error();
   return JSON.parse(text);
+}
+function declarationKey(section: DependencySection, name: string) {
+  return JSON.stringify([section, name]);
+}
+
+/** Root declaration presence only. Expected labels never enter this path. */
+export async function predictRootDependencies(
+  project: string,
+  casesText: string,
+): Promise<Predictions> {
+  let manifest: DependencyCases;
+  try {
+    const input = parse(casesText);
+    if (!validateDependencyCases(input)) throw new Error();
+    const ids = new Set(input.cases.map(({ id }) => id));
+    const selectors = new Set(
+      input.cases.map(({ section, name }) => declarationKey(section, name)),
+    );
+    if (
+      ids.size !== input.cases.length ||
+      selectors.size !== input.cases.length
+    )
+      throw new Error();
+    manifest = input;
+  } catch {
+    throw new Error("Invalid dependency prediction cases.");
+  }
+  const { scanProject, formatReport } = await import("@arkcompat/core");
+  let report;
+  try {
+    const { os, release, runtime, apiLevel } = manifest.target;
+    report = await scanProject(project, {
+      os,
+      release,
+      runtime,
+      ...(apiLevel === undefined ? {} : { apiLevel }),
+    });
+  } catch {
+    throw new Error("Dependency scan failed; no predictions generated.");
+  }
+  const declarations = new Set(
+    report.dependencies.map(({ section, name }) =>
+      declarationKey(section, name),
+    ),
+  );
+  return {
+    schemaVersion: "0.1.0",
+    datasetId: manifest.datasetId,
+    scannerVersion: report.scannerVersion,
+    rulesSnapshot: report.snapshots.rules,
+    knowledgeSnapshot: report.snapshots.knowledge,
+    binding: {
+      scope: "root-declaration-presence",
+      casesSha256: sha256(casesText),
+      scanReportSha256: sha256(formatReport(report, "json") + "\n"),
+    },
+    predictions: manifest.cases.map(({ id, section, name }) => ({
+      id,
+      actual: declarations.has(declarationKey(section, name))
+        ? "positive"
+        : "negative",
+    })),
+  };
 }
 function empty(): Metrics {
   return {
@@ -166,7 +306,9 @@ export function evaluate(labelText: string, predictionText: string) {
     if (
       !validateLabels(labels) ||
       !validatePredictions(predictions) ||
-      labels.datasetId !== predictions.datasetId
+      labels.datasetId !== predictions.datasetId ||
+      (predictions.binding &&
+        labels.cases.some((item) => item.category !== "root-dependency"))
     )
       throw new Error();
     if (Object.values(labels.provenance).some((value) => !value.trim()))
@@ -216,6 +358,7 @@ export function evaluate(labelText: string, predictionText: string) {
         version: predictions.scannerVersion,
         rules: predictions.rulesSnapshot,
         knowledge: predictions.knowledgeSnapshot,
+        ...(predictions.binding ? { binding: predictions.binding } : {}),
       },
       inputs: {
         labelsSha256: sha256(labelText),

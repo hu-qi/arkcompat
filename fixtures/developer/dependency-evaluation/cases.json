@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "0.1.0",
+  "datasetId": "developer-root-dependency-probe",
+  "target": {
+    "os": "HarmonyOS",
+    "runtime": "arkts",
+    "release": "6.0.0",
+    "apiLevel": 20
+  },
+  "cases": [
+    { "id": "present", "section": "dependencies", "name": "example-library" },
+    {
+      "id": "wrong-section",
+      "section": "devDependencies",
+      "name": "example-library"
+    },
+    { "id": "absent", "section": "dependencies", "name": "other-library" }
+  ]
+}
