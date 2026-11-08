@@ -6,6 +6,8 @@
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "dependencies": {
+    "@arkcompat/contracts": "workspace:*",
+    "@arkcompat/core": "workspace:*",
     "ajv": "8.20.0"
   }
 }

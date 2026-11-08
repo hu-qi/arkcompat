@@ -124,6 +124,12 @@ importers:
 
   packages/evaluation:
     dependencies:
+      "@arkcompat/contracts":
+        specifier: workspace:*
+        version: link:../contracts
+      "@arkcompat/core":
+        specifier: workspace:*
+        version: link:../core
       ajv:
         specifier: 8.20.0
         version: 8.20.0
