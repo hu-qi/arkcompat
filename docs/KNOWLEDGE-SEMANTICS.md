@@ -55,6 +55,10 @@ Reasons accumulate rather than hiding misses: not-reviewed, expired (including e
 
 If more than one otherwise eligible record matches, **all** are withheld as ambiguous-match. This deliberately conservative lookup does not rank alternatives, infer equivalence, combine feature scopes or compute a global range-conflict proof. Nonoverlapping version/profile records can coexist; expired/candidate competitors remain excluded with reasons. Conflict detection is for the exact query, not a claim that the whole dataset is globally conflict-free.
 
+## Release evidence
+
+The [offline OHPM capture adapter](OHPM-RELEASE-EVIDENCE.md) can project an exact release observation from a caller-supplied metadata file. It produces separate evidence and does not import or activate a knowledge mapping.
+
 ## Completion boundary
 
 A matching reviewed record is still **metadata only**. License strings, reviewer names, URLs and stated availability are not authenticated. No source freshness refresh, registry lookup, feature-equivalence assessment, runtime/build validation or independent benchmark is performed. No licensed curated adapter, supported package export/distribution, verified replacement recommendation or M2 exit gate is declared.

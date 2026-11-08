@@ -1,12 +1,15 @@
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { Ajv } from "ajv";
-import { minVersion, satisfies, valid, validRange } from "semver";
+import { minVersion, satisfies, validRange } from "semver";
 import type {
   KnowledgeRecord,
   KnowledgeSnapshot,
   TargetProfile,
 } from "@arkcompat/contracts";
+
+import { cleanText, exactVersion, timestamp } from "./validation.js";
+export { inspectOhpmCapture, ohpmCaptureByteLimit } from "./ohpm-evidence.js";
 
 export const knowledgeSnapshotByteLimit = 2 * 1024 * 1024;
 const ajv = new Ajv();
@@ -66,21 +69,6 @@ export interface KnowledgeQueryResult {
   excluded: { id: string; reasons: ExclusionReason[] }[];
   limitation: string;
 }
-function timestamp(value: string) {
-  const time = Date.parse(value);
-  return (
-    /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(value) &&
-    Number.isFinite(time) &&
-    new Date(time).toISOString() === value.replace(/Z$/, ".000Z")
-  );
-}
-function cleanText(value: string) {
-  return (
-    value.trim() === value &&
-    value.length > 0 &&
-    !/[\u0000-\u001f\u007f]/.test(value)
-  );
-}
 function selector(value: string) {
   return (
     value.length <= 256 &&
@@ -88,9 +76,6 @@ function selector(value: string) {
     validRange(value) !== null &&
     minVersion(value) !== null
   );
-}
-function exactVersion(value: string) {
-  return cleanText(value) && /^[0-9]/.test(value) && valid(value) !== null;
 }
 function check(snapshot: KnowledgeSnapshot) {
   if (
