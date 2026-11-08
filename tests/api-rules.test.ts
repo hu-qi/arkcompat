@@ -175,6 +175,35 @@ it("uses the same evaluator in the opt-in CLI and preserves default inventory", 
     true,
   );
 });
+it("evaluates the canonical namespace path from a destructured alias end to end", async () => {
+  const root = await sample();
+  await writeFile(
+    join(root, "main.ts"),
+    'import * as api from "demo-library";\nconst { sample: send } = api;\nsend();\n',
+  );
+  const input = JSON.parse(snapshot);
+  input.rules[0].selector.path = ["*", "sample"];
+  const rulePath = join(root, "rules.json");
+  await writeFile(rulePath, JSON.stringify(input));
+  const actual = execFileSync(
+    process.execPath,
+    [cli, "api-rules", root, ...args, "--rules", rulePath],
+    { encoding: "utf8" },
+  );
+  expect(JSON.parse(actual)).toMatchObject({
+    counts: { observed: 1, potentialRisk: 1, unknown: 0 },
+    results: [
+      {
+        status: "potential-risk",
+        ruleId: "demo.sample-call",
+        usage: {
+          path: ["*", "sample"],
+          location: { path: "main.ts", line: 3, column: 1 },
+        },
+      },
+    ],
+  });
+});
 it("rejects missing, symlink, oversized and non-UTF8 rule inputs without printing paths or data", async () => {
   const root = await sample();
   const privatePath = join(root, "private-rule.json");

@@ -12,7 +12,7 @@ pnpm --silent scan fixtures/developer/source-api --runtime arkts --release 6.0.0
 
 The authored fixture yields six module references and four API sites. An imported name shadowed by a local callback is excluded. Input is synthetic; never execute or install the fixture.
 
-## Experimental report 0.5.0
+## Experimental report 0.6.0
 
 The report requires `apiUsages` alongside the existing dependency graph and references. Each usage includes sanitized module specifier, static access path, call/construct kind, optional-chain flag and relative one-based location. `inventory.api-usage` findings carry the same target and unknown status as the inventory; no rule or SDK support is inferred. Consumers of 0.1–0.4 must update the strict schema/types.
 
@@ -31,9 +31,11 @@ The additional authored fixture `fixtures/developer/static-members` yields **two
 
 The authored fixture `fixtures/developer/awaited-import` yields **three dynamic-import references (one unresolved) and two API sites**, through a const namespace and a default destructure. Its nonliteral import remains null and retains `dynamic-import-bindings-not-analyzed`. Reproduce with `pnpm --silent scan fixtures/developer/awaited-import --runtime arkts --release 6.0.0`. The async function, imported APIs and constructor are never executed by the scanner. These are synthetic inventory counts, not runtime verification or independent accuracy.
 
+A simple object destructure from an existing imported value is also traced. For example, `const { readFile: read } = fs; read()` preserves the same path as `const read = fs.readFile; read()`. Destructuring a known member preserves its prefix: `const { send } = client.transport` records `["default", "transport", "send"]` for a default import. Direct destructures from literal loaders keep their existing named paths. The same 32-alias bound and lexical shadow checks apply. Reverting this increment restores the earlier limitation without changing the report contract.
+
 ## Explicit limits
 
-Mutable require/awaited-import bindings and aliases, destructuring from an existing binding, destructuring defaults/rest/nesting, non-awaited import promises/callbacks, dynamic module expressions and computed members with nonliteral keys are not attributed to an original API. The report exposes applicable limitations. Even a `const` identifier key is not evaluated: identifiers, interpolated templates, numeric keys and concatenation remain unknown. Returned-value methods, module mutation, global browser/Node APIs, CommonJS exports/resolution, re-export/dataflow across files and dynamic runtime state remain unverified/unimplemented. For example, `fs.open().then()` inventories `fs.open`, not the API of its returned object.
+Mutable require/awaited-import bindings and aliases, destructuring defaults/rest/nesting/arrays and computed destructuring keys, non-awaited import promises/callbacks, dynamic module expressions and computed members with nonliteral keys are not attributed to an original API. The report exposes applicable limitations. Even a `const` identifier key is not evaluated: identifiers, interpolated templates, numeric keys and concatenation remain unknown. Returned-value methods, module mutation, global browser/Node APIs, CommonJS exports/resolution, re-export/dataflow across files and dynamic runtime state remain unverified/unimplemented. For example, `fs.open().then()` inventories `fs.open`, not the API of its returned object.
 
 The authored fixture `fixtures/developer/const-alias` yields **one module reference and one API site** through a two-step immutable alias. A shadowed callback and a mutable copy are excluded; the mutable copy retains `module-alias-dataflow-not-analyzed`. Reproduce with `pnpm --silent scan fixtures/developer/const-alias --runtime arkts --release 6.0.0`. No fixture execution or independent accuracy claim is implied.
 
