@@ -24,6 +24,31 @@ function unwrap(expression: ts.Expression): ts.Expression {
   return value;
 }
 
+function bindingMember(element: ts.BindingElement): string | undefined {
+  if (
+    element.dotDotDotToken ||
+    element.initializer ||
+    !ts.isIdentifier(element.name) ||
+    (element.propertyName &&
+      !ts.isIdentifier(element.propertyName) &&
+      !ts.isStringLiteral(element.propertyName))
+  )
+    return undefined;
+  return publicSpecifier(element.propertyName?.text ?? element.name.text);
+}
+
+function initializedConst(
+  node: ts.Node | undefined,
+): node is ts.VariableDeclaration & { initializer: ts.Expression } {
+  return (
+    node !== undefined &&
+    ts.isVariableDeclaration(node) &&
+    node.initializer !== undefined &&
+    ts.isVariableDeclarationList(node.parent) &&
+    (node.parent.flags & ts.NodeFlags.Const) !== 0
+  );
+}
+
 /** All compiler reads are isolated to this supplied source file; no import resolution or project loading. */
 export function analyzeSource(
   text: string,
@@ -126,16 +151,18 @@ export function analyzeSource(
       if (!symbol) return undefined;
       const binding = bindings.get(symbol);
       if (binding) return binding;
-      const declaration = symbol.valueDeclaration;
-      if (
-        !declaration ||
-        !ts.isVariableDeclaration(declaration) ||
-        !ts.isIdentifier(declaration.name) ||
-        !declaration.initializer ||
-        !ts.isVariableDeclarationList(declaration.parent) ||
-        !(declaration.parent.flags & ts.NodeFlags.Const)
-      )
-        return undefined;
+      let declaration: ts.Node | undefined = symbol.valueDeclaration;
+      let member: string | undefined;
+      if (declaration && ts.isBindingElement(declaration)) {
+        member = bindingMember(declaration);
+        if (
+          member === undefined ||
+          !ts.isObjectBindingPattern(declaration.parent)
+        )
+          return undefined;
+        declaration = declaration.parent.parent;
+      }
+      if (!initializedConst(declaration)) return undefined;
       if (aliases.has(symbol)) {
         limitation("module-alias-cycle-not-analyzed");
         return undefined;
@@ -145,7 +172,9 @@ export function analyzeSource(
         return undefined;
       }
       aliases.add(symbol);
-      return access(declaration.initializer, aliases);
+      const base = access(declaration.initializer, aliases);
+      if (!base || member === undefined) return base;
+      return { module: base.module, path: [...base.path, member] };
     }
     if (ts.isPropertyAccessExpression(value)) {
       const base = access(value.expression, aliases);
@@ -185,23 +214,15 @@ export function analyzeSource(
       return;
     }
     for (const element of name.elements) {
-      if (
-        element.dotDotDotToken ||
-        element.initializer ||
-        !ts.isIdentifier(element.name) ||
-        (element.propertyName &&
-          !ts.isIdentifier(element.propertyName) &&
-          !ts.isStringLiteral(element.propertyName))
-      ) {
+      const member = bindingMember(element);
+      if (member === undefined) {
         limitation("unsupported-module-binding");
         continue;
       }
-      const member = element.propertyName
-        ? element.propertyName.text
-        : element.name.text;
-      bind(element.name, {
+      // bindingMember only accepts identifier binding names.
+      bind(element.name as ts.Identifier, {
         module: value.module,
-        path: [publicSpecifier(member)],
+        path: [member],
       });
     }
   }
@@ -299,10 +320,17 @@ export function analyzeSource(
       node.initializer &&
       !commonRequire(unwrap(node.initializer)) &&
       !awaitedImport(node.initializer) &&
-      access(node.initializer) &&
-      (!ts.isIdentifier(node.name) || !access(node.name))
-    )
-      limitation("module-alias-dataflow-not-analyzed");
+      access(node.initializer)
+    ) {
+      const traced = ts.isIdentifier(node.name)
+        ? access(node.name) !== undefined
+        : initializedConst(node) &&
+          ts.isObjectBindingPattern(node.name) &&
+          node.name.elements.every(
+            (element) => bindingMember(element) !== undefined,
+          );
+      if (!traced) limitation("module-alias-dataflow-not-analyzed");
+    }
     ts.forEachChild(node, visit);
   }
   visit(source);

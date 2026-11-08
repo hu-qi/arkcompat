@@ -94,13 +94,68 @@ it("excludes mutable aliases, shadows and const aliases of unrelated values", as
     ),
   }).toEqual({ lines: [6], aliasLimit: true });
 });
-it("keeps destructuring aliases and returned values outside the traced slice", async () => {
+it("traces namespace destructures but excludes methods on returned values", async () => {
   const root = await fixture(
     'import * as fs from "node:fs";\nconst { readFile } = fs; readFile();\nconst returned = fs.open(); returned.close();',
   );
   expect(
     (await scanProject(root, target)).apiUsages.map((u) => u.path),
-  ).toEqual([["*", "open"]]);
+  ).toEqual([
+    ["*", "readFile"],
+    ["*", "open"],
+  ]);
+});
+it("preserves nested member paths, lexical scope and usage locations through simple destructures", async () => {
+  const root = await fixture(
+    [
+      'import client from "client";',
+      "const alias = client;",
+      'const { "send": send, Client } = alias.transport;',
+      "function shadow(send: () => void) { send(); }",
+      "new Client();",
+      "send?.();",
+    ].join("\n"),
+  );
+  const report = await scanProject(root, target);
+  expect(
+    report.apiUsages.map((u) => [u.path, u.kind, u.optional, u.location.line]),
+  ).toEqual([
+    [["default", "transport", "Client"], "construct", false, 5],
+    [["default", "transport", "send"], "call", true, 6],
+  ]);
+  expect(
+    report.coverage.limitations.some(
+      (l) => l.code === "module-alias-dataflow-not-analyzed",
+    ),
+  ).toBe(false);
+});
+it("withholds destructuring defaults, rest, nesting, computed keys and mutable bindings", async () => {
+  const root = await fixture(
+    [
+      'import * as api from "api";',
+      "const { good, fallback = own, nested: { member }, [dynamic]: computed, ...rest } = api;",
+      "let { mutable } = api;",
+      "good(); fallback(); member(); computed(); rest.call(); mutable();",
+    ].join("\n"),
+  );
+  const report = await scanProject(root, target);
+  expect(report.apiUsages.map((u) => u.path)).toEqual([["*", "good"]]);
+  expect(
+    report.coverage.limitations.some(
+      (l) => l.code === "module-alias-dataflow-not-analyzed",
+    ),
+  ).toBe(true);
+});
+it("bounds destructured aliases that participate in cycles", async () => {
+  const root = await fixture(
+    "const { read } = copy; const copy = read; read();",
+  );
+  const report = await scanProject(root, target);
+  expect(report.apiUsages).toEqual([]);
+  expect(report.coverage.limitations).toContainEqual({
+    code: "module-alias-cycle-not-analyzed",
+    path: "main.ts",
+  });
 });
 it("reports cyclic aliases without recursing indefinitely", async () => {
   const root = await fixture("const a = b; const b = a; a(); b();");
