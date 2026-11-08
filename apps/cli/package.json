@@ -7,7 +7,8 @@
   "types": "./dist/index.d.ts",
   "dependencies": {
     "@arkcompat/contracts": "workspace:*",
-    "@arkcompat/core": "workspace:*"
+    "@arkcompat/core": "workspace:*",
+    "@arkcompat/knowledge": "workspace:*"
   },
   "bin": {
     "arkcompat": "dist/index.js"

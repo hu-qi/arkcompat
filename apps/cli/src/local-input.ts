@@ -1,8 +1,11 @@
 import { constants } from "node:fs";
 import { open } from "node:fs/promises";
-import { apiRuleSnapshotByteLimit } from "@arkcompat/core";
 
-export async function readRuleInput(path: string) {
+export async function readLocalUtf8(
+  path: string,
+  byteLimit: number,
+  label: "API rule snapshot" | "knowledge snapshot",
+) {
   let file;
   try {
     file = await open(
@@ -10,9 +13,8 @@ export async function readRuleInput(path: string) {
       constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK,
     );
     const stat = await file.stat();
-    if (!stat.isFile() || stat.size > apiRuleSnapshotByteLimit)
-      throw new Error();
-    const bytes = Buffer.alloc(apiRuleSnapshotByteLimit + 1);
+    if (!stat.isFile() || stat.size > byteLimit) throw new Error();
+    const bytes = Buffer.alloc(byteLimit + 1);
     let length = 0;
     while (length < bytes.length) {
       const { bytesRead } = await file.read(
@@ -24,13 +26,13 @@ export async function readRuleInput(path: string) {
       if (bytesRead === 0) break;
       length += bytesRead;
     }
-    if (length > apiRuleSnapshotByteLimit) throw new Error();
+    if (length > byteLimit) throw new Error();
     return new TextDecoder("utf-8", { fatal: true, ignoreBOM: true }).decode(
       bytes.subarray(0, length),
     );
   } catch {
     throw new Error(
-      "Cannot read API rule snapshot: expected a bounded regular UTF-8 file.",
+      `Cannot read ${label}: expected a bounded regular UTF-8 file.`,
     );
   } finally {
     await file?.close();
