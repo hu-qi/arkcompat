@@ -4,7 +4,7 @@ import { open } from "node:fs/promises";
 export async function readLocalUtf8(
   path: string,
   byteLimit: number,
-  label: "API rule snapshot" | "knowledge snapshot",
+  label: "API rule snapshot" | "knowledge snapshot" | "OHPM metadata capture",
 ) {
   let file;
   try {

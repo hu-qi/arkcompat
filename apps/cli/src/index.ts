@@ -11,10 +11,37 @@ import type { TargetProfile } from "@arkcompat/contracts";
 import { readLocalUtf8 } from "./local-input.js";
 
 const usage =
-  "Usage: arkcompat scan <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] [--format <json|markdown|sarif>]\n       arkcompat api-rules <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] --rules <snapshot.json>\n       arkcompat knowledge-export <snapshot.json>";
+  "Usage: arkcompat scan <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] [--format <json|markdown|sarif>]\n       arkcompat api-rules <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] --rules <snapshot.json>\n       arkcompat knowledge-export <snapshot.json>\n       arkcompat ohpm-evidence <capture.json> <package> <version> <observed-at-utc>";
 async function main(args: string[]) {
   if (args.length === 1 && (args[0] === "--help" || args[0] === "-h")) {
     console.log(usage);
+    return;
+  }
+  if (args[0] === "ohpm-evidence") {
+    const [, path, name, version, observedAt] = args;
+    if (
+      args.length !== 5 ||
+      !path ||
+      path.startsWith("--") ||
+      !name ||
+      !version ||
+      !observedAt
+    )
+      throw new Error(usage);
+    const { inspectOhpmCapture, ohpmCaptureByteLimit } =
+      await import("@arkcompat/knowledge");
+    const text = await readLocalUtf8(
+      path,
+      ohpmCaptureByteLimit,
+      "OHPM metadata capture",
+    );
+    console.log(
+      JSON.stringify(
+        inspectOhpmCapture(text, name, version, observedAt),
+        null,
+        2,
+      ),
+    );
     return;
   }
   if (args[0] === "knowledge-export") {
