@@ -7,8 +7,8 @@ import JSON5 from "json5";
 export { apiRuleSnapshotByteLimit, evaluateApiRules } from "./api-rules.js";
 export { formatReport } from "./reports.js";
 export type { ReportFormat } from "./reports.js";
-import { scanOhpmModules } from "./ohpm-modules.js";
-import { ohpmGraph, publicOhpmSpecifier } from "./ohpm-lock.js";
+import { readOhpmProfile, scanOhpmModules } from "./ohpm-modules.js";
+import { readOhpmLock, publicOhpmSpecifier } from "./ohpm-lock.js";
 import { analyzeSource } from "./source.js";
 import { dependencies, publicSpecifier, record } from "./declarations.js";
 import {
@@ -201,21 +201,28 @@ export async function scanProject(
       ? "oh-package-lock.json5"
       : null
     : selectLockfile(rootEntries, manifest);
+  const profile =
+    ohpm && rootEntries.includes("build-profile.json5")
+      ? readOhpmProfile(await read(join(root, "build-profile.json5")))
+      : undefined;
   const text = source ? await read(join(root, source)) : null;
+  const ohpmLock =
+    source === "oh-package-lock.json5"
+      ? readOhpmLock(text!, Array.isArray(profile?.modules))
+      : undefined;
   const {
     graph: dependencyGraph,
     limitations: graphLimitations,
     parsed,
   } = source === "oh-package-lock.json5"
-    ? ohpmGraph(text!, rawDeclared)
+    ? ohpmLock!.graphFor(rawDeclared)
     : parseDependencyGraph(text, source, rawDeclared);
   if (ohpm && source === null)
     limitations.push({ code: "transitive-dependencies-not-analyzed" });
   else limitations.push(...graphLimitations);
-  const modules =
-    ohpm && rootEntries.includes("build-profile.json5")
-      ? await scanOhpmModules(root, read, excluded)
-      : undefined;
+  const modules = profile
+    ? await scanOhpmModules(root, read, excluded, profile, ohpmLock)
+    : undefined;
   const moduleFiles = new Set<string>();
   if (modules) {
     limitations.push(...modules.limitations);
