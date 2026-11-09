@@ -111,6 +111,9 @@ importers:
       ajv:
         specifier: 8.20.0
         version: 8.20.0
+      json5:
+        specifier: 2.2.3
+        version: 2.2.3
       typescript:
         specifier: 5.9.3
         version: 5.9.3
@@ -1576,6 +1579,14 @@ packages:
         integrity: sha512-Bdboy+l7tA3OGW6FjyFHWkP5LuByj1Tk33Ljyq0axyzdk9//JSi2u3fP1QSmd1KNwq6VOKYGlAu87CisVir6Pw==,
       }
 
+  json5@2.2.3:
+    resolution:
+      {
+        integrity: sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==,
+      }
+    engines: { node: ">=6" }
+    hasBin: true
+
   keyv@5.6.0:
     resolution:
       {
@@ -2735,6 +2746,8 @@ snapshots:
   json-schema-traverse@1.0.0: {}
 
   json-stable-stringify-without-jsonify@1.0.1: {}
+
+  json5@2.2.3: {}
 
   keyv@5.6.0:
     dependencies:

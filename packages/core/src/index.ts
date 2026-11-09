@@ -3,11 +3,12 @@ import { constants } from "node:fs";
 import { open, readdir, realpath } from "node:fs/promises";
 import { extname, join, relative, sep } from "node:path";
 import ts from "typescript";
+import JSON5 from "json5";
 export { apiRuleSnapshotByteLimit, evaluateApiRules } from "./api-rules.js";
 export { formatReport } from "./reports.js";
 export type { ReportFormat } from "./reports.js";
 import { analyzeSource } from "./source.js";
-import { dependencies, publicSpecifier } from "./declarations.js";
+import { dependencies, publicSpecifier, record } from "./declarations.js";
 import {
   selectLockfile,
   parseDependencyGraph,
@@ -24,6 +25,7 @@ import type {
 
 const excluded = new Set([
   "node_modules",
+  "oh_modules",
   "dist",
   "build",
   "coverage",
@@ -49,8 +51,11 @@ const lockfiles = new Set([
 const maxFileBytes = 1024 * 1024;
 const maxTotalBytes = 32 * maxFileBytes;
 
-function declarationLocations(text: string): Map<string, Finding["location"]> {
-  const source = ts.parseJsonText("package.json", text);
+function declarationLocations(
+  filename: string,
+  text: string,
+): Map<string, Finding["location"]> {
+  const source = ts.parseJsonText(filename, text);
   const locations = new Map<string, Finding["location"]>();
   const statement = source.statements[0];
   if (
@@ -62,21 +67,21 @@ function declarationLocations(text: string): Map<string, Finding["location"]> {
   for (const section of statement.expression.properties) {
     if (
       !ts.isPropertyAssignment(section) ||
-      !ts.isStringLiteral(section.name) ||
+      (!ts.isStringLiteral(section.name) && !ts.isIdentifier(section.name)) ||
       !ts.isObjectLiteralExpression(section.initializer)
     )
       continue;
     for (const property of section.initializer.properties) {
       if (
         !ts.isPropertyAssignment(property) ||
-        !ts.isStringLiteral(property.name)
+        (!ts.isStringLiteral(property.name) && !ts.isIdentifier(property.name))
       )
         continue;
       const position = source.getLineAndCharacterOfPosition(
         property.name.getStart(source),
       );
       locations.set(JSON.stringify([section.name.text, property.name.text]), {
-        path: "package.json",
+        path: filename,
         line: position.line + 1,
         column: position.character + 1,
       });
@@ -149,18 +154,22 @@ export async function scanProject(
     }
   }
   let manifest: unknown;
-  const manifestText = await read(join(root, "package.json"));
+  const rootEntries = await readdir(root);
+  const hasOhpmManifest = rootEntries.includes("oh-package.json5");
+  const ohpm = hasOhpmManifest && !rootEntries.includes("package.json");
+  const manifestName = ohpm ? "oh-package.json5" : "package.json";
+  const manifestText = await read(join(root, manifestName));
   try {
-    manifest = JSON.parse(manifestText);
+    manifest = ohpm ? JSON5.parse(manifestText) : JSON.parse(manifestText);
   } catch {
-    throw new Error("Invalid JSON in package.json");
+    throw new Error(`Invalid ${ohpm ? "JSON5" : "JSON"} in ${manifestName}`);
   }
-  const rawDeclared = dependencies(manifest);
+  const rawDeclared = dependencies(manifest, manifestName);
   const declared = rawDeclared.map((d) => ({
     ...d,
     specifier: publicSpecifier(d.specifier),
   }));
-  const locations = declarationLocations(manifestText);
+  const locations = declarationLocations(manifestName, manifestText);
   const moduleReferences: ModuleReference[] = [];
   const apiUsages: ApiUsage[] = [];
   const limitations: Limitation[] = [
@@ -171,15 +180,29 @@ export async function scanProject(
     { code: "gitignore-not-applied" },
     { code: "excluded-directories-not-analyzed" },
   ];
-  const rootEntries = await readdir(root);
-  const source = selectLockfile(rootEntries, manifest);
+  if (
+    ohpm &&
+    record(manifest) &&
+    Object.hasOwn(manifest, "dynamicDependencies")
+  )
+    limitations.push({
+      code: "ohpm-dynamic-dependencies-not-analyzed",
+      path: manifestName,
+    });
+  if (!ohpm && hasOhpmManifest)
+    limitations.push({
+      code: "ohpm-manifest-not-analyzed",
+      path: "oh-package.json5",
+    });
+  const source = ohpm ? null : selectLockfile(rootEntries, manifest);
   const text = source ? await read(join(root, source)) : null;
   const {
     graph: dependencyGraph,
     limitations: graphLimitations,
     parsed,
   } = parseDependencyGraph(text, source, rawDeclared);
-  limitations.push(...graphLimitations);
+  if (ohpm) limitations.push({ code: "transitive-dependencies-not-analyzed" });
+  else limitations.push(...graphLimitations);
   let sourceFiles = 0;
   async function walk(dir: string, depth: number): Promise<void> {
     if (depth > 64) throw new Error("Scan directory depth limit exceeded (64)");
@@ -198,7 +221,10 @@ export async function scanProject(
         if (!entry.name.startsWith(".") && !excluded.has(entry.name))
           await walk(full, depth + 1);
       } else if (entry.isFile()) {
-        if (entry.name === "package.json" && dir !== root)
+        if (
+          dir !== root &&
+          (entry.name === "package.json" || entry.name === "oh-package.json5")
+        )
           limitations.push({ code: "nested-manifest-not-analyzed", path });
         if (
           lockfiles.has(entry.name) &&
@@ -206,11 +232,13 @@ export async function scanProject(
         )
           limitations.push({
             code:
-              dir === root &&
-              source === "npm-shrinkwrap.json" &&
-              entry.name === "package-lock.json"
-                ? "lockfile-ignored-by-shrinkwrap"
-                : "lockfile-not-analyzed",
+              ohpm && entry.name === "oh-package-lock.json5"
+                ? "ohpm-lockfile-not-analyzed"
+                : dir === root &&
+                    source === "npm-shrinkwrap.json" &&
+                    entry.name === "package-lock.json"
+                  ? "lockfile-ignored-by-shrinkwrap"
+                  : "lockfile-not-analyzed",
             path,
           });
         if (extname(entry.name) === ".ets")
@@ -261,13 +289,21 @@ export async function scanProject(
         "Inventory evidence only; compatibility has not been evaluated. No rules or knowledge snapshot loaded.",
     });
   }
-  for (const dependency of declared)
+  for (const dependency of declared) {
+    const location = locations.get(
+      JSON.stringify([dependency.section, dependency.name]),
+    );
+    if (!location)
+      throw new Error(
+        `Cannot locate dependency declaration in ${manifestName}`,
+      );
     finding(
       "inventory.dependency",
-      locations.get(JSON.stringify([dependency.section, dependency.name]))!,
+      location,
       dependency.name,
       JSON.stringify(dependency),
     );
+  }
   for (const reference of moduleReferences)
     finding(
       "inventory.module-reference",
