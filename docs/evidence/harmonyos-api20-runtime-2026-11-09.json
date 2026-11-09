@@ -32,7 +32,11 @@
     "installed": true,
     "launched": true,
     "renderer": "ArkUI Canvas",
-    "observedLogEvents": ["probe_loaded", "probe_loop", "probe_destroyed"],
+    "observedLogEvents": [
+      "probe_loaded",
+      "probe_loop",
+      "probe_destroyed"
+    ],
     "captures": {
       "method": "Count blue pixels where 460 <= x < 860, 1000 <= y < 1280, R < 70, 100 < G < 190 and B > 220; report mean x",
       "frames": [
@@ -58,7 +62,36 @@
     }
   },
   "taskOwnedInstanceStopped": true,
-  "sourcePackageRuntimeCompared": false,
   "knowledgeMappingImported": false,
-  "independentAcceptanceVerified": false
+  "independentAcceptanceVerified": false,
+  "webComparison": {
+    "package": "lottie-web",
+    "version": "5.12.2",
+    "archiveSha256": "8600b50a5cecc3d327f32e62f744812f4dbe9279469280117d7e64f59fb343c2",
+    "playerSha256": "a0757321f974527bda3cc2593bf56cc7ffe4578421249ced6ae49ffb1c529f90",
+    "fixtureHtmlSha256": "1f84b942a4bcaf9d84d2515cb88ae5b616b4b5fd9cf50443fd55a49b3c0dca2c",
+    "fixtureScriptSha256": "f97bc8f96af51d919bbb11f07231fc955b6a31acadc70d853cfbd26632de9237",
+    "browser": "Ego Lite Chromium 156.0.0.0 (reported user agent)",
+    "renderer": "browser Canvas",
+    "sameAuthoredAnimation": true,
+    "events": [
+      "loaded",
+      "loop",
+      "destroyed"
+    ],
+    "frames": [
+      {
+        "frame": 0,
+        "bluePixels": 2476,
+        "meanX": 31.5
+      },
+      {
+        "frame": 18,
+        "bluePixels": 2475,
+        "meanX": 74.8
+      }
+    ],
+    "canvasElementsAfterDestroy": 0,
+    "scope": "One fixture: load, visible movement, loop and cleanup. No pixel parity or drop-in substitution claim."
+  }
 }
