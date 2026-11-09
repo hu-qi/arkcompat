@@ -33,7 +33,7 @@ export function selectLockfile(
 }
 export function parseDependencyGraph(
   text: string | null,
-  source: DependencyGraph["source"],
+  source: Exclude<DependencyGraph["source"], "oh-package-lock.json5">,
   declared: DeclaredDependency[],
 ) {
   switch (source) {
@@ -52,6 +52,8 @@ export function graphCoverage(
 ): ScanReport["coverage"]["dependencyGraph"] {
   if (!parsed || source === null) return "declarations-only";
   switch (source) {
+    case "oh-package-lock.json5":
+      return "ohpm-lockfile-partial";
     case "pnpm-lock.yaml":
       return "pnpm-lockfile-partial";
     case "yarn.lock":

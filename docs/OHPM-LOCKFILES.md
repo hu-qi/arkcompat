@@ -1,0 +1,11 @@
+# OHPM v3 lockfile inventory · Issue #3 / M1
+
+When an [OHPM manifest](OHPM-MANIFESTS.md) is selected, ArkCompat reads the adjacent `oh-package-lock.json5` v3 non-unified format. The [Huawei lockfile reference](https://developer.huawei.com/consumer/en/doc/harmonyos-guides/ide-oh-package-json5/) describes its purpose; the parser is scoped to the layout checked against actual DevEco-generated locks.
+
+The graph resolves direct and recorded package dependency edges through exact `specifiers` entries to their matching `packages` records. It does not infer a resolution by name, compare ranges, read installed packages or validate integrity. A registry locator carries the recorded version; when the record also supplies a version, the two must agree. Stale selectors stay missing; unsupported registry and alias records do not attach to an unrelated name. Local HARs can contribute the name and recorded version with an opaque node ID. Their relationship is unsupported for installation or compatibility verification. Paths, registry URLs and integrity values from the lock are not exported.
+
+Unified locks, other versions, nested and target-specific graphs, overrides, and dynamic dependency resolution remain outside this slice. The report explicitly falls back to declarations for unsupported selected formats. Malformed recognized v3 data or unsafe selected files fail with a bounded diagnostic. Scan the module directory separately when its lockfile is independent.
+
+Schema 0.7.0 adds the OHPM graph source and `ohpm-lockfile-partial` coverage. Rebuild all consumers together and rescan: the strict Web and VS Code consumers require the new version, and historical artifacts should keep their original version. Other manager graph shapes and unknown-only compatibility semantics are unchanged.
+
+The actual DevEco API 20 build generated separate locks. The Lottie project's root yielded two recorded registry dependencies, and its entry yielded one recorded local HAR version with an unsupported edge and a redacted specifier. Authored regressions cover transitive selection, mismatched and stale entries, and schema/CLI parity. No real package, dataset or candidate record is imported into ArkCompat by this adapter. No independent accuracy claim follows.

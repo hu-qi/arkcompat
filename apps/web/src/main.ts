@@ -118,7 +118,7 @@ file.addEventListener("change", async () => {
       "error",
       error instanceof Error && error.message.includes("8 MiB")
         ? "Report exceeds 8 MiB limit. Nothing loaded."
-        : "Report must match ArkCompat schema 0.6.0. Nothing loaded.",
+        : "Report must match ArkCompat schema 0.7.0. Nothing loaded.",
     );
     element("error").hidden = false;
     text("status", "Report rejected.");

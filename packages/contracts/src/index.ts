@@ -1,4 +1,4 @@
-/** Version 0.6 is an experimental inventory contract, not a compatibility verdict. */
+/** Version 0.7 is an experimental inventory contract, not a compatibility verdict. */
 export interface TargetProfile {
   os: "HarmonyOS";
   release: string;
@@ -54,7 +54,7 @@ export interface Limitation {
   path?: string;
 }
 export interface ScanReport {
-  schemaVersion: "0.6.0";
+  schemaVersion: "0.7.0";
   scannerVersion: "0.0.0";
   snapshots: { rules: "none"; knowledge: "none" };
   target: TargetProfile;
@@ -69,7 +69,8 @@ export interface ScanReport {
       | "npm-lockfile-partial"
       | "pnpm-lockfile-partial"
       | "yarn-classic-lockfile-partial"
-      | "yarn-berry-lockfile-partial";
+      | "yarn-berry-lockfile-partial"
+      | "ohpm-lockfile-partial";
     compatibility: "not-evaluated";
     sourceFiles: number;
     limitations: Limitation[];
@@ -99,6 +100,7 @@ export interface DependencyGraph {
     | "npm-shrinkwrap.json"
     | "pnpm-lock.yaml"
     | "yarn.lock"
+    | "oh-package-lock.json5"
     | null;
   lockfileVersion: number | null;
   nodes: LockedPackage[];

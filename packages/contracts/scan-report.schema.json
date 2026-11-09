@@ -5,7 +5,7 @@
   "additionalProperties": false,
   "properties": {
     "schemaVersion": {
-      "const": "0.6.0"
+      "const": "0.7.0"
     },
     "scannerVersion": {
       "const": "0.0.0"
@@ -224,7 +224,8 @@
             "npm-lockfile-partial",
             "pnpm-lockfile-partial",
             "yarn-classic-lockfile-partial",
-            "yarn-berry-lockfile-partial"
+            "yarn-berry-lockfile-partial",
+            "ohpm-lockfile-partial"
           ]
         },
         "compatibility": {
@@ -268,7 +269,8 @@
             "package-lock.json",
             "npm-shrinkwrap.json",
             "pnpm-lock.yaml",
-            "yarn.lock"
+            "yarn.lock",
+            "oh-package-lock.json5"
           ]
         },
         "lockfileVersion": {
