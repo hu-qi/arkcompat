@@ -193,3 +193,125 @@ it.each(["{modules: [", "[]", "{modules:null}"])(
     );
   },
 );
+
+it("projects reachable module edges from one unified root lock with normalized local references", async () => {
+  const root = await fixture([
+    { srcPath: "./entry" },
+    { srcPath: "./feature" },
+  ]);
+  await addModule(root, "entry", "1.0.0");
+  await addModule(root, "feature", "2.0.0", false);
+  await writeFile(
+    join(root, "entry", "oh-package.json5"),
+    "{dependencies:{shared:'1.0.0',asset:'file:../libs/private.har'}}",
+  );
+  const locators = [
+    "root@1.0.0",
+    "shared@1.0.0",
+    "shared@2.0.0",
+    "child@1.0.0",
+    "asset@libs/private.har",
+  ];
+  const entries = locators.map((locator) => {
+    const [name, version] = locator.split("@");
+    return [
+      locator,
+      name === "asset"
+        ? { name, version: "3.0.0", registryType: "local" }
+        : {
+            name,
+            version,
+            registryType: "ohpm",
+            ...(locator === "shared@1.0.0"
+              ? { dependencies: { child: "1.0.0" } }
+              : {}),
+          },
+    ];
+  });
+  await writeFile(
+    join(root, "oh-package-lock.json5"),
+    JSON.stringify({
+      lockfileVersion: 3,
+      meta: { enableUnifiedLockfile: true },
+      specifiers: Object.fromEntries(locators.map((key) => [key, key])),
+      packages: Object.fromEntries(entries),
+    }),
+  );
+  const report = await scanProject(root, target);
+  expect(report.dependencyGraph.nodes.map((n) => n.name)).toEqual(["root"]);
+  const [entry, feature] = report.modules ?? [];
+  expect(entry?.dependencyGraph.nodes.map((n) => [n.name, n.version])).toEqual([
+    ["asset", "3.0.0"],
+    ["child", "1.0.0"],
+    ["shared", "1.0.0"],
+  ]);
+  expect(entry?.dependencyGraph.edges).toMatchObject([
+    {
+      from: "",
+      name: "asset",
+      resolution: "unsupported",
+      specifier: "[local-reference]",
+    },
+    { from: "", name: "shared", resolution: "locked" },
+    { from: "shared@1.0.0", name: "child", resolution: "locked" },
+  ]);
+  expect(
+    feature?.dependencyGraph.nodes.map((n) => [n.name, n.version]),
+  ).toEqual([["shared", "2.0.0"]]);
+  expect(report.coverage.limitations).toEqual(
+    expect.arrayContaining([
+      { code: "ohpm-unified-root-lock-used", path: "entry" },
+      {
+        code: "ohpm-module-lock-ignored-by-unified-root",
+        path: "entry/oh-package-lock.json5",
+      },
+    ]),
+  );
+  expect(JSON.stringify(report)).not.toContain("private.har");
+});
+
+it("does not attach unified file references outside the tree or to registry nodes", async () => {
+  const root = await fixture([{ srcPath: "entry" }]);
+  await addModule(root, "entry", "1.0.0", false);
+  await writeFile(
+    join(root, "entry", "oh-package.json5"),
+    JSON.stringify({
+      dependencies: {
+        escaped: "file:../../private.har",
+        absolute: "file:/private.har",
+        empty: "file:",
+        registry: "file:../cache.har",
+      },
+    }),
+  );
+  await writeFile(
+    join(root, "oh-package-lock.json5"),
+    JSON.stringify({
+      lockfileVersion: 3,
+      meta: { enableUnifiedLockfile: true },
+      specifiers: {
+        "escaped@../private.har": "escaped@../private.har",
+        "registry@cache.har": "registry@1.0.0",
+      },
+      packages: {
+        "escaped@../private.har": {
+          registryType: "local",
+          name: "escaped",
+          version: "1.0.0",
+        },
+        "registry@1.0.0": {
+          registryType: "ohpm",
+          name: "registry",
+          version: "1.0.0",
+        },
+      },
+    }),
+  );
+  const report = await scanProject(root, target);
+  const graph = report.modules?.[0]?.dependencyGraph;
+  expect(graph?.nodes).toEqual([]);
+  expect(graph?.edges.map((e) => [e.resolution, e.to])).toEqual(
+    Array.from({ length: 4 }, () => ["unsupported", null]),
+  );
+  expect(JSON.stringify(report)).not.toContain("private.har");
+});

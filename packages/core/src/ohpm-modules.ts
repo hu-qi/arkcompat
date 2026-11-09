@@ -3,6 +3,7 @@ import { join } from "node:path";
 import JSON5 from "json5";
 import type { Limitation, OhpmModuleInventory } from "@arkcompat/contracts";
 import { dependencies, record } from "./declarations.js";
+import type { OhpmLockReader } from "./ohpm-lock.js";
 import { ohpmGraph, publicOhpmSpecifier } from "./ohpm-lock.js";
 
 const profile = "build-profile.json5";
@@ -33,12 +34,16 @@ async function moduleDirectory(root: string, path: string) {
   return dir;
 }
 
+export function readOhpmProfile(text: string) {
+  return parse(text, profile);
+}
 export async function scanOhpmModules(
   root: string,
   read: (path: string) => Promise<string>,
   excluded: ReadonlySet<string>,
+  data: Record<string, unknown>,
+  shared?: OhpmLockReader,
 ) {
-  const data = parse(await read(join(root, profile)), profile);
   const entries = data.modules === undefined ? [] : data.modules;
   if (!Array.isArray(entries) || entries.length > 128)
     throw new Error(
@@ -104,7 +109,19 @@ export async function scanOhpmModules(
         code: "ohpm-dynamic-dependencies-not-analyzed",
         path: manifestPath,
       });
-    if (names.includes(lock)) {
+    if (shared?.unified) {
+      const result = shared.graphFor(raw, path);
+      inventory.dependencyGraph = result.graph;
+      inventory.coverage = "ohpm-lockfile-partial";
+      limitations.push({ code: "ohpm-unified-root-lock-used", path });
+      if (names.includes(lock))
+        limitations.push({
+          code: "ohpm-module-lock-ignored-by-unified-root",
+          path: path + "/" + lock,
+        });
+      for (const limitation of result.limitations)
+        limitations.push({ code: limitation.code, path });
+    } else if (names.includes(lock)) {
       const result = ohpmGraph(await read(join(dir, lock)), raw);
       inventory.dependencyGraph = result.graph;
       if (result.parsed) inventory.coverage = "ohpm-lockfile-partial";

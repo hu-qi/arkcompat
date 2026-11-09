@@ -1,3 +1,4 @@
+import { posix } from "node:path";
 import { createHash } from "node:crypto";
 import JSON5 from "json5";
 import type {
@@ -28,7 +29,23 @@ export function publicOhpmSpecifier(value: string) {
     : sanitized;
 }
 
-export function ohpmGraph(text: string, declared: DeclaredDependency[]) {
+interface OhpmGraphResult {
+  graph: DependencyGraph;
+  parsed: boolean;
+  limitations: Limitation[];
+}
+export interface OhpmLockReader {
+  unified: boolean;
+  graphFor(
+    declared: DeclaredDependency[],
+    modulePath?: string,
+  ): OhpmGraphResult;
+}
+
+export function readOhpmLock(
+  text: string,
+  allowUnified = false,
+): OhpmLockReader {
   let lock: unknown;
   try {
     lock = JSON5.parse(text);
@@ -41,25 +58,27 @@ export function ohpmGraph(text: string, declared: DeclaredDependency[]) {
     Number(lock.lockfileVersion) < 1
   )
     return fail("invalid lockfileVersion");
-  const graph: DependencyGraph = {
-    source,
-    lockfileVersion: Number(lock.lockfileVersion),
-    nodes: [],
-    edges: [],
-  };
-  function unparsed(code: string) {
+  const lockfileVersion = Number(lock.lockfileVersion);
+  function emptyGraph(): DependencyGraph {
+    return { source, lockfileVersion, nodes: [], edges: [] };
+  }
+  function unparsed(code: string): OhpmLockReader {
     return {
-      graph,
-      parsed: false,
-      limitations: [
-        { code, path: source },
-        { code: "transitive-dependencies-not-analyzed" },
-      ],
+      unified: false,
+      graphFor: () => ({
+        graph: emptyGraph(),
+        parsed: false,
+        limitations: [
+          { code, path: source },
+          { code: "transitive-dependencies-not-analyzed" },
+        ],
+      }),
     };
   }
-  if (graph.lockfileVersion !== 3)
+  if (lockfileVersion !== 3)
     return unparsed("unsupported-ohpm-lockfile-version");
-  if (record(lock.meta) && lock.meta.enableUnifiedLockfile === true)
+  const unified = record(lock.meta) && lock.meta.enableUnifiedLockfile === true;
+  if (unified && !allowUnified)
     return unparsed("unified-ohpm-lockfile-not-analyzed");
   if (!record(lock.specifiers) || !record(lock.packages))
     return fail("expected specifiers and packages mappings");
@@ -137,41 +156,98 @@ export function ohpmGraph(text: string, declared: DeclaredDependency[]) {
       return fail("invalid specifier record");
     bySelector.set(key, value);
   }
-  graph.nodes = [...byKey.values()];
-  function addEdges(from: string, entries: DeclaredDependency[]) {
-    for (const dependency of effectiveDependencies(entries)) {
-      if (graph.edges.length >= 20000) return fail("edge count limit exceeded");
-      const key = bySelector.get(
-        dependency.name + "@" + dependency.specifier.replace(/^file:/, ""),
-      );
-      const node = key === undefined ? undefined : byKey.get(key);
-      const matching = node?.name === dependency.name ? node : undefined;
-      const unsupported =
-        (key !== undefined && ignored.has(key)) ||
-        (node && !matching) ||
-        matching?.link ||
-        publicOhpmSpecifier(dependency.specifier) !== dependency.specifier;
-      const resolution = unsupported
-        ? "unsupported"
-        : matching
-          ? "locked"
-          : "missing";
-      graph.edges.push({
-        from,
-        name: dependency.name,
-        section: dependency.section,
-        specifier: publicOhpmSpecifier(dependency.specifier),
-        to: matching?.id ?? null,
-        resolution,
-      });
-      if (resolution !== "locked") codes.add(`dependency-edge-${resolution}`);
-    }
-  }
-  addEdges("", declared);
-  for (const [key, entries] of edges) addEdges(byKey.get(key)!.id, entries);
-  const limitations: Limitation[] = [...codes].map((code) => ({
-    code,
-    path: source,
-  }));
-  return { graph, parsed: true, limitations };
+  let remainingSharedEdges = 20000;
+  return {
+    unified,
+    graphFor(declared, modulePath = "") {
+      const graph = emptyGraph();
+      const graphCodes = new Set(codes);
+      const reachable = new Set<string>();
+      function addEdges(from: string, entries: DeclaredDependency[]) {
+        for (const dependency of effectiveDependencies(entries)) {
+          if (
+            unified ? remainingSharedEdges-- <= 0 : graph.edges.length >= 20000
+          )
+            return fail("edge count limit exceeded");
+          let selector: string | undefined = dependency.specifier.replace(
+            /^file:/,
+            "",
+          );
+          if (
+            unified &&
+            from === "" &&
+            dependency.specifier.startsWith("file:")
+          ) {
+            // DevEco writes unified local selectors relative to the project root.
+            if (
+              !selector ||
+              posix.isAbsolute(selector) ||
+              /[\\:]/.test(selector)
+            )
+              selector = undefined;
+            else {
+              selector = posix.join(modulePath, selector);
+              if (selector === ".." || selector.startsWith("../"))
+                selector = undefined;
+            }
+          }
+          const key =
+            selector === undefined
+              ? undefined
+              : bySelector.get(dependency.name + "@" + selector);
+          const node = key === undefined ? undefined : byKey.get(key);
+          const matching = node?.name === dependency.name ? node : undefined;
+          const specifier = publicOhpmSpecifier(dependency.specifier);
+          const unsupported =
+            (key !== undefined && ignored.has(key)) ||
+            (node && !matching) ||
+            matching?.link ||
+            specifier !== dependency.specifier;
+          const resolution = unsupported
+            ? "unsupported"
+            : matching
+              ? "locked"
+              : "missing";
+          const attached =
+            !unified || resolution === "locked" || matching?.link
+              ? matching
+              : undefined;
+          graph.edges.push({
+            from,
+            name: dependency.name,
+            section: dependency.section,
+            specifier,
+            to: attached?.id ?? null,
+            resolution,
+          });
+          if (unified && attached && key !== undefined) reachable.add(key);
+          if (resolution !== "locked")
+            graphCodes.add(`dependency-edge-${resolution}`);
+        }
+      }
+      addEdges("", declared);
+      if (unified) {
+        // A Set iteration includes newly discovered keys, at most once per node.
+        for (const key of reachable) {
+          const children = edges.get(key);
+          if (children) addEdges(byKey.get(key)!.id, children);
+        }
+        graph.nodes = [...reachable].sort().map((key) => byKey.get(key)!);
+        graphCodes.add("unified-ohpm-lockfile-projection");
+      } else {
+        graph.nodes = [...byKey.values()];
+        for (const [key, entries] of edges)
+          addEdges(byKey.get(key)!.id, entries);
+      }
+      return {
+        graph,
+        parsed: true,
+        limitations: [...graphCodes].map((code) => ({ code, path: source })),
+      };
+    },
+  };
+}
+
+export function ohpmGraph(text: string, declared: DeclaredDependency[]) {
+  return readOhpmLock(text).graphFor(declared);
 }
