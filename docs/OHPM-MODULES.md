@@ -1,0 +1,15 @@
+# OHPM project and module inventory · Issue #3 / M1
+
+For a selected OHPM project with a root `build-profile.json5`, ArkCompat reads only its static `modules[].srcPath` values to select module manifests. See [Huawei's project build profile reference](https://developer.huawei.com/consumer/en/doc/harmonyos-guides/ide-hvigor-build-profile-app/). The scanner never reads or executes Hvigor configuration code to discover modules.
+
+```sh
+pnpm --silent scan /path/to/harmony-project --runtime arkts --release 6.0.0 --api-level 20
+```
+
+Schema 0.8.0 adds an optional `modules` array with normalized relative paths, direct declarations, per-module graph and graph coverage. Root `dependencies` and `dependencyGraph` retain their original root scope. A module's empty graph origin refers to its own manifest, so modules can use different versions of the same dependency without merging those relationships. Root and module findings share the same report, with locations such as `entry/oh-package.json5`. Source inventory still walks the project once. Strict consumers require schema 0.8.0; rebuild and rescan instead of rewriting old artifacts.
+
+Discovery is bounded to 128 paths and shares the scanner's file/total read limits. It accepts safe relative path segments in the selected tree only, skips outside, excluded, linked, unavailable or manifest-less directories with explicit limitations, and does not serialize outside paths or other profile fields. Ambiguous duplicate paths and malformed recognized input fail without returning partial results. Unlisted manifests remain disclosed as unscanned; source inventory still follows its ordinary directory policy.
+
+Each module uses its own [adjacent non-unified OHPM v3 lock](OHPM-LOCKFILES.md). A missing module lock stays declarations-only and never borrows the root lock. Unified locks, build targets, dynamic modules, product resolution and ETS source support remain separate. This output is an inventory with unknown compatibility, not a build or install graph.
+
+Developer smoke: a single run on the actual DevEco API 20 Lottie project reported both root development declarations and the entry module's pinned local HAR record with a redacted path and unsupported edge. The authored two-module regression also proves separate conflicting versions and CLI/Web parity. No mapping was imported and no independent accuracy claim follows.

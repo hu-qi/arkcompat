@@ -7,7 +7,7 @@ pnpm --silent scan /path/to/harmony-project --runtime arkts --release 6.0.0 --ap
 pnpm --silent scan /path/to/harmony-project/entry --runtime arkts --release 6.0.0 --api-level 20
 ```
 
-Each scan inventories the manifest in its selected directory. A project-level scan reports nested manifests as unscanned, so select a module directory to inspect its own declarations. When both formats exist at the selected root, `package.json` retains precedence and the ignored OHPM manifest is disclosed. The selected file must be regular, bounded and not a symlink. URL/path specifiers use the same redaction rules as npm declarations; `oh_modules` is excluded.
+Each scan inventories the manifest in its selected directory. A project-level scan includes [configured modules](OHPM-MODULES.md) when their static paths are available. Unlisted manifests remain unscanned, or can be selected directly. When both formats exist at the selected root, `package.json` retains precedence and the ignored OHPM manifest is disclosed. The selected file must be regular, bounded and not a symlink. URL/path specifiers use the same redaction rules as npm declarations; `oh_modules` is excluded.
 
 The adjacent [OHPM v3 lockfile](OHPM-LOCKFILES.md) can supplement declarations with recorded edges. Dynamic dependencies and ETS sources still receive explicit limitations, and all compatibility findings stay unknown. ArkCompat does not install dependencies or run build or lifecycle scripts during a scan.
 

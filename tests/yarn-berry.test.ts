@@ -45,7 +45,7 @@ it("records Berry v8 grouped registry descriptors and exact direct/transitive ed
       e.resolution,
     ]),
   }).toEqual({
-    version: "0.7.0",
+    version: "0.8.0",
     coverage: "yarn-berry-lockfile-partial",
     nodes: [
       "yarn-berry:a@npm:^1",

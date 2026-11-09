@@ -7,6 +7,7 @@ import JSON5 from "json5";
 export { apiRuleSnapshotByteLimit, evaluateApiRules } from "./api-rules.js";
 export { formatReport } from "./reports.js";
 export type { ReportFormat } from "./reports.js";
+import { scanOhpmModules } from "./ohpm-modules.js";
 import { ohpmGraph, publicOhpmSpecifier } from "./ohpm-lock.js";
 import { analyzeSource } from "./source.js";
 import { dependencies, publicSpecifier, record } from "./declarations.js";
@@ -211,6 +212,21 @@ export async function scanProject(
   if (ohpm && source === null)
     limitations.push({ code: "transitive-dependencies-not-analyzed" });
   else limitations.push(...graphLimitations);
+  const modules =
+    ohpm && rootEntries.includes("build-profile.json5")
+      ? await scanOhpmModules(root, read, excluded)
+      : undefined;
+  const moduleFiles = new Set<string>();
+  if (modules) {
+    limitations.push(...modules.limitations);
+    for (const { inventory } of modules.modules) {
+      moduleFiles.add(inventory.path + "/oh-package.json5");
+      if (inventory.dependencyGraph.source)
+        moduleFiles.add(
+          inventory.path + "/" + inventory.dependencyGraph.source,
+        );
+    }
+  }
   let sourceFiles = 0;
   async function walk(dir: string, depth: number): Promise<void> {
     if (depth > 64) throw new Error("Scan directory depth limit exceeded (64)");
@@ -231,6 +247,7 @@ export async function scanProject(
       } else if (entry.isFile()) {
         if (
           dir !== root &&
+          !moduleFiles.has(path) &&
           (entry.name === "package.json" || entry.name === "oh-package.json5")
         )
           limitations.push({ code: "nested-manifest-not-analyzed", path });
@@ -239,6 +256,7 @@ export async function scanProject(
           /^oh-package-[A-Za-z0-9._-]+-lock\.json5$/.test(entry.name);
         if (
           (lockfiles.has(entry.name) || ohpmLock) &&
+          !moduleFiles.has(path) &&
           !(dir === root && entry.name === source)
         )
           limitations.push({
@@ -300,19 +318,32 @@ export async function scanProject(
         "Inventory evidence only; compatibility has not been evaluated. No rules or knowledge snapshot loaded.",
     });
   }
-  for (const dependency of declared) {
-    const location = locations.get(
-      JSON.stringify([dependency.section, dependency.name]),
-    );
-    if (!location)
-      throw new Error(
-        `Cannot locate dependency declaration in ${manifestName}`,
+  function declareFindings(
+    declarations: ScanReport["dependencies"],
+    foundLocations: ReturnType<typeof declarationLocations>,
+    filename: string,
+  ) {
+    for (const dependency of declarations) {
+      const location = foundLocations.get(
+        JSON.stringify([dependency.section, dependency.name]),
       );
-    finding(
-      "inventory.dependency",
-      location,
-      dependency.name,
-      JSON.stringify(dependency),
+      if (!location)
+        throw new Error(`Cannot locate dependency declaration in ${filename}`);
+      finding(
+        "inventory.dependency",
+        location,
+        dependency.name,
+        JSON.stringify(dependency),
+      );
+    }
+  }
+  declareFindings(declared, locations, manifestName);
+  for (const module of modules?.modules ?? []) {
+    const filename = module.inventory.path + "/oh-package.json5";
+    declareFindings(
+      module.inventory.dependencies,
+      declarationLocations(filename, module.manifestText),
+      filename,
     );
   }
   for (const reference of moduleReferences)
@@ -330,12 +361,15 @@ export async function scanProject(
       JSON.stringify(usage),
     );
   return {
-    schemaVersion: "0.7.0",
+    schemaVersion: "0.8.0",
     scannerVersion: "0.0.0",
     snapshots: { rules: "none", knowledge: "none" },
     target,
     dependencies: declared,
     dependencyGraph,
+    ...(modules?.modules.length
+      ? { modules: modules.modules.map((module) => module.inventory) }
+      : {}),
     references: moduleReferences,
     apiUsages,
     findings,
