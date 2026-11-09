@@ -57,7 +57,10 @@ function lookup(
 /** Pure metadata adapter: never follows a link or reads node_modules. */
 export function npmGraph(
   text: string | null,
-  source: Exclude<DependencyGraph["source"], "pnpm-lock.yaml" | "yarn.lock">,
+  source: Exclude<
+    DependencyGraph["source"],
+    "pnpm-lock.yaml" | "yarn.lock" | "oh-package-lock.json5"
+  >,
   declared: DeclaredDependency[],
 ): { graph: DependencyGraph; limitations: Limitation[]; parsed: boolean } {
   const graph: DependencyGraph = {

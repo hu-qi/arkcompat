@@ -59,7 +59,7 @@ export async function scanWithCli(
     });
     const report = JSON.parse(stdout) as ScanReport;
     if (
-      report?.schemaVersion !== "0.6.0" ||
+      report?.schemaVersion !== "0.7.0" ||
       report.snapshots?.rules !== "none" ||
       report.snapshots?.knowledge !== "none" ||
       !Array.isArray(report.findings) ||

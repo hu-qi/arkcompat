@@ -7,6 +7,7 @@ import JSON5 from "json5";
 export { apiRuleSnapshotByteLimit, evaluateApiRules } from "./api-rules.js";
 export { formatReport } from "./reports.js";
 export type { ReportFormat } from "./reports.js";
+import { ohpmGraph, publicOhpmSpecifier } from "./ohpm-lock.js";
 import { analyzeSource } from "./source.js";
 import { dependencies, publicSpecifier, record } from "./declarations.js";
 import {
@@ -167,7 +168,7 @@ export async function scanProject(
   const rawDeclared = dependencies(manifest, manifestName);
   const declared = rawDeclared.map((d) => ({
     ...d,
-    specifier: publicSpecifier(d.specifier),
+    specifier: (ohpm ? publicOhpmSpecifier : publicSpecifier)(d.specifier),
   }));
   const locations = declarationLocations(manifestName, manifestText);
   const moduleReferences: ModuleReference[] = [];
@@ -194,14 +195,21 @@ export async function scanProject(
       code: "ohpm-manifest-not-analyzed",
       path: "oh-package.json5",
     });
-  const source = ohpm ? null : selectLockfile(rootEntries, manifest);
+  const source = ohpm
+    ? rootEntries.includes("oh-package-lock.json5")
+      ? "oh-package-lock.json5"
+      : null
+    : selectLockfile(rootEntries, manifest);
   const text = source ? await read(join(root, source)) : null;
   const {
     graph: dependencyGraph,
     limitations: graphLimitations,
     parsed,
-  } = parseDependencyGraph(text, source, rawDeclared);
-  if (ohpm) limitations.push({ code: "transitive-dependencies-not-analyzed" });
+  } = source === "oh-package-lock.json5"
+    ? ohpmGraph(text!, rawDeclared)
+    : parseDependencyGraph(text, source, rawDeclared);
+  if (ohpm && source === null)
+    limitations.push({ code: "transitive-dependencies-not-analyzed" });
   else limitations.push(...graphLimitations);
   let sourceFiles = 0;
   async function walk(dir: string, depth: number): Promise<void> {
@@ -226,13 +234,16 @@ export async function scanProject(
           (entry.name === "package.json" || entry.name === "oh-package.json5")
         )
           limitations.push({ code: "nested-manifest-not-analyzed", path });
+        const ohpmLock =
+          entry.name === "oh-package-lock.json5" ||
+          /^oh-package-[A-Za-z0-9._-]+-lock\.json5$/.test(entry.name);
         if (
-          lockfiles.has(entry.name) &&
+          (lockfiles.has(entry.name) || ohpmLock) &&
           !(dir === root && entry.name === source)
         )
           limitations.push({
             code:
-              ohpm && entry.name === "oh-package-lock.json5"
+              ohpm && ohpmLock
                 ? "ohpm-lockfile-not-analyzed"
                 : dir === root &&
                     source === "npm-shrinkwrap.json" &&
@@ -319,7 +330,7 @@ export async function scanProject(
       JSON.stringify(usage),
     );
   return {
-    schemaVersion: "0.6.0",
+    schemaVersion: "0.7.0",
     scannerVersion: "0.0.0",
     snapshots: { rules: "none", knowledge: "none" },
     target,

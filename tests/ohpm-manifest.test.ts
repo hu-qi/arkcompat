@@ -38,7 +38,7 @@ it("reads JSON5 direct declarations at exact source locations", async () => {
     "{\n // metadata only\n dependencies: {\n   '@fixture/ported': '2.0.0',\n   remote: 'https://example.invalid?token=fixture-private',\n },\n devDependencies: { tool: '1.0.0' },\n}",
   );
   await writeFile(
-    join(root, "oh-package-lock.json5"),
+    join(root, "oh-package-other-lock.json5"),
     "intentionally not read",
   );
   await mkdir(join(root, "oh_modules"));
@@ -74,7 +74,7 @@ it("reads JSON5 direct declarations at exact source locations", async () => {
   expect(report.references).toEqual([]);
   expect(report.coverage.limitations).toContainEqual({
     code: "ohpm-lockfile-not-analyzed",
-    path: "oh-package-lock.json5",
+    path: "oh-package-other-lock.json5",
   });
   expect(JSON.stringify(report)).not.toContain("fixture-private");
   const raw = execFileSync(
