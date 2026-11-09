@@ -21,13 +21,13 @@ it("accepts the canonical report without changing identity, status or evidence",
 it.each(["not JSON", "null", "{}", '{"schemaVersion":"99.0.0"}'])(
   "rejects malformed/version-mismatched imports: %s",
   (text) => {
-    expect(() => parseReport(text)).toThrow(/schema 0.7.0/);
+    expect(() => parseReport(text)).toThrow(/schema 0.8.0/);
   },
 );
 it("rejects over-limit input before parsing", () => {
   expect(() => parseReport(" ".repeat(maxReportBytes + 1))).toThrow(/8 MiB/);
 });
-it.each(["0.5.0", "0.6.0"])(
+it.each(["0.5.0", "0.6.0", "0.7.0"])(
   "rejects historical schema %s after the OHPM graph migration",
   async (version) => {
     const report = await scanProject("fixtures/developer/yarn-berry-graph", {
@@ -36,7 +36,7 @@ it.each(["0.5.0", "0.6.0"])(
       runtime: "arkts",
     });
     Reflect.set(report, "schemaVersion", version);
-    expect(() => parseReport(JSON.stringify(report))).toThrow(/schema 0.7.0/);
+    expect(() => parseReport(JSON.stringify(report))).toThrow(/schema 0.8.0/);
   },
 );
 it("measures the report cap in UTF-8 bytes rather than character count", () => {
@@ -51,7 +51,7 @@ it("rejects structurally forged compatibility conclusions", async () => {
     runtime: "arkts",
   });
   Reflect.set(r.findings[0]!, "status", "verified-compatible");
-  expect(() => parseReport(JSON.stringify(r))).toThrow(/schema 0.7.0/);
+  expect(() => parseReport(JSON.stringify(r))).toThrow(/schema 0.8.0/);
 });
 it("filters canonical rules and literal search text without mutating findings", async () => {
   const r = await scanProject("fixtures/developer/source-api", {

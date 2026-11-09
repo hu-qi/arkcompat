@@ -12,9 +12,9 @@ pnpm --silent scan fixtures/developer/npm-graph --runtime arkts --release 6.0.0
 
 This authored fixture contains four locked package locations, five effective edges and one missing optional dependency. `alpha` uses its nested `shared@1`, while `beta` uses hoisted `shared@2`. These are synthetic names and metadata, not package compatibility claims. Never install or execute the fixture.
 
-## Report contract 0.7.0
+## Report contract 0.8.0
 
-The experimental report contains a `dependencyGraph` object and `schemaVersion: "0.7.0"`. The npm local-link increment uses the existing graph fields. Findings still use only `unknown` compatibility status. The report records:
+The experimental report contains a `dependencyGraph` object and `schemaVersion: "0.8.0"`. The npm local-link increment uses the existing graph fields. Findings still use only `unknown` compatibility status. The report records:
 
 - `source`: selected root filename or null; shrinkwrap takes precedence over package-lock. [pnpm v9](PNPM-LOCKFILES.md) is also supported. [Yarn Classic](YARN-LOCKFILES.md) is also supported. When multiple npm/pnpm/Yarn lock families coexist, an explicit packageManager selects a present family; otherwise scanning fails as ambiguous. Other/nested locks remain unparsed and are reported.
 - `lockfileVersion`: version from the selected file, or null when absent. Unsupported positive integer versions return an empty graph and explicit limitations, without automatic npm upgrades or registry requests.

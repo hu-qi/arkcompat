@@ -1,4 +1,4 @@
-/** Version 0.7 is an experimental inventory contract, not a compatibility verdict. */
+/** Version 0.8 is an experimental inventory contract, not a compatibility verdict. */
 export interface TargetProfile {
   os: "HarmonyOS";
   release: string;
@@ -54,12 +54,13 @@ export interface Limitation {
   path?: string;
 }
 export interface ScanReport {
-  schemaVersion: "0.7.0";
+  schemaVersion: "0.8.0";
   scannerVersion: "0.0.0";
   snapshots: { rules: "none"; knowledge: "none" };
   target: TargetProfile;
   dependencies: DeclaredDependency[];
   dependencyGraph: DependencyGraph;
+  modules?: OhpmModuleInventory[];
   references: ModuleReference[];
   apiUsages: ApiUsage[];
   findings: Finding[];
@@ -75,6 +76,13 @@ export interface ScanReport {
     sourceFiles: number;
     limitations: Limitation[];
   };
+}
+
+export interface OhpmModuleInventory {
+  path: string;
+  dependencies: DeclaredDependency[];
+  dependencyGraph: DependencyGraph;
+  coverage: "declarations-only" | "ohpm-lockfile-partial";
 }
 
 export interface LockedPackage {

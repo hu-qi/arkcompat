@@ -35,7 +35,7 @@ Bounds:10000expanded selectors,20000edges,16384characters/line,128indentation ch
 
 Schema0.6.0 adds `yarn-berry-lockfile-partial`; graph shape, finding IDs/status semantics and snapshots-none behavior are otherwise unchanged. Core/CLI, compiled Web validator/UI and MCP use the same contract. New Berry CLI/core/schema and real MCP/client→Web projection tests verify equality. Markdown/SARIF remain projections of the same canonical inventory.
 
-Web import is strict and uses the current [0.7.0 contract](OHPM-LOCKFILES.md); it rejects historical 0.5.0 and 0.6.0 reports; rebuild all adapters and rescan the stable source checkout. Keep historical reports as historical artifacts instead of editing their version field. This is an experimental contract migration, not a supported published-version upgrade policy. Knowledge metadata schema remains0.1.0 and does not become active in the scanner.
+Web import is strict and uses the current [0.8.0 contract](OHPM-MODULES.md); it rejects historical 0.5.0, 0.6.0 and 0.7.0 reports; rebuild all adapters and rescan the stable source checkout. Keep historical reports as historical artifacts instead of editing their version field. This is an experimental contract migration, not a supported published-version upgrade policy. Knowledge metadata schema remains0.1.0 and does not become active in the scanner.
 
 Rollback by reverting the scoped Berry PR, rebuilding all consumers and regenerating schema0.5 reports. Earlier npm/pnpm/Classic adapters remain available; no package installation state was changed. Full workspaces, older pnpm/Berry formats, range/peer/hoisting resolution, broader source semantics, evidence-backed target rules and independent benchmarks still keep #3 open.
 

@@ -5,7 +5,7 @@
   "additionalProperties": false,
   "properties": {
     "schemaVersion": {
-      "const": "0.7.0"
+      "const": "0.8.0"
     },
     "scannerVersion": {
       "const": "0.0.0"
@@ -212,6 +212,25 @@
           "evidence",
           "explanation"
         ]
+      }
+    },
+    "modules": {
+      "type": "array",
+      "maxItems": 128,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "dependencies", "dependencyGraph", "coverage"],
+        "properties": {
+          "path": {
+            "type": "string",
+            "maxLength": 1024,
+            "pattern": "^[A-Za-z0-9_][A-Za-z0-9._-]*(?:/[A-Za-z0-9_][A-Za-z0-9._-]*)*$"
+          },
+          "dependencies": { "$ref": "#/properties/dependencies" },
+          "dependencyGraph": { "$ref": "#/properties/dependencyGraph" },
+          "coverage": { "enum": ["declarations-only", "ohpm-lockfile-partial"] }
+        }
       }
     },
     "coverage": {
