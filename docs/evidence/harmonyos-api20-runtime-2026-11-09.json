@@ -1,0 +1,64 @@
+{
+  "observedAt": "2026-11-09",
+  "kind": "developer-harmonyos-runtime-smoke",
+  "toolchain": {
+    "devecoCli": "1.3.10",
+    "compileSdk": "26.0.0.105",
+    "minimumApiLevel": 20,
+    "targetApiLevel": 20
+  },
+  "target": {
+    "kind": "isolated-local-phone-emulator",
+    "release": "6.0.0",
+    "apiLevel": 20,
+    "imageVersion": "6.0.0.48",
+    "imageAbi": "arm"
+  },
+  "baseline": {
+    "hapSha256": "7796b0ce295eca2c38457da978fc0444334ef7363316bdd27bd4d1f75558411a",
+    "unsigned": true,
+    "installed": true,
+    "launched": true,
+    "visibleText": "Hello World"
+  },
+  "candidate": {
+    "registry": "ohpm",
+    "package": "@ohos/lottie",
+    "version": "2.0.0",
+    "harSha256": "3df593156e08b410fbf0794ef7060bfa1c4903afa762da7200cfd0e4bc8612f7",
+    "fixtureSha256": "64134cc2cbea760c1dfc681022ad9cb3f5eaaa10502e7420783edf485b077650",
+    "hapSha256": "89ced6075b595956f262eae7c95751abf1d33f4e023c064abad6d1699a2059f9",
+    "unsigned": true,
+    "installed": true,
+    "launched": true,
+    "renderer": "ArkUI Canvas",
+    "observedLogEvents": ["probe_loaded", "probe_loop", "probe_destroyed"],
+    "captures": {
+      "method": "Count blue pixels where 460 <= x < 860, 1000 <= y < 1280, R < 70, 100 < G < 190 and B > 220; report mean x",
+      "frames": [
+        {
+          "stage": "loop",
+          "sha256": "c33dd5a0c49338e0c18d3365753e2d625faf54e3f91af68544050444560e54d5",
+          "bluePixels": 21994,
+          "meanX": 702.2
+        },
+        {
+          "stage": "loop",
+          "sha256": "0eda31f9ef428762bef285827eeeb83d6de325a3dc577f0a3d4f586c172afe47",
+          "bluePixels": 22017,
+          "meanX": 680.6
+        },
+        {
+          "stage": "destroyed",
+          "sha256": "00848c7a58ab4d8bbf547dce7cd918d06788dc74d20e5c89cf7525a45df6b351",
+          "bluePixels": 0,
+          "meanX": null
+        }
+      ]
+    }
+  },
+  "taskOwnedInstanceStopped": true,
+  "sourcePackageRuntimeCompared": false,
+  "knowledgeMappingImported": false,
+  "independentAcceptanceVerified": false
+}
