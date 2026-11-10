@@ -1,4 +1,5 @@
 import { spawnSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import {
   mkdir,
   mkdtemp,
@@ -32,6 +33,7 @@ it("runs the portable CLI after relocation without source, local paths or symlin
     expect(entries.some((entry) => entry.isSymbolicLink())).toBe(false);
     expect((await readdir(runtime)).sort()).toEqual([
       "LICENSE",
+      "THIRD-PARTY-NOTICES.json",
       "dist",
       "node_modules",
       "package.json",
@@ -49,6 +51,34 @@ it("runs the portable CLI after relocation without source, local paths or symlin
     expect(await readFile(join(runtime, "LICENSE"), "utf8")).toBe(
       await readFile("LICENSE", "utf8"),
     );
+    const notices = await readFile(
+      join(runtime, "THIRD-PARTY-NOTICES.json"),
+      "utf8",
+    );
+    const ajvNotice = await readFile(join(runtime, "node_modules/ajv/LICENSE"));
+    expect(notices).not.toContain(parent);
+    expect(JSON.parse(notices)).toMatchObject({
+      assessment: "file-inventory-only",
+      packages: expect.arrayContaining([
+        expect.objectContaining({
+          name: "@yarnpkg/lockfile",
+          version: "1.1.0",
+          declaredLicense: "BSD-2-Clause",
+          licenseFiles: [],
+          gaps: ["missing-license-file"],
+        }),
+        expect.objectContaining({
+          name: "ajv",
+          gaps: [],
+          licenseFiles: [
+            {
+              path: "node_modules/ajv/LICENSE",
+              sha256: createHash("sha256").update(ajvNotice).digest("hex"),
+            },
+          ],
+        }),
+      ]),
+    });
     const target = [
       "--runtime",
       "arkts",
