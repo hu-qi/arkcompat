@@ -10,7 +10,7 @@ import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const usage =
-  "Usage: node spikes/deveco/prepare.mjs <DevEco-Studio.app> <new-output-directory>";
+  "Usage: node spikes/deveco/prepare.mjs <DevEco-Studio.app> <new-output-directory> [--disk-install]";
 const here = fileURLToPath(new URL(".", import.meta.url));
 const cli = fileURLToPath(
   new URL("../../apps/cli/dist/index.js", import.meta.url),
@@ -27,7 +27,7 @@ function run(command, args, options = {}) {
   });
 }
 
-function prepare(application, output) {
+function prepare(application, output, diskInstall) {
   if (process.platform !== "darwin" || process.arch !== "arm64")
     throw new Error("This probe requires macOS arm64.");
   const app = realpathSync(application);
@@ -50,8 +50,11 @@ function prepare(application, output) {
   mkdirSync(out, { mode: 0o700 });
   const fixture = join(out, "ArkCompatProbe");
   const classes = join(out, "classes");
-  const pluginLib = join(out, "plugins/arkcompat-probe/lib");
+  const plugins = join(out, "plugins");
+  const packageRoot = diskInstall ? join(out, "package") : plugins;
+  const pluginLib = join(packageRoot, "arkcompat-probe/lib");
   mkdirSync(fixture);
+  mkdirSync(plugins);
   mkdirSync(join(classes, "META-INF"), { recursive: true });
   mkdirSync(pluginLib, { recursive: true });
   for (const file of ["package.json", "main.ts"])
@@ -94,7 +97,7 @@ function prepare(application, output) {
   run(
     "/usr/bin/zip",
     ["-q", "-r", join(out, "arkcompat-deveco-probe.zip"), "arkcompat-probe"],
-    { cwd: join(out, "plugins") },
+    { cwd: packageRoot },
   );
   const jvm = ["config", "system", "plugins", "log"].map(
     (name) => `-Didea.${name}.path=${join(out, name)}`,
@@ -108,15 +111,21 @@ function prepare(application, output) {
   const launch = `#!/bin/sh\nexec env ${quote(`_JAVA_OPTIONS=${jvm.join(" ")}`)} ${quote(join(contents, "MacOS/devecostudio"))} ${quote(fixture)}\n`;
   writeFileSync(join(out, "launch.sh"), launch, { flag: "wx", mode: 0o700 });
   console.log(
-    "Prepared isolated probe. Review launch.sh, then run it and inspect probe-result.txt or probe-failure.txt.",
+    diskInstall
+      ? "Prepared ZIP and empty isolated plugins directory. Review launch.sh, then install the ZIP from disk in that instance."
+      : "Prepared isolated probe. Review launch.sh, then run it and inspect probe-result.txt or probe-failure.txt.",
   );
 }
 
 try {
   const args = process.argv.slice(2);
   if (args.length === 1 && args[0] === "--help") console.log(usage);
-  else if (args.length !== 2) throw new Error(usage);
-  else prepare(args[0], args[1]);
+  else if (
+    args.length === 2 ||
+    (args.length === 3 && args[2] === "--disk-install")
+  )
+    prepare(args[0], args[1], args[2] === "--disk-install");
+  else throw new Error(usage);
 } catch (error) {
   // Compiler/OS errors may include machine paths. The operator can reproduce
   // exact commands from the documented fixture and the script above.
