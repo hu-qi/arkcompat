@@ -70,6 +70,7 @@
     "url": "https://github.com/hu-qi/arkcompat.git"
   },
   "files": [
+    "LICENSE",
     "dist/**",
     "runtime/**"
   ]
