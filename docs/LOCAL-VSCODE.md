@@ -2,7 +2,7 @@
 
 The source-run adapter adds **ArkCompat: Scan Local Workspace** to the command palette. It launches the repository CLI for a single local workspace and shows its findings as informational diagnostics in Problems. It preserves the canonical finding IDs and locations. It performs no automatic scan or upload and does not run workspace scripts.
 
-Build the trusted ArkCompat checkout with `pnpm install --frozen-lockfile --ignore-scripts` and `pnpm build`. In VS Code 1.144 or later on the 1.x line, use the development host with `--extensionDevelopmentPath="$PWD/apps/vscode"` and the folder to scan. Set `arkcompat.nodePath` in **User** settings to the absolute path from `node -p process.execPath` (Node 22.13+ on the 22 line or Node 24). Workspace settings cannot select the executable. Target settings are `arkcompat.runtime`, `arkcompat.release`, and `arkcompat.apiLevel` (0 omits the API level).
+Build the trusted ArkCompat checkout with `pnpm install --frozen-lockfile --ignore-scripts` and `pnpm build`. In VS Code 1.128 or later on the 1.x line, use the development host with `--extensionDevelopmentPath="$PWD/apps/vscode"` and the folder to scan. Set `arkcompat.nodePath` in **User** settings to the absolute path from `node -p process.execPath` (Node 22.13+ on the 22 line or Node 24). Workspace settings cannot select the executable. Target settings are `arkcompat.runtime`, `arkcompat.release`, and `arkcompat.apiLevel` (0 omits the API level).
 
 For a repeatable check on the installed macOS VS Code build, run from the ArkCompat checkout:
 
@@ -22,7 +22,7 @@ env -u VSCODE_IPC_HOOK_CLI -u VSCODE_PORTABLE \
   --extensionTestsPath="$PWD/apps/vscode/dist/host-test.cjs" "$vscode_smoke/ArkCompatVsCodeProbe"
 ```
 
-The test must exit zero and write `proof.json`. The [recorded VS Code 1.144.1 arm64 run](evidence/vscode-local-host-2026-11-07.json) matched all 10 CLI IDs and locations and ignored the workspace executable override. The fixture findings remain `unknown`. This demonstrates source-run editor integration on that host. Cursor, other operating systems, a packaged VSIX, and compatibility accuracy still need separate verification.
+The test must exit zero and write `proof.json`. The [recorded VS Code 1.144.1 arm64 run](evidence/vscode-local-host-2026-11-07.json) matched all 10 CLI IDs and locations and ignored the workspace executable override. The fixture findings remain `unknown`. This demonstrates source-run editor integration on that host. Other operating systems and compatibility accuracy still need separate verification. Installed host results are recorded below.
 
 ## Installable VSIX rehearsal · Issue #6 / M4
 
@@ -39,4 +39,9 @@ code --user-data-dir "$out/user" --extensions-dir "$out/extensions" /path/to/pro
 
 Set the Node path in the isolated profile, then run **ArkCompat: Scan Local Workspace**. The VSIX stages only the extension entry points, its manifest, README and license, and the [portable CLI](CLI-PACKAGE-REHEARSAL.md). The packaging command refuses to overwrite an existing VSIX. Delete the isolated profile and VSIX to undo the rehearsal.
 
-On macOS arm64, an isolated VS Code 1.145.2 host installed and ran the VSIX without a sibling source CLI. The test harness verified the installed extension path and matched all 10 CLI finding IDs, severity, messages and locations on the authored fixture. The old source-only layout installed but returned no diagnostics under the same test. The production extension and development host both preserve the User-level executable policy, and every observed verdict remains `unknown`. The local package is neither a Marketplace publication nor validation on Cursor, DevEco or other host platforms.
+On macOS arm64, an isolated VS Code 1.145.2 host installed and ran the VSIX without a sibling source CLI. The test harness verified the installed extension path and matched all 10 CLI finding IDs, severity, messages and locations on the authored fixture. The old source-only layout installed but returned no diagnostics under the same test. The production extension and development host both preserve the User-level executable policy, and every observed verdict remains `unknown`. This is a private local package. Marketplace publication, DevEco and other host platforms remain separate.
+
+
+### Cursor local install
+
+Cursor 3.29.15 on macOS arm64 reports extension API 1.128.0. The older VSIX required 1.144 and was rejected on install. The extension now declares `^1.128.0` and compiles against the available `@types/vscode` 1.120.0 definitions, below the declared floor. Use the same VSIX and isolated profile arguments above with the `cursor` executable. For the pinned local smoke, the official [Cursor download](https://cursor.com/download) signature was verified before use. One VSIX was installed in both Cursor 3.29.15 and VS Code 1.145.2; the two hosts matched the CLI's 10 finding IDs, messages, severity and locations and ignored a workspace override of the Node executable. All results remained `unknown`. Cursor registry publication, other versions and operating systems are outside this local observation.
