@@ -1,0 +1,36 @@
+{
+  "observedAt": "2026-11-10",
+  "kind": "developer-deveco-disk-install-smoke",
+  "sourceCommit": "78df27c9e8b452b0998620443d375dbb8c36dfeb",
+  "host": { "platform": "macOS", "architecture": "arm64" },
+  "ide": {
+    "version": "26.0.0.865",
+    "build": "DS-261.23567.138.36.2600865",
+    "strictSignatureVerifiedOnIsolatedCopy": true,
+    "originalAppModified": false
+  },
+  "installation": {
+    "route": "Settings / Plugins / Install Plugin from Disk",
+    "initialIsolatedPluginsDirectoryEmpty": true,
+    "zipSha256": "9f42a7c26f22c451672b00e8f55f5ffa7ea03ab58ea9b27a11788f7df7aa1cdb",
+    "queuedZipMatched": true,
+    "installedJarSha256": "6e6e7405e99819a6ddd7cbed660a3794db4b61c798ff3194ef3d7313d44cd2f2",
+    "installedJarMatched": true,
+    "loadedAfterRestart": true
+  },
+  "scanner": {
+    "reportSchemaVersion": "0.8.0",
+    "reportSha256": "d33c5336015b5429f20d4bb6eacf8e1e15321be27dd9022c2ea4d0f6bcd3f288",
+    "cliReportByteMatch": true,
+    "findings": 2,
+    "statuses": ["unknown"],
+    "editor": {
+      "path": "main.ts",
+      "line": 2,
+      "column": 1,
+      "findingId": "6a47b7649024f0fa4641ecd9c65bac07f5b549dcc65f03fbc15f59337cf5adf5"
+    }
+  },
+  "publicDistributionVerified": false,
+  "independentAcceptanceVerified": false
+}
