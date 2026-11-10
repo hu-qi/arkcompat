@@ -9,8 +9,16 @@ export async function run() {
     ARKCOMPAT_TEST_NODE: node,
     ARKCOMPAT_TEST_REPORT: baseline,
     ARKCOMPAT_TEST_PROOF: proof,
+    ARKCOMPAT_TEST_INSTALLED_PATH: installedPath,
   } = process.env;
   assert.ok(node && baseline && proof, "Missing isolated host smoke inputs");
+  if (installedPath) {
+    const extension = vscode.extensions.getExtension(
+      "arkcompat-local.arkcompat-local",
+    );
+    assert.ok(extension, "Missing installed ArkCompat extension");
+    assert.equal(extension.extensionPath, installedPath);
+  }
   const folder = vscode.workspace.workspaceFolders?.[0];
   assert.ok(
     folder && folder.name === "ArkCompatVsCodeProbe",
@@ -59,6 +67,7 @@ export async function run() {
       {
         version: vscode.version,
         fixture: folder.name,
+        ...(installedPath ? { installedVsix: true } : {}),
         count,
         findings: actual,
       },
