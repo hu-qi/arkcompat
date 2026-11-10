@@ -23,3 +23,20 @@ env -u VSCODE_IPC_HOOK_CLI -u VSCODE_PORTABLE \
 ```
 
 The test must exit zero and write `proof.json`. The [recorded VS Code 1.144.1 arm64 run](evidence/vscode-local-host-2026-11-07.json) matched all 10 CLI IDs and locations and ignored the workspace executable override. The fixture findings remain `unknown`. This demonstrates source-run editor integration on that host. Cursor, other operating systems, a packaged VSIX, and compatibility accuracy still need separate verification.
+
+## Installable VSIX rehearsal · Issue #6 / M4
+
+The packaged extension runs the CLI shipped inside the VSIX. It uses the same scanner and still reads the Node path from User settings. You can build a private VSIX with the official [VS Code Extension Manager](https://code.visualstudio.com/api/working-with-extensions/publishing-extension#vsce) and install it in an isolated profile:
+
+```sh
+pnpm install --frozen-lockfile --ignore-scripts
+out=$(mktemp -d)
+npm install --prefix "$out/tools" --ignore-scripts --no-audit --no-fund --save-exact @vscode/vsce@4.1.0
+pnpm package:vscode "$out/tools/node_modules/.bin/vsce" "$out/arkcompat-local.vsix"
+code --user-data-dir "$out/user" --extensions-dir "$out/extensions" --install-extension "$out/arkcompat-local.vsix"
+code --user-data-dir "$out/user" --extensions-dir "$out/extensions" /path/to/project
+```
+
+Set the Node path in the isolated profile, then run **ArkCompat: Scan Local Workspace**. The VSIX stages only the extension entry points, its manifest, README and license, and the [portable CLI](CLI-PACKAGE-REHEARSAL.md). The packaging command refuses to overwrite an existing VSIX. Delete the isolated profile and VSIX to undo the rehearsal.
+
+On macOS arm64, an isolated VS Code 1.145.2 host installed and ran the VSIX without a sibling source CLI. The test harness verified the installed extension path and matched all 10 CLI finding IDs, severity, messages and locations on the authored fixture. The old source-only layout installed but returned no diagnostics under the same test. The production extension and development host both preserve the User-level executable policy, and every observed verdict remains `unknown`. The local package is neither a Marketplace publication nor validation on Cursor, DevEco or other host platforms.

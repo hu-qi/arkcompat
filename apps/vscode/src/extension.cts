@@ -57,13 +57,11 @@ export function activate(context: vscode.ExtensionContext) {
       active = controller;
       diagnostics.clear();
       try {
-        const cli = join(
-          context.extensionPath,
-          "..",
-          "cli",
-          "dist",
-          "index.js",
-        );
+        const cliRoot =
+          context.extensionMode === vscode.ExtensionMode.Production
+            ? join(context.extensionPath, "runtime")
+            : join(context.extensionPath, "..", "cli");
+        const cli = join(cliRoot, "dist", "index.js");
         const report = await scanWithCli(
           node,
           cli,

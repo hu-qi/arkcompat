@@ -64,5 +64,13 @@
   "devDependencies": {
     "@arkcompat/contracts": "workspace:*",
     "@types/vscode": "1.144.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hu-qi/arkcompat.git"
+  },
+  "files": [
+    "dist/**",
+    "runtime/**"
+  ]
 }
