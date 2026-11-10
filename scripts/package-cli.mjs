@@ -20,6 +20,7 @@ import {
   sep,
 } from "node:path";
 import { fileURLToPath } from "node:url";
+import { runtimeNotices } from "./runtime-notices.mjs";
 
 const root = realpathSync(fileURLToPath(new URL("..", import.meta.url)));
 const [target, ...extra] = process.argv.slice(2);
@@ -90,6 +91,10 @@ function packageCli() {
       cpSync(dir, join(output, relative(stage, dir)), { recursive: true });
     }
     cpSync(join(root, "LICENSE"), join(output, "LICENSE"));
+    writeFileSync(
+      join(output, "THIRD-PARTY-NOTICES.json"),
+      JSON.stringify(runtimeNotices(output), null, 2) + "\n",
+    );
     const { name, version, type, bin } = JSON.parse(
       readFileSync(join(root, "apps/cli/package.json"), "utf8"),
     );
