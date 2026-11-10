@@ -12,5 +12,8 @@
   },
   "bin": {
     "arkcompat": "dist/index.js"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }
