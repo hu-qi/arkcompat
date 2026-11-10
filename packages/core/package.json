@@ -15,5 +15,8 @@
   },
   "devDependencies": {
     "@types/yarnpkg__lockfile": "1.1.9"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }
