@@ -83,8 +83,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/contracts
       "@types/vscode":
-        specifier: 1.144.0
-        version: 1.144.0
+        specifier: 1.120.0
+        version: 1.120.0
 
   apps/web:
     devDependencies:
@@ -1028,10 +1028,10 @@ packages:
         integrity: sha512-1mAINjtQCXXeLkJ9ehXkwOcBpqtLxiVtKhpUf83DdRNdQKV0iXZpaHYqRr7nj+wvxuJzoAmAwXI+sCNMv1CzLQ==,
       }
 
-  "@types/vscode@1.144.0":
+  "@types/vscode@1.120.0":
     resolution:
       {
-        integrity: sha512-IDd4eQzu6MjGucfaQF0V/TY5vHX9o1albkKyZD6K/iVXSCcL5NSj4KW1wWfx1QDadPKWyxMaE/+M1wKLCJlXpA==,
+        integrity: sha512-feaT4Rst+FkTch5zz/ZbNCxoIvo55YU80Be2kiL7OJcod4+CUYf2lUBPdIJzozNnSEMq1VRTGrWEcCGFB3fBmA==,
       }
 
   "@types/yarnpkg__lockfile@1.1.9":
@@ -2359,7 +2359,7 @@ snapshots:
 
   "@types/semver@7.8.0": {}
 
-  "@types/vscode@1.144.0": {}
+  "@types/vscode@1.120.0": {}
 
   "@types/yarnpkg__lockfile@1.1.9": {}
 
