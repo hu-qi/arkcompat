@@ -322,7 +322,7 @@ it("fails closed on unsafe or unsupported workspace selections without leaking t
       "../outside-secret",
       "/private-secret",
       "https://secret.invalid/workspace",
-      "packages/{good,broken}",
+      "packages/[good,broken]",
     ],
   };
   const path = await root(manifest);
@@ -434,6 +434,72 @@ it("supports intermediate globstars with zero or multiple directory segments", a
   expect(JSON.stringify(report)).not.toContain(
     "packages/node_modules/components/ignored",
   );
+});
+
+it("expands bounded comma-list braces across workspace alternatives", async () => {
+  const manifest = {
+    name: "workspace-root",
+    version: "1.0.0",
+    private: true,
+    workspaces: ["{apps/alpha,packages/team-{a,b}/*}"],
+  };
+  const path = await root(manifest);
+  await workspace(path, "apps/alpha", {
+    name: "@fixture/app-alpha",
+    version: "1.0.0",
+  });
+  await workspace(path, "packages/team-a/beta", {
+    name: "@fixture/team-a-beta",
+    version: "1.0.0",
+  });
+  await workspace(path, "packages/team-b/gamma", {
+    name: "@fixture/team-b-gamma",
+    version: "1.0.0",
+  });
+  await workspace(path, "packages/other/delta", {
+    name: "@fixture/other-delta",
+    version: "1.0.0",
+  });
+
+  const report = await scanProject(path, target);
+
+  expect(report.modules?.map((module) => module.path)).toEqual([
+    "apps/alpha",
+    "packages/team-a/beta",
+    "packages/team-b/gamma",
+  ]);
+  expect(report.coverage.limitations.map((item) => item.code)).not.toContain(
+    "npm-workspace-pattern-unsupported",
+  );
+});
+
+it("fails closed on malformed braces and bounded expansion overflow", async () => {
+  const manifest = {
+    name: "workspace-root",
+    version: "1.0.0",
+    private: true,
+    workspaces: [
+      "packages/[ab]",
+      "packages/{alpha,}",
+      "packages/{1..3}",
+      "packages/{alpha",
+      "packages/alpha}",
+      "{0,1}{0,1}{0,1}{0,1}{0,1}{0,1}{0,1}",
+    ],
+  };
+  const path = await root(manifest);
+
+  const report = await scanProject(path, target);
+
+  expect(report.modules).toBeUndefined();
+  expect(report.coverage.limitations).toEqual(
+    expect.arrayContaining([
+      { code: "npm-workspace-pattern-unsupported" },
+      { code: "npm-workspace-limit-exceeded" },
+    ]),
+  );
+  expect(JSON.stringify(report)).not.toContain("packages/{");
+  expect(JSON.stringify(report)).not.toContain("{0,1}");
 });
 
 it("skips symlinked workspace directories and stays within the workspace cap", async () => {

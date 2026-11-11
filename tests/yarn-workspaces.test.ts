@@ -458,7 +458,7 @@ it("keeps stale, anonymous, duplicate and unsafe Yarn workspaces declarations-on
       "members/*",
       "../outside-secret",
       "https://secret.invalid/workspace",
-      "members/{stale,anonymous}",
+      "members/[stale,anonymous]",
     ],
   };
   const path = await root(manifest, berryLock);
@@ -512,6 +512,46 @@ it("keeps stale, anonymous, duplicate and unsafe Yarn workspaces declarations-on
     ]),
   );
   expect(JSON.stringify(report)).not.toMatch(/outside-secret|secret\.invalid/);
+});
+
+it("expands bounded comma-list braces in Yarn workspace selections", async () => {
+  const path = await root(
+    {
+      name: "workspace-root",
+      version: "1.0.0",
+      private: true,
+      workspaces: ["members/{alpha,group-{a,b}/*}"],
+    },
+    classicLock,
+  );
+  await workspace(path, "members/alpha", {
+    name: "@fixture/alpha",
+    version: "1.0.0",
+    dependencies: { external: "^1" },
+  });
+  await workspace(path, "members/group-a/beta", {
+    name: "@fixture/beta",
+    version: "1.0.0",
+  });
+  await workspace(path, "members/group-b/gamma", {
+    name: "@fixture/gamma",
+    version: "1.0.0",
+  });
+  await workspace(path, "members/other/delta", {
+    name: "@fixture/delta",
+    version: "1.0.0",
+  });
+
+  const report = await scanProject(path, target);
+
+  expect(report.modules?.map((module) => module.path)).toEqual([
+    "members/alpha",
+    "members/group-a/beta",
+    "members/group-b/gamma",
+  ]);
+  expect(report.coverage.limitations.map((item) => item.code)).not.toContain(
+    "yarn-workspace-pattern-unsupported",
+  );
 });
 
 it("keeps missing, peer and versionless module edges explicit", async () => {
