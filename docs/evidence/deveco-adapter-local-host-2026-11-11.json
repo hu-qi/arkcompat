@@ -4,6 +4,7 @@
   "issue": 6,
   "kind": "developer-deveco-explicit-action-host-smoke",
   "sourceBaseCommit": "0b0fc11fffc2fb276a6d68e9a0f0f00155b76c4c",
+  "implementationCommit": "a32c137c4560031ef0dc8fe9f860a3c7861e6fc7",
   "host": {
     "platform": "macOS",
     "architecture": "arm64",
