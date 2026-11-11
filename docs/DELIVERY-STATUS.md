@@ -42,6 +42,13 @@ The open engineering actions above remain actionable; they are not all blocked b
   `eeccb02d30aad878dd7e136ef6e0d67ae269f453` after all five required
   [main checks](https://github.com/hu-qi/arkcompat/actions/runs/42959055503)
   passed.
+- [ETS inventory PR #55](https://github.com/hu-qi/arkcompat/pull/55): adds
+  partial `.ets` parsing with imported call/constructor attribution and lexical
+  shadow abstention. Local `pnpm check` passed 450 tests; the five required
+  [PR checks](https://github.com/hu-qi/arkcompat/actions/runs/42973181743) and
+  [merged-main checks](https://github.com/hu-qi/arkcompat/actions/runs/42973351261)
+  passed. Main `267e63e78da692e0ef034b676dc5868c3e9d4b52` was read back from
+  GitHub, GitCode and AtomGit.
 - Claude Code independent review (2026-11-10): evaluated PR #41's public
   evidence and returned "support only with amendments". The 2026-11-11 rewrite
   adds packed-dependency provenance, timestamp-bound captures, a 36-loop
