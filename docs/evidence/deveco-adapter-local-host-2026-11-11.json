@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "1",
+  "observedAt": "2026-11-11",
+  "issue": 6,
+  "kind": "developer-deveco-explicit-action-host-smoke",
+  "sourceBaseCommit": "0b0fc11fffc2fb276a6d68e9a0f0f00155b76c4c",
+  "implementationCommit": "a32c137c4560031ef0dc8fe9f860a3c7861e6fc7",
+  "host": {
+    "platform": "macOS",
+    "architecture": "arm64",
+    "ide": "DevEco Studio 26.0.0.865",
+    "ideBuild": "DS-261.23567.138.36.2600865",
+    "strictSignatureVerifiedOnIsolatedCopy": true,
+    "originalAppModified": false,
+    "profileIsolated": true
+  },
+  "packaging": {
+    "command": "pnpm package:deveco <verified-isolated-app> <new-output-directory> --prestage",
+    "javaCompilation": "bundled JDK 25, -proc:none -Xlint:all -Werror",
+    "zipSha256": "755b66acad17cd88f0bbbbfe89696785ebf0c9e98598b5792cbbb47b9f7fad0f",
+    "pluginJarSha256": "aa756854498b764b57c4cb245b5b9ad7e70f10649df24c4be696205d886699a4",
+    "embeddedCliEntrySha256": "47cc6b7b2e15e6dbf901cd875e626273cc0b54b75d302a698c67aa25cd8fb35c",
+    "fixtureReportSha256": "05cd2488fba6c666169fd30b449f976a6d88b6e5e5717b4aa5d753832bc76422",
+    "embeddedAndSourceCliByteIdentical": true,
+    "secondBuildZipByteIdentical": true,
+    "secondBuildJarByteIdentical": true,
+    "secondBuildEmbeddedCliEntryByteIdentical": true
+  },
+  "hostAction": {
+    "route": "Tools / ArkCompat: Scan Current Project",
+    "pluginLoaded": true,
+    "subprocessEnvironmentCleared": true,
+    "reportSchemaVersion": "0.12.0",
+    "findingCount": 2,
+    "findingIds": [
+      "84d092148e09f27f9afa8c3018f8f8a8e68f56ac6cd0c3576d2d8b7e30df99b2",
+      "6a47b7649024f0fa4641ecd9c65bac07f5b549dcc65f03fbc15f59337cf5adf5"
+    ],
+    "allFindingsUnknown": true,
+    "hostObservationSha256": "ecae901e864e2319ba583c1063dee5940b60baa95d66e467c60b0932bcb3bcfd",
+    "notificationObservedThroughAccessibilitySnapshot": true,
+    "notificationActions": ["Open report", "Open first finding"],
+    "openFirstFinding": {
+      "findingId": "84d092148e09f27f9afa8c3018f8f8a8e68f56ac6cd0c3576d2d8b7e30df99b2",
+      "path": "main.ts",
+      "line": 1,
+      "column": 1,
+      "caret": "1:1",
+      "caretObserved": true,
+      "screenshotSha256": "3babfd02f39ba50f39f7190c3cdf89414f0c370564e543d099539c2459e85d4b"
+    }
+  },
+  "recovery": {
+    "initialHostAttemptCreatedNoReport": true,
+    "cause": "plugin runtime entry resolved one directory above the installed plugin lib directory",
+    "fix": "resolve runtime/dist/index.js beside the plugin JAR",
+    "actionPassedAfterFix": true
+  },
+  "localVerification": {
+    "command": "pnpm check",
+    "testFiles": 33,
+    "tests": 539,
+    "coverage": {
+      "statements": 94.12,
+      "branches": 92.25,
+      "functions": 97.31,
+      "lines": 95.82
+    },
+    "markdownFilesChecked": 44,
+    "passed": true
+  },
+  "limitations": {
+    "fixtureIsPlainTypeScriptNotAHarmonyOSProject": true,
+    "ideReportedProjectSyncFailureForTheFixture": true,
+    "nativeDiskInstallOfTheProductAdapterRetestedInThisSmoke": false,
+    "publicTrustlistSigningAndUpdateRouteVerified": false,
+    "publicDistributionVerified": false,
+    "independentAcceptanceVerified": false
+  }
+}
