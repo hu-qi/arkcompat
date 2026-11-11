@@ -75,6 +75,15 @@ The open engineering actions above remain actionable; they are not all blocked b
   passed; merge `a509fa0e0a39b439f1b7cd260a53ae763de5b99b` is the current
   merged baseline. Exact fixture/real-lock hashes and graph counts are in
   [pnpm workspace evidence](evidence/pnpm-workspaces-2026-11-11.json).
+- [Yarn workspace PR #63](https://github.com/hu-qi/arkcompat/pull/63):
+  adds safe Classic/Berry workspace selection, validated Berry v8 descriptors,
+  module-local graph projection, explicit Classic local-link limits and Schema
+  0.11.0 `kind: "yarn"` provenance. Local `pnpm check` passed 504 tests. The
+  five required [PR checks](https://github.com/hu-qi/arkcompat/actions/runs/42989481909)
+  and [merged-main checks](https://github.com/hu-qi/arkcompat/actions/runs/42989742731)
+  passed; merge `961e43039c9c25217935b1c3f64f6487f4c8229d` is the current
+  merged baseline. Exact fixture/probe hashes, runtime parity and graph counts
+  are in [Yarn workspace evidence](evidence/yarn-workspaces-2026-11-11.json).
 - Claude Code independent review (2026-11-10): evaluated PR #41's public
   evidence and returned "support only with amendments". The 2026-11-11 rewrite
   adds packed-dependency provenance, timestamp-bound captures, a 36-loop

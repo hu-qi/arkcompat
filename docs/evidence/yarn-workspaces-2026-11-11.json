@@ -1,6 +1,12 @@
 {
   "schemaVersion": "1",
   "scope": "Authored Classic/Berry workspace regressions plus one local Yarn 4 workspace descriptor probe; not installation, compatibility, independent accuracy or M1 acceptance evidence.",
+  "pullRequest": {
+    "number": 63,
+    "head": "3ba65ee13fa59aadfcc04cec1041544b521189c9",
+    "mergeCommit": "961e43039c9c25217935b1c3f64f6487f4c8229d",
+    "url": "https://github.com/hu-qi/arkcompat/pull/63"
+  },
   "implementation": {
     "schemaVersion": "0.11.0",
     "moduleKind": "yarn",
@@ -74,7 +80,17 @@
     "schemaInVsix": "0.11.0"
   },
   "authoritativeCI": {
-    "status": "pending-pr"
+    "pullRequestRunId": 42989481909,
+    "pullRequestConclusion": "success",
+    "mergedMainRunId": 42989742731,
+    "mergedMainConclusion": "success",
+    "requiredJobs": [
+      "docs-integrity",
+      "actionlint",
+      "workspace-ubuntu-node22",
+      "workspace-ubuntu-node24",
+      "workspace-macos-node24"
+    ]
   },
   "acceptance": {
     "dependencyScanAccuracy": "not-measured",
