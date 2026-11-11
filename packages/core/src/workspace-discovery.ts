@@ -1,6 +1,7 @@
 import { lstat, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import type { Limitation } from "@arkcompat/contracts";
+import { expand as expandBraces } from "brace-expansion";
 import { dependencies, packageName, record } from "./declarations.js";
 
 const manifestName = "package.json";
@@ -9,6 +10,7 @@ const maxPathLength = 1024;
 const maxPathParts = 64;
 const maxTraversedDirectories = 4096;
 const maxBraceExpansions = 64;
+const maxBraceExpandedLength = maxPathLength * (maxBraceExpansions + 1);
 
 export interface WorkspaceManifest {
   path: string;
@@ -78,101 +80,31 @@ interface TraversalState {
   exhausted: boolean;
 }
 
-function expandBraceList(value: string):
-  | { patterns: string[]; limitation: null }
-  | {
-      patterns: null;
-      limitation: "pattern-unsupported" | "limit-exceeded";
-    } {
-  let failure: "pattern-unsupported" | "limit-exceeded" | null = null;
-  let expandedPatterns = 0;
-
-  function expand(candidate: string): string[] {
-    if (failure) return [];
-    const opening = candidate.indexOf("{");
-    if (opening === -1) {
-      if (candidate.includes("}")) {
-        failure = "pattern-unsupported";
-        return [];
-      }
-      expandedPatterns++;
-      if (expandedPatterns > maxBraceExpansions) {
-        failure = "limit-exceeded";
-        return [];
-      }
-      return [candidate];
-    }
-    if (candidate.slice(0, opening).includes("}")) {
-      failure = "pattern-unsupported";
-      return [];
-    }
-
-    let depth = 0;
-    let closing = -1;
-    for (let index = opening; index < candidate.length; index++) {
-      if (candidate[index] === "{") depth++;
-      else if (candidate[index] === "}") {
-        depth--;
-        if (depth === 0) {
-          closing = index;
-          break;
-        }
-      }
-    }
-    if (closing === -1) {
-      failure = "pattern-unsupported";
-      return [];
-    }
-
-    const alternatives = splitBraceAlternatives(
-      candidate.slice(opening + 1, closing),
-    );
-    if (!alternatives) {
-      failure = "pattern-unsupported";
-      return [];
-    }
-    if (
-      alternatives.length < 2 ||
-      alternatives.some((alternative) => alternative.length === 0)
-    ) {
-      failure = "pattern-unsupported";
-      return [];
-    }
-
-    const prefix = candidate.slice(0, opening);
-    const suffix = candidate.slice(closing + 1);
-    const patterns: string[] = [];
-    for (const alternative of alternatives) {
-      const next = expand(prefix + alternative + suffix);
-      if (failure) break;
-      patterns.push(...next);
-    }
-    return patterns;
-  }
-
-  const patterns = expand(value);
-  return failure
-    ? { patterns: null, limitation: failure }
-    : { patterns, limitation: null };
+function hasEmptyBraceAlternative(value: string): boolean {
+  return value.includes("{,") || value.includes(",,") || value.includes(",}");
 }
 
-function splitBraceAlternatives(value: string): string[] | null {
-  const alternatives: string[] = [];
-  let depth = 0;
-  let start = 0;
-  for (let index = 0; index < value.length; index++) {
-    if (value[index] === "{") depth++;
-    else if (value[index] === "}") {
-      depth--;
-      if (depth < 0) return null;
-    } else if (value[index] === "," && depth === 0) {
-      alternatives.push(value.slice(start, index));
-      start = index + 1;
-    }
+function hasHostIncompatibleBraceSequence(
+  value: string,
+  prefix: WorkspaceDiscoveryOptions["codePrefix"],
+): boolean {
+  if (prefix === "npm-workspace") return false;
+  for (const match of value.matchAll(/{([^{}]*)}/g)) {
+    const group = match[1]!;
+    if (!group.includes("..")) continue;
+    const endpoints = group.split("..");
+    if (endpoints.length !== 2) return true;
+    const from = endpoints[0]!;
+    const to = endpoints[1]!;
+    const numeric =
+      /^[+-]?\d+$/.test(from) &&
+      /^[+-]?\d+$/.test(to) &&
+      !/^[+-]?0\d/.test(from) &&
+      !/^[+-]?0\d/.test(to);
+    const alphabetic = /^[A-Za-z]$/.test(from) && /^[A-Za-z]$/.test(to);
+    if (!numeric && !alphabetic) return true;
   }
-  if (depth !== 0) return null;
-  alternatives.push(value.slice(start));
-  return alternatives;
+  return false;
 }
 
 function normalizePatternValue(
@@ -229,15 +161,40 @@ function normalizePatterns(
       limitation: { code: `${prefix}-pattern-unsafe` },
     };
   }
-  const expanded = expandBraceList(raw);
-  if (!expanded.patterns) {
+  if (hasEmptyBraceAlternative(raw)) {
     return {
       selections: null,
-      limitation: { code: `${prefix}-${expanded.limitation}` },
+      limitation: { code: `${prefix}-pattern-unsupported` },
+    };
+  }
+  if (hasHostIncompatibleBraceSequence(raw, prefix)) {
+    return {
+      selections: null,
+      limitation: { code: `${prefix}-pattern-unsupported` },
+    };
+  }
+  let patterns: string[];
+  try {
+    patterns = expandBraces(raw, {
+      max: maxBraceExpansions + 1,
+      maxLength: maxBraceExpandedLength,
+      maxDepth: maxPathParts,
+      maxRewrites: maxPathParts,
+    });
+  } catch {
+    return {
+      selections: null,
+      limitation: { code: `${prefix}-pattern-unsupported` },
+    };
+  }
+  if (patterns.length > maxBraceExpansions) {
+    return {
+      selections: null,
+      limitation: { code: `${prefix}-limit-exceeded` },
     };
   }
   const selections: string[][] = [];
-  for (const pattern of expanded.patterns) {
+  for (const pattern of patterns) {
     const normalized = normalizePatternValue(pattern, excluded, prefix);
     if (!normalized.parts)
       return { selections: null, limitation: normalized.limitation };
