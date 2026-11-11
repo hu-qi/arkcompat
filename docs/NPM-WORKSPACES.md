@@ -31,6 +31,9 @@ SHA-256
 These are developer regressions, not an independent workload or acceptance
 metric.
 
+The exact PR head, merged-main workflow, report hashes and scoped coverage are
+recorded in [machine-readable evidence](evidence/npm-workspaces-2026-11-11.json).
+
 ## Discovery boundary
 
 - `workspaces` may be a string array or an object with a `packages` string
