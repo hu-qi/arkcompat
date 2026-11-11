@@ -12,6 +12,7 @@ import {
   packageName,
   effectiveDependencies,
 } from "./declarations.js";
+import { registryRangeStatus } from "./registry-range.js";
 
 export interface NpmWorkspaceLockRecord {
   path: string;
@@ -218,7 +219,7 @@ export function npmGraph(
   )
     limitations.push({ code: "manifest-lockfile-mismatch", path: source! });
   limitations.push(
-    { code: "dependency-ranges-not-validated" },
+    { code: "dependency-ranges-partially-validated" },
     { code: "lockfile-install-state-not-verified" },
   );
   function addEdges(
@@ -240,21 +241,34 @@ export function npmGraph(
         /^(workspace:|file:|link:)/.test(dependency.specifier) ||
         node?.link ||
         (node && node.version === null);
+      const mismatch =
+        node &&
+        node.version !== null &&
+        !unsupported &&
+        registryRangeStatus(dependency.specifier, node.version) === "mismatch";
       const edge: DependencyEdge = {
         from,
         name: dependency.name,
         specifier: publicSpecifier(dependency.specifier),
         section: dependency.section,
         to: node?.id ?? null,
-        resolution: unsupported ? "unsupported" : node ? "locked" : "missing",
+        resolution: unsupported
+          ? "unsupported"
+          : mismatch
+            ? "mismatch"
+            : node
+              ? "locked"
+              : "missing",
       };
       graph.edges.push(edge);
       if (edge.resolution !== "locked")
         limitations.push({
           code:
-            edge.resolution === "missing"
-              ? "dependency-edge-missing"
-              : "dependency-edge-unsupported",
+            edge.resolution === "mismatch"
+              ? "dependency-range-mismatch"
+              : edge.resolution === "missing"
+                ? "dependency-edge-missing"
+                : "dependency-edge-unsupported",
           path: from || "package.json",
         });
     }

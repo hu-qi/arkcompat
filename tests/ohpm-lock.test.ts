@@ -54,7 +54,7 @@ it("uses exact OHPM selectors for direct and transitive edges with CLI/schema pa
     lock,
   );
   const report = await scanProject(root, target);
-  expect(report.schemaVersion).toBe("0.11.0");
+  expect(report.schemaVersion).toBe("0.12.0");
   expect(report.coverage.dependencyGraph).toBe("ohpm-lockfile-partial");
   expect(report.dependencyGraph).toMatchObject({
     source: "oh-package-lock.json5",
@@ -168,6 +168,51 @@ it("does not attach an alias descriptor to the wrong package", async () => {
     to: null,
     resolution: "unsupported",
   });
+});
+it("validates OHPM direct and transitive semver ranges", async () => {
+  const root = await fixture(
+    {
+      dependencies: {
+        outer: "^1.0.0 || >=3.0.0 <4.0.0",
+        bad: ">=2.0.0 <3.0.0",
+      },
+    },
+    {
+      lockfileVersion: 3,
+      specifiers: {
+        "outer@^1.0.0 || >=3.0.0 <4.0.0": "outer@3.2.0",
+        "bad@>=2.0.0 <3.0.0": "bad@3.0.0",
+        "child@>=2.0.0 <3.0.0": "child@1.9.0",
+      },
+      packages: {
+        "outer@3.2.0": {
+          ...registry,
+          name: "outer",
+          dependencies: { child: ">=2.0.0 <3.0.0" },
+        },
+        "bad@3.0.0": { ...registry, name: "bad" },
+        "child@1.9.0": { ...registry, name: "child" },
+      },
+    },
+  );
+  const report = await scanProject(root, target);
+  expect(
+    report.dependencyGraph.edges.map((edge) => [
+      edge.from,
+      edge.name,
+      edge.resolution,
+      edge.to,
+    ]),
+  ).toEqual([
+    ["", "bad", "mismatch", "bad@3.0.0"],
+    ["", "outer", "locked", "outer@3.2.0"],
+    ["outer@3.2.0", "child", "mismatch", "child@1.9.0"],
+  ]);
+  expect(report.coverage.limitations).toEqual(
+    expect.arrayContaining([
+      { code: "dependency-range-mismatch", path: "oh-package-lock.json5" },
+    ]),
+  );
 });
 
 it("records dynamic and unrecognized package data as limitations", async () => {

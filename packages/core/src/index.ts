@@ -467,7 +467,7 @@ export async function scanProject(
       JSON.stringify(usage),
     );
   return {
-    schemaVersion: "0.11.0",
+    schemaVersion: "0.12.0",
     scannerVersion: "0.0.0",
     snapshots: { rules: "none", knowledge: "none" },
     target,

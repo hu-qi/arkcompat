@@ -14,6 +14,7 @@ import {
   publicSpecifier,
   record,
 } from "./declarations.js";
+import { registryRangeStatus } from "./registry-range.js";
 
 const source = "yarn.lock";
 // The Classic parser is a CommonJS bundle with a Babel __esModule marker.
@@ -203,12 +204,19 @@ export function yarnGraph(
     const supported =
       descriptor(key) !== null && dependency.section !== "peerDependencies";
     const node = supported ? nodes.get(key) : undefined;
+    const mismatch =
+      node?.version !== null &&
+      node?.version !== undefined &&
+      supported &&
+      registryRangeStatus(dependency.specifier, node.version) === "mismatch";
     const resolution: DependencyEdge["resolution"] =
       !supported || (node && node.version === null)
         ? "unsupported"
-        : node
-          ? "locked"
-          : "missing";
+        : mismatch
+          ? "mismatch"
+          : node
+            ? "locked"
+            : "missing";
     graph.edges.push({
       from,
       name: dependency.name,
@@ -220,9 +228,11 @@ export function yarnGraph(
     if (resolution !== "locked")
       limitations.push({
         code:
-          resolution === "missing"
-            ? "dependency-edge-missing"
-            : "dependency-edge-unsupported",
+          resolution === "mismatch"
+            ? "dependency-range-mismatch"
+            : resolution === "missing"
+              ? "dependency-edge-missing"
+              : "dependency-edge-unsupported",
         path: from || "package.json",
       });
   }
@@ -235,7 +245,7 @@ export function yarnGraph(
       edge(node.id, dependency);
   }
   limitations.push(
-    { code: "dependency-ranges-not-validated" },
+    { code: "dependency-ranges-partially-validated" },
     { code: "lockfile-install-state-not-verified" },
     { code: "yarn-peer-graph-not-recorded" },
     { code: "yarn-hoisting-not-recorded" },

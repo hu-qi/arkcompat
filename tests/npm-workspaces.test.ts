@@ -126,7 +126,7 @@ it.each([2, 3])(
       version,
     );
     const report = await scanProject(path, target);
-    expect(report.schemaVersion).toBe("0.11.0");
+    expect(report.schemaVersion).toBe("0.12.0");
     expect(
       report.modules?.map((module) => [
         module.kind,
@@ -190,6 +190,48 @@ it.each([2, 3])(
     });
   },
 );
+
+it("keeps a recorded npm workspace target visible when its version contradicts the manifest range", async () => {
+  const manifest = {
+    name: "workspace-root",
+    version: "1.0.0",
+    private: true,
+    workspaces: ["packages/alpha"],
+  };
+  const path = await root(manifest);
+  await workspace(path, "packages/alpha", {
+    name: "@fixture/alpha",
+    version: "1.0.0",
+    dependencies: { external: "^2.0.0" },
+  });
+  await lock(path, manifest, {
+    "node_modules/@fixture/alpha": {
+      link: true,
+      resolved: "packages/alpha",
+    },
+    "node_modules/external": { version: "1.9.0" },
+    "packages/alpha": {
+      name: "@fixture/alpha",
+      version: "1.0.0",
+      dependencies: { external: "^2.0.0" },
+    },
+  });
+  const report = await scanProject(path, target);
+  expect(report.modules?.[0]?.dependencyGraph.edges).toEqual([
+    {
+      from: "",
+      name: "external",
+      specifier: "^2.0.0",
+      section: "dependencies",
+      to: "node_modules/external",
+      resolution: "mismatch",
+    },
+  ]);
+  expect(report.coverage.limitations).toContainEqual({
+    code: "dependency-range-mismatch",
+    path: "node_modules/@fixture/alpha",
+  });
+});
 
 it("keeps ambiguous, stale and missing workspace lock records explicit", async () => {
   const manifest = {

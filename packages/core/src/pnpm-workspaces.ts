@@ -180,9 +180,11 @@ export async function scanPnpmWorkspaces(options: WorkspaceOptions): Promise<{
         if (edge.resolution !== "locked")
           addLimitation(limitations, seenLimitations, {
             code:
-              edge.resolution === "missing"
-                ? "dependency-edge-missing"
-                : "dependency-edge-unsupported",
+              edge.resolution === "mismatch"
+                ? "dependency-range-mismatch"
+                : edge.resolution === "missing"
+                  ? "dependency-edge-missing"
+                  : "dependency-edge-unsupported",
             path: workspace.manifestPath,
           });
     }

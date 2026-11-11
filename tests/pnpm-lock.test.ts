@@ -201,6 +201,53 @@ it("flags stale root specifiers instead of treating the lockfile as current", as
     (await scanProject(root, target)).coverage.limitations.map((l) => l.code),
   ).toContain("manifest-lockfile-mismatch");
 });
+it("marks importer and transitive semver range mismatches without dropping the recorded target", async () => {
+  const root = await fixture(
+    lock(
+      {
+        dependencies: {
+          a: { specifier: "^1.0.0 || >=3.0.0 <4.0.0", version: "3.2.0" },
+          bad: { specifier: ">=2.0.0 <3.0.0", version: "3.0.0" },
+        },
+      },
+      {
+        "a@3.2.0": { dependencies: { child: "^2.0.0" } },
+        "bad@3.0.0": {},
+        "child@1.9.0": {},
+      },
+      {
+        "a@3.2.0": { dependencies: { child: "1.9.0" } },
+        "bad@3.0.0": {},
+        "child@1.9.0": {},
+      },
+    ),
+    {
+      dependencies: {
+        a: "^1.0.0 || >=3.0.0 <4.0.0",
+        bad: ">=2.0.0 <3.0.0",
+      },
+    },
+  );
+  const report = await scanProject(root, target);
+  expect(
+    report.dependencyGraph.edges.map((edge) => [
+      edge.from,
+      edge.name,
+      edge.resolution,
+      edge.to,
+    ]),
+  ).toEqual([
+    ["", "a", "locked", "pnpm:a@3.2.0"],
+    ["", "bad", "mismatch", "pnpm:bad@3.0.0"],
+    ["pnpm:a@3.2.0", "child", "mismatch", "pnpm:child@1.9.0"],
+  ]);
+  expect(report.coverage.limitations).toEqual(
+    expect.arrayContaining([
+      { code: "dependency-range-mismatch", path: "package.json" },
+      { code: "dependency-range-mismatch", path: "pnpm:a@3.2.0" },
+    ]),
+  );
+});
 it("accepts root-only empty lockfiles without package/snapshot tables", async () => {
   const report = await scanProject(
     await fixture({ lockfileVersion: "9.0", importers: { ".": {} } }),

@@ -11,10 +11,12 @@
     "@yarnpkg/lockfile": "1.1.0",
     "ajv": "8.20.0",
     "json5": "2.2.3",
+    "semver": "7.8.6",
     "typescript": "5.9.3",
     "yaml": "2.9.1"
   },
   "devDependencies": {
+    "@types/semver": "7.8.0",
     "@types/yarnpkg__lockfile": "1.1.9"
   },
   "files": [
