@@ -45,7 +45,7 @@ it("records Berry v8 grouped registry descriptors and exact direct/transitive ed
       e.resolution,
     ]),
   }).toEqual({
-    version: "0.10.0",
+    version: "0.11.0",
     coverage: "yarn-berry-lockfile-partial",
     nodes: [
       "yarn-berry:a@npm:^1",
@@ -302,6 +302,8 @@ it("does not validate unused workspace build metadata as registry optional flags
   }).toMatchObject({
     nodes: 3,
     resolution: "locked",
-    codes: expect.arrayContaining(["yarn-berry-protocol-not-analyzed"]),
+    codes: expect.arrayContaining([
+      "yarn-berry-root-workspace-links-not-resolved",
+    ]),
   });
 });

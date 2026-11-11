@@ -3,13 +3,12 @@ import type {
   Limitation,
   ModuleInventory,
 } from "@arkcompat/contracts";
-import {
-  effectiveDependencies,
-  publicSpecifier,
-  record,
-} from "./declarations.js";
+import { effectiveDependencies, publicSpecifier } from "./declarations.js";
 import type { NpmWorkspaceLockRecord } from "./npm-lock.js";
-import { discoverWorkspaceManifests } from "./workspace-discovery.js";
+import {
+  discoverWorkspaceManifests,
+  workspaceSelections,
+} from "./workspace-discovery.js";
 
 interface WorkspaceOptions {
   root: string;
@@ -18,31 +17,6 @@ interface WorkspaceOptions {
   lockRecords: NpmWorkspaceLockRecord[];
   excluded: ReadonlySet<string>;
   read: (path: string) => Promise<string>;
-}
-
-function workspaceSelections(manifest: Record<string, unknown>) {
-  if (manifest.workspaces === undefined)
-    return { entries: [] as string[], limitations: [] as Limitation[] };
-  const value = manifest.workspaces;
-  let entries: unknown;
-  const limitations: Limitation[] = [];
-  if (Array.isArray(value)) entries = value;
-  else if (record(value) && Array.isArray(value.packages)) {
-    entries = value.packages;
-    if (Object.hasOwn(value, "nohoist"))
-      limitations.push({ code: "npm-workspace-nohoist-not-analyzed" });
-  } else {
-    throw new Error(
-      "package.json workspaces must be a string array or an object with a packages string array",
-    );
-  }
-  if (
-    !Array.isArray(entries) ||
-    !entries.every((entry) => typeof entry === "string" && entry.length > 0)
-  ) {
-    throw new Error("package.json workspaces contains an invalid selection");
-  }
-  return { entries: entries as string[], limitations };
 }
 
 function addLimitation(
@@ -92,7 +66,10 @@ export async function scanNpmWorkspaces(options: WorkspaceOptions): Promise<{
   modules: { inventory: ModuleInventory; manifestText: string }[];
   limitations: Limitation[];
 }> {
-  const { entries, limitations } = workspaceSelections(options.manifest);
+  const { entries, limitations } = workspaceSelections(
+    options.manifest,
+    "npm-workspace",
+  );
   if (!entries.length) return { modules: [], limitations };
   const discovery = await discoverWorkspaceManifests({
     root: options.root,

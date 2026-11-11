@@ -30,7 +30,7 @@ The browser form requires the exact source package, exact semantic source versio
 
 ## Import and resource boundary
 
-- Only full **scan schema 0.10.0** reports are accepted. Wrong versions, malformed JSON, added fields or invented verified-compatible statuses are rejected using the existing JSON schema. Schema validity is not report authenticity, provenance or runtime verification.
+- Only full **scan schema 0.11.0** reports are accepted. Wrong versions, malformed JSON, added fields or invented verified-compatible statuses are rejected using the existing JSON schema. Schema validity is not report authenticity, provenance or runtime verification.
 - Input is limited to **8 MiB of UTF-8 bytes**. The browser checks file size before reading, and the parser checks bytes. Findings render at most **1000 matching rows**; the UI preserves both the matching denominator and original total. Filter a large report to inspect a narrower subset. This is not a general large-report performance guarantee.
 - Untrusted report and knowledge strings enter DOM textContent only, never HTML or executable URLs. No raw value becomes a script, image or navigation link. The report, filtered array and selected metadata are not modified.
 - The server binds only **127.0.0.1**, serves a fixed three-asset allowlist plus `/api/knowledge/status` and `/api/knowledge`, rejects non-GET/HEAD requests and exposes no report/upload/scan endpoint. Unknown/traversal-like paths return 404. A missing build returns 503 rather than reading arbitrary files; invalid knowledge startup uses a path-safe diagnostic.

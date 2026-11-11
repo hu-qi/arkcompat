@@ -12,6 +12,8 @@ import { readOhpmProfile, scanOhpmModules } from "./ohpm-modules.js";
 import { readOhpmLock, publicOhpmSpecifier } from "./ohpm-lock.js";
 import { scanNpmWorkspaces } from "./npm-workspaces.js";
 import { scanPnpmWorkspaces } from "./pnpm-workspaces.js";
+import { scanYarnWorkspaces } from "./yarn-workspaces.js";
+import type { YarnBerryWorkspaceEntry } from "./yarn-berry.js";
 import type { PnpmImporterRecord } from "./pnpm-lock.js";
 import { analyzeSource } from "./source.js";
 import { dependencies, publicSpecifier, record } from "./declarations.js";
@@ -230,6 +232,20 @@ export async function scanProject(
     limitations: graphLimitations,
     parsed,
   } = lockResult;
+  const declaredManager =
+    typeof manifest.packageManager === "string"
+      ? manifest.packageManager.split("@")[0]
+      : "";
+  const workspaceManager =
+    source === "pnpm-lock.yaml"
+      ? "pnpm"
+      : source === "yarn.lock"
+        ? "yarn"
+        : source === null && declaredManager === "pnpm"
+          ? "pnpm"
+          : source === null && declaredManager === "yarn"
+            ? "yarn"
+            : "npm";
   if (ohpm && source === null)
     limitations.push({ code: "transitive-dependencies-not-analyzed" });
   else limitations.push(...graphLimitations);
@@ -239,6 +255,7 @@ export async function scanProject(
       : [];
   const npmWorkspaces =
     !ohpm &&
+    workspaceManager === "npm" &&
     (source === null ||
       source === "package-lock.json" ||
       source === "npm-shrinkwrap.json")
@@ -257,12 +274,12 @@ export async function scanProject(
       : [];
   const pnpmWorkspaceText =
     !ohpm &&
-    source === "pnpm-lock.yaml" &&
+    workspaceManager === "pnpm" &&
     rootEntries.includes("pnpm-workspace.yaml")
       ? await read(join(root, "pnpm-workspace.yaml"))
       : null;
   const pnpmWorkspaces =
-    !ohpm && source === "pnpm-lock.yaml"
+    !ohpm && workspaceManager === "pnpm"
       ? await scanPnpmWorkspaces({
           root,
           text: pnpmWorkspaceText,
@@ -273,11 +290,30 @@ export async function scanProject(
           read,
         })
       : { modules: [], limitations: [] };
+  const yarnWorkspaceEntries: YarnBerryWorkspaceEntry[] =
+    "workspaceEntries" in lockResult &&
+    Array.isArray(lockResult.workspaceEntries)
+      ? (lockResult.workspaceEntries as YarnBerryWorkspaceEntry[])
+      : [];
+  const yarnWorkspaces =
+    !ohpm && workspaceManager === "yarn"
+      ? await scanYarnWorkspaces({
+          root,
+          manifest,
+          graph: dependencyGraph,
+          parsed,
+          workspaceEntries: yarnWorkspaceEntries,
+          excluded,
+          read,
+        })
+      : { modules: [], limitations: [] };
   const modules = profile
     ? await scanOhpmModules(root, read, excluded, profile, ohpmLock)
-    : source === "pnpm-lock.yaml"
+    : workspaceManager === "pnpm"
       ? pnpmWorkspaces
-      : npmWorkspaces;
+      : workspaceManager === "yarn"
+        ? yarnWorkspaces
+        : npmWorkspaces;
   const moduleFiles = new Set<string>();
   if (modules) {
     limitations.push(...modules.limitations);
@@ -431,7 +467,7 @@ export async function scanProject(
       JSON.stringify(usage),
     );
   return {
-    schemaVersion: "0.10.0",
+    schemaVersion: "0.11.0",
     scannerVersion: "0.0.0",
     snapshots: { rules: "none", knowledge: "none" },
     target,

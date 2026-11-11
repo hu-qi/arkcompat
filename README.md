@@ -11,7 +11,7 @@
 
 首个验收节点目标 HarmonyOS 6.0.0+，里程碑排期见 [ROADMAP](ROADMAP.md)；进度为按 P0 验收范围与已合入工程产出估算的粗估值。
 
-已具备：npm、pnpm 和 Yarn 锁文件的部分依赖图、[受限 npm workspace 清单与作用域投影](docs/NPM-WORKSPACES.md)、JS/TS 与部分 ETS 导入/调用清单、JSON/Markdown/SARIF 报告、[本地静态 API 规则评估](docs/LOCAL-API-RULES.md)、[知识库快照导出](docs/KNOWLEDGE-SEMANTICS.md#cli-export)，以及本地 Web、MCP、VS Code 和 CI 入口。Web 与 MCP 可按操作者显式选择的离线快照查询带排除原因和来源的元数据，但不会据此生成替代建议。默认扫描的兼容状态仍为 `unknown`；当前知识库样例为合成数据。真实替代关系、经验证的兼容规则、正式分发和独立验收仍待完成。进度与验证范围见[交付记录](docs/DELIVERY-STATUS.md)。
+已具备：npm、pnpm 和 Yarn 锁文件的部分依赖图、受限 [npm](docs/NPM-WORKSPACES.md)、[pnpm](docs/PNPM-WORKSPACES.md) 与 [Yarn](docs/YARN-WORKSPACES.md) workspace 清单和作用域投影、JS/TS 与部分 ETS 导入/调用清单、JSON/Markdown/SARIF 报告、[本地静态 API 规则评估](docs/LOCAL-API-RULES.md)、[知识库快照导出](docs/KNOWLEDGE-SEMANTICS.md#cli-export)，以及本地 Web、MCP、VS Code 和 CI 入口。Web 与 MCP 可按操作者显式选择的离线快照查询带排除原因和来源的元数据，但不会据此生成替代建议。默认扫描的兼容状态仍为 `unknown`；当前知识库样例为合成数据。真实替代关系、经验证的兼容规则、正式分发和独立验收仍待完成。进度与验证范围见[交付记录](docs/DELIVERY-STATUS.md)。
 
 > 「交付时间」「当前进度」随项目进展更新。进度为沟通用粗估，不代表任何出口门禁通过；代码、数据与结论以 Issue/PR 中的验证证据为准，开发者自建 fixture 不构成真实准确率。
 

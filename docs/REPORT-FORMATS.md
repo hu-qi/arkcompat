@@ -1,11 +1,11 @@
 # Canonical report formats · M3 / Issue #5
 
-The CLI now formats the same canonical inventory findings as JSON, Markdown or SARIF. Formats do not install packages, run source, invoke remote models, add rules or change compatibility conclusions. Schema is experimental 0.10.0 (generalized npm/pnpm/OHPM module provenance; see [migration](PNPM-WORKSPACES.md)); rules/knowledge snapshots remain none. This is report-adapter delivery, not a CLI beta publication or M3 acceptance pass.
+The CLI now formats the same canonical inventory findings as JSON, Markdown or SARIF. Formats do not install packages, run source, invoke remote models, add rules or change compatibility conclusions. Schema is experimental 0.11.0 (generalized npm/pnpm/Yarn/OHPM module provenance; see [Yarn workspace migration](YARN-WORKSPACES.md)); rules/knowledge snapshots remain none. This is report-adapter delivery, not a CLI beta publication or M3 acceptance pass.
 
 ```bash
 pnpm install --frozen-lockfile --ignore-scripts
 pnpm check
-# Default JSON output is byte-identical to the previous CLI.
+# JSON is the default output format.
 pnpm --silent scan fixtures/developer/source-api --runtime arkts --release 6.0.0
 pnpm --silent scan fixtures/developer/source-api --runtime arkts --release 6.0.0 --format markdown > report.md
 pnpm --silent scan fixtures/developer/source-api --runtime arkts --release 6.0.0 --format sarif > report.sarif

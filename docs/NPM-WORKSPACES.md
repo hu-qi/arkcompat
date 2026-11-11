@@ -54,9 +54,8 @@ recorded in [machine-readable evidence](evidence/npm-workspaces-2026-11-11.json)
 
 The package-manager selection rules remain unchanged. npm workspace discovery
 runs only when the selected lock family is npm or when no npm/pnpm/Yarn lock is
-selected. pnpm workspace importers now have a separate bounded
-[adapter](PNPM-WORKSPACES.md); Yarn workspace descriptors retain their separate
-explicit limitation.
+selected. pnpm and Yarn workspaces have separate bounded
+[pnpm](PNPM-WORKSPACES.md) and [Yarn](YARN-WORKSPACES.md) adapters.
 
 ## Lock projection
 
@@ -85,18 +84,19 @@ execution occurs.
 
 ## Contract migration
 
-Schema `0.9.0` generalized `modules[]` to npm and OHPM inventories; schema
-`0.10.0` adds `kind: "pnpm"` and `pnpm-lockfile-partial` coverage. Every module
-declares its package manager, and each kind is constrained to its matching
-coverage values. Historical `0.8.0` and `0.9.0` artifacts keep their original
-version; strict CLI, Web, VS Code and other consumers must be rebuilt together
-and rescan the stable checkout. Rewriting an old artifact's version is not
-supported.
+Schema `0.9.0` generalized `modules[]` to npm and OHPM inventories;
+`0.10.0` added pnpm and `0.11.0` adds Yarn alongside its manager-specific
+coverage. Every module declares its package manager, and each kind is
+constrained to its matching coverage values. Historical reports keep their
+original version; strict CLI, Web, VS Code and other consumers must be rebuilt
+together and scan the stable checkout again. Rewriting an old artifact's
+version is not supported.
 
 Rollback by reverting the scoped workspace PRs, rebuilding all consumers and
-regenerating `0.10.0` reports. Existing root npm graphs and OHPM module
+regenerating `0.11.0` reports. Existing root npm graphs and OHPM module
 inventory remain independent; no package installation state was changed.
 
-Full pnpm/Yarn workspace graphs, unsupported npm glob variants, arbitrary
+Cross-workspace installation/link resolution, unsupported npm/pnpm/Yarn glob
+variants, arbitrary
 workspace-local lock trees, version-range/peer/hoisting verification, broader
 source/dataflow coverage and independent acceptance remain Issue #3 work.
