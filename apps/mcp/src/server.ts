@@ -1,7 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/server";
 import type { CallToolResult } from "@modelcontextprotocol/server";
+import type { KnowledgeStore } from "@arkcompat/knowledge";
 import * as z from "zod/v4";
-import type { KnowledgeStore } from "./knowledge.js";
 import { WorkspaceScanner } from "./scanner.js";
 
 const annotations = {

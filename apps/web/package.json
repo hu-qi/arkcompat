@@ -7,6 +7,9 @@
     "build": "node build.mjs",
     "start": "node server.mjs"
   },
+  "dependencies": {
+    "@arkcompat/knowledge": "workspace:*"
+  },
   "devDependencies": {
     "@arkcompat/contracts": "workspace:*",
     "ajv": "8.20.0",

@@ -70,6 +70,9 @@ export interface KnowledgeQueryResult {
   excluded: { id: string; reasons: ExclusionReason[] }[];
   limitation: string;
 }
+export interface KnowledgeStore {
+  query(request: KnowledgeQuery): KnowledgeQueryResult;
+}
 
 export function isKnowledgeTimestamp(value: unknown): value is string {
   return typeof value === "string" && timestamp(value);
@@ -195,6 +198,20 @@ export async function readKnowledgeSnapshot(
   } finally {
     await file?.close();
   }
+}
+
+export async function loadKnowledgeStore(
+  path: string,
+  asOf: string,
+): Promise<KnowledgeStore> {
+  if (!isKnowledgeTimestamp(asOf))
+    throw new Error(
+      "Invalid knowledge startup configuration; use a canonical UTC timestamp.",
+    );
+  const snapshot = await readKnowledgeSnapshot(path);
+  return {
+    query: (request) => queryKnowledge(snapshot, request, asOf),
+  };
 }
 function checked(value: unknown) {
   try {
