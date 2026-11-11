@@ -84,6 +84,16 @@ The open engineering actions above remain actionable; they are not all blocked b
   passed; merge `961e43039c9c25217935b1c3f64f6487f4c8229d` is the current
   merged baseline. Exact fixture/probe hashes, runtime parity and graph counts
   are in [Yarn workspace evidence](evidence/yarn-workspaces-2026-11-11.json).
+- [workspace globstar PR #65](https://github.com/hu-qi/arkcompat/pull/65):
+  adds shared bounded `*`/`**` discovery for npm, pnpm and Yarn, including
+  zero/multiple segment matches and terminal manifest filtering, while
+  preserving symlink, excluded-directory and unsupported-syntax limits. Local
+  `pnpm check` passed 506 tests. The five required
+  [PR checks](https://github.com/hu-qi/arkcompat/actions/runs/42991826490) and
+  [merged-main checks](https://github.com/hu-qi/arkcompat/actions/runs/42992096039)
+  passed; merge `de4e9356a32ed798ed0c60221cd7b9bff4df5d5b` is the current
+  merged baseline. Exact fixture/runtime hashes are in
+  [globstar evidence](evidence/workspace-globstar-2026-11-11.json).
 - Claude Code independent review (2026-11-10): evaluated PR #41's public
   evidence and returned "support only with amendments". The 2026-11-11 rewrite
   adds packed-dependency provenance, timestamp-bound captures, a 36-loop

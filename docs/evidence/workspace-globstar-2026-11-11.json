@@ -3,6 +3,12 @@
   "issue": 3,
   "assessment": "developer-regression-only",
   "scope": "Bounded npm/pnpm/Yarn workspace discovery with '*' and '**'; not installation, link activation, compatibility, accuracy or M1 acceptance evidence.",
+  "pullRequest": {
+    "number": 65,
+    "head": "dadfa215e74989c1c815294fc8d0803cd0479fdc",
+    "mergeCommit": "de4e9356a32ed798ed0c60221cd7b9bff4df5d5b",
+    "url": "https://github.com/hu-qi/arkcompat/pull/65"
+  },
   "fixture": {
     "path": "fixtures/developer/workspace-globstar",
     "workspacePattern": "packages/**/components/*",
@@ -64,7 +70,17 @@
     "vsixEmbeddedCliReportSha256": "6cfc2b61ec551b6fb3cdd84770e0b4ccfc5cbc7644bfe97177bc6118ec1a7026"
   },
   "authoritativeCI": {
-    "status": "pending-pr"
+    "pullRequestRunId": 42991826490,
+    "pullRequestConclusion": "success",
+    "mergedMainRunId": 42992096039,
+    "mergedMainConclusion": "success",
+    "requiredJobs": [
+      "docs-integrity",
+      "actionlint",
+      "workspace-ubuntu-node22",
+      "workspace-ubuntu-node24",
+      "workspace-macos-node24"
+    ]
   },
   "boundaries": {
     "installationVerified": false,
