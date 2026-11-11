@@ -40,6 +40,15 @@ the scanner linked `@fixture/alpha` to the selected `packages/beta` node and
 kept all compatibility findings `unknown`. That probe used an empty dependency
 set, `enableScripts:false`, and no package installation from a remote project.
 
+The shared sequence slice expands the simple non-padded numeric, alphabetic
+and descending forms used by pinned Yarn 4.0.0. Authored regressions select
+`modules/numeric-{1..3}`, `modules/alpha-{a..c}` and
+`modules/reverse-{3..1}` while disclosing zero-padded and explicit-step forms
+as `yarn-workspace-pattern-unsupported`. The pinned host selected no
+zero-padded directory and produced an incomplete subset for the stepped
+pattern, so ArkCompat rejects that form rather than treating a partial host
+match as the contract.
+
 ## Discovery boundaries
 
 - The root workspace value follows npm/Yarn's array or
@@ -49,10 +58,12 @@ set, `enableScripts:false`, and no package installation from a remote project.
   zero-or-more-segment `**` patterns and nested or adjacent comma-list brace
   groups, including alternatives containing `*` or `**`. One authored
   selection is limited to 64 expanded patterns. It normalizes one leading `./`,
-  rejects traversal, absolute/URL-like patterns, brace sequences and other
-  unsupported glob syntax, symlinks and excluded directories, and stops at 128
-  selected workspaces. Wildcard traversal shares a 4,096-directory read budget;
-  a terminal globstar selects directories containing `package.json`.
+  rejects traversal, absolute/URL-like patterns, zero-padded or explicit-step
+  brace sequences and other unsupported glob syntax, symlinks and excluded
+  directories, and stops at 128 selected workspaces. Simple non-padded numeric,
+  alphabetic and descending brace ranges are supported. Wildcard traversal
+  shares a 4,096-directory read budget; a terminal globstar selects directories
+  containing `package.json`.
 - Each selected manifest must be a regular, non-symlink `package.json` within
   the shared file and total-byte limits. Duplicate names, missing
   names/versions and unavailable manifests remain `declarations-only` with an
@@ -112,8 +123,9 @@ than editing a version field.
 
 All module graphs are inventory evidence, not installation, PnP/hoisting,
 tag/non-semver/peer or runtime compatibility proof. Comma-list brace discovery
-is shared with the npm and pnpm adapters; remaining brace-sequence and glob
-variants remain explicit gaps. URLs and private patch, portal, exec and
+and the simple sequence policy are shared with the npm and pnpm adapters;
+unsupported sequence forms and glob variants remain explicit gaps. URLs and
+private patch, portal, exec and
 virtual locators never enter public IDs. Yarn configuration, plugins, releases,
 `.pnp` state, scripts and packages are never loaded or executed. Compatibility
 remains `not-evaluated` until reviewed rules and knowledge are explicitly

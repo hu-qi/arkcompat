@@ -517,6 +517,27 @@ it("expands bounded numeric and alphabetic brace sequences", async () => {
   );
 });
 
+it("scans the documented workspace sequence fixture deterministically", async () => {
+  const fixture = "fixtures/developer/workspace-sequences";
+  const report = await scanProject(fixture, target);
+  expect(report).toEqual(await scanProject(fixture, target));
+  expect(report.modules?.map((module) => module.path)).toEqual([
+    "modules/alpha-a",
+    "modules/alpha-c",
+    "modules/numeric-01",
+    "modules/numeric-02",
+    "modules/numeric-03",
+    "modules/reverse-1",
+    "modules/reverse-2",
+    "modules/reverse-3",
+  ]);
+  expect(report.findings).toHaveLength(1);
+  expect(report.findings[0]?.status).toBe("unknown");
+  expect(report.coverage.limitations.map((item) => item.code)).not.toContain(
+    "npm-workspace-pattern-unsupported",
+  );
+});
+
 it("fails closed on malformed braces and bounded expansion overflow", async () => {
   const manifest = {
     name: "workspace-root",
