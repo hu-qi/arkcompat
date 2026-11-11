@@ -121,3 +121,8 @@ authenticity, vulnerability clearance, legal review, signed provenance, release
 approval or independent acceptance. Publication, signing and release remain
 Issue #8 gates. Roll back this scoped CI and packaging increment by reverting
 its PR; scanner behavior and report contracts need no migration.
+
+The first required
+[main run](https://github.com/hu-qi/arkcompat/actions/runs/42976643727)
+passed all five jobs. Linux Node24 completed the double package, validation,
+determinism comparison, relocation smoke and upload in the same workspace job.

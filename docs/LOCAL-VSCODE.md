@@ -41,6 +41,14 @@ Set the Node path in the isolated profile, then run **ArkCompat: Scan Local Work
 
 On macOS arm64, an isolated VS Code 1.145.2 host installed and ran the VSIX without a sibling source CLI. The test harness verified the installed extension path and matched all 10 CLI finding IDs, severity, messages and locations on the authored fixture. The old source-only layout installed but returned no diagnostics under the same test. The production extension and development host both preserve the User-level executable policy, and every observed verdict remains `unknown`. This is a private local package. Marketplace publication, DevEco and other host platforms remain separate.
 
+The 2026-11-11 provenance package added `runtime/SBOM.cdx.json`,
+`runtime/SHA256SUMS` and its refreshed notices to the same VSIX structure.
+Extracting that runtime and running the independent validator produced 13
+components, 14 dependency entries and 1,033 verified files; the VSIX SHA-256 was
+`5a2ddc89b4157e4aefd94ca7290c3514fc6dc25586bc6c7fe49865d1a3c962cb`.
+This is packaging-layer verification of the [runtime provenance](RUNTIME-PROVENANCE.md),
+not a fresh editor host or public install.
+
 
 ### Cursor local install
 
