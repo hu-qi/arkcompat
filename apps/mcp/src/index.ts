@@ -3,7 +3,7 @@ import {
   serveStdio,
   StdioServerTransport,
 } from "@modelcontextprotocol/server/stdio";
-import { loadKnowledgeStore } from "./knowledge.js";
+import { loadKnowledgeStore } from "@arkcompat/knowledge";
 import { WorkspaceScanner } from "./scanner.js";
 import { createServer } from "./server.js";
 

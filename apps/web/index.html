@@ -14,7 +14,8 @@
         <h1>Read the evidence.<br />Keep the uncertainty.</h1>
         <p>
           Open a scan report on this device. No source execution or report
-          upload.
+          upload. Optional knowledge metadata lookups use only the loopback
+          viewer process.
         </p>
       </header>
       <section class="import-panel" aria-label="Import report">
@@ -29,10 +30,67 @@
       </section>
       <p id="error" role="alert" hidden></p>
       <p id="status" role="status">No report loaded.</p>
+      <section class="knowledge" aria-label="Local knowledge lookup">
+        <h2>Evidence metadata lookup</h2>
+        <p class="metadata">
+          Optional operator-selected snapshot. Enter an exact package version
+          and target. Candidate or inapplicable records are withheld.
+        </p>
+        <form id="knowledge-form" class="knowledge-form">
+          <label
+            >Package<input
+              id="knowledge-package"
+              type="text"
+              required
+              maxlength="214"
+              autocomplete="off"
+              placeholder="source-package"
+          /></label>
+          <label
+            >Exact version<input
+              id="knowledge-version"
+              type="text"
+              required
+              maxlength="256"
+              autocomplete="off"
+              placeholder="1.2.0"
+          /></label>
+          <label
+            >HarmonyOS release<input
+              id="knowledge-release"
+              type="text"
+              required
+              maxlength="256"
+              autocomplete="off"
+              placeholder="6.0.0"
+          /></label>
+          <label
+            >Runtime<select id="knowledge-runtime" required>
+              <option value="arkts">arkts</option>
+              <option value="arkweb">arkweb</option>
+              <option value="react-native">react-native</option>
+            </select></label
+          >
+          <label
+            >API level<input
+              id="knowledge-api-level"
+              type="number"
+              required
+              min="1"
+              step="1"
+              placeholder="20"
+          /></label>
+          <button class="query-button" type="submit">
+            Query local snapshot
+          </button>
+        </form>
+        <p id="knowledge-status" role="status">No knowledge query made.</p>
+        <pre id="knowledge-result" hidden></pre>
+      </section>
       <section id="report" hidden>
         <div class="notice">
-          Inventory only · Compatibility has not been evaluated. No verified
-          replacement knowledge is loaded.
+          Inventory only · Compatibility has not been evaluated. A metadata
+          match is not a verified replacement.
         </div>
         <p id="target" class="metadata"></p>
         <div class="metrics">

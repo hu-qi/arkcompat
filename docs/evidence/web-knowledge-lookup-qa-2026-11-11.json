@@ -1,0 +1,90 @@
+{
+  "observedAt": "2026-11-11",
+  "kind": "developer-local-web-knowledge-lookup-smoke",
+  "browserAutomation": "ego-browser 2.2.0",
+  "scope": "One local loopback viewer, one authored synthetic report and one authored synthetic knowledge fixture. No source execution, registry request, remote model, mapping activation or compatibility verdict.",
+  "assets": {
+    "apps/web/server.mjs": {
+      "bytes": 5365,
+      "sha256": "08a9a2232692cc61f5d44768372caeff5856c93f8207449c119363958b0904bf"
+    },
+    "apps/web/src/main.ts": {
+      "bytes": 11648,
+      "sha256": "781e6ee6fb49cf280eaed25e38617306fcd35d4757e78c36073c4336733815cd"
+    },
+    "apps/web/dist/app.js": {
+      "bytes": 204082,
+      "sha256": "dba498d3265a8a3f2bbb647af7d8602d63ae2a8dee80d201b4c7aafe718f2817"
+    },
+    "apps/web/index.html": {
+      "bytes": 5365,
+      "sha256": "1bf3b6975c0f00c9ad235e0dd0e0cb1c27a745fe84439a26d3591206416d8aee"
+    },
+    "apps/web/styles.css": {
+      "bytes": 4961,
+      "sha256": "96e206c000ce1842be470642ec830df580fc7df601af6ca79853fd6c1c348702"
+    }
+  },
+  "report": {
+    "fixture": "fixtures/developer/source-api",
+    "schemaVersion": "0.8.0",
+    "target": "HarmonyOS 6.0.0 / arkts / API 20",
+    "findings": 10,
+    "sha256": "edfca32b16250f3fbad0d8f676e1f9ca594aa4f24a658cd04f915ba9eda168f5"
+  },
+  "knowledge": {
+    "asOf": "2026-11-07T00:00:00Z",
+    "candidateSnapshotSha256": "0355c41c7257992d517671df71bd1cd4822e7c2a358b578565c61477eef125cd",
+    "reviewedSnapshotSha256": "a7b12345cc744bf2cd687674f078be2ed0562d0f8429423bb8d94fb5be14c816",
+    "reviewedOverride": "The fixture record review object was changed from candidate to reviewed; all other authored fixture data was unchanged."
+  },
+  "query": {
+    "package": "synthetic-source",
+    "version": "1.2.0",
+    "release": "6.0.0",
+    "runtime": "arkts",
+    "apiLevel": 20
+  },
+  "cases": [
+    {
+      "name": "no-snapshot",
+      "httpStatus": 503,
+      "uiStatus": "No knowledge snapshot selected; no verified substitute is available.",
+      "resultHidden": true,
+      "reportVisible": true,
+      "screenshotSha256": "298dc7fe21184093f59372fa45748ca1098e40d79e1abe2a341b87591e1d1234"
+    },
+    {
+      "name": "reviewed-metadata",
+      "httpStatus": 200,
+      "uiStatus": "Reviewed metadata matches returned. Status remains unknown; no replacement recommendation was made.",
+      "matches": 1,
+      "provenanceDisplayed": true,
+      "unknownLimitationDisplayed": true,
+      "replacementClaimDetected": false,
+      "screenshotSha256": "4b828824f12c05e0e6a99c31173e6de1fee9ea5103f1af17bad2e2eb0a1959af"
+    },
+    {
+      "name": "candidate-withheld",
+      "httpStatus": 200,
+      "uiStatus": "No reviewed metadata match returned. This does not establish a missing port.",
+      "matches": 0,
+      "candidateExclusionReason": "not-reviewed",
+      "screenshotSha256": "657d803e9a6dd2f687a7783a9c4832efcf4685e68c578a34f11a43b74c88d62c"
+    }
+  ],
+  "narrowLayout": {
+    "viewportWidth": 390,
+    "documentWidth": 375,
+    "horizontalOverflow": false,
+    "knowledgeFormColumn": "single"
+  },
+  "boundaries": {
+    "candidatePromoted": false,
+    "mappingActivated": false,
+    "compatibilityClaimed": false,
+    "remoteModelUsed": false,
+    "independentAcceptanceVerified": false,
+    "productionDistributionVerified": false
+  }
+}

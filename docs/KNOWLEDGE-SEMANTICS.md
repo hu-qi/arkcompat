@@ -1,6 +1,6 @@
 # Offline knowledge metadata processing · Issue #4 / M2
 
-The private `@arkcompat/knowledge`0.0.0 package adds semantic validation, conservative metadata matching and deterministic JSON export to [schema0.1.0](KNOWLEDGE-CONTRACT.md). It imports **no real mapping dataset**. The existing authored synthetic candidate remains the only fixture; scanner knowledge stays `none`, findings stay unknown, and MCP/Web do not load this package yet.
+The private `@arkcompat/knowledge`0.0.0 package adds semantic validation, conservative metadata matching and deterministic JSON export to [schema0.1.0](KNOWLEDGE-CONTRACT.md). It imports **no real mapping dataset**. The existing authored synthetic candidate remains the only fixture; scanner knowledge stays `none`, findings stay unknown. MCP and the local Web viewer can query only a snapshot explicitly selected by the operator at process startup, through this shared package.
 
 ## CLI export
 
@@ -50,6 +50,8 @@ const result = queryKnowledge(snapshot, {
 Requests require exact semver source/release versions and known runtime, not range selectors or inferred latest versions. API Level must exactly equal the recorded context; an omitted API Level cannot match, and no OS→API/minimum-level assumption is made. Unknown recorded runtime is not a wildcard. All input objects are revalidated on each query/export; callers cannot mutate imported metadata to bypass checks.
 
 Every query returns `status: unknown`, snapshot ID, SHA-256 of canonical export bytes, full snapshot count, count considered for the exact package name, matching metadata records and per-record exclusion reasons. Full/partial feature scope and provenance are preserved. The existing candidate fixture has zero matches and `not-reviewed`; it is not promoted by schema validity. No query result makes a recommendation.
+
+`loadKnowledgeStore(path, asOf)` binds one validated snapshot and a canonical startup timestamp to a conservative `query` callback. The MCP server and Web viewer use this same callback rather than surface-specific matching rules. Browser query inputs are fixed to exact package/version/profile values and are carried only through the viewer's same-origin GET route; no snapshot path, arbitrary file or remote registry is reachable from that route.
 
 Reasons accumulate rather than hiding misses: not-reviewed, expired (including exact expiry instant), snapshot-not-yet-available, source-version-mismatch, runtime-mismatch, release-mismatch and api-level-mismatch. Records for other package names are counted in the full denominator but not returned as exclusions. Zero name matches establishes only absent metadata, not a missing port.
 
