@@ -33,6 +33,8 @@ it("runs the portable CLI after relocation without source, local paths or symlin
     expect(entries.some((entry) => entry.isSymbolicLink())).toBe(false);
     expect((await readdir(runtime)).sort()).toEqual([
       "LICENSE",
+      "SBOM.cdx.json",
+      "SHA256SUMS",
       "THIRD-PARTY-NOTICES.json",
       "dist",
       "node_modules",
@@ -45,6 +47,14 @@ it("runs the portable CLI after relocation without source, local paths or symlin
     }
     const manifest = await readFile(join(runtime, "package.json"), "utf8");
     expect(manifest).not.toMatch(/file:|workspace:/);
+    expect(JSON.parse(manifest)).toMatchObject({
+      license: "MIT",
+      dependencies: {
+        "@arkcompat/contracts": "0.0.0",
+        "@arkcompat/core": "0.0.0",
+        "@arkcompat/knowledge": "0.0.0",
+      },
+    });
     expect(await readdir(join(runtime, "node_modules"))).not.toContain(
       ".modules.yaml",
     );
@@ -79,6 +89,57 @@ it("runs the portable CLI after relocation without source, local paths or symlin
         }),
       ]),
     });
+    const bomText = await readFile(join(runtime, "SBOM.cdx.json"), "utf8");
+    const bom = JSON.parse(bomText) as {
+      bomFormat: string;
+      specVersion: string;
+      components: { name: string; group?: string; version: string }[];
+      dependencies: { ref: string; dependsOn: string[] }[];
+    };
+    expect({
+      bomFormat: bom.bomFormat,
+      specVersion: bom.specVersion,
+      rootDependencyCount: bom.dependencies[0]?.dependsOn.length,
+      components: bom.components.map(({ group, name, version }) => [
+        group,
+        name,
+        version,
+      ]),
+    }).toEqual({
+      bomFormat: "CycloneDX",
+      specVersion: "1.5",
+      rootDependencyCount: 3,
+      components: [
+        ["@arkcompat", "contracts", "0.0.0"],
+        ["@arkcompat", "core", "0.0.0"],
+        ["@arkcompat", "knowledge", "0.0.0"],
+        ["@yarnpkg", "lockfile", "1.1.0"],
+        [undefined, "ajv", "8.20.0"],
+        [undefined, "fast-deep-equal", "3.1.3"],
+        [undefined, "fast-uri", "3.1.9"],
+        [undefined, "json-schema-traverse", "1.0.0"],
+        [undefined, "json5", "2.2.3"],
+        [undefined, "require-from-string", "2.0.2"],
+        [undefined, "semver", "7.8.6"],
+        [undefined, "typescript", "5.9.3"],
+        [undefined, "yaml", "2.9.1"],
+      ],
+    });
+    expect(bomText).not.toContain(parent);
+    const sums = (await readFile(join(runtime, "SHA256SUMS"), "utf8"))
+      .trim()
+      .split("\n");
+    expect(sums.some((line) => line.endsWith("  SBOM.cdx.json"))).toBe(true);
+    expect(sums.some((line) => line.endsWith("  SHA256SUMS"))).toBe(false);
+    for (const line of sums) {
+      const match = /^([0-9a-f]{64})  (.+)$/.exec(line);
+      expect(match, line).not.toBeNull();
+      const path = match![2]!;
+      const actual = createHash("sha256")
+        .update(await readFile(join(runtime, path)))
+        .digest("hex");
+      expect(actual, path).toBe(match![1]);
+    }
     const target = [
       "--runtime",
       "arkts",

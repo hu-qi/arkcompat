@@ -103,3 +103,21 @@ The initial [V8 PR run](https://github.com/hu-qi/arkcompat/actions/runs/41943965
 Knowledge/evaluation packages now join core in the same per-file coverage floors; adapters/subprocess code remain outside that unit denominator. Inspect current `coverage-summary.json` rather than carrying forward the historical124-test baseline. The existing artifact name `core-unit-coverage` is retained for continuity but now contains all three shared-package reports; no whole-product/independent accuracy claim follows.
 
 Issue #7 adds a Linux Node24 step that runs the [local evaluation harness](EVALUATION-HARNESS.md) on **authored public developer fixtures only**, verifies every SHA256SUMS entry, and retains `developer-evaluation-example-not-acceptance` for14days using the existing pinned upload action. It contains3all-unknown synthetic cases, not a scanned/adjudicated benchmark; all result/manifest acceptance states remain not-adjudicated/unverified. Missing/corrupt artifacts fail the existing workspace job. No blind labels, user source, external dataset, additional permissions or threshold approval are introduced. Formal dataset/provenance/parity/release gates remain open.
+
+## Runtime provenance rehearsal · 2026-11-11
+
+Issue #8/#11: the Linux Node24 workspace packages the portable CLI twice into
+`$RUNNER_TEMP`, independently validates CycloneDX 1.5 plus every SHA-256 entry,
+and requires byte-identical `SBOM.cdx.json` and `SHA256SUMS` output. The runtime
+must start from its relocated directory. The job retains the first directory as
+`cli-runtime-provenance-rehearsal-not-release` for 14 days using the existing
+pinned upload action; a missing directory fails upload.
+
+The schemas and their Apache-2.0 license are vendored and hash-pinned in the
+repository, so validation performs no network request. Checksums detect
+post-build changes only when their expected values are obtained separately;
+the checksum file and BOM are unsigned. The artifact does not claim package
+authenticity, vulnerability clearance, legal review, signed provenance, release
+approval or independent acceptance. Publication, signing and release remain
+Issue #8 gates. Roll back this scoped CI and packaging increment by reverting
+its PR; scanner behavior and report contracts need no migration.
