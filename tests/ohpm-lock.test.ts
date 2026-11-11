@@ -54,7 +54,7 @@ it("uses exact OHPM selectors for direct and transitive edges with CLI/schema pa
     lock,
   );
   const report = await scanProject(root, target);
-  expect(report.schemaVersion).toBe("0.10.0");
+  expect(report.schemaVersion).toBe("0.11.0");
   expect(report.coverage.dependencyGraph).toBe("ohpm-lockfile-partial");
   expect(report.dependencyGraph).toMatchObject({
     source: "oh-package-lock.json5",

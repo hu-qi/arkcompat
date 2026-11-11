@@ -90,11 +90,11 @@ be rebuilt together and stable projects rescanned; rewriting an old artifact's
 version field is unsupported.
 
 Rollback by reverting the scoped pnpm workspace changes, rebuilding all
-consumers and regenerating `0.10.0` reports. The root importer/snapshot graph
+consumers and regenerating `0.11.0` reports. The root importer/snapshot graph
 and npm/OHPM workspace inventories remain independent; no installation state
 was changed.
 
-Full Yarn workspace graphs, unsupported pnpm glob/negation variants,
+Unsupported pnpm glob/negation variants,
 cross-workspace link resolution, version-range and peer/hoisting verification,
 broader source/dataflow coverage and independent M1 acceptance remain Issue #3
 work.

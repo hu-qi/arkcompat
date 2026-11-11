@@ -124,7 +124,7 @@ it("inventories pnpm workspace importers and scopes reachable edges", async () =
     },
   });
   const report = await scanProject(path, target);
-  expect(report.schemaVersion).toBe("0.10.0");
+  expect(report.schemaVersion).toBe("0.11.0");
   expect(
     report.modules?.map((module) => [
       module.kind,
@@ -220,6 +220,42 @@ it("inventories pnpm workspace importers and scopes reachable edges", async () =
   expect(report.coverage.limitations).toContainEqual({
     code: "lockfile-not-analyzed",
     path: "packages/alpha/pnpm-lock.yaml",
+  });
+});
+
+it("inventories declared pnpm workspaces when the lockfile is missing", async () => {
+  const path = await root(
+    {
+      name: "workspace-root",
+      version: "1.0.0",
+      private: true,
+      packageManager: "pnpm@10.34.9",
+    },
+    { packages: ["packages/alpha"] },
+  );
+  await workspace(path, "packages/alpha", {
+    name: "@fixture/alpha",
+    version: "1.0.0",
+    dependencies: { external: "^1" },
+  });
+
+  const report = await scanProject(path, target);
+
+  expect(report.modules?.[0]).toMatchObject({
+    kind: "pnpm",
+    path: "packages/alpha",
+    coverage: "declarations-only",
+    dependencyGraph: {
+      source: null,
+      lockfileVersion: null,
+      nodes: [],
+      edges: [],
+    },
+  });
+  expect(report.coverage.dependencyGraph).toBe("declarations-only");
+  expect(report.coverage.limitations).toContainEqual({
+    code: "pnpm-workspace-lock-not-parsed",
+    path: "packages/alpha/package.json",
   });
 });
 

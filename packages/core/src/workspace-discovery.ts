@@ -23,7 +23,35 @@ interface WorkspaceDiscoveryOptions {
   entries: string[];
   excluded: ReadonlySet<string>;
   read: (path: string) => Promise<string>;
-  codePrefix: "npm-workspace" | "pnpm-workspace";
+  codePrefix: "npm-workspace" | "pnpm-workspace" | "yarn-workspace";
+}
+
+export function workspaceSelections(
+  manifest: Record<string, unknown>,
+  codePrefix: "npm-workspace" | "yarn-workspace",
+) {
+  if (manifest.workspaces === undefined)
+    return { entries: [] as string[], limitations: [] as Limitation[] };
+  const value = manifest.workspaces;
+  let entries: unknown;
+  const limitations: Limitation[] = [];
+  if (Array.isArray(value)) entries = value;
+  else if (record(value) && Array.isArray(value.packages)) {
+    entries = value.packages;
+    if (Object.hasOwn(value, "nohoist"))
+      limitations.push({ code: `${codePrefix}-nohoist-not-analyzed` });
+  } else {
+    throw new Error(
+      "package.json workspaces must be a string array or an object with a packages string array",
+    );
+  }
+  if (
+    !Array.isArray(entries) ||
+    !entries.every((entry) => typeof entry === "string" && entry.length > 0)
+  ) {
+    throw new Error("package.json workspaces contains an invalid selection");
+  }
+  return { entries: entries as string[], limitations };
 }
 
 function safePart(part: string): boolean {

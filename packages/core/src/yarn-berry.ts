@@ -14,6 +14,11 @@ import {
   record,
 } from "./declarations.js";
 const source = "yarn.lock";
+export interface YarnBerryWorkspaceEntry {
+  path: string;
+  selectors: string[];
+  dependencies: DeclaredDependency[];
+}
 function fail(detail: string): never {
   throw new Error(`${source}: ${detail}`);
 }
@@ -48,6 +53,42 @@ function locator(value: string) {
   return match && packageName(match[1]!)
     ? { name: match[1]!, version: match[2]! }
     : null;
+}
+function workspaceDescriptor(value: string) {
+  const at = value.indexOf("@", 1);
+  if (at < 1 || value.length > 2048) return null;
+  const installName = value.slice(0, at);
+  const selector = value.slice(at + 1);
+  return packageName(installName) &&
+    selector.startsWith("workspace:") &&
+    selector.length <= 2048
+    ? { installName, selector }
+    : null;
+}
+function workspaceLocator(value: string) {
+  const match =
+    /^((?:@[a-zA-Z0-9._~-]+\/)?[a-zA-Z0-9._~-]+)@workspace:(.+)$/.exec(value);
+  if (!match || !packageName(match[1]!)) return null;
+  const path = match[2]!;
+  if (
+    path.length > 1024 ||
+    path.includes("\\") ||
+    path.includes("\0") ||
+    path.includes(":") ||
+    path.startsWith("/") ||
+    (path !== "." &&
+      path
+        .split("/")
+        .some(
+          (part) =>
+            part === "" ||
+            part === "." ||
+            part === ".." ||
+            !/^[A-Za-z0-9_][A-Za-z0-9._-]*$/.test(part),
+        ))
+  )
+    return null;
+  return { name: match[1]!, path };
 }
 function parse(text: string): Record<string, unknown> {
   for (const line of text.split(/\r?\n/)) {
@@ -109,6 +150,7 @@ export function berryGraph(text: string, declared: DeclaredDependency[]) {
     return {
       graph,
       parsed: false,
+      workspaceEntries: [] as YarnBerryWorkspaceEntry[],
       limitations: [
         { code: "unsupported-yarn-berry-lockfile-version", path: source },
         { code: "transitive-dependencies-not-analyzed" },
@@ -117,6 +159,8 @@ export function berryGraph(text: string, declared: DeclaredDependency[]) {
   const nodes = new Map<string, LockedPackage>();
   const unsupportedSelectors = new Set<string>();
   const nodeEntries = new Map<string, Record<string, unknown>>();
+  const workspaceEntries: YarnBerryWorkspaceEntry[] = [];
+  const workspacePaths = new Set<string>();
   const selectors = new Set<string>();
   for (const key of Object.keys(lock)
     .filter((k) => k !== "__metadata")
@@ -135,6 +179,41 @@ export function berryGraph(text: string, declared: DeclaredDependency[]) {
       return fail("invalid entry version");
     const identity = locator(entry.resolution);
     const keys = key.split(/, */);
+    const workspaceKeys = keys
+      .map(workspaceDescriptor)
+      .filter((item) => item !== null);
+    if (workspaceKeys.length) {
+      for (const selector of keys) {
+        if (selectors.has(selector)) return fail("duplicate Berry descriptor");
+        selectors.add(selector);
+        if (selectors.size > 10000)
+          return fail("selector count limit exceeded (10000)");
+      }
+      const workspace = workspaceLocator(entry.resolution);
+      const supported =
+        workspaceKeys.length === keys.length &&
+        workspace !== null &&
+        entry.linkType === "soft" &&
+        workspaceKeys.every((item) => item.installName === workspace.name);
+      if (!supported) {
+        for (const selector of keys) unsupportedSelectors.add(selector);
+        limitations.push({
+          code: "yarn-berry-workspace-descriptor-invalid",
+          path: source,
+        });
+        continue;
+      }
+      if (workspacePaths.has(workspace.path))
+        return fail("duplicate Berry workspace resolution");
+      workspacePaths.add(workspace.path);
+      workspaceEntries.push({
+        path: workspace.path,
+        selectors: keys,
+        dependencies: dependencies(entry, source),
+      });
+      for (const selector of keys) unsupportedSelectors.add(selector);
+      continue;
+    }
     for (const selector of keys) {
       if (selectors.has(selector)) return fail("duplicate Berry descriptor");
       selectors.add(selector);
@@ -149,8 +228,7 @@ export function berryGraph(text: string, declared: DeclaredDependency[]) {
         });
         continue;
       }
-      // Workspace/other protocol internals are outside this registry adapter;
-      // do not reinterpret their build metadata as registry optional flags.
+      // Non-registry protocol internals stay outside this registry loader.
       dependencies(entry, source);
       metaDependencies(entry);
       if (
@@ -237,7 +315,7 @@ export function berryGraph(text: string, declared: DeclaredDependency[]) {
     { code: "lockfile-install-state-not-verified" },
     { code: "yarn-peer-graph-not-recorded" },
     { code: "yarn-hoisting-not-recorded" },
-    { code: "yarn-berry-workspaces-not-analyzed" },
+    { code: "yarn-berry-root-workspace-links-not-resolved" },
   );
-  return { graph, limitations, parsed: true };
+  return { graph, limitations, parsed: true, workspaceEntries };
 }

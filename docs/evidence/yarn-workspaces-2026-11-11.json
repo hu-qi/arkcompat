@@ -1,0 +1,85 @@
+{
+  "schemaVersion": "1",
+  "scope": "Authored Classic/Berry workspace regressions plus one local Yarn 4 workspace descriptor probe; not installation, compatibility, independent accuracy or M1 acceptance evidence.",
+  "implementation": {
+    "schemaVersion": "0.11.0",
+    "moduleKind": "yarn",
+    "casePrefix": "yarn-workspace",
+    "classicCoverage": "yarn-classic-lockfile-partial",
+    "berryCoverage": "yarn-berry-lockfile-partial",
+    "workspaceModuleNode": "yarn-berry-workspace:<relative-path>"
+  },
+  "fixture": {
+    "path": "fixtures/developer/yarn-workspaces",
+    "lockSha256": "3f3f55a0281dd7a4748f13b7883b9cda75f8729d518e1091b0c8a3610d7e554d",
+    "reportSha256": "8a5591e4bd9362b7470182e84d9cb2ecddd59a9a60cf30c0ffdb24931c22bfed",
+    "repeatIdentical": true,
+    "workspaces": 2,
+    "findings": 3,
+    "modules": [
+      {
+        "path": "packages/alpha",
+        "coverage": "yarn-berry-lockfile-partial",
+        "nodes": 4,
+        "edges": 4
+      },
+      {
+        "path": "packages/beta",
+        "coverage": "yarn-berry-lockfile-partial",
+        "nodes": 1,
+        "edges": 1
+      }
+    ],
+    "allFindingsUnknown": true
+  },
+  "yarn4Probe": {
+    "version": "4.0.0",
+    "scriptsEnabled": false,
+    "nodeLinker": "node-modules",
+    "lockSha256": "a96bea7b102390a530b465567b59a32c3f2c7b9951f1288c59a9fbd9eda776ff",
+    "reportSha256": "1b96056046b9e6a151fdca0c280f3fbf40c18adab523464516db8ce7086dd85a",
+    "repeatIdentical": true,
+    "workspaces": 2,
+    "lockedModuleEdges": 1,
+    "allFindingsUnknown": true,
+    "limitation": "The scanner consumes the generated lock/manifests only; it does not load Yarn configuration, plugins or installed state."
+  },
+  "localVerification": {
+    "command": "pnpm check",
+    "testFiles": 31,
+    "tests": 504,
+    "coverage": {
+      "statements": 94.34,
+      "branches": 92.23,
+      "functions": 97.25,
+      "lines": 96.01
+    },
+    "passed": true
+  },
+  "shippedRuntimeParity": {
+    "vsixSha256": "4ff81dd767d498dcd363cda07322be0c642db059ed6098f61514981aecc82485",
+    "portableCliSbomSha256": "4055074a4ad7e47950814140428fcec797d63dbcda5d010bf83cb55d8e10691a",
+    "portableCliSha256SumsSha256": "df9c4fad894ad84f07ec1a733848ae30c17790370fec6e4bbd299174c1fb86e7",
+    "thirdPartyNoticesSha256": "f1d54227082fcee7b8a8744f3973578bbf7023f7db16c0c6ea5c9c8a7b2a4eac",
+    "yarnReport": {
+      "sourceCliSha256": "8a5591e4bd9362b7470182e84d9cb2ecddd59a9a60cf30c0ffdb24931c22bfed",
+      "portableCliSha256": "8a5591e4bd9362b7470182e84d9cb2ecddd59a9a60cf30c0ffdb24931c22bfed",
+      "vsixEmbeddedCliSha256": "8a5591e4bd9362b7470182e84d9cb2ecddd59a9a60cf30c0ffdb24931c22bfed"
+    },
+    "pnpmReport": {
+      "sourceCliSha256": "be5f03ae1f8d4d9cf726cd3cb8f4475edd73f9149f6bffed406a690bd22421f5",
+      "portableCliSha256": "be5f03ae1f8d4d9cf726cd3cb8f4475edd73f9149f6bffed406a690bd22421f5",
+      "vsixEmbeddedCliSha256": "be5f03ae1f8d4d9cf726cd3cb8f4475edd73f9149f6bffed406a690bd22421f5"
+    },
+    "schemaInVsix": "0.11.0"
+  },
+  "authoritativeCI": {
+    "status": "pending-pr"
+  },
+  "acceptance": {
+    "dependencyScanAccuracy": "not-measured",
+    "independentHoldout": "not-run",
+    "compatibility": "not-evaluated",
+    "m1Signoff": "not-adjudicated"
+  }
+}

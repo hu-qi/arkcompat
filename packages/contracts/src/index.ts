@@ -54,7 +54,7 @@ export interface Limitation {
   path?: string;
 }
 export interface ScanReport {
-  schemaVersion: "0.10.0";
+  schemaVersion: "0.11.0";
   scannerVersion: "0.0.0";
   snapshots: { rules: "none"; knowledge: "none" };
   target: TargetProfile;
@@ -106,7 +106,10 @@ export interface FindingExplanation {
 }
 
 export type ModuleInventory =
-  OhpmModuleInventory | NpmModuleInventory | PnpmModuleInventory;
+  | OhpmModuleInventory
+  | NpmModuleInventory
+  | PnpmModuleInventory
+  | YarnModuleInventory;
 
 interface ModuleInventoryBase {
   path: string;
@@ -127,6 +130,14 @@ export interface NpmModuleInventory extends ModuleInventoryBase {
 export interface PnpmModuleInventory extends ModuleInventoryBase {
   kind: "pnpm";
   coverage: "declarations-only" | "pnpm-lockfile-partial";
+}
+
+export interface YarnModuleInventory extends ModuleInventoryBase {
+  kind: "yarn";
+  coverage:
+    | "declarations-only"
+    | "yarn-classic-lockfile-partial"
+    | "yarn-berry-lockfile-partial";
 }
 
 export interface LockedPackage {

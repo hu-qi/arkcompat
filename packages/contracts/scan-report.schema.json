@@ -5,7 +5,7 @@
   "additionalProperties": false,
   "properties": {
     "schemaVersion": {
-      "const": "0.10.0"
+      "const": "0.11.0"
     },
     "scannerVersion": {
       "const": "0.0.0"
@@ -229,7 +229,7 @@
         ],
         "properties": {
           "kind": {
-            "enum": ["npm", "ohpm", "pnpm"]
+            "enum": ["npm", "ohpm", "pnpm", "yarn"]
           },
           "path": {
             "type": "string",
@@ -243,6 +243,8 @@
               "declarations-only",
               "npm-lockfile-partial",
               "pnpm-lockfile-partial",
+              "yarn-classic-lockfile-partial",
+              "yarn-berry-lockfile-partial",
               "ohpm-lockfile-partial"
             ]
           }
@@ -295,6 +297,27 @@
               "properties": {
                 "coverage": {
                   "enum": ["declarations-only", "pnpm-lockfile-partial"]
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "yarn"
+                }
+              },
+              "required": ["kind"]
+            },
+            "then": {
+              "properties": {
+                "coverage": {
+                  "enum": [
+                    "declarations-only",
+                    "yarn-classic-lockfile-partial",
+                    "yarn-berry-lockfile-partial"
+                  ]
                 }
               }
             }

@@ -33,6 +33,6 @@ Only registry-safe descriptors become IDs. Resolved URLs/integrity values are no
 
 ## Remaining M1 work
 
-Other Berry versions/older pnpm/full workspace graphs, version-range satisfaction, peer/hoisting verification, API/symbol analysis, compatibility rules and independent acceptance remain open. The shared fixture/schema/CLI tests cover npm, pnpm and Classic together, but do not establish the ≥80% dependency scanning acceptance target or a shipped release.
+Other Berry versions/older pnpm, unrecorded Classic workspace links, version-range satisfaction, peer/hoisting verification, API/symbol analysis, compatibility rules and independent acceptance remain open. Selected workspace manifests can still receive exact external descriptor projections through the separate [Yarn workspace adapter](YARN-WORKSPACES.md). The shared fixture/schema/CLI tests cover npm, pnpm and Classic together, but do not establish the ≥80% dependency scanning acceptance target or a shipped release.
 
 Schema 0.5.0 adds [source API call inventory](SOURCE-API-INVENTORY.md) alongside the existing lockfile graph; compatibility remains unknown.
