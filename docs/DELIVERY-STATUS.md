@@ -66,6 +66,15 @@ The open engineering actions above remain actionable; they are not all blocked b
   passed; merge `ac55fa8363e770779da0a4577528d5432ad9025e` was read back from
   GitHub, GitCode and AtomGit. Exact hashes and coverage are in
   [workspace evidence](evidence/npm-workspaces-2026-11-11.json).
+- [pnpm workspace PR #61](https://github.com/hu-qi/arkcompat/pull/61):
+  adds safe `pnpm-workspace.yaml` discovery, importer/manifest validation,
+  module-local direct/transitive v9 graph projection, explicit workspace-link
+  limits and Schema 0.10.0 `kind: "pnpm"` provenance. Local `pnpm check` passed
+  492 tests. The five required [PR checks](https://github.com/hu-qi/arkcompat/actions/runs/42983780436)
+  and [merged-main checks](https://github.com/hu-qi/arkcompat/actions/runs/42984008440)
+  passed; merge `a509fa0e0a39b439f1b7cd260a53ae763de5b99b` is the current
+  merged baseline. Exact fixture/real-lock hashes and graph counts are in
+  [pnpm workspace evidence](evidence/pnpm-workspaces-2026-11-11.json).
 - Claude Code independent review (2026-11-10): evaluated PR #41's public
   evidence and returned "support only with amendments". The 2026-11-11 rewrite
   adds packed-dependency provenance, timestamp-bound captures, a 36-loop

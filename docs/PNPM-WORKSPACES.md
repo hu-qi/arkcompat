@@ -33,6 +33,9 @@ The real scan proves parser/projection behavior on the checked-in lock without
 installing packages or reading `node_modules`; it is not an independent
 package-resolution or compatibility measurement.
 
+The exact PR head, required workflow runs, per-workspace graph counts and hashes
+are recorded in [machine-readable evidence](evidence/pnpm-workspaces-2026-11-11.json).
+
 ## Discovery boundary
 
 - Root `pnpm-workspace.yaml.packages` must be an array of nonempty strings.
