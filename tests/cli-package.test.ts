@@ -87,6 +87,21 @@ it("runs the portable CLI after relocation without source, local paths or symlin
       "--api-level",
       "20",
     ];
+    const inventoryArgs = [
+      "scan",
+      resolve("fixtures/developer/inventory"),
+      ...target,
+    ];
+    const inventoryScan = spawnSync(
+      process.execPath,
+      ["apps/cli/dist/index.js", ...inventoryArgs],
+      { encoding: "utf8" },
+    );
+    expect(inventoryScan.status, inventoryScan.stderr).toBe(0);
+    const inventoryReport = JSON.parse(inventoryScan.stdout) as {
+      findings: { id: string }[];
+    };
+    const findingId = inventoryReport.findings[0]!.id;
     const capture = join(parent, "capture.json");
     await writeFile(
       capture,
@@ -96,7 +111,14 @@ it("runs the portable CLI after relocation without source, local paths or symlin
       }),
     );
     for (const args of [
-      ["scan", resolve("fixtures/developer/inventory"), ...target],
+      inventoryArgs,
+      [
+        "explain",
+        resolve("fixtures/developer/inventory"),
+        "--finding-id",
+        findingId,
+        ...target,
+      ],
       [
         "api-rules",
         resolve("fixtures/developer/source-api"),
@@ -130,6 +152,19 @@ it("runs the portable CLI after relocation without source, local paths or symlin
       expect(actual.status, actual.stderr).toBe(0);
       expect(actual.stdout).toBe(expected.stdout);
     }
+    expect(
+      await readFile(
+        join(
+          runtime,
+          "node_modules",
+          "@arkcompat",
+          "contracts",
+          "finding-explanation.schema.json",
+        ),
+      ),
+    ).toEqual(
+      await readFile("packages/contracts/finding-explanation.schema.json"),
+    );
   } finally {
     await rm(parent, { recursive: true, force: true });
   }
