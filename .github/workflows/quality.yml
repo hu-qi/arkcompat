@@ -74,6 +74,27 @@ jobs:
         run: pnpm install --frozen-lockfile --ignore-scripts
       - name: Check formatting, lint, types, fixtures, schema and CLI parity
         run: pnpm check
+      - name: Package and validate deterministic CLI provenance
+        if: ${{ matrix.os == 'ubuntu-24.04' && matrix.node == '24' }}
+        shell: bash
+        run: |
+          first="$RUNNER_TEMP/arkcompat-cli-provenance-a"
+          second="$RUNNER_TEMP/arkcompat-cli-provenance-b"
+          pnpm package:cli "$first"
+          pnpm verify:runtime-provenance "$first"
+          pnpm package:cli "$second"
+          pnpm verify:runtime-provenance "$second"
+          cmp "$first/SBOM.cdx.json" "$second/SBOM.cdx.json"
+          cmp "$first/SHA256SUMS" "$second/SHA256SUMS"
+          node "$first/dist/index.js" --help > "$RUNNER_TEMP/arkcompat-cli-provenance-help.txt"
+      - name: Retain CLI provenance rehearsal, not a release
+        if: ${{ always() && matrix.os == 'ubuntu-24.04' && matrix.node == '24' }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: cli-runtime-provenance-rehearsal-not-release
+          path: ${{ runner.temp }}/arkcompat-cli-provenance-a/
+          if-no-files-found: error
+          retention-days: 14
       - name: Retain shared unit coverage evidence
         if: ${{ always() && matrix.os == 'ubuntu-24.04' && matrix.node == '24' }}
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2

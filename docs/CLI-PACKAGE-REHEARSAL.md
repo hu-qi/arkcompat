@@ -14,6 +14,27 @@ The script builds just the CLI and its workspace dependencies, then uses the pin
 
 The build rejects existing output directories, symlinks, and special files in the runtime tree. It omits pnpm install metadata and generated shims that may include the build machine's paths. Dependency license and notice files stay with the installed dependencies. The relocation test compares `scan`, `api-rules`, `knowledge-export` and `ohpm-evidence` with the built workspace CLI on authored inputs. These fixtures test packaging and parity; they do not establish HarmonyOS compatibility or accuracy.
 
-Each build includes `THIRD-PARTY-NOTICES.json`. It lists the installed third-party package copies, declared license strings and hashes of recognizable, nonempty top-level license and notice files. Paths are relative to the runtime. The list reports missing declarations and missing license files separately; a declaration is not a substitute for a notice. The current `@yarnpkg/lockfile@1.1.0` package declares BSD-2-Clause but does not include a top-level license file. Resolve and review its attribution and any bundled-code notices before distribution. The inventory does not authenticate the package metadata, classify bundled source, or provide legal review. The same file travels under `runtime/` in the [VSIX](LOCAL-VSCODE.md#installable-vsix-rehearsal--issue-6--m4).
+Each build includes `THIRD-PARTY-NOTICES.json`, a CycloneDX 1.5
+`SBOM.cdx.json` inventory of the actual deployed runtime and `SHA256SUMS` for
+the complete directory except the checksum file itself. The schema, dependency
+scope and file-integrity boundaries are documented in
+[runtime provenance](RUNTIME-PROVENANCE.md). The notices list installed
+third-party package copies, declared license strings and hashes of
+recognizable, nonempty top-level license and notice files. Paths are relative
+to the runtime. The list reports missing declarations and missing license files
+separately; a declaration is not a substitute for a notice. The current
+`@yarnpkg/lockfile@1.1.0` package declares BSD-2-Clause but does not include a
+top-level license file. Resolve and review its attribution and any bundled-code
+notices before distribution. The inventory does not authenticate the package
+metadata, classify bundled source, or provide legal review. The same files
+travel under `runtime/` in the [VSIX](LOCAL-VSCODE.md#installable-vsix-rehearsal--issue-6--m4).
+
+The packaging command validates the generated CycloneDX schema and every
+checksum before reporting success. An independent operator can repeat the
+artifact check without the workspace build:
+
+```sh
+pnpm verify:runtime-provenance "$out/arkcompat"
+```
 
 This is a private development package. Registry publication, signed provenance, distribution approval and independent acceptance remain separate. For rollback, discard the generated directory; the scan input is not changed.

@@ -21,6 +21,8 @@ import {
 } from "node:path";
 import { fileURLToPath } from "node:url";
 import { runtimeNotices } from "./runtime-notices.mjs";
+import { writeRuntimeProvenance } from "./runtime-sbom.mjs";
+import { validateRuntimeProvenance } from "./validate-runtime-provenance.mjs";
 
 const root = realpathSync(fileURLToPath(new URL("..", import.meta.url)));
 const [target, ...extra] = process.argv.slice(2);
@@ -95,22 +97,44 @@ function packageCli() {
       join(output, "THIRD-PARTY-NOTICES.json"),
       JSON.stringify(runtimeNotices(output), null, 2) + "\n",
     );
-    const { name, version, type, bin } = JSON.parse(
-      readFileSync(join(root, "apps/cli/package.json"), "utf8"),
-    );
+    const {
+      name,
+      version,
+      type,
+      bin,
+      dependencies: cliDependencies,
+    } = JSON.parse(readFileSync(join(root, "apps/cli/package.json"), "utf8"));
     const { license, engines } = JSON.parse(
       readFileSync(join(root, "package.json"), "utf8"),
     );
     writeFileSync(
       join(output, "package.json"),
       JSON.stringify(
-        { name, version, private: true, type, bin, license, engines },
+        {
+          name,
+          version,
+          private: true,
+          type,
+          bin,
+          license,
+          engines,
+          dependencies: Object.fromEntries(
+            Object.entries(cliDependencies ?? {}).map(
+              ([dependency, specifier]) => [
+                dependency,
+                specifier.startsWith("workspace:") ? version : specifier,
+              ],
+            ),
+          ),
+        },
         null,
         2,
       ) + "\n",
     );
+    writeRuntimeProvenance(output);
+    validateRuntimeProvenance(output);
     console.log(
-      "Portable CLI staged; run node dist/index.js --help from the output directory.",
+      "Portable CLI staged with verified provenance; run node dist/index.js --help from the output directory.",
     );
   } catch (error) {
     rmSync(output, { recursive: true, force: true });
