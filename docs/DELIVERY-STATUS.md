@@ -35,6 +35,11 @@ The open engineering actions above remain actionable; they are not all blocked b
 - [Runtime notices PR #47](https://github.com/hu-qi/arkcompat/pull/47): extracted production notices and SHA-256 integrity inventory (`THIRD-PARTY-NOTICES.json`); main `5796c164d1ef9f7a6ed28e31d2d58b3db5f364bd`.
 - [Cursor VSIX parity PR #48](https://github.com/hu-qi/arkcompat/pull/48): lowered declared editor engine floor to `^1.128.0`, verified in Cursor 3.29 and VS Code 1.145; main `78df27c9e8b452b0998620443d375dbb8c36dfeb`.
 - [DevEco disk-install PR #49](https://github.com/hu-qi/arkcompat/pull/49): verified `--disk-install` preparation mode with DevEco Studio 26.0.0.865 (macOS arm64) native "Install Plugin from Disk" UI, loading and editor navigation; main `c14186d3c09d35b267d8153ed586182b6b711414`.
+- [Runtime amendment PR #50](https://github.com/hu-qi/arkcompat/pull/50):
+  binds packed HAP and dependency provenance, timestamped ArkTS captures, sustained
+  looping, foreground cleanup, isolated-instance shutdown, and reproducible Web
+  measurements to the public evidence record. Merge remains gated on authoritative
+  checks and a second independent public-evidence review.
 - Claude Code independent review (2026-11-10): evaluated PR #41's public
   evidence and returned "support only with amendments". The 2026-11-11 rewrite
   adds packed-dependency provenance, timestamp-bound captures, a 36-loop
