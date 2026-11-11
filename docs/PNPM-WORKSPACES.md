@@ -44,14 +44,23 @@ as `pnpm-workspace-pattern-unsupported`. The host selected no zero-padded
 directory and selected only a partial subset for the stepped pattern, so
 ArkCompat abstains from that syntax instead of guessing.
 
+The shared character-pattern slice was also run with pinned pnpm 10.34.9.
+Positive and negated character classes, `?`, and an embedded `*` selected the
+same eight authored paths as npm and Yarn, with no whole-pattern negation or
+extglob support added. The report is byte-identical across source, portable and
+VSIX-embedded CLIs; exact host data is recorded in
+[workspace character-glob evidence](evidence/workspace-character-globs-2026-11-11.json).
+
 ## Discovery boundary
 
 - Root `pnpm-workspace.yaml.packages` must be an array of nonempty strings.
   Exact relative directories, `./` normalization, `*` for one segment and
   `**` for zero or more segments are supported. Nested or adjacent comma-list
   brace groups are expanded before resolution, including alternatives
-  containing `*` or `**`; one authored selection is limited to 64 expanded
-  patterns. Expanded patterns and selected paths are deduplicated.
+  containing `*` or `**`. Individual segments additionally support `?`,
+  embedded `*`, positive classes such as `[ab]` and negated classes such as
+  `[!a]`; one authored selection is limited to 64 expanded patterns. Expanded
+  patterns and selected paths are deduplicated.
 - Discovery stops at 128 selected workspace directories. Only non-hidden,
   non-excluded in-tree directories with regular, size-bounded `package.json`
   files are read. Symlinks and special files are never followed.
@@ -61,8 +70,10 @@ ArkCompat abstains from that syntax instead of guessing.
   directories containing `package.json`; shared wildcard traversal stops after
   4,096 directory reads. Simple non-padded numeric, alphabetic and descending
   brace ranges are supported. Negated patterns, zero-padded or explicit-step
-  brace ranges, malformed or empty brace alternatives, extglobs, dot segments
-  and other glob characters embedded in a segment remain outside this boundary.
+  brace ranges, malformed or empty brace alternatives, extglobs,
+  whole-pattern negation, malformed or reversed classes, dot segments and other
+  unvalidated syntax remain outside this boundary. A segment is capped at 256
+  characters and 32 wildcard/class tokens.
 - A malformed recognized config or malformed discovered manifest fails the
   scan. Missing/unavailable directories and manifests, anonymous or
   versionless workspaces, duplicate names, unmatched selections/importers and

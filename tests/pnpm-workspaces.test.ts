@@ -486,6 +486,60 @@ it("expands bounded comma-list braces in pnpm workspace selections", async () =>
   );
 });
 
+it("matches pnpm segment wildcards, single characters and character classes", async () => {
+  const path = await root(
+    { name: "workspace-root", private: true },
+    {
+      packages: [
+        "members/[ab]-app",
+        "members/service-?",
+        "members/team-[!a]/member",
+        "members/feature-*",
+      ],
+    },
+  );
+  const selected = [
+    "members/a-app",
+    "members/b-app",
+    "members/service-x",
+    "members/service-y",
+    "members/team-b/member",
+    "members/team-c/member",
+    "members/feature-one",
+    "members/feature-two",
+  ];
+  const excluded = [
+    "members/c-app",
+    "members/service-xy",
+    "members/team-a/member",
+    "members/other",
+  ];
+  for (const workspacePath of [...selected, ...excluded]) {
+    await workspace(path, workspacePath, {
+      name: `@fixture/${workspacePath.replaceAll("/", "-")}`,
+      version: "1.0.0",
+    });
+  }
+  await lock(path, {
+    lockfileVersion: "9.0",
+    importers: {
+      ".": {},
+      ...Object.fromEntries(
+        selected.map((workspacePath) => [workspacePath, {}]),
+      ),
+    },
+  });
+
+  const report = await scanProject(path, target);
+
+  expect(report.modules?.map((module) => module.path)).toEqual(
+    [...selected].sort(),
+  );
+  expect(report.coverage.limitations.map((item) => item.code)).not.toContain(
+    "pnpm-workspace-pattern-unsupported",
+  );
+});
+
 it("expands pnpm-supported simple brace ranges and rejects host-incompatible variants", async () => {
   const path = await root(
     { name: "workspace-root", private: true },

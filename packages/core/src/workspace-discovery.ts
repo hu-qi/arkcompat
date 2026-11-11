@@ -11,6 +11,8 @@ const maxPathParts = 64;
 const maxTraversedDirectories = 4096;
 const maxBraceExpansions = 64;
 const maxBraceExpandedLength = maxPathLength * (maxBraceExpansions + 1);
+const maxGlobPartLength = 256;
+const maxGlobWildcards = 32;
 
 export interface WorkspaceManifest {
   path: string;
@@ -62,6 +64,63 @@ function safePart(part: string): boolean {
   return (
     part !== "." && part !== ".." && /^[A-Za-z0-9_][A-Za-z0-9._-]*$/.test(part)
   );
+}
+
+function globPart(
+  part: string,
+):
+  | { kind: "literal" }
+  | { kind: "glob"; expression: RegExp }
+  | { kind: "unsupported" } {
+  if (
+    part.length > maxGlobPartLength ||
+    part.includes("**") ||
+    part.includes("{") ||
+    part.includes("}") ||
+    part.includes("(") ||
+    part.includes(")") ||
+    part.includes("|")
+  )
+    return { kind: "unsupported" };
+  if (safePart(part)) return { kind: "literal" };
+
+  let source = "^";
+  let wildcards = 0;
+  for (let index = 0; index < part.length; index++) {
+    const character = part[index]!;
+    if (character === "*" || character === "?") {
+      wildcards++;
+      if (wildcards > maxGlobWildcards) return { kind: "unsupported" };
+      source += character === "*" ? ".*" : ".";
+      continue;
+    }
+    if (character === "[") {
+      const close = part.indexOf("]", index + 1);
+      if (close <= index + 1 || close - index - 1 > maxGlobWildcards)
+        return { kind: "unsupported" };
+      let body = part.slice(index + 1, close);
+      let negated = false;
+      if (body.startsWith("!")) {
+        negated = true;
+        body = body.slice(1);
+      }
+      if (!body || ![...body].every((item) => /[A-Za-z0-9._-]/.test(item)))
+        return { kind: "unsupported" };
+      wildcards++;
+      if (wildcards > maxGlobWildcards) return { kind: "unsupported" };
+      source += `[${negated ? "^" : ""}${body}]`;
+      index = close;
+      continue;
+    }
+    if (!/[A-Za-z0-9._-]/.test(character)) return { kind: "unsupported" };
+    source += character.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  }
+  if (wildcards === 0) return { kind: "unsupported" };
+  try {
+    return { kind: "glob", expression: new RegExp(source + "$") };
+  } catch {
+    return { kind: "unsupported" };
+  }
 }
 
 function unsafePattern(raw: string): boolean {
@@ -139,7 +198,12 @@ function normalizePatternValue(
       limitation: { code: `${prefix}-pattern-unsafe` },
     };
   }
-  if (!parts.every((part) => part === "*" || part === "**" || safePart(part))) {
+  if (
+    !parts.every(
+      (part) =>
+        part === "*" || part === "**" || globPart(part).kind !== "unsupported",
+    )
+  ) {
     return {
       parts: null,
       limitation: { code: `${prefix}-pattern-unsupported` },
@@ -317,6 +381,7 @@ async function resolvePattern(
   let prefixes = [""];
   for (const [index, part] of parts.entries()) {
     const next: string[] = [];
+    const classified = globPart(part);
     for (const prefixPath of prefixes) {
       if (part === "**") {
         next.push(
@@ -330,7 +395,7 @@ async function resolvePattern(
             seenLimitations,
           )),
         );
-      } else if (part !== "*") {
+      } else if (part !== "*" && classified.kind === "literal") {
         const path = prefixPath ? prefixPath + "/" + part : part;
         try {
           if ((await lstat(join(root, path))).isDirectory()) next.push(path);
@@ -346,18 +411,24 @@ async function resolvePattern(
           });
         }
         continue;
-      } else
-        next.push(
-          ...(await listDirectories(
-            root,
-            prefixPath,
-            excluded,
-            prefix,
-            state,
-            limitations,
-            seenLimitations,
-          )),
+      } else {
+        const matcher =
+          classified.kind === "glob" ? classified.expression : null;
+        const children = await listDirectories(
+          root,
+          prefixPath,
+          excluded,
+          prefix,
+          state,
+          limitations,
+          seenLimitations,
         );
+        for (const child of children) {
+          const name = child.split("/").at(-1)!;
+          if (matcher && !matcher.test(name)) continue;
+          next.push(child);
+        }
+      }
     }
     prefixes = [...new Set(next)].sort();
     if (!prefixes.length) return [] as string[];

@@ -49,6 +49,13 @@ zero-padded directory and produced an incomplete subset for the stepped
 pattern, so ArkCompat rejects that form rather than treating a partial host
 match as the contract.
 
+The shared character-pattern slice was run with Yarn 4.0.0. Positive and
+negated character classes, `?`, and an embedded `*` selected the same eight
+authored paths as npm and pnpm. Source, portable and VSIX-embedded reports were
+byte-identical; whole-pattern negation and extglobs remain unsupported. Exact
+host output and artifact hashes are in
+[workspace character-glob evidence](evidence/workspace-character-globs-2026-11-11.json).
+
 ## Discovery boundaries
 
 - The root workspace value follows npm/Yarn's array or
@@ -56,14 +63,16 @@ match as the contract.
   data aborts.
 - Shared discovery accepts exact safe path parts, single-segment `*`,
   zero-or-more-segment `**` patterns and nested or adjacent comma-list brace
-  groups, including alternatives containing `*` or `**`. One authored
-  selection is limited to 64 expanded patterns. It normalizes one leading `./`,
-  rejects traversal, absolute/URL-like patterns, zero-padded or explicit-step
-  brace sequences and other unsupported glob syntax, symlinks and excluded
-  directories, and stops at 128 selected workspaces. Simple non-padded numeric,
-  alphabetic and descending brace ranges are supported. Wildcard traversal
-  shares a 4,096-directory read budget; a terminal globstar selects directories
-  containing `package.json`.
+  groups, including alternatives containing `*` or `**`. Individual segments
+  additionally support `?`, embedded `*`, positive classes such as `[ab]` and
+  negated classes such as `[!a]`. One authored selection is limited to 64
+  expanded patterns. It normalizes one leading `./`, rejects traversal,
+  absolute/URL-like patterns, zero-padded or explicit-step brace sequences,
+  extglobs, whole-pattern negation, malformed or reversed classes, symlinks and
+  excluded directories, and stops at 128 selected workspaces. Simple non-padded
+  numeric, alphabetic and descending brace ranges are supported. Wildcard
+  traversal shares a 4,096-directory read budget; a terminal globstar selects
+  directories containing `package.json`.
 - Each selected manifest must be a regular, non-symlink `package.json` within
   the shared file and total-byte limits. Duplicate names, missing
   names/versions and unavailable manifests remain `declarations-only` with an

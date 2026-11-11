@@ -1,0 +1,181 @@
+{
+  "schemaVersion": "1",
+  "observedAt": "2026-11-11",
+  "issue": 3,
+  "kind": "bounded-workspace-character-glob-host-and-artifact-evidence",
+  "implementationHead": null,
+  "fixture": {
+    "path": "fixtures/developer/workspace-character-globs",
+    "patterns": [
+      "modules/[ab]-app",
+      "modules/service-?",
+      "modules/team-[!a]/member",
+      "modules/feature-*"
+    ],
+    "selected": [
+      "modules/a-app",
+      "modules/b-app",
+      "modules/feature-one",
+      "modules/feature-two",
+      "modules/service-x",
+      "modules/service-y",
+      "modules/team-b/member",
+      "modules/team-c/member"
+    ],
+    "excluded": [
+      "modules/c-app",
+      "modules/service-xy",
+      "modules/team-a/member",
+      "modules/other"
+    ],
+    "filesSha256": [
+      {
+        "path": "fixtures/developer/workspace-character-globs/modules/a-app/package.json",
+        "sha256": "8c6abae710f6b9a3e3b8a426339443aa69c97aecf3531100b2bfdd835505a61d"
+      },
+      {
+        "path": "fixtures/developer/workspace-character-globs/modules/b-app/package.json",
+        "sha256": "b8199e863ba2cb95117398f70fe698e0c1e7a4b6b3927aee12e4a9a516506126"
+      },
+      {
+        "path": "fixtures/developer/workspace-character-globs/modules/c-app/package.json",
+        "sha256": "08a22bfb7d8d3c6cd25e2e92f59762fe658981ad3a7327498eec2f5800e3de23"
+      },
+      {
+        "path": "fixtures/developer/workspace-character-globs/modules/feature-one/package.json",
+        "sha256": "bc2615d641f8369acab899b97a58f794013bf9bc92f5bcf8b298fb05652db733"
+      },
+      {
+        "path": "fixtures/developer/workspace-character-globs/modules/feature-two/package.json",
+        "sha256": "3a567e4b0c0509ada1e23ad13079a7d4f5bfbf39a1383ec2d77939ff430484ad"
+      },
+      {
+        "path": "fixtures/developer/workspace-character-globs/modules/other/package.json",
+        "sha256": "3b84b9917fc784c781b95f560bf5789b634bbcfb8de8b47c60cde18990e20690"
+      },
+      {
+        "path": "fixtures/developer/workspace-character-globs/modules/service-x/package.json",
+        "sha256": "a2d691e02b7db18ec52bc0008ca8272322435e9f7a33821f75b5e44af5c67429"
+      },
+      {
+        "path": "fixtures/developer/workspace-character-globs/modules/service-xy/package.json",
+        "sha256": "1392776fba5debf75ec6348c0f4c473982b27922fc50564666798896db3a80a7"
+      },
+      {
+        "path": "fixtures/developer/workspace-character-globs/modules/service-y/package.json",
+        "sha256": "076c24ab35fa3adf42d6e4045bfa8a520b875ad0aa9145b24aae3ef3b3215361"
+      },
+      {
+        "path": "fixtures/developer/workspace-character-globs/modules/team-a/member/package.json",
+        "sha256": "91a853b625028532bb82fe30de14d4dd0311b5879310e8f9cee00ac078bc59b6"
+      },
+      {
+        "path": "fixtures/developer/workspace-character-globs/modules/team-b/member/package.json",
+        "sha256": "d067dcb3862929ac9e67382f373ca4a400efd0aaf05af35b9f3c15ee9f04bacd"
+      },
+      {
+        "path": "fixtures/developer/workspace-character-globs/modules/team-c/member/package.json",
+        "sha256": "84861b4f2bc28e0b9111e09126c0136322a35eea877d6ca66bd8889dc6a2fbb2"
+      },
+      {
+        "path": "fixtures/developer/workspace-character-globs/package.json",
+        "sha256": "6e970c92b10aab4d4da96bd514616f2f09c499a516d0113139574af78c656301"
+      }
+    ]
+  },
+  "limits": {
+    "maxGlobPartLength": 256,
+    "maxWildcardsPerPart": 32,
+    "maxBraceExpansions": 64,
+    "maxSelectedWorkspaces": 128,
+    "maxDirectoryReads": 4096
+  },
+  "hosts": {
+    "npm": {
+      "version": "10.9.9",
+      "selected": [
+        "modules/a-app",
+        "modules/b-app",
+        "modules/feature-one",
+        "modules/feature-two",
+        "modules/service-x",
+        "modules/service-y",
+        "modules/team-b/member",
+        "modules/team-c/member"
+      ],
+      "match": true,
+      "rawSha256": "15998ede76010ef0abd98d5fdbf8f3ac395382a52e9b236cde1855341c4bf6db"
+    },
+    "pnpm": {
+      "version": "10.34.9",
+      "selected": [
+        "modules/a-app",
+        "modules/b-app",
+        "modules/feature-one",
+        "modules/feature-two",
+        "modules/service-x",
+        "modules/service-y",
+        "modules/team-b/member",
+        "modules/team-c/member"
+      ],
+      "match": true,
+      "rawSha256": "5ed6e32d7225cb24be60a76b451a6f60151476b88d59976836d1913be794a03e"
+    },
+    "yarn": {
+      "version": "4.0.0",
+      "selected": [
+        "modules/a-app",
+        "modules/b-app",
+        "modules/feature-one",
+        "modules/feature-two",
+        "modules/service-x",
+        "modules/service-y",
+        "modules/team-b/member",
+        "modules/team-c/member"
+      ],
+      "match": true,
+      "rawSha256": "e52e76b91f24b62067e49c2171a61f85105cc3358541b5895893c5f13df5443c"
+    }
+  },
+  "scanner": {
+    "schemaVersion": "0.12.0",
+    "sourceReportSha256": "8090ab217787a4293ced6ac99b9851a229abf1d75eb5d88d7179fa6820c5cf87",
+    "deterministicScans": 2,
+    "selectedModuleCount": 8,
+    "findingStatuses": [
+      "unknown"
+    ],
+    "patternLimitationPresent": false
+  },
+  "artifacts": {
+    "portableCli": {
+      "reportSha256": "8090ab217787a4293ced6ac99b9851a229abf1d75eb5d88d7179fa6820c5cf87",
+      "indexSha256": "47cc6b7b2e15e6dbf901cd875e626273cc0b54b75d302a698c67aa25cd8fb35c",
+      "sbomSha256": "3ab54d331f25a97b36310871f60ae256c30ff730887b7ee7e17ea92a3f1f199d",
+      "checksumsSha256": "039cbd912ffe76e3451bf40a97e5732958e285570c0e66585068977dbe1ec3d2",
+      "runtimeValidation": {
+        "components": 15,
+        "dependencyEntries": 16,
+        "files": 1069
+      }
+    },
+    "vsix": {
+      "archiveSha256": "f68c3d3cd136f77acfd2412201351fd34f5d4ee463549671b44261aef0e31853",
+      "reportSha256": "8090ab217787a4293ced6ac99b9851a229abf1d75eb5d88d7179fa6820c5cf87",
+      "runtimeSbomSha256": "3ab54d331f25a97b36310871f60ae256c30ff730887b7ee7e17ea92a3f1f199d",
+      "runtimeChecksumsSha256": "039cbd912ffe76e3451bf40a97e5732958e285570c0e66585068977dbe1ec3d2",
+      "runtimeValidation": {
+        "components": 15,
+        "dependencyEntries": 16,
+        "files": 1069
+      }
+    }
+  },
+  "boundaries": {
+    "extglobsSupported": false,
+    "negatedWorkspacePatternsSupported": false,
+    "hostInstallationOrScriptExecution": false,
+    "independentAccuracyMeasured": false,
+    "formalAcceptanceCompleted": false
+  }
+}

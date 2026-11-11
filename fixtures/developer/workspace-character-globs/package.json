@@ -1,0 +1,11 @@
+{
+  "name": "workspace-character-glob-root",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "modules/[ab]-app",
+    "modules/service-?",
+    "modules/team-[!a]/member",
+    "modules/feature-*"
+  ]
+}
