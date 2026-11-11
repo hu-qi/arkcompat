@@ -1,0 +1,10 @@
+{
+  "name": "workspace-sequence-root",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "modules/numeric-{01..03}",
+    "modules/alpha-{a..c..2}",
+    "modules/reverse-{3..1}"
+  ]
+}

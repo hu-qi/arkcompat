@@ -69,12 +69,32 @@ automatic review; CI is engineering evidence, not independent acceptance.
 Exact host probes, artifact hashes and boundaries are recorded in
 [machine-readable evidence](evidence/workspace-braces-2026-11-11.json).
 
+The bounded sequence slice has an authored
+[fixture](../fixtures/developer/workspace-sequences). Its npm patterns
+`modules/numeric-{01..03}`, `modules/alpha-{a..c..2}` and
+`modules/reverse-{3..1}` select eight workspaces while excluding
+`numeric-04`, `alpha-b` and unrelated manifests. Two source scans produced
+the byte-identical Schema `0.12.0` report SHA-256
+`397eacc68d259a3ef9236b8072cc8e94105409c35397e076aa217b579e599c38`.
+Source, portable and VSIX-embedded CLIs produced the same bytes.
+
+[PR #72](https://github.com/hu-qi/arkcompat/pull/72) passed all five required
+[PR checks](https://github.com/hu-qi/arkcompat/actions/runs/43011182615) at
+`0ba04006b82500cd6180350132297a1cb21420ef` and
+[merged-main checks](https://github.com/hu-qi/arkcompat/actions/runs/43011443701)
+as merge `94544e32f86867dbcb6b704008c7d59c509d6949`. A separate npm 10.9.9
+lock-only probe selected all eight intended paths with the same three patterns.
+Exact host differences, artifact hashes and boundaries are recorded in
+[machine-readable evidence](evidence/workspace-sequences-2026-11-11.json).
+
 ## Discovery boundary
 
 - `workspaces` may be a string array or an object with a `packages` string
   array. Exact relative directories, `*` for one segment and `**` for zero or
   more segments are supported. Nested or adjacent comma-list brace groups are
   expanded before resolution, including alternatives containing `*` or `**`.
+  npm sequence groups use bounded `brace-expansion@5.0.12`; the authored
+  zero-padded numeric, alphabetic-step and descending forms are supported.
   One authored selection is limited to 64 expanded patterns. `./` is
   normalized, expanded patterns and paths are deduplicated, and discovery
   stops at 128 selections.
@@ -89,10 +109,9 @@ Exact host probes, artifact hashes and boundaries are recorded in
 - Discovery accepts multiple `*` and `**` segments. A terminal globstar selects
   directories containing a `package.json` rather than reporting every ordinary
   descendant as a failed workspace. Shared wildcard traversal stops after
-  4,096 directory reads. Numeric or alphabetic brace ranges, empty or malformed
-  brace alternatives, expansions above the 64-pattern cap, extglobs, negation,
-  dot segments and other glob characters embedded in a segment remain outside
-  the supported boundary.
+  4,096 directory reads. Empty or malformed brace alternatives, expansions
+  above the 64-pattern cap, extglobs, negation, dot segments and other glob
+  characters embedded in a segment remain outside the supported boundary.
 
 The package-manager selection rules remain unchanged. npm workspace discovery
 runs only when the selected lock family is npm or when no npm/pnpm/Yarn lock is
@@ -140,6 +159,7 @@ regenerating `0.12.0` reports. Existing root npm graphs and OHPM module
 inventory remain independent; no package installation state was changed.
 
 Cross-workspace installation/link resolution, remaining npm/pnpm/Yarn glob
-variants including brace sequences and extglobs, arbitrary
-workspace-local lock trees, tags/non-semver range and peer/hoisting verification, broader
-source/dataflow coverage and independent acceptance remain Issue #3 work.
+variants including unsupported sequence forms and extglobs, arbitrary
+workspace-local lock trees, tags/non-semver range and peer/hoisting
+verification, broader source/dataflow coverage and independent acceptance
+remain Issue #3 work.

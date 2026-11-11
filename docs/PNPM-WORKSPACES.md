@@ -36,6 +36,14 @@ package-resolution or compatibility measurement.
 The exact PR head, required workflow runs, per-workspace graph counts and hashes
 are recorded in [machine-readable evidence](evidence/pnpm-workspaces-2026-11-11.json).
 
+The shared sequence slice expands the simple non-padded numeric, alphabetic
+and descending forms used by pinned pnpm 10.34.9. Authored regressions select
+`modules/numeric-{1..3}`, `modules/alpha-{a..c}` and
+`modules/reverse-{3..1}` while disclosing zero-padded and explicit-step forms
+as `pnpm-workspace-pattern-unsupported`. The host selected no zero-padded
+directory and selected only a partial subset for the stepped pattern, so
+ArkCompat abstains from that syntax instead of guessing.
+
 ## Discovery boundary
 
 - Root `pnpm-workspace.yaml.packages` must be an array of nonempty strings.
@@ -51,9 +59,10 @@ are recorded in [machine-readable evidence](evidence/pnpm-workspaces-2026-11-11.
   glob syntax is rejected or disclosed without serializing the unsafe value.
   Multiple `*`/`**` segments are supported. Terminal globstars select only
   directories containing `package.json`; shared wildcard traversal stops after
-  4,096 directory reads. Negated patterns, numeric/alphabetic brace sequences,
-  malformed or empty brace alternatives, extglobs, dot segments and other glob
-  characters embedded in a segment remain outside this boundary.
+  4,096 directory reads. Simple non-padded numeric, alphabetic and descending
+  brace ranges are supported. Negated patterns, zero-padded or explicit-step
+  brace ranges, malformed or empty brace alternatives, extglobs, dot segments
+  and other glob characters embedded in a segment remain outside this boundary.
 - A malformed recognized config or malformed discovered manifest fails the
   scan. Missing/unavailable directories and manifests, anonymous or
   versionless workspaces, duplicate names, unmatched selections/importers and
@@ -103,7 +112,8 @@ consumers and regenerating `0.12.0` reports. The root importer/snapshot graph
 and npm/OHPM workspace inventories remain independent; no installation state
 was changed.
 
-Unsupported pnpm brace-sequence/glob/negation variants,
+Unsupported pnpm brace variants such as zero-padded/explicit-step ranges,
+extglobs and negation, together with
 cross-workspace link resolution, tags/non-semver range and peer/hoisting verification,
 broader source/dataflow coverage and independent M1 acceptance remain Issue #3
 work.
