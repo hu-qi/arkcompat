@@ -10,8 +10,11 @@ export { formatReport } from "./reports.js";
 export type { ReportFormat } from "./reports.js";
 import { readOhpmProfile, scanOhpmModules } from "./ohpm-modules.js";
 import { readOhpmLock, publicOhpmSpecifier } from "./ohpm-lock.js";
+import { scanNpmWorkspaces } from "./npm-workspaces.js";
 import { analyzeSource } from "./source.js";
 import { dependencies, publicSpecifier, record } from "./declarations.js";
+import { npmGraph } from "./npm-lock.js";
+import type { NpmWorkspaceLockRecord } from "./npm-lock.js";
 import {
   selectLockfile,
   parseDependencyGraph,
@@ -168,6 +171,8 @@ export async function scanProject(
   } catch {
     throw new Error(`Invalid ${ohpm ? "JSON5" : "JSON"} in ${manifestName}`);
   }
+  if (!record(manifest))
+    throw new Error(`Expected an object in ${manifestName}`);
   const rawDeclared = dependencies(manifest, manifestName);
   const declared = rawDeclared.map((d) => ({
     ...d,
@@ -212,25 +217,50 @@ export async function scanProject(
     source === "oh-package-lock.json5"
       ? readOhpmLock(text!, Array.isArray(profile?.modules))
       : undefined;
+  const lockResult =
+    source === "oh-package-lock.json5"
+      ? ohpmLock!.graphFor(rawDeclared)
+      : source === "pnpm-lock.yaml" || source === "yarn.lock"
+        ? parseDependencyGraph(text, source, rawDeclared)
+        : npmGraph(text, source, rawDeclared);
   const {
     graph: dependencyGraph,
     limitations: graphLimitations,
     parsed,
-  } = source === "oh-package-lock.json5"
-    ? ohpmLock!.graphFor(rawDeclared)
-    : parseDependencyGraph(text, source, rawDeclared);
+  } = lockResult;
   if (ohpm && source === null)
     limitations.push({ code: "transitive-dependencies-not-analyzed" });
   else limitations.push(...graphLimitations);
+  const npmWorkspaceRecords: NpmWorkspaceLockRecord[] =
+    "workspaces" in lockResult && Array.isArray(lockResult.workspaces)
+      ? (lockResult.workspaces as NpmWorkspaceLockRecord[])
+      : [];
+  const npmWorkspaces =
+    !ohpm &&
+    (source === null ||
+      source === "package-lock.json" ||
+      source === "npm-shrinkwrap.json")
+      ? await scanNpmWorkspaces({
+          root,
+          manifest,
+          graph: dependencyGraph,
+          lockRecords: npmWorkspaceRecords,
+          excluded,
+          read,
+        })
+      : { modules: [], limitations: [] };
   const modules = profile
     ? await scanOhpmModules(root, read, excluded, profile, ohpmLock)
-    : undefined;
+    : npmWorkspaces;
   const moduleFiles = new Set<string>();
   if (modules) {
     limitations.push(...modules.limitations);
     for (const { inventory } of modules.modules) {
-      moduleFiles.add(inventory.path + "/oh-package.json5");
-      if (inventory.dependencyGraph.source)
+      moduleFiles.add(
+        inventory.path +
+          (inventory.kind === "ohpm" ? "/oh-package.json5" : "/package.json"),
+      );
+      if (inventory.kind === "ohpm" && inventory.dependencyGraph.source)
         moduleFiles.add(
           inventory.path + "/" + inventory.dependencyGraph.source,
         );
@@ -349,7 +379,11 @@ export async function scanProject(
   }
   declareFindings(declared, locations, manifestName);
   for (const module of modules?.modules ?? []) {
-    const filename = module.inventory.path + "/oh-package.json5";
+    const filename =
+      module.inventory.path +
+      (module.inventory.kind === "ohpm"
+        ? "/oh-package.json5"
+        : "/package.json");
     declareFindings(
       module.inventory.dependencies,
       declarationLocations(filename, module.manifestText),
@@ -371,7 +405,7 @@ export async function scanProject(
       JSON.stringify(usage),
     );
   return {
-    schemaVersion: "0.8.0",
+    schemaVersion: "0.9.0",
     scannerVersion: "0.0.0",
     snapshots: { rules: "none", knowledge: "none" },
     target,

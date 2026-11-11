@@ -1,7 +1,7 @@
 import { lstat, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import JSON5 from "json5";
-import type { Limitation, OhpmModuleInventory } from "@arkcompat/contracts";
+import type { Limitation, ModuleInventory } from "@arkcompat/contracts";
 import { dependencies, record } from "./declarations.js";
 import type { OhpmLockReader } from "./ohpm-lock.js";
 import { ohpmGraph, publicOhpmSpecifier } from "./ohpm-lock.js";
@@ -51,8 +51,7 @@ export async function scanOhpmModules(
     );
   const paths = new Set<string>();
   const limitations: Limitation[] = [];
-  const modules: { inventory: OhpmModuleInventory; manifestText: string }[] =
-    [];
+  const modules: { inventory: ModuleInventory; manifestText: string }[] = [];
   for (const item of entries) {
     if (!record(item) || typeof item.srcPath !== "string" || !item.srcPath)
       throw new Error(`Invalid module srcPath in ${profile}`);
@@ -90,7 +89,8 @@ export async function scanOhpmModules(
     const manifestText = await read(join(dir, manifest));
     const data = parse(manifestText, manifestPath);
     const raw = dependencies(data, manifestPath);
-    const inventory: OhpmModuleInventory = {
+    const inventory: ModuleInventory = {
+      kind: "ohpm",
       path,
       dependencies: raw.map((d) => ({
         ...d,

@@ -5,7 +5,7 @@
   "additionalProperties": false,
   "properties": {
     "schemaVersion": {
-      "const": "0.8.0"
+      "const": "0.9.0"
     },
     "scannerVersion": {
       "const": "0.0.0"
@@ -220,8 +220,17 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["path", "dependencies", "dependencyGraph", "coverage"],
+        "required": [
+          "kind",
+          "path",
+          "dependencies",
+          "dependencyGraph",
+          "coverage"
+        ],
         "properties": {
+          "kind": {
+            "enum": ["npm", "ohpm"]
+          },
           "path": {
             "type": "string",
             "maxLength": 1024,
@@ -229,8 +238,40 @@
           },
           "dependencies": { "$ref": "#/properties/dependencies" },
           "dependencyGraph": { "$ref": "#/properties/dependencyGraph" },
-          "coverage": { "enum": ["declarations-only", "ohpm-lockfile-partial"] }
-        }
+          "coverage": {
+            "enum": [
+              "declarations-only",
+              "npm-lockfile-partial",
+              "ohpm-lockfile-partial"
+            ]
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "npm"
+                }
+              },
+              "required": ["kind"]
+            },
+            "then": {
+              "properties": {
+                "coverage": {
+                  "enum": ["declarations-only", "npm-lockfile-partial"]
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "coverage": {
+                  "enum": ["declarations-only", "ohpm-lockfile-partial"]
+                }
+              }
+            }
+          }
+        ]
       }
     },
     "coverage": {

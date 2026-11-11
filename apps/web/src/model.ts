@@ -11,10 +11,10 @@ export function parseReport(text: string): ScanReport {
   try {
     data = JSON.parse(text);
   } catch {
-    throw new Error("Report must match ArkCompat schema 0.8.0");
+    throw new Error("Report must match ArkCompat schema 0.9.0");
   }
   if (!validate(data))
-    throw new Error("Report must match ArkCompat schema 0.8.0");
+    throw new Error("Report must match ArkCompat schema 0.9.0");
   return data;
 }
 

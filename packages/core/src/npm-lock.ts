@@ -13,6 +13,21 @@ import {
   effectiveDependencies,
 } from "./declarations.js";
 
+export interface NpmWorkspaceLockRecord {
+  path: string;
+  name: string;
+  version: string;
+  linkNodes: string[];
+  declarations: DeclaredDependency[];
+}
+
+interface NpmGraphResult {
+  graph: DependencyGraph;
+  limitations: Limitation[];
+  parsed: boolean;
+  workspaces: NpmWorkspaceLockRecord[];
+}
+
 function safeLocation(path: string): boolean {
   return (
     path.length <= 2048 &&
@@ -62,7 +77,7 @@ export function npmGraph(
     "pnpm-lock.yaml" | "yarn.lock" | "oh-package-lock.json5"
   >,
   declared: DeclaredDependency[],
-): { graph: DependencyGraph; limitations: Limitation[]; parsed: boolean } {
+): NpmGraphResult {
   const graph: DependencyGraph = {
     source,
     lockfileVersion: null,
@@ -77,6 +92,7 @@ export function npmGraph(
     return {
       graph,
       parsed: false,
+      workspaces: [],
       limitations: [
         { code: "npm-lockfile-missing" },
         { code: "transitive-dependencies-not-analyzed" },
@@ -99,6 +115,7 @@ export function npmGraph(
     return {
       graph,
       parsed: false,
+      workspaces: [],
       limitations: [
         { code: "unsupported-npm-lockfile-version", path: source! },
         { code: "transitive-dependencies-not-analyzed" },
@@ -254,5 +271,31 @@ export function npmGraph(
       localRoot ?? node.id,
     );
   }
-  return { graph, limitations, parsed: true };
+  const workspaces = [...localRoots]
+    .sort()
+    .flatMap((path): NpmWorkspaceLockRecord[] => {
+      const descriptor = (lock.packages as Record<string, unknown>)[
+        path
+      ] as Record<string, unknown>;
+      if (
+        typeof descriptor.name !== "string" ||
+        !packageName(descriptor.name) ||
+        typeof descriptor.version !== "string" ||
+        !descriptor.version.trim()
+      )
+        return [];
+      return [
+        {
+          path,
+          name: descriptor.name,
+          version: descriptor.version,
+          linkNodes: [...localLinks.entries()]
+            .filter(([, target]) => target === path)
+            .map(([link]) => link)
+            .sort(),
+          declarations: dependencies(descriptor, source!),
+        },
+      ];
+    });
+  return { graph, limitations, parsed: true, workspaces };
 }
