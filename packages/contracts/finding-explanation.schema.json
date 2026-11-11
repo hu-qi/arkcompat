@@ -1,0 +1,221 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ArkCompat deterministic inventory finding explanation",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "explanationVersion": {
+      "const": "0.1.0"
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "ruleId": {
+          "enum": [
+            "inventory.dependency",
+            "inventory.module-reference",
+            "inventory.api-usage"
+          ]
+        },
+        "status": {
+          "const": "unknown"
+        },
+        "tier": {
+          "const": "rule-static"
+        },
+        "severity": {
+          "const": "info"
+        },
+        "target": {
+          "$ref": "#/definitions/target"
+        },
+        "location": {
+          "$ref": "#/definitions/location"
+        },
+        "evidence": {
+          "$ref": "#/definitions/evidence"
+        },
+        "explanation": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "ruleId",
+        "status",
+        "tier",
+        "severity",
+        "target",
+        "location",
+        "evidence",
+        "explanation"
+      ]
+    },
+    "source": {
+      "$ref": "#/definitions/location"
+    },
+    "target": {
+      "$ref": "#/definitions/target"
+    },
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "enum": [
+            "inventory.dependency",
+            "inventory.module-reference",
+            "inventory.api-usage"
+          ]
+        },
+        "status": {
+          "const": "unknown"
+        },
+        "tier": {
+          "const": "rule-static"
+        },
+        "severity": {
+          "const": "info"
+        }
+      },
+      "required": ["id", "status", "tier", "severity"]
+    },
+    "evidence": {
+      "$ref": "#/definitions/evidence"
+    },
+    "explanation": {
+      "type": "string"
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          }
+        },
+        "required": ["code"]
+      }
+    },
+    "recommendedAction": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "enum": [
+            "verify-reviewed-package-evidence",
+            "verify-reviewed-module-evidence",
+            "verify-reviewed-api-evidence"
+          ]
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "compatibilityClaim": {
+          "const": false
+        },
+        "evidenceRequired": {
+          "const": true
+        }
+      },
+      "required": ["code", "text", "compatibilityClaim", "evidenceRequired"]
+    },
+    "snapshots": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "rules": {
+          "const": "none"
+        },
+        "knowledge": {
+          "const": "none"
+        }
+      },
+      "required": ["rules", "knowledge"]
+    }
+  },
+  "required": [
+    "explanationVersion",
+    "finding",
+    "source",
+    "target",
+    "rule",
+    "evidence",
+    "explanation",
+    "limitations",
+    "recommendedAction",
+    "snapshots"
+  ],
+  "definitions": {
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "os": {
+          "const": "HarmonyOS"
+        },
+        "release": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "runtime": {
+          "enum": ["arkts", "arkweb", "react-native"]
+        },
+        "apiLevel": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": ["os", "release", "runtime"]
+    },
+    "location": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "line": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "column": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": ["path", "line", "column"]
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "enum": [
+              "manifest-declaration",
+              "ast-module-reference",
+              "module-api-access"
+            ]
+          },
+          "value": {
+            "type": ["string", "null"]
+          }
+        },
+        "required": ["kind", "value"]
+      }
+    }
+  }
+}

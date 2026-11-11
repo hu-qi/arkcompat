@@ -5,6 +5,7 @@ import { extname, join, relative, sep } from "node:path";
 import ts from "typescript";
 import JSON5 from "json5";
 export { apiRuleSnapshotByteLimit, evaluateApiRules } from "./api-rules.js";
+export { explainFinding } from "./explanations.js";
 export { formatReport } from "./reports.js";
 export type { ReportFormat } from "./reports.js";
 import { readOhpmProfile, scanOhpmModules } from "./ohpm-modules.js";

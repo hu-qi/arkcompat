@@ -9,6 +9,8 @@ pnpm check
 pnpm --silent scan fixtures/developer/source-api --runtime arkts --release 6.0.0
 pnpm --silent scan fixtures/developer/source-api --runtime arkts --release 6.0.0 --format markdown > report.md
 pnpm --silent scan fixtures/developer/source-api --runtime arkts --release 6.0.0 --format sarif > report.sarif
+# Copy one finding ID from the JSON report, then explain it in the same target profile.
+pnpm --silent explain fixtures/developer/source-api --finding-id <sha256> --runtime arkts --release 6.0.0
 ```
 
 Unknown/missing/repeated format flags produce a nonzero CLI usage error with no partial stdout. Scan failures are not converted into a successful report. Library callers use the pure `formatReport(report, format)` export from core, after constructing/validating a canonical ScanReport; arbitrary imported JSON is not accepted or validated by this API.
@@ -23,9 +25,15 @@ Unknown/missing/repeated format flags produce a nonzero CLI usage error with no 
 
 JSON retains the complete dependency graph and source inventory; Markdown/SARIF are finding-oriented projections. They preserve uncertainty and do not establish the current existence of a real export, a correct substitute, runtime support or independent accuracy. SARIF emission alone does not mean a hosted code-scanning integration is configured or shipped.
 
+## Deterministic finding explanations
+
+`explain` reruns the same local scan with an explicit target profile, selects one exact 64-character finding ID and emits a versioned JSON explanation. The result joins the canonical finding to source location, target profile, rule/status/tier/severity, evidence, report limitations, snapshot IDs and a rule-specific next action. Unknown or stale IDs fail with no partial output. The standalone schema is `@arkcompat/contracts/finding-explanation.schema.json` (`0.1.0`) and is loaded from the packaged contracts artifact.
+
+The current recommendations identify what evidence must be checked; they do not claim that a package, module or API is compatible. Dependency, import and API findings currently receive different next actions because each requires a different version-scoped check. The projection performs no package installation, source execution, registry/model request, telemetry or report upload.
+
 ## Validation evidence
 
-Nineteen adapter/CLI regression cases cover default JSON bytes, Markdown escaping/metadata/empty states, SARIF finding/region/URI mapping, invalid paths/formats, determinism, input immutability and CLI/core parity. They run in the existing required workspace matrix and unchanged per-file core coverage gates.
+Nineteen report-adapter regressions cover default JSON bytes, Markdown escaping/metadata/empty states, SARIF finding/region/URI mapping, invalid paths/formats, determinism, input immutability and CLI/core parity. Twelve explanation regressions cover every current inventory rule, target forwarding, evidence/limitations, schema validity, deterministic CLI/core bytes, invalid runtime values, failure output and report immutability. They run in the existing required workspace matrix and unchanged per-file core coverage gates.
 
 Local generated SARIF was also checked structurally against the official [OASIS 2.1.0 JSON schema](https://docs.oasis-open.org/sarif/sarif/v2.1.0/os/schemas/sarif-schema-2.1.0.json), downloaded SHA-256 `ad6db49878699b091f3eeb765b6e29e92a34bad4da88664d000c923b549c3a25`. Ajv 8.20.0 used `strict:false`, `validateFormats:false`, `unicodeRegExp:false`: the upstream language pattern cannot compile under Ajv's Unicode-RegExp default. No schema content was modified or vendored; URI encoding/path safety is separately covered by regressions. This structural check is not an assertion of every SARIF consumer's behavior.
 
@@ -33,4 +41,4 @@ The authored source-api fixture produces **10 results** (six references/four API
 
 ## Remaining gate and rollback
 
-Issue #5 remains open for reviewed rule/knowledge explanations, replacement guidance, remote-AI consent if introduced, beta packaging and independent sample acceptance. The current generic inventory explanation is deliberately retained. Revert this scoped report PR to restore JSON-only CLI output; canonical scan schema and engine require no migration.
+Issue #5 remains open for reviewed rule/knowledge explanations, replacement guidance, remote-AI consent if introduced, beta packaging and independent sample acceptance. The current explanation deliberately retains generic inventory-only actions. Revert this scoped explanation work to remove the command and projection; canonical scan/report schema and other entry points require no migration.

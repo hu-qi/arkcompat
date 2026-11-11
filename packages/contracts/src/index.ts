@@ -78,6 +78,33 @@ export interface ScanReport {
   };
 }
 
+/** Deterministic explanation of an inventory finding; never a compatibility verdict. */
+export interface FindingExplanation {
+  explanationVersion: "0.1.0";
+  finding: Finding;
+  source: SourceLocation;
+  target: TargetProfile;
+  rule: {
+    id: Finding["ruleId"];
+    status: Finding["status"];
+    tier: Finding["tier"];
+    severity: Finding["severity"];
+  };
+  evidence: Finding["evidence"];
+  explanation: string;
+  limitations: Limitation[];
+  recommendedAction: {
+    code:
+      | "verify-reviewed-package-evidence"
+      | "verify-reviewed-module-evidence"
+      | "verify-reviewed-api-evidence";
+    text: string;
+    compatibilityClaim: false;
+    evidenceRequired: true;
+  };
+  snapshots: ScanReport["snapshots"];
+}
+
 export interface OhpmModuleInventory {
   path: string;
   dependencies: DeclaredDependency[];

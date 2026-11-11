@@ -2,6 +2,7 @@
 import {
   apiRuleSnapshotByteLimit,
   evaluateApiRules,
+  explainFinding,
   formatReport,
   scanProject,
 } from "@arkcompat/core";
@@ -11,7 +12,7 @@ import type { TargetProfile } from "@arkcompat/contracts";
 import { readLocalUtf8 } from "./local-input.js";
 
 const usage =
-  "Usage: arkcompat scan <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] [--format <json|markdown|sarif>]\n       arkcompat api-rules <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] --rules <snapshot.json>\n       arkcompat knowledge-export <snapshot.json>\n       arkcompat ohpm-evidence <capture.json> <package> <version> <observed-at-utc>";
+  "Usage: arkcompat scan <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] [--format <json|markdown|sarif>]\n       arkcompat api-rules <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] --rules <snapshot.json>\n       arkcompat explain <project> --finding-id <sha256> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>]\n       arkcompat knowledge-export <snapshot.json>\n       arkcompat ohpm-evidence <capture.json> <package> <version> <observed-at-utc>";
 async function main(args: string[]) {
   if (args.length === 1 && (args[0] === "--help" || args[0] === "-h")) {
     console.log(usage);
@@ -60,13 +61,18 @@ async function main(args: string[]) {
   }
   const [command, project, ...flags] = args;
   if (
-    (command !== "scan" && command !== "api-rules") ||
+    (command !== "scan" && command !== "api-rules" && command !== "explain") ||
     !project ||
     project.startsWith("--")
   )
     throw new Error(usage);
   const options = new Map<string, string>();
-  const specificFlag = command === "api-rules" ? "--rules" : "--format";
+  const specificFlag =
+    command === "api-rules"
+      ? "--rules"
+      : command === "explain"
+        ? "--finding-id"
+        : "--format";
   for (let i = 0; i < flags.length; i += 2) {
     const flag = flags[i]!;
     const value = flags[i + 1];
@@ -81,12 +87,14 @@ async function main(args: string[]) {
   }
   const runtime = options.get("--runtime");
   const release = options.get("--release");
-  const format = options.get("--format") ?? "json";
   if (
     !runtime ||
     !release ||
     !["arkts", "arkweb", "react-native"].includes(runtime) ||
-    !["json", "markdown", "sarif"].includes(format)
+    (command !== "explain" &&
+      !["json", "markdown", "sarif"].includes(
+        options.get("--format") ?? "json",
+      ))
   )
     throw new Error(usage);
   const target: TargetProfile = {
@@ -116,6 +124,19 @@ async function main(args: string[]) {
     );
     return;
   }
+  if (command === "explain") {
+    const findingId = options.get("--finding-id");
+    if (!findingId || !/^[a-f0-9]{64}$/.test(findingId)) throw new Error(usage);
+    console.log(
+      JSON.stringify(
+        explainFinding(await scanProject(project, target), findingId),
+        null,
+        2,
+      ),
+    );
+    return;
+  }
+  const format = options.get("--format") ?? "json";
   console.log(
     formatReport(await scanProject(project, target), format as ReportFormat),
   );

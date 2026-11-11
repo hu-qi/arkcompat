@@ -15,6 +15,7 @@
     "format:check": "prettier --check \"{packages,apps,tests}/**/*.{ts,cts,json}\" \"*.{json,yaml,mjs}\" .github/workflows/quality.yml \"apps/web/*.{mjs,html,css}\" \".github/actions/*/*.{mjs,yml}\" \"spikes/**/*.{mjs,ts,json}\" scripts/package-cli.mjs scripts/package-vscode.mjs scripts/runtime-notices.mjs",
     "test": "pnpm build && vitest run --coverage",
     "scan": "node apps/cli/dist/index.js scan",
+    "explain": "node apps/cli/dist/index.js explain",
     "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && node scripts/validate-docs.mjs",
     "web": "pnpm --filter @arkcompat/web start",
     "evaluate": "node apps/evaluate/dist/index.js",
