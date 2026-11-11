@@ -399,7 +399,7 @@ it("fails closed on unsafe or unsupported pnpm workspace selections", async () =
         "../outside-secret",
         "/private-secret",
         "https://secret.invalid/workspace",
-        "members/{good,broken}",
+        "members/[good,broken]",
       ],
     },
   );
@@ -434,6 +434,56 @@ it("fails closed on unsafe or unsupported pnpm workspace selections", async () =
     ]),
   );
   expect(JSON.stringify(report)).not.toMatch(/outside-secret|secret\.invalid/);
+});
+
+it("expands bounded comma-list braces in pnpm workspace selections", async () => {
+  const path = await root(
+    { name: "workspace-root", private: true },
+    { packages: ["members/{alpha,group-{a,b}/*}"] },
+  );
+  await workspace(path, "members/alpha", {
+    name: "@fixture/alpha",
+    version: "1.0.0",
+    dependencies: { external: "^1" },
+  });
+  await workspace(path, "members/group-a/beta", {
+    name: "@fixture/beta",
+    version: "1.0.0",
+  });
+  await workspace(path, "members/group-b/gamma", {
+    name: "@fixture/gamma",
+    version: "1.0.0",
+  });
+  await workspace(path, "members/other/delta", {
+    name: "@fixture/delta",
+    version: "1.0.0",
+  });
+  await lock(path, {
+    lockfileVersion: "9.0",
+    importers: {
+      ".": {},
+      "members/alpha": {
+        dependencies: {
+          external: { specifier: "^1", version: "1.0.0" },
+        },
+      },
+      "members/group-a/beta": {},
+      "members/group-b/gamma": {},
+    },
+    packages: { "external@1.0.0": {} },
+    snapshots: { "external@1.0.0": {} },
+  });
+
+  const report = await scanProject(path, target);
+
+  expect(report.modules?.map((module) => module.path)).toEqual([
+    "members/alpha",
+    "members/group-a/beta",
+    "members/group-b/gamma",
+  ]);
+  expect(report.coverage.limitations.map((item) => item.code)).not.toContain(
+    "pnpm-workspace-pattern-unsupported",
+  );
 });
 
 it("skips symlinked pnpm workspace manifests and stays within the cap", async () => {

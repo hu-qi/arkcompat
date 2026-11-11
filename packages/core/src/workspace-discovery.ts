@@ -8,6 +8,7 @@ const maxWorkspaces = 128;
 const maxPathLength = 1024;
 const maxPathParts = 64;
 const maxTraversedDirectories = 4096;
+const maxBraceExpansions = 64;
 
 export interface WorkspaceManifest {
   path: string;
@@ -77,7 +78,104 @@ interface TraversalState {
   exhausted: boolean;
 }
 
-function normalizePattern(
+function expandBraceList(value: string):
+  | { patterns: string[]; limitation: null }
+  | {
+      patterns: null;
+      limitation: "pattern-unsupported" | "limit-exceeded";
+    } {
+  let failure: "pattern-unsupported" | "limit-exceeded" | null = null;
+  let expandedPatterns = 0;
+
+  function expand(candidate: string): string[] {
+    if (failure) return [];
+    const opening = candidate.indexOf("{");
+    if (opening === -1) {
+      if (candidate.includes("}")) {
+        failure = "pattern-unsupported";
+        return [];
+      }
+      expandedPatterns++;
+      if (expandedPatterns > maxBraceExpansions) {
+        failure = "limit-exceeded";
+        return [];
+      }
+      return [candidate];
+    }
+    if (candidate.slice(0, opening).includes("}")) {
+      failure = "pattern-unsupported";
+      return [];
+    }
+
+    let depth = 0;
+    let closing = -1;
+    for (let index = opening; index < candidate.length; index++) {
+      if (candidate[index] === "{") depth++;
+      else if (candidate[index] === "}") {
+        depth--;
+        if (depth === 0) {
+          closing = index;
+          break;
+        }
+      }
+    }
+    if (closing === -1) {
+      failure = "pattern-unsupported";
+      return [];
+    }
+
+    const alternatives = splitBraceAlternatives(
+      candidate.slice(opening + 1, closing),
+    );
+    if (!alternatives) {
+      failure = "pattern-unsupported";
+      return [];
+    }
+    if (
+      alternatives.length < 2 ||
+      alternatives.some((alternative) => alternative.length === 0)
+    ) {
+      failure = "pattern-unsupported";
+      return [];
+    }
+
+    const prefix = candidate.slice(0, opening);
+    const suffix = candidate.slice(closing + 1);
+    const patterns: string[] = [];
+    for (const alternative of alternatives) {
+      const next = expand(prefix + alternative + suffix);
+      if (failure) break;
+      patterns.push(...next);
+    }
+    return patterns;
+  }
+
+  const patterns = expand(value);
+  return failure
+    ? { patterns: null, limitation: failure }
+    : { patterns, limitation: null };
+}
+
+function splitBraceAlternatives(value: string): string[] | null {
+  const alternatives: string[] = [];
+  let depth = 0;
+  let start = 0;
+  for (let index = 0; index < value.length; index++) {
+    if (value[index] === "{") depth++;
+    else if (value[index] === "}") {
+      depth--;
+      if (depth < 0) return null;
+    } else if (value[index] === "," && depth === 0) {
+      alternatives.push(value.slice(start, index));
+      start = index + 1;
+    }
+  }
+  if (depth !== 0) return null;
+  alternatives.push(value.slice(start));
+  return alternatives;
+}
+
+function normalizePatternValue(
   raw: string,
   excluded: ReadonlySet<string>,
   prefix: WorkspaceDiscoveryOptions["codePrefix"],
@@ -116,6 +214,36 @@ function normalizePattern(
     };
   }
   return { parts, limitation: null };
+}
+
+function normalizePatterns(
+  raw: string,
+  excluded: ReadonlySet<string>,
+  prefix: WorkspaceDiscoveryOptions["codePrefix"],
+):
+  | { selections: string[][]; limitation: null }
+  | { selections: null; limitation: Limitation } {
+  if (unsafePattern(raw)) {
+    return {
+      selections: null,
+      limitation: { code: `${prefix}-pattern-unsafe` },
+    };
+  }
+  const expanded = expandBraceList(raw);
+  if (!expanded.patterns) {
+    return {
+      selections: null,
+      limitation: { code: `${prefix}-${expanded.limitation}` },
+    };
+  }
+  const selections: string[][] = [];
+  for (const pattern of expanded.patterns) {
+    const normalized = normalizePatternValue(pattern, excluded, prefix);
+    if (!normalized.parts)
+      return { selections: null, limitation: normalized.limitation };
+    selections.push(normalized.parts);
+  }
+  return { selections, limitation: null };
 }
 
 async function listDirectories(
@@ -369,17 +497,23 @@ export async function discoverWorkspaceManifests(
   const seenLimitations = new Set<string>();
   const paths = new Set<string>();
   const selections: string[][] = [];
+  const selectionKeys = new Set<string>();
   for (const entry of options.entries) {
-    const normalized = normalizePattern(
+    const normalized = normalizePatterns(
       entry,
       options.excluded,
       options.codePrefix,
     );
-    if (!normalized.parts) {
+    if (!normalized.selections) {
       addLimitation(limitations, seenLimitations, normalized.limitation);
       continue;
     }
-    selections.push(normalized.parts);
+    for (const parts of normalized.selections) {
+      const key = parts.join("/");
+      if (selectionKeys.has(key)) continue;
+      selectionKeys.add(key);
+      selections.push(parts);
+    }
   }
   if (selections.length > maxWorkspaces) {
     addLimitation(limitations, seenLimitations, {
