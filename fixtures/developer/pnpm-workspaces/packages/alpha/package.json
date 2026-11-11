@@ -1,0 +1,9 @@
+{
+  "name": "@fixture/alpha",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@fixture/beta": "workspace:*",
+    "external": "^1"
+  }
+}

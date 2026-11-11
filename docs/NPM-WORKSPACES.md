@@ -21,7 +21,7 @@ reports an empty partial graph. All compatibility findings remain `unknown`.
 The fixture is authored regression evidence, not an install or accuracy
 benchmark.
 
-Two scans of that fixture produced byte-identical Schema 0.9.0 JSON with SHA-256
+Two scans of that fixture produced byte-identical historical Schema 0.9.0 JSON with SHA-256
 `a3c381bf72963f05aa68512f0eb97061666ab57c0a301024018d938a265d2ed0`.
 A separate npm 10.9.9 `--package-lock-only --ignore-scripts --no-audit
 --no-fund` smoke generated a v3 root lock without installing packages; its
@@ -54,8 +54,9 @@ recorded in [machine-readable evidence](evidence/npm-workspaces-2026-11-11.json)
 
 The package-manager selection rules remain unchanged. npm workspace discovery
 runs only when the selected lock family is npm or when no npm/pnpm/Yarn lock is
-selected. pnpm workspace importers and Yarn workspace descriptors retain their
-separate explicit limitations.
+selected. pnpm workspace importers now have a separate bounded
+[adapter](PNPM-WORKSPACES.md); Yarn workspace descriptors retain their separate
+explicit limitation.
 
 ## Lock projection
 
@@ -84,14 +85,16 @@ execution occurs.
 
 ## Contract migration
 
-Schema `0.9.0` generalizes `modules[]` to npm and OHPM inventories. Every module
-now declares `kind`, and npm modules may use `npm-lockfile-partial` coverage.
-Historical `0.8.0` artifacts keep their original version; strict CLI, Web,
-VS Code and other consumers must be rebuilt together and rescan the stable
-checkout. Rewriting an old artifact's version is not supported.
+Schema `0.9.0` generalized `modules[]` to npm and OHPM inventories; schema
+`0.10.0` adds `kind: "pnpm"` and `pnpm-lockfile-partial` coverage. Every module
+declares its package manager, and each kind is constrained to its matching
+coverage values. Historical `0.8.0` and `0.9.0` artifacts keep their original
+version; strict CLI, Web, VS Code and other consumers must be rebuilt together
+and rescan the stable checkout. Rewriting an old artifact's version is not
+supported.
 
-Rollback by reverting the scoped workspace PR, rebuilding all consumers and
-regenerating `0.9.0` reports. Existing root npm graphs and OHPM module
+Rollback by reverting the scoped workspace PRs, rebuilding all consumers and
+regenerating `0.10.0` reports. Existing root npm graphs and OHPM module
 inventory remain independent; no package installation state was changed.
 
 Full pnpm/Yarn workspace graphs, unsupported npm glob variants, arbitrary

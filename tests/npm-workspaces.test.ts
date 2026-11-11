@@ -126,7 +126,7 @@ it.each([2, 3])(
       version,
     );
     const report = await scanProject(path, target);
-    expect(report.schemaVersion).toBe("0.9.0");
+    expect(report.schemaVersion).toBe("0.10.0");
     expect(
       report.modules?.map((module) => [
         module.kind,
