@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
-import { readFileSync } from "node:fs";
+import { constants, readFileSync } from "node:fs";
+import { open } from "node:fs/promises";
 import { Ajv } from "ajv";
 import { minVersion, satisfies, validRange } from "semver";
 import type {
@@ -68,6 +69,10 @@ export interface KnowledgeQueryResult {
   matches: KnowledgeRecord[];
   excluded: { id: string; reasons: ExclusionReason[] }[];
   limitation: string;
+}
+
+export function isKnowledgeTimestamp(value: unknown): value is string {
+  return typeof value === "string" && timestamp(value);
 }
 function selector(value: string) {
   return (
@@ -149,6 +154,46 @@ export function importKnowledge(text: string): KnowledgeSnapshot {
     return value;
   } catch {
     throw new Error("Invalid knowledge metadata.");
+  }
+}
+
+/** Reads one bounded, non-symlink UTF-8 snapshot; diagnostics never reflect the path. */
+export async function readKnowledgeSnapshot(
+  path: string,
+): Promise<KnowledgeSnapshot> {
+  let file;
+  try {
+    file = await open(
+      path,
+      constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK,
+    );
+    const stat = await file.stat();
+    if (!stat.isFile() || stat.size > knowledgeSnapshotByteLimit)
+      throw new Error();
+    const bytes = Buffer.alloc(knowledgeSnapshotByteLimit + 1);
+    let length = 0;
+    while (length < bytes.length) {
+      const { bytesRead } = await file.read(
+        bytes,
+        length,
+        bytes.length - length,
+        null,
+      );
+      if (bytesRead === 0) break;
+      length += bytesRead;
+    }
+    if (length > knowledgeSnapshotByteLimit) throw new Error();
+    return importKnowledge(
+      new TextDecoder("utf-8", { fatal: true, ignoreBOM: true }).decode(
+        bytes.subarray(0, length),
+      ),
+    );
+  } catch {
+    throw new Error(
+      "Knowledge snapshot is unavailable; configure a bounded regular UTF-8 file.",
+    );
+  } finally {
+    await file?.close();
   }
 }
 function checked(value: unknown) {

@@ -3,6 +3,7 @@ import {
   access,
   mkdtemp,
   mkdir,
+  readFile,
   rm,
   symlink,
   writeFile,
@@ -13,7 +14,7 @@ import { afterEach, expect, it } from "vitest";
 import { Client } from "@modelcontextprotocol/client";
 import { StdioClientTransport } from "@modelcontextprotocol/client/stdio";
 import { scanProject } from "@arkcompat/core";
-import type { TargetProfile } from "@arkcompat/contracts";
+import type { KnowledgeSnapshot, TargetProfile } from "@arkcompat/contracts";
 import { WorkspaceScanner } from "../apps/mcp/src/scanner.js";
 
 const target: TargetProfile = {
@@ -43,7 +44,7 @@ async function fixture() {
   );
   return root;
 }
-async function connect(root: string, grant = true) {
+async function connect(root: string, grant = true, options: string[] = []) {
   const transport = new StdioClientTransport({
     command: process.execPath,
     args: [
@@ -51,6 +52,7 @@ async function connect(root: string, grant = true) {
       "--workspace",
       root,
       ...(grant ? ["--allow-report-access"] : []),
+      ...options,
     ],
     stderr: "pipe",
   });
@@ -63,6 +65,34 @@ async function connect(root: string, grant = true) {
   await client.connect(transport);
   return { client, errors: () => errors };
 }
+
+async function knowledgeSnapshot(reviewed: boolean) {
+  const snapshot = JSON.parse(
+    await readFile("fixtures/developer/knowledge/snapshot.json", "utf8"),
+  ) as KnowledgeSnapshot;
+  if (reviewed)
+    snapshot.records[0]!.review = {
+      state: "reviewed",
+      reviewer: "developer-fixture-author",
+      reviewedAt: snapshot.generatedAt,
+    };
+  const root = await fixture();
+  const path = join(root, "knowledge.json");
+  await writeFile(path, JSON.stringify(snapshot));
+  return { root, path };
+}
+
+const knowledgeQuery = {
+  package: "synthetic-source",
+  version: "1.2.0",
+  target: {
+    os: "HarmonyOS",
+    release: "6.0.0",
+    runtime: "arkts",
+    apiLevel: 20,
+  } as const,
+};
+const knowledgeAsOf = "2026-11-07T00:00:00Z";
 it("negotiates real stdio tools and preserves complete core/CLI report parity", async () => {
   const root = await fixture();
   const { client, errors } = await connect(root);
@@ -142,7 +172,7 @@ it("returns unavailable knowledge rather than invented mappings", async () => {
   const { client } = await connect(await fixture());
   const result = await client.callTool({
     name: "compat.query_knowledge",
-    arguments: { package: "example-package" },
+    arguments: knowledgeQuery,
   });
   expect(result.structuredContent).toEqual({
     status: "unknown",
@@ -151,6 +181,143 @@ it("returns unavailable knowledge rather than invented mappings", async () => {
     explanation:
       "No knowledge snapshot loaded; no verified substitute is available.",
   });
+});
+
+it("queries an explicitly loaded reviewed snapshot without promotion", async () => {
+  const knowledge = await knowledgeSnapshot(true);
+  const snapshot = JSON.parse(
+    await readFile(knowledge.path, "utf8"),
+  ) as KnowledgeSnapshot;
+  const { client, errors } = await connect(knowledge.root, true, [
+    "--knowledge-snapshot",
+    knowledge.path,
+    "--knowledge-as-of",
+    knowledgeAsOf,
+  ]);
+  const result = await client.callTool({
+    name: "compat.query_knowledge",
+    arguments: knowledgeQuery,
+  });
+
+  expect(result.structuredContent).toMatchObject({
+    status: "unknown",
+    snapshotId: snapshot.snapshotId,
+    totalRecords: 1,
+    consideredRecords: 1,
+    matches: snapshot.records,
+    excluded: [],
+    limitation:
+      "Metadata matches only; provenance, review identity and compatibility are not verified. No recommendation is made.",
+  });
+  expect(JSON.stringify(result)).not.toContain("verified-compatible");
+  expect(errors()).toBe("");
+});
+
+it("withholds unreviewed candidate records and preserves exclusion reasons", async () => {
+  const knowledge = await knowledgeSnapshot(false);
+  const { client } = await connect(knowledge.root, true, [
+    "--knowledge-snapshot",
+    knowledge.path,
+    "--knowledge-as-of",
+    knowledgeAsOf,
+  ]);
+  const result = await client.callTool({
+    name: "compat.query_knowledge",
+    arguments: knowledgeQuery,
+  });
+
+  expect(result.structuredContent).toMatchObject({
+    status: "unknown",
+    matches: [],
+    excluded: [{ id: "synthetic.mapping", reasons: ["not-reviewed"] }],
+  });
+});
+
+it("requires an explicit exact query when knowledge is enabled", async () => {
+  const knowledge = await knowledgeSnapshot(true);
+  const { client } = await connect(knowledge.root, true, [
+    "--knowledge-snapshot",
+    knowledge.path,
+    "--knowledge-as-of",
+    knowledgeAsOf,
+  ]);
+  for (const args of [
+    { package: "synthetic-source" },
+    { ...knowledgeQuery, version: "^1.0.0" },
+    {
+      ...knowledgeQuery,
+      target: { ...knowledgeQuery.target, apiLevel: undefined },
+    },
+  ]) {
+    const result = await client.callTool({
+      name: "compat.query_knowledge",
+      arguments: args,
+    });
+    expect(result.isError).toBe(true);
+  }
+});
+
+it.each([
+  ["snapshot-only", ["--knowledge-snapshot"]],
+  ["as-of-only", ["--knowledge-as-of", knowledgeAsOf]],
+  [
+    "invalid-as-of",
+    [
+      "--knowledge-snapshot",
+      "/private/tmp/PRIVATE_KNOWLEDGE.json",
+      "--knowledge-as-of",
+      "yesterday",
+    ],
+  ],
+])(
+  "rejects incomplete knowledge startup configuration: %s",
+  (_label, options) => {
+    const result = spawnSync(
+      process.execPath,
+      ["apps/mcp/dist/index.js", "--workspace", "/tmp", ...options],
+      { encoding: "utf8" },
+    );
+    expect({ status: result.status, stdout: result.stdout }).toEqual({
+      status: 1,
+      stdout: "",
+    });
+    expect(result.stderr).not.toContain("PRIVATE_KNOWLEDGE");
+  },
+);
+
+it("rejects a symlinked or invalid knowledge snapshot without leaking its path", async () => {
+  const root = await fixture();
+  const source = join(root, "knowledge.json");
+  const linked = join(root, "linked-knowledge.json");
+  const malformed = join(root, "malformed-knowledge.json");
+  await writeFile(source, "{");
+  await writeFile(malformed, "{");
+  await symlink(source, linked);
+  for (const path of [
+    linked,
+    malformed,
+    join(root, "PRIVATE_MISSING_KNOWLEDGE.json"),
+  ]) {
+    const result = spawnSync(
+      process.execPath,
+      [
+        "apps/mcp/dist/index.js",
+        "--workspace",
+        root,
+        "--knowledge-snapshot",
+        path,
+        "--knowledge-as-of",
+        knowledgeAsOf,
+      ],
+      { encoding: "utf8" },
+    );
+    expect({ status: result.status, stdout: result.stdout }).toEqual({
+      status: 1,
+      stdout: "",
+    });
+    expect(result.stderr).not.toContain(path);
+    expect(result.stderr).not.toContain("PRIVATE_MISSING_KNOWLEDGE");
+  }
 });
 it.each([
   "../outside",

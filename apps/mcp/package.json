@@ -9,6 +9,7 @@
   "dependencies": {
     "@arkcompat/contracts": "workspace:*",
     "@arkcompat/core": "workspace:*",
+    "@arkcompat/knowledge": "workspace:*",
     "@modelcontextprotocol/server": "2.4.0",
     "zod": "4.6.7"
   }

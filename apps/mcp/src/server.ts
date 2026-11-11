@@ -1,6 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/server";
 import type { CallToolResult } from "@modelcontextprotocol/server";
 import * as z from "zod/v4";
+import type { KnowledgeStore } from "./knowledge.js";
 import { WorkspaceScanner } from "./scanner.js";
 
 const annotations = {
@@ -31,7 +32,10 @@ async function respond(
     };
   }
 }
-export function createServer(scanner: WorkspaceScanner) {
+export function createServer(
+  scanner: WorkspaceScanner,
+  knowledge?: KnowledgeStore,
+) {
   const server = new McpServer({ name: "arkcompat", version: "0.0.0" });
   server.registerTool(
     "compat.scan",
@@ -88,19 +92,42 @@ export function createServer(scanner: WorkspaceScanner) {
   server.registerTool(
     "compat.query_knowledge",
     {
-      description:
-        "Report unavailable knowledge. This experimental server loads no mapping dataset and recommends no replacement.",
-      inputSchema: z.strictObject({ package: z.string().min(1).max(214) }),
+      description: knowledge
+        ? "Query the operator-selected, validated local knowledge snapshot by package, exact version and target profile. Returns metadata/provenance matches or exclusion reasons; status remains unknown and no recommendation is made."
+        : "Report unavailable knowledge. No snapshot was selected by the operator and no replacement is recommended.",
+      inputSchema: z.strictObject({
+        package: z.string().min(1).max(214),
+        version: z.string().min(1).max(256),
+        target: z.strictObject({
+          os: z.literal("HarmonyOS"),
+          release: z.string().min(1).max(256),
+          runtime: z.enum(["arkts", "arkweb", "react-native"]),
+          apiLevel: z.number().int().min(1).max(Number.MAX_SAFE_INTEGER),
+        }),
+      }),
       annotations,
     },
-    () =>
-      success({
-        status: "unknown",
-        snapshot: "none",
-        replacements: [],
-        explanation:
-          "No knowledge snapshot loaded; no verified substitute is available.",
-      }),
+    ({ package: name, version, target }) =>
+      knowledge
+        ? respond(() =>
+            knowledge.query({
+              package: name,
+              version,
+              target: {
+                os: target.os,
+                release: target.release,
+                runtime: target.runtime,
+                apiLevel: target.apiLevel,
+              },
+            }),
+          )
+        : success({
+            status: "unknown",
+            snapshot: "none",
+            replacements: [],
+            explanation:
+              "No knowledge snapshot loaded; no verified substitute is available.",
+          }),
   );
   return server;
 }
