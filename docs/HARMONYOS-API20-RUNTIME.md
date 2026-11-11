@@ -82,6 +82,15 @@ or formal acceptance. The operator-held review input/result hashes and decision
 are recorded in
 [the review evidence](evidence/claude-lottie-review-2026-11-11.json).
 
+Two isolated attempts to review the amended evidence at commit `94544e32` also
+failed before a model response. Each used the same public-only evidence bundle
+(SHA-256 `d4769c52...`) with the private candidate and prior conclusions
+excluded. The CLI returned `connection_failed` / `ECONNREFUSED` after 182599 ms
+and 175176 ms respectively, with zero model usage and no review text. The result
+hashes and failure metadata are retained in the review evidence. These attempts
+are not evidence for or against the candidate and do not change its inactive
+status.
+
 This amendment does **not** replace the earlier API 20 runtime observation. The
 API 20 image could not be recreated on this machine because its download endpoint
 rejected the current non-mainland network location. The new result proves that
