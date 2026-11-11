@@ -117,7 +117,7 @@ it("exposes omitted nested and dynamic dependency sections", async () => {
         path: "oh-package.json5",
       },
       { code: "nested-manifest-not-analyzed", path: "entry/oh-package.json5" },
-      { code: "unsupported-ets", path: "entry/main.ets" },
+      { code: "ets-arkui-dsl-not-analyzed", path: "entry/main.ets" },
     ]),
   );
   expect((await scanProject(module, target)).dependencies[0]?.name).toBe(

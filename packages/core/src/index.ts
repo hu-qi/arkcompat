@@ -39,6 +39,7 @@ const sourceExtensions = new Set([
   ".jsx",
   ".ts",
   ".tsx",
+  ".ets",
   ".mjs",
   ".mts",
   ".cjs",
@@ -278,10 +279,11 @@ export async function scanProject(
                   : "lockfile-not-analyzed",
             path,
           });
-        if (extname(entry.name) === ".ets")
-          limitations.push({ code: "unsupported-ets", path });
-        if (sourceExtensions.has(extname(entry.name))) {
-          const analyzed = analyzeSource(await read(full), path);
+        const extension = extname(entry.name);
+        if (sourceExtensions.has(extension)) {
+          const analyzed = analyzeSource(await read(full), path, {
+            ets: extension === ".ets",
+          });
           moduleReferences.push(...analyzed.references);
           apiUsages.push(...analyzed.apiUsages);
           limitations.push(...analyzed.limitations);

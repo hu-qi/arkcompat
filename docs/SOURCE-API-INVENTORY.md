@@ -33,6 +33,21 @@ The authored fixture `fixtures/developer/awaited-import` yields **three dynamic-
 
 A simple object destructure from an existing imported value is also traced. For example, `const { readFile: read } = fs; read()` preserves the same path as `const read = fs.readFile; read()`. Destructuring a known member preserves its prefix: `const { send } = client.transport` records `["default", "transport", "send"]` for a default import. Direct destructures from literal loaders keep their existing named paths. The same 32-alias bound and lexical shadow checks apply. Reverting this increment restores the earlier limitation without changing the report contract.
 
+## ETS and ArkUI source boundary
+
+`.ets` files now use the same reference and API inventory contracts with a same-length `struct` to `class ` normalization. Residual ArkUI DSL syntax stays explicit through `ets-arkui-dsl-not-analyzed` and `ets-source-syntax-partially-analyzed`; it is not reported as a clean TypeScript parse. Compiler checker failures are contained as `ets-type-check-partially-analyzed` instead of aborting the whole project scan.
+
+When the checker cannot bind identifiers because of ArkUI syntax, a bounded textual fallback recognizes value imports and static member paths. It abstains when the same name is declared by method/function parameters, block variables, loop bindings, catch bindings, function-scoped `var`, functions, classes, enums, namespaces or the source-file scope. Repeated imports that make identity ambiguous are omitted with `ets-import-binding-ambiguous`. ArkUI names such as `Column`, `Text` and `Button` are only inventoried when an import establishes their module identity.
+
+The authored [`fixtures/developer/ets-source`](../fixtures/developer/ets-source) project contains four imports and five potential sites covering default, named, namespace and constructor access. A parameter-shadowed local is excluded. The report exposes every finding as `unknown`; this fixture is not a DevEco build, ArkTS type check, runtime test or compatibility verdict.
+
+```bash
+pnpm --silent scan fixtures/developer/ets-source \
+  --runtime arkts --release 6.0.0 --api-level 20
+```
+
+The fallback covers direct imported identifiers and their static dot/bracket members. ETS const aliases, returned-value methods and general dataflow remain outside the supported boundary and retain existing limitations where observed. The scanner does not evaluate ArkUI DSL semantics, SDK declarations, struct lifecycle, metadata annotations or ArkTS-specific type rules.
+
 ## Explicit limits
 
 Mutable require/awaited-import bindings and aliases, destructuring defaults/rest/nesting/arrays and computed destructuring keys, non-awaited import promises/callbacks, dynamic module expressions and computed members with nonliteral keys are not attributed to an original API. The report exposes applicable limitations. Even a `const` identifier key is not evaluated: identifiers, interpolated templates, numeric keys and concatenation remain unknown. Returned-value methods, module mutation, global browser/Node APIs, CommonJS exports/resolution, re-export/dataflow across files and dynamic runtime state remain unverified/unimplemented. For example, `fs.open().then()` inventories `fs.open`, not the API of its returned object.
@@ -45,10 +60,10 @@ Static-member support retains experimental schema 0.5.0 and the unknown-only fin
 
 Awaited-import support also keeps schema 0.5.0 and unknown findings. Successfully consumed literal imports retain their module references and use the existing binding/member limitations where applicable; unresolved/mutable/non-awaited imports keep the dynamic-import limitation. There is no cross-file, promise/dataflow or import-option runtime verification. Top-level await parsing follows the supplied file syntax; no project module mode is inferred. Revert this scoped PR to restore the earlier limitation for awaited bindings; no schema migration is required.
 
-Source programs receive syntax diagnostics only. This does not typecheck the scanned project or validate module exports. ETS remains unsupported. Call sites are potential source locations, not a count of executed calls or incompatible APIs. Binding existence before initialization and mutation/lifecycle semantics are not verified. Source/privacy/read-size policies remain those of [the scanner](SCANNER-SLICE.md).
+Source programs receive syntax diagnostics only. This does not typecheck the scanned project or validate module exports. `.ets` parsing and fallback bindings remain partial as described above. Call sites are potential source locations, not a count of executed calls or incompatible APIs. Binding existence before initialization and mutation/lifecycle semantics are not verified. Source/privacy/read-size policies remain those of [the scanner](SCANNER-SLICE.md).
 
 ## Delivery and mirror policy
 
 GitHub PR and post-merge main checks verify the implementation. AtomGit receives the same tested main commit via non-forced HTTPS push; SHA equality is the mirror proof. SSH transport availability is independent from repository access. A successful dry-run or local test alone does not establish synchronization or independent acceptance.
 
-Issue #3 remains open for full workspace/format coverage, API/dataflow completeness, deterministic target-aware compatibility rules and independent evaluation. No acceptance metric or release is claimed by this inventory increment.
+Issue #3 remains open for full workspace/format coverage, API/dataflow completeness, deterministic target-aware compatibility rules and independent evaluation. The ETS adapter is a partial inventory implementation; no acceptance metric or release is claimed by this increment.
