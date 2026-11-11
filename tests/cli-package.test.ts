@@ -115,6 +115,8 @@ it("runs the portable CLI after relocation without source, local paths or symlin
         ["@arkcompat", "knowledge", "0.0.0"],
         ["@yarnpkg", "lockfile", "1.1.0"],
         [undefined, "ajv", "8.20.0"],
+        [undefined, "balanced-match", "4.0.4"],
+        [undefined, "brace-expansion", "5.0.12"],
         [undefined, "fast-deep-equal", "3.1.3"],
         [undefined, "fast-uri", "3.1.9"],
         [undefined, "json-schema-traverse", "1.0.0"],

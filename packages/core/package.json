@@ -10,6 +10,7 @@
     "@arkcompat/contracts": "workspace:*",
     "@yarnpkg/lockfile": "1.1.0",
     "ajv": "8.20.0",
+    "brace-expansion": "5.0.12",
     "json5": "2.2.3",
     "semver": "7.8.6",
     "typescript": "5.9.3",

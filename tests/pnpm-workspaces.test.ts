@@ -486,6 +486,64 @@ it("expands bounded comma-list braces in pnpm workspace selections", async () =>
   );
 });
 
+it("expands pnpm-supported simple brace ranges and rejects host-incompatible variants", async () => {
+  const path = await root(
+    { name: "workspace-root", private: true },
+    {
+      packages: [
+        "modules/numeric-{1..3}",
+        "modules/alpha-{a..c}",
+        "modules/reverse-{3..1}",
+        "modules/padded-{01..03}",
+        "modules/step-{1..5..2}",
+      ],
+    },
+  );
+  const supported = [
+    "modules/numeric-1",
+    "modules/numeric-2",
+    "modules/numeric-3",
+    "modules/alpha-a",
+    "modules/alpha-b",
+    "modules/alpha-c",
+    "modules/reverse-1",
+    "modules/reverse-2",
+    "modules/reverse-3",
+  ];
+  const hostIncompatible = [
+    "modules/padded-01",
+    "modules/padded-02",
+    "modules/padded-03",
+    "modules/step-1",
+    "modules/step-3",
+    "modules/step-5",
+  ];
+  for (const workspacePath of [...supported, ...hostIncompatible]) {
+    await workspace(path, workspacePath, {
+      name: `@fixture/${workspacePath.replaceAll("/", "-")}`,
+      version: "1.0.0",
+    });
+  }
+  await lock(path, {
+    lockfileVersion: "9.0",
+    importers: {
+      ".": {},
+      ...Object.fromEntries(
+        supported.map((workspacePath) => [workspacePath, {}]),
+      ),
+    },
+  });
+
+  const report = await scanProject(path, target);
+
+  expect(report.modules?.map((module) => module.path)).toEqual(
+    [...supported].sort(),
+  );
+  expect(report.coverage.limitations).toContainEqual({
+    code: "pnpm-workspace-pattern-unsupported",
+  });
+});
+
 it("skips symlinked pnpm workspace manifests and stays within the cap", async () => {
   const packages = [
     "members/w0",

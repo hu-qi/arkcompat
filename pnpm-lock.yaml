@@ -118,6 +118,9 @@ importers:
       ajv:
         specifier: 8.20.0
         version: 8.20.0
+      brace-expansion:
+        specifier: 5.0.12
+        version: 5.0.12
       json5:
         specifier: 2.2.3
         version: 2.2.3

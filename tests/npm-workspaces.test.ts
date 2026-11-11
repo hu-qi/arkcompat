@@ -473,6 +473,50 @@ it("expands bounded comma-list braces across workspace alternatives", async () =
   );
 });
 
+it("expands bounded numeric and alphabetic brace sequences", async () => {
+  const manifest = {
+    name: "workspace-root",
+    version: "1.0.0",
+    private: true,
+    workspaces: [
+      "modules/numeric-{01..03}",
+      "modules/alpha-{a..c..2}",
+      "modules/reverse-{3..1}",
+    ],
+  };
+  const path = await root(manifest);
+  const workspaces: Array<[string, string]> = [
+    ["modules/numeric-01", "@fixture/numeric-01"],
+    ["modules/numeric-02", "@fixture/numeric-02"],
+    ["modules/numeric-03", "@fixture/numeric-03"],
+    ["modules/alpha-a", "@fixture/alpha-a"],
+    ["modules/alpha-c", "@fixture/alpha-c"],
+    ["modules/reverse-3", "@fixture/reverse-3"],
+    ["modules/reverse-2", "@fixture/reverse-2"],
+    ["modules/reverse-1", "@fixture/reverse-1"],
+    ["modules/numeric-04", "@fixture/numeric-04"],
+  ];
+  for (const [workspacePath, name] of workspaces) {
+    await workspace(path, workspacePath, { name, version: "1.0.0" });
+  }
+
+  const report = await scanProject(path, target);
+
+  expect(report.modules?.map((module) => module.path)).toEqual([
+    "modules/alpha-a",
+    "modules/alpha-c",
+    "modules/numeric-01",
+    "modules/numeric-02",
+    "modules/numeric-03",
+    "modules/reverse-1",
+    "modules/reverse-2",
+    "modules/reverse-3",
+  ]);
+  expect(report.coverage.limitations.map((item) => item.code)).not.toContain(
+    "npm-workspace-pattern-unsupported",
+  );
+});
+
 it("fails closed on malformed braces and bounded expansion overflow", async () => {
   const manifest = {
     name: "workspace-root",
@@ -481,7 +525,7 @@ it("fails closed on malformed braces and bounded expansion overflow", async () =
     workspaces: [
       "packages/[ab]",
       "packages/{alpha,}",
-      "packages/{1..3}",
+      "packages/{x..}",
       "packages/{alpha",
       "packages/alpha}",
       "{0,1}{0,1}{0,1}{0,1}{0,1}{0,1}{0,1}",

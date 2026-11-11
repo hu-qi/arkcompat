@@ -554,6 +554,58 @@ it("expands bounded comma-list braces in Yarn workspace selections", async () =>
   );
 });
 
+it("expands Yarn-supported simple brace ranges and rejects host-incompatible variants", async () => {
+  const path = await root(
+    {
+      name: "workspace-root",
+      version: "1.0.0",
+      private: true,
+      workspaces: [
+        "modules/numeric-{1..3}",
+        "modules/alpha-{a..c}",
+        "modules/reverse-{3..1}",
+        "modules/padded-{01..03}",
+        "modules/step-{1..5..2}",
+      ],
+    },
+    classicLock,
+  );
+  const supported = [
+    "modules/numeric-1",
+    "modules/numeric-2",
+    "modules/numeric-3",
+    "modules/alpha-a",
+    "modules/alpha-b",
+    "modules/alpha-c",
+    "modules/reverse-1",
+    "modules/reverse-2",
+    "modules/reverse-3",
+  ];
+  const hostIncompatible = [
+    "modules/padded-01",
+    "modules/padded-02",
+    "modules/padded-03",
+    "modules/step-1",
+    "modules/step-3",
+    "modules/step-5",
+  ];
+  for (const workspacePath of [...supported, ...hostIncompatible]) {
+    await workspace(path, workspacePath, {
+      name: `@fixture/${workspacePath.replaceAll("/", "-")}`,
+      version: "1.0.0",
+    });
+  }
+
+  const report = await scanProject(path, target);
+
+  expect(report.modules?.map((module) => module.path)).toEqual(
+    [...supported].sort(),
+  );
+  expect(report.coverage.limitations).toContainEqual({
+    code: "yarn-workspace-pattern-unsupported",
+  });
+});
+
 it("keeps missing, peer and versionless module edges explicit", async () => {
   const path = await root(
     {
