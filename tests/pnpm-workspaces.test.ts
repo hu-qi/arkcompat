@@ -357,7 +357,7 @@ it("fails closed on unsafe or unsupported pnpm workspace selections", async () =
         "../outside-secret",
         "/private-secret",
         "https://secret.invalid/workspace",
-        "members/**",
+        "members/{good,broken}",
       ],
     },
   );

@@ -1,0 +1,7 @@
+{
+  "name": "@fixture/nested",
+  "version": "1.0.0",
+  "dependencies": {
+    "external": "^1.0.0"
+  }
+}

@@ -39,15 +39,19 @@ are recorded in [machine-readable evidence](evidence/pnpm-workspaces-2026-11-11.
 ## Discovery boundary
 
 - Root `pnpm-workspace.yaml.packages` must be an array of nonempty strings.
-  Exact relative directories, `./` normalization and `*` segments are
-  supported. Duplicate selections are deduplicated.
+  Exact relative directories, `./` normalization, `*` for one segment and
+  `**` for zero or more segments are supported. Duplicate selections are
+  deduplicated.
 - Discovery stops at 128 selected workspace directories. Only non-hidden,
   non-excluded in-tree directories with regular, size-bounded `package.json`
   files are read. Symlinks and special files are never followed.
 - Absolute, escaping, URL, backslash, NUL, excluded-directory and unsupported
   glob syntax is rejected or disclosed without serializing the unsafe value.
-  Negated patterns, brace expansion, extglobs, `**`, dot segments and glob
-  characters embedded in a segment remain outside this boundary.
+  Multiple `*`/`**` segments are supported. Terminal globstars select only
+  directories containing `package.json`; shared wildcard traversal stops after
+  4,096 directory reads. Negated patterns, brace expansion, extglobs, dot
+  segments and glob characters embedded in a segment remain outside this
+  boundary.
 - A malformed recognized config or malformed discovered manifest fails the
   scan. Missing/unavailable directories and manifests, anonymous or
   versionless workspaces, duplicate names, unmatched selections/importers and

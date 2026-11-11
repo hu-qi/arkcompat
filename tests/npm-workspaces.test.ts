@@ -280,7 +280,7 @@ it("fails closed on unsafe or unsupported workspace selections without leaking t
       "../outside-secret",
       "/private-secret",
       "https://secret.invalid/workspace",
-      "packages/**",
+      "packages/{good,broken}",
     ],
   };
   const path = await root(manifest);
@@ -309,6 +309,89 @@ it("fails closed on unsafe or unsupported workspace selections without leaking t
     ]),
   );
   expect(JSON.stringify(report)).not.toMatch(/outside-secret|secret\.invalid/);
+});
+
+it("resolves bounded workspace globstars across nested manifest directories", async () => {
+  const manifest = {
+    name: "workspace-root",
+    version: "1.0.0",
+    private: true,
+    workspaces: ["packages/**"],
+  };
+  const path = await root(manifest);
+  await workspace(path, "packages/alpha", {
+    name: "@fixture/alpha",
+    version: "1.0.0",
+  });
+  await workspace(path, "packages/nested/beta", {
+    name: "@fixture/beta",
+    version: "1.0.0",
+  });
+  await mkdir(join(path, "packages/nested/not-a-workspace"), {
+    recursive: true,
+  });
+  const outside = await root({ name: "@fixture/outside" });
+  await symlink(outside, join(path, "packages/nested/linked"));
+
+  const report = await scanProject(path, target);
+
+  expect(
+    report.modules?.map((module) => [module.path, module.coverage]),
+  ).toEqual([
+    ["packages/alpha", "declarations-only"],
+    ["packages/nested/beta", "declarations-only"],
+  ]);
+  expect(report.coverage.limitations).toEqual(
+    expect.arrayContaining([
+      {
+        code: "npm-workspace-directory-unavailable",
+        path: "packages/nested/linked",
+      },
+      {
+        code: "npm-workspace-lock-entry-missing",
+        path: "packages/alpha/package.json",
+      },
+      {
+        code: "npm-workspace-lock-entry-missing",
+        path: "packages/nested/beta/package.json",
+      },
+    ]),
+  );
+  expect(report.coverage.limitations).not.toContainEqual({
+    code: "npm-workspace-manifest-missing",
+    path: "packages/nested/not-a-workspace/package.json",
+  });
+});
+
+it("supports intermediate globstars with zero or multiple directory segments", async () => {
+  const manifest = {
+    name: "workspace-root",
+    version: "1.0.0",
+    private: true,
+    workspaces: ["packages/**/components/*"],
+  };
+  const path = await root(manifest);
+  await workspace(path, "packages/components/direct", {
+    name: "@fixture/direct",
+    version: "1.0.0",
+  });
+  await workspace(path, "packages/team-a/components/nested", {
+    name: "@fixture/nested",
+    version: "1.0.0",
+  });
+  await mkdir(join(path, "packages/node_modules/components/ignored"), {
+    recursive: true,
+  });
+
+  const report = await scanProject(path, target);
+
+  expect(report.modules?.map((module) => module.path)).toEqual([
+    "packages/components/direct",
+    "packages/team-a/components/nested",
+  ]);
+  expect(JSON.stringify(report)).not.toContain(
+    "packages/node_modules/components/ignored",
+  );
 });
 
 it("skips symlinked workspace directories and stays within the workspace cap", async () => {

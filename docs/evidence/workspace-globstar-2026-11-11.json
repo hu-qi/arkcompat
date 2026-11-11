@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "1",
+  "issue": 3,
+  "assessment": "developer-regression-only",
+  "scope": "Bounded npm/pnpm/Yarn workspace discovery with '*' and '**'; not installation, link activation, compatibility, accuracy or M1 acceptance evidence.",
+  "fixture": {
+    "path": "fixtures/developer/workspace-globstar",
+    "workspacePattern": "packages/**/components/*",
+    "rootManifestSha256": "2114696cd9aed2f26b2b08697577c0f4dbdd16d3d23408108a3697201b946580",
+    "reportSha256": "6cfc2b61ec551b6fb3cdd84770e0b4ccfc5cbc7644bfe97177bc6118ec1a7026",
+    "repeatByteIdentical": true,
+    "schemaVersionInReport": "0.11.0",
+    "modules": [
+      {
+        "path": "packages/components/direct",
+        "coverage": "declarations-only",
+        "dependencies": 0,
+        "nodes": 0,
+        "edges": 0
+      },
+      {
+        "path": "packages/team-a/components/nested",
+        "coverage": "declarations-only",
+        "dependencies": 1,
+        "nodes": 0,
+        "edges": 0
+      }
+    ],
+    "findings": 1,
+    "allFindingsUnknown": true
+  },
+  "matching": {
+    "singleStarSegments": true,
+    "globstarSegments": true,
+    "globstarZeroSegments": true,
+    "globstarMultipleSegments": true,
+    "terminalGlobstarRequiresManifest": true,
+    "directoriesReadLimit": 4096,
+    "selectedWorkspacesLimit": 128,
+    "symlinksFollowed": false,
+    "excludedDirectoriesFollowed": false,
+    "unsupportedGlobSyntax": [
+      "brace expansion",
+      "extglob",
+      "negation",
+      "glob characters embedded in a segment"
+    ]
+  },
+  "localCheck": {
+    "testFiles": 31,
+    "tests": 506,
+    "workspaceStatementCoverage": 0.9404,
+    "workspaceBranchCoverage": 0.9193,
+    "workspaceFunctionCoverage": 0.9727,
+    "workspaceLineCoverage": 0.9576
+  },
+  "shippedRuntimeParity": {
+    "vsixSha256": "cc00b78593f01ac953d4d042a2f05f1a8b34b6eeccb986e2afaec8b42bb514f4",
+    "portableCliSbomSha256": "4055074a4ad7e47950814140428fcec797d63dbcda5d010bf83cb55d8e10691a",
+    "portableCliSha256SumsSha256": "8bf890827c5569e696c192a2c0a869b7b4ec3d7e8ebf91daf0b0b6ea7e4137ce",
+    "thirdPartyNoticesSha256": "f1d54227082fcee7b8a8744f3973578bbf7023f7db16c0c6ea5c9c8a7b2a4eac",
+    "sourceCliReportSha256": "6cfc2b61ec551b6fb3cdd84770e0b4ccfc5cbc7644bfe97177bc6118ec1a7026",
+    "portableCliReportSha256": "6cfc2b61ec551b6fb3cdd84770e0b4ccfc5cbc7644bfe97177bc6118ec1a7026",
+    "vsixEmbeddedCliReportSha256": "6cfc2b61ec551b6fb3cdd84770e0b4ccfc5cbc7644bfe97177bc6118ec1a7026"
+  },
+  "authoritativeCI": {
+    "status": "pending-pr"
+  },
+  "boundaries": {
+    "installationVerified": false,
+    "workspaceLinksActivated": false,
+    "compatibilityEvaluated": false,
+    "independentAccuracyMeasured": false,
+    "m1Signoff": "not-adjudicated"
+  }
+}
