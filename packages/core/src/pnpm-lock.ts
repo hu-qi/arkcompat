@@ -74,6 +74,8 @@ function table(value: unknown, field: string): Record<string, unknown> {
   return value;
 }
 interface ImporterEntry {
+  name: string;
+  section: DependencySection;
   specifier: string;
   version: string;
 }
@@ -97,6 +99,8 @@ function importerEntries(
           "importer dependencies require a package name, specifier and version strings",
         );
       result.set(JSON.stringify([section, name]), {
+        name,
+        section,
         specifier: entry.specifier,
         version: entry.version,
       });
@@ -105,11 +109,21 @@ function importerEntries(
   return result;
 }
 
-/** v9 root importer inventory. No installation, peer satisfaction or workspace execution. */
+export interface PnpmImporterRecord {
+  path: string;
+  entries: Map<string, ImporterEntry>;
+}
+
+/** v9 importer inventory. No installation, peer satisfaction or workspace execution. */
 export function pnpmGraph(
   text: string,
   declared: DeclaredDependency[],
-): { graph: DependencyGraph; limitations: Limitation[]; parsed: boolean } {
+): {
+  graph: DependencyGraph;
+  limitations: Limitation[];
+  parsed: boolean;
+  importers: PnpmImporterRecord[];
+} {
   const graph: DependencyGraph = {
     source,
     lockfileVersion: null,
@@ -131,6 +145,7 @@ export function pnpmGraph(
     return {
       graph,
       parsed: false,
+      importers: [],
       limitations: [
         { code: "unsupported-pnpm-lockfile-version", path: source },
         { code: "transitive-dependencies-not-analyzed" },
@@ -138,28 +153,41 @@ export function pnpmGraph(
     };
   const importers = table(lock.importers, "importers");
   if (!record(importers["."])) return fail('expected the root importer "."');
+  if (Object.keys(importers).length > 10000)
+    return fail("package/importer count limit exceeded (10000)");
+  const importerRecords: PnpmImporterRecord[] = [];
+  let importerEntryCount = 0;
   for (const path of Object.keys(importers).sort()) {
-    if (path === ".") continue;
     if (
-      path.length > 2048 ||
-      !path
-        .split("/")
-        .every(
-          (p) => p && p !== "." && p !== ".." && /^[a-zA-Z0-9@._~ -]+$/.test(p),
-        )
+      path !== "." &&
+      (path.length > 2048 ||
+        !path
+          .split("/")
+          .every(
+            (p) =>
+              p && p !== "." && p !== ".." && /^[a-zA-Z0-9@._~ -]+$/.test(p),
+          ))
     )
       return fail("unsafe workspace importer path");
     if (!record(importers[path]))
       return fail("workspace importer must be a mapping");
-    limitations.push({ code: "workspace-importer-not-analyzed", path });
+    const entries = importerEntries(importers[path] as Record<string, unknown>);
+    importerEntryCount += entries.size;
+    if (importerEntryCount > 20000)
+      return fail("importer dependency count limit exceeded (20000)");
+    importerRecords.push({
+      path,
+      entries,
+    });
   }
-  const importer = importerEntries(importers["."]);
+  const importer = importerRecords.find(
+    (record) => record.path === ".",
+  )!.entries;
   const packages = table(lock.packages, "packages");
   const snapshots = table(lock.snapshots, "snapshots");
   if (
     Object.keys(packages).length > 10000 ||
-    Object.keys(snapshots).length > 10000 ||
-    Object.keys(importers).length > 10000
+    Object.keys(snapshots).length > 10000
   )
     return fail("package/importer count limit exceeded (10000)");
   for (const metadata of Object.values(packages)) {
@@ -290,5 +318,78 @@ export function pnpmGraph(
     { code: "lockfile-install-state-not-verified" },
     { code: "pnpm-peer-conditions-not-verified" },
   );
-  return { graph, limitations, parsed: true };
+  return { graph, limitations, parsed: true, importers: importerRecords };
+}
+
+/** Project one validated importer into a module-local graph. */
+export function pnpmImporterGraph(
+  graph: DependencyGraph,
+  importer: PnpmImporterRecord,
+  declared: DeclaredDependency[],
+): DependencyGraph {
+  const nodes = new Map(graph.nodes.map((node) => [node.id, node]));
+  const directEdges: DependencyEdge[] = [];
+  function target(
+    declaration: DeclaredDependency,
+  ): Pick<DependencyEdge, "to" | "resolution"> {
+    const section =
+      declaration.section === "peerDependencies"
+        ? "dependencies"
+        : declaration.section;
+    const entry = importer.entries.get(
+      JSON.stringify([section, declaration.name]),
+    );
+    if (!entry) return { to: null, resolution: "missing" };
+    const key = registryIdentity(entry.version)
+      ? entry.version
+      : `${declaration.name}@${entry.version}`;
+    const identity = registryIdentity(key);
+    const node = identity ? nodes.get(`pnpm:${key}`) : undefined;
+    return {
+      to: node?.id ?? null,
+      resolution:
+        !identity || /^(workspace:|file:|link:)/.test(declaration.specifier)
+          ? "unsupported"
+          : node
+            ? "locked"
+            : "missing",
+    };
+  }
+  for (const declaration of effectiveDependencies(declared)) {
+    directEdges.push({
+      from: "",
+      name: declaration.name,
+      section: declaration.section,
+      specifier: publicSpecifier(declaration.specifier),
+      ...target(declaration),
+    });
+  }
+  const edgesByFrom = new Map<string, DependencyEdge[]>();
+  for (const edge of graph.edges) {
+    const entries = edgesByFrom.get(edge.from) ?? [];
+    entries.push(edge);
+    edgesByFrom.set(edge.from, entries);
+  }
+  const queue = directEdges.flatMap((edge) => (edge.to ? [edge.to] : []));
+  const expanded = new Set<string>();
+  const reachable = new Set(queue);
+  const transitiveEdges: DependencyEdge[] = [];
+  while (queue.length) {
+    const from = queue.shift()!;
+    if (expanded.has(from)) continue;
+    expanded.add(from);
+    for (const edge of edgesByFrom.get(from) ?? []) {
+      transitiveEdges.push(edge);
+      if (edge.to) {
+        reachable.add(edge.to);
+        if (!expanded.has(edge.to)) queue.push(edge.to);
+      }
+    }
+  }
+  return {
+    source: graph.source,
+    lockfileVersion: graph.lockfileVersion,
+    nodes: graph.nodes.filter((node) => reachable.has(node.id)),
+    edges: [...directEdges, ...transitiveEdges],
+  };
 }

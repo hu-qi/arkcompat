@@ -12,7 +12,7 @@ pnpm --silent scan fixtures/developer/source-api --runtime arkts --release 6.0.0
 
 The authored fixture yields six module references and four API sites. An imported name shadowed by a local callback is excluded. Input is synthetic; never execute or install the fixture.
 
-## Experimental report 0.9.0
+## Experimental report 0.10.0
 
 The report requires `apiUsages` alongside the existing dependency graph and references. Each usage includes sanitized module specifier, static access path, call/construct kind, optional-chain flag and relative one-based location. `inventory.api-usage` findings carry the same target and unknown status as the inventory; no rule or SDK support is inferred. Consumers of 0.1–0.4 must update the strict schema/types.
 

@@ -11,6 +11,8 @@ export type { ReportFormat } from "./reports.js";
 import { readOhpmProfile, scanOhpmModules } from "./ohpm-modules.js";
 import { readOhpmLock, publicOhpmSpecifier } from "./ohpm-lock.js";
 import { scanNpmWorkspaces } from "./npm-workspaces.js";
+import { scanPnpmWorkspaces } from "./pnpm-workspaces.js";
+import type { PnpmImporterRecord } from "./pnpm-lock.js";
 import { analyzeSource } from "./source.js";
 import { dependencies, publicSpecifier, record } from "./declarations.js";
 import { npmGraph } from "./npm-lock.js";
@@ -249,9 +251,33 @@ export async function scanProject(
           read,
         })
       : { modules: [], limitations: [] };
+  const pnpmImporters: PnpmImporterRecord[] =
+    "importers" in lockResult && Array.isArray(lockResult.importers)
+      ? (lockResult.importers as PnpmImporterRecord[])
+      : [];
+  const pnpmWorkspaceText =
+    !ohpm &&
+    source === "pnpm-lock.yaml" &&
+    rootEntries.includes("pnpm-workspace.yaml")
+      ? await read(join(root, "pnpm-workspace.yaml"))
+      : null;
+  const pnpmWorkspaces =
+    !ohpm && source === "pnpm-lock.yaml"
+      ? await scanPnpmWorkspaces({
+          root,
+          text: pnpmWorkspaceText,
+          graph: dependencyGraph,
+          importers: pnpmImporters,
+          parsed,
+          excluded,
+          read,
+        })
+      : { modules: [], limitations: [] };
   const modules = profile
     ? await scanOhpmModules(root, read, excluded, profile, ohpmLock)
-    : npmWorkspaces;
+    : source === "pnpm-lock.yaml"
+      ? pnpmWorkspaces
+      : npmWorkspaces;
   const moduleFiles = new Set<string>();
   if (modules) {
     limitations.push(...modules.limitations);
@@ -405,7 +431,7 @@ export async function scanProject(
       JSON.stringify(usage),
     );
   return {
-    schemaVersion: "0.9.0",
+    schemaVersion: "0.10.0",
     scannerVersion: "0.0.0",
     snapshots: { rules: "none", knowledge: "none" },
     target,

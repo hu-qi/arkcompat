@@ -259,6 +259,37 @@ it.each([
     }).toEqual({ code: 1, stdout: "", diagnostic: true, sourceLeak: false });
   },
 );
+it.each([
+  {
+    lockfileVersion: "9.0",
+    importers: { ".": {}, "packages/local": 1 },
+  },
+  {
+    lockfileVersion: "9.0",
+    importers: { ".": {} },
+    packages: { "a@1.0.0": 1 },
+  },
+  {
+    lockfileVersion: "9.0",
+    importers: { ".": {} },
+    snapshots: { "a@1.0.0": 1 },
+  },
+])("rejects malformed importer/package/snapshot metadata %#", async (data) => {
+  await expect(scanProject(await fixture(data), target)).rejects.toThrow(
+    /pnpm-lock\.yaml/,
+  );
+});
+it("limits importer cardinality before constructing workspace records", async () => {
+  const importers = Object.fromEntries(
+    Array.from({ length: 10001 }, (_, index) => [
+      index ? `members/w${index}` : ".",
+      {},
+    ]),
+  );
+  await expect(
+    scanProject(await fixture({ lockfileVersion: "9.0", importers }), target),
+  ).rejects.toThrow(/importer count limit/);
+});
 it("does not serialize credential-bearing or unsupported remote snapshot identities", async () => {
   const root = await fixture(
     lock(

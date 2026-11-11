@@ -1,0 +1,31 @@
+lockfileVersion: "9.0"
+
+importers:
+  .:
+    dependencies:
+      "@fixture/alpha":
+        specifier: workspace:*
+        version: link:packages/alpha
+
+  packages/alpha:
+    dependencies:
+      "@fixture/beta":
+        specifier: workspace:*
+        version: link:packages/beta
+      external:
+        specifier: ^1
+        version: 1.0.0
+
+  packages/beta: {}
+
+packages:
+  external@1.0.0:
+    dependencies:
+      util: ^2
+  util@2.0.0: {}
+
+snapshots:
+  external@1.0.0:
+    dependencies:
+      util: 2.0.0
+  util@2.0.0: {}

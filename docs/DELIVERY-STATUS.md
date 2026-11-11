@@ -59,7 +59,7 @@ The open engineering actions above remain actionable; they are not all blocked b
   [runtime provenance](RUNTIME-PROVENANCE.md) and its
   [machine-readable evidence](evidence/runtime-provenance-2026-11-11.json).
 - [npm workspace PR #59](https://github.com/hu-qi/arkcompat/pull/59):
-  adds schema 0.9.0 npm/OHPM module provenance, safe in-tree workspace
+  adds generalized npm/pnpm/OHPM module provenance and safe in-tree
   discovery, scoped v2/v3 lock projection, cycle/alias/stale/missing cases and
   a checked-in two-workspace fixture. Local `pnpm check` passed 471 tests. The
   five required [main checks](https://github.com/hu-qi/arkcompat/actions/runs/42980288979)
