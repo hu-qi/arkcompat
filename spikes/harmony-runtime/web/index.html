@@ -1,1 +1,33 @@
-<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'unsafe-inline'"><title>ArkCompat Web Canvas probe</title></head><body><h1>ArkCompat Web Canvas probe</h1><p id="state">waiting</p><div id="canvas-target" style="width:128px;height:128px"></div><button id="destroy">Destroy probe</button><script src="/lottie.min.js"></script><script src="/probe.js"></script></body></html>
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'unsafe-inline'"
+    />
+    <title>ArkCompat Web Canvas probe</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 24px;
+      }
+      #canvas-target {
+        border: 1px solid #ddd;
+        height: 128px;
+        width: 128px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>ArkCompat Web Canvas probe</h1>
+    <p id="state">waiting</p>
+    <p id="frame-state">frame=not-ready</p>
+    <div id="canvas-target"></div>
+    <button id="pause-frame-0">Pause frame 0</button>
+    <button id="pause-frame-18">Pause frame 18</button>
+    <button id="destroy">Destroy probe</button>
+    <script src="/lottie.min.js"></script>
+    <script src="/probe.js"></script>
+  </body>
+</html>
