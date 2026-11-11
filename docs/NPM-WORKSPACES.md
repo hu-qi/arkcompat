@@ -44,6 +44,12 @@ manifest outside the tail glob. The two deterministic declarations-only scans
 produced SHA-256
 `6cfc2b61ec551b6fb3cdd84770e0b4ccfc5cbc7644bfe97177bc6118ec1a7026`.
 
+[PR #65](https://github.com/hu-qi/arkcompat/pull/65) passed all five required
+[PR checks](https://github.com/hu-qi/arkcompat/actions/runs/42991826490) at
+`dadfa215e74989c1c815294fc8d0803cd0479fdc` and
+[merged-main checks](https://github.com/hu-qi/arkcompat/actions/runs/42992096039)
+as merge `de4e9356a32ed798ed0c60221cd7b9bff4df5d5b`.
+
 ## Discovery boundary
 
 - `workspaces` may be a string array or an object with a `packages` string
