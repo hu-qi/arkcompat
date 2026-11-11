@@ -76,3 +76,30 @@ trusted distribution, title/trademark review, target-platform walkthrough,
 independent acceptance and the remaining #8 release gates stay open. Delete the
 generated directory to roll back; no scanner input or repository track is
 mutated by packaging.
+
+## Verified delivery · 2026-11-11
+
+[PR #57](https://github.com/hu-qi/arkcompat/pull/57) merged as
+`f209b40ce09b0c9b124605f0a5f5290e2648c745`. Its five required
+[main checks](https://github.com/hu-qi/arkcompat/actions/runs/42976643727)
+passed, including the Linux Node24 double-package and artifact-upload steps.
+Local `pnpm check` passed 28 files/453 tests, and actionlint passed the modified
+workflow. The [machine-readable evidence](evidence/runtime-provenance-2026-11-11.json)
+records the same scope and hashes.
+
+The two local packages independently validated 13 components, 14 dependency
+entries and 1,033 files, then matched byte-for-byte:
+
+- `SBOM.cdx.json`:
+  `4055074a4ad7e47950814140428fcec797d63dbcda5d010bf83cb55d8e10691a`
+- `SHA256SUMS`:
+  `8f060c8146e7f38acbdc34ed3c71e5b532785d6c46a759dfb7466ac54a69e8cf`
+- `THIRD-PARTY-NOTICES.json`:
+  `f1d54227082fcee7b8a8744f3973578bbf7023f7db16c0c6ea5c9c8a7b2a4eac`
+
+The exact private VSIX produced on macOS contained these files under
+`extension/runtime/`. Its extracted runtime passed the same 13/14/1,033
+validator result and retained the same BOM/checksum hashes. The VSIX itself was
+`5a2ddc89b4157e4aefd94ca7290c3514fc6dc25586bc6c7fe49865d1a3c962cb`.
+Fresh host installation and public distribution are not claimed here; those
+remain under Issues #6/#8.
