@@ -57,11 +57,20 @@ the timestamped destroyed capture had zero matching Canvas pixels. The ability
 dump and focused-window list confirm the page remained in the foreground, and
 the task-owned instance was stopped afterwards. The selected
 [54-line lifecycle log](evidence/harmonyos-api20-target-api26-runtime-lifecycle-2026-11-11.txt)
-is included with its SHA-256.
+is included with its SHA-256. The log contains two frame-0 pin observations;
+the record binds the screenshot to the second one because that timestamp
+immediately precedes the committed capture. The earlier observation remains in
+the log for completeness.
 
 `complete` and `segmentStart` listeners were registered from the package's
 public `AnimationEventName` union, but the looping default segment did not
 trigger those events.
+
+A second Claude Code review consumed only the public evidence in commit
+`68d472a` and returned **support** for this scoped candidate record. It found no
+material contradiction. Its one minor request was the duplicate frame-0 pin
+annotation above. The review does not approve database activation, independent
+accuracy, production support or formal acceptance.
 
 This amendment does **not** replace the earlier API 20 runtime observation. The
 API 20 image could not be recreated on this machine because its download endpoint

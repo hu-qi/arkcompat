@@ -43,9 +43,10 @@ The open engineering actions above remain actionable; they are not all blocked b
 - Claude Code independent review (2026-11-10): evaluated PR #41's public
   evidence and returned "support only with amendments". The 2026-11-11 rewrite
   adds packed-dependency provenance, timestamp-bound captures, a 36-loop
-  observation, foreground cleanup and a reproducible Web rerun; final review of
-  this amended public evidence is pending. The candidate remains local and
-  inactive with SHA-256
+  observation, foreground cleanup and a reproducible Web rerun. A second Claude
+  Code review of public commit `68d472a` returned **support** for the scoped
+  candidate evidence and noted one duplicate frame-0 pin that is now
+  annotated. The candidate remains local and inactive with SHA-256
   `cfdea420d8d96d3ed49602a4354c8ed08dd042e15503792862cac5617f85caee`.
 
 CI runs are engineering evidence. Authored fixtures, structural schema validation and public inventory counts do not establish SDK runtime support or any independent 80%/100% requirement. CodeRabbit skipped automatic review; author self-review is not independent acceptance.

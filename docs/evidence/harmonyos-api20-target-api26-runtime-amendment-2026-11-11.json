@@ -153,7 +153,13 @@
     "sha256": "afe6b31b998bee439d3a40c1a697ebef95ea601b9ed073bb769aa93e6e1a1de4",
     "lineCount": 54,
     "selection": "ArkCompatLottie lifecycle lines",
-    "containsAbsolutePaths": false
+    "containsAbsolutePaths": false,
+    "duplicatePinnedZeroObservations": {
+      "count": 2,
+      "timestampsMs": [1794368669598, 1794368705349],
+      "selectedTimestampMs": 1794368705349,
+      "note": "The record uses the second pinned-frame-0 observation because its timestamp precedes and aligns with the committed frame-0 screenshot capture. The first observation precedes the capture workflow and is retained for log completeness."
+    }
   },
   "captures": {
     "method": "Count pixels where 250 <= x < 1030, 1250 <= y < 1600, R < 80, 80 < G < 200 and B > 180; report mean x. This Canvas-only band excludes the blue buttons.",
@@ -256,15 +262,20 @@
   },
   "knowledgeMappingImported": false,
   "independentReview": {
-    "status": "pending review of this amended public evidence",
-    "priorPublicEvidenceReview": "support only with the listed amendments",
+    "status": "support for the scoped candidate evidence",
+    "reviewedPublicCommit": "68d472a796692c7460372647c2215c769d006e2a",
+    "reviewTool": "Claude Code 2.1.316 with tools disabled through an isolated public-evidence prompt",
+    "reviewInputSha256": "c72971d29aebd57ec1fbec9df33bc436eb998569c26f6664942254a54c07bfd2",
+    "scope": "Exactly one authored synthetic vector Canvas animation using lottie-web 5.12.2 and @ohos/lottie 2.0.0.",
+    "findingResolution": "The review noted two frame-0 pin observations and requested an annotation. The lifecycle log now identifies the unused first observation and the second observation bound to the capture.",
     "priorReviewBlockersResolvedInThisRecord": [
       "separated API 20 target metadata from API 26 runtime execution",
       "bound pinned and destroyed captures to lifecycle timestamps",
       "recorded packed API metadata and bundled dependency provenance",
       "made Web frame measurements reproducible from the committed probe",
       "observed ten loops, 36 total loop events, foreground cleanup and isolated-instance shutdown"
-    ]
+    ],
+    "activationApproval": false
   },
   "limitations": [
     "The target artifact declares API 20, but the available runtime was HarmonyOS 7.0.0/API 26.",
