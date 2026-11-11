@@ -40,8 +40,10 @@ are recorded in [machine-readable evidence](evidence/pnpm-workspaces-2026-11-11.
 
 - Root `pnpm-workspace.yaml.packages` must be an array of nonempty strings.
   Exact relative directories, `./` normalization, `*` for one segment and
-  `**` for zero or more segments are supported. Duplicate selections are
-  deduplicated.
+  `**` for zero or more segments are supported. Nested or adjacent comma-list
+  brace groups are expanded before resolution, including alternatives
+  containing `*` or `**`; one authored selection is limited to 64 expanded
+  patterns. Expanded patterns and selected paths are deduplicated.
 - Discovery stops at 128 selected workspace directories. Only non-hidden,
   non-excluded in-tree directories with regular, size-bounded `package.json`
   files are read. Symlinks and special files are never followed.
@@ -49,9 +51,9 @@ are recorded in [machine-readable evidence](evidence/pnpm-workspaces-2026-11-11.
   glob syntax is rejected or disclosed without serializing the unsafe value.
   Multiple `*`/`**` segments are supported. Terminal globstars select only
   directories containing `package.json`; shared wildcard traversal stops after
-  4,096 directory reads. Negated patterns, brace expansion, extglobs, dot
-  segments and glob characters embedded in a segment remain outside this
-  boundary.
+  4,096 directory reads. Negated patterns, numeric/alphabetic brace sequences,
+  malformed or empty brace alternatives, extglobs, dot segments and other glob
+  characters embedded in a segment remain outside this boundary.
 - A malformed recognized config or malformed discovered manifest fails the
   scan. Missing/unavailable directories and manifests, anonymous or
   versionless workspaces, duplicate names, unmatched selections/importers and
@@ -101,7 +103,7 @@ consumers and regenerating `0.12.0` reports. The root importer/snapshot graph
 and npm/OHPM workspace inventories remain independent; no installation state
 was changed.
 
-Unsupported pnpm glob/negation variants,
+Unsupported pnpm brace-sequence/glob/negation variants,
 cross-workspace link resolution, tags/non-semver range and peer/hoisting verification,
 broader source/dataflow coverage and independent M1 acceptance remain Issue #3
 work.

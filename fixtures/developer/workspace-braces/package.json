@@ -1,0 +1,8 @@
+{
+  "name": "workspace-brace-root",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "{apps/alpha,packages/team-{a,b}/*}"
+  ]
+}
