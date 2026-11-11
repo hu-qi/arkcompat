@@ -347,3 +347,187 @@ it("scans the documented source fixture without counting the shadowed local call
     modules: ["node:fs", "node:fs/promises", "example-client", "node:path"],
   });
 });
+
+it("inventories imported ETS calls while keeping ArkUI DSL outside API attribution", async () => {
+  const report = await scanProject("fixtures/developer/ets-source", target);
+  expect({
+    references: report.references.map((reference) => [
+      reference.kind,
+      reference.specifier,
+      reference.location.line,
+    ]),
+    usages: report.apiUsages.map((usage) => [
+      usage.module,
+      usage.path,
+      usage.kind,
+      usage.location.line,
+      usage.location.column,
+    ]),
+    limitations: report.coverage.limitations.filter((limitation) =>
+      limitation.code.startsWith("ets-"),
+    ),
+    sourceFiles: report.coverage.sourceFiles,
+    statuses: [...new Set(report.findings.map((finding) => finding.status))],
+  }).toEqual({
+    references: [
+      ["import", "@ohos/lottie", 1],
+      ["import", "@kit.PerformanceAnalysisKit", 2],
+      ["import", "example.graphics", 3],
+      ["import", "example-client", 4],
+    ],
+    usages: [
+      ["@ohos/lottie", ["default", "loadAnimation"], "call", 12, 19],
+      ["@ohos/lottie", ["loadAnimation"], "call", 13, 5],
+      ["@kit.PerformanceAnalysisKit", ["hilog", "info"], "call", 14, 5],
+      ["example.graphics", ["*", "Canvas", "render"], "call", 15, 5],
+      ["example-client", ["Widget"], "construct", 16, 19],
+    ],
+    limitations: [
+      {
+        code: "ets-arkui-dsl-not-analyzed",
+        path: "Index.ets",
+      },
+      {
+        code: "ets-source-syntax-partially-analyzed",
+        path: "Index.ets",
+      },
+      {
+        code: "ets-type-check-partially-analyzed",
+        path: "Index.ets",
+      },
+    ],
+    sourceFiles: 1,
+    statuses: ["unknown"],
+  });
+  const raw = execFileSync(
+    process.execPath,
+    [
+      "apps/cli/dist/index.js",
+      "scan",
+      "fixtures/developer/ets-source",
+      "--runtime",
+      "arkts",
+      "--release",
+      "6.0.0",
+    ],
+    { encoding: "utf8" },
+  );
+  expect(JSON.parse(raw)).toEqual(report);
+});
+
+it("applies conservative ETS import fallback around lexical shadowing", async () => {
+  const root = await fixture(
+    [
+      'import api, { run as namedRun } from "example-api"',
+      'import * as ns from "example-namespace"',
+      'import { localFn, LocalClass, LocalEnum, LocalNamespace } from "local-values"',
+      "",
+      "function localFn(): void {}",
+      "class LocalClass {}",
+      "enum LocalEnum { value }",
+      "namespace LocalNamespace { export const value = 1 }",
+      "",
+      "@Entry",
+      "@Component",
+      "struct Index {",
+      "  parameterShadow(api: Object, namedRun: Object): void {",
+      "    api.run()",
+      "    namedRun()",
+      "  }",
+      "",
+      "  blockShadow(): void {",
+      "    { const api = local; api.run() }",
+      "  }",
+      "",
+      "  loopShadow(): void {",
+      "    for (const namedRun of callbacks) namedRun()",
+      "    for (let ns = 0; ns < 1; ns++) ns.run()",
+      "    for (const ns in record) ns.run()",
+      "  }",
+      "",
+      "  catchShadow(): void {",
+      "    try { work() } catch (api) { api.run() }",
+      "  }",
+      "",
+      "  varShadow(): void {",
+      "    if (false) { var ns = local }",
+      "    ns.run()",
+      "  }",
+      "",
+      "  localDeclarationShadow(): void {",
+      "    function localFn(): void {}",
+      "    localFn()",
+      "    class LocalClass {}",
+      "    new LocalClass()",
+      "  }",
+      "",
+      "  positive(): void {",
+      "    api.run()",
+      "    namedRun()",
+      "    ns.run()",
+      "  }",
+      "",
+      "  build(): void {",
+      "    Column({ space: 12 }) {",
+      "      Text('ArkCompat ETS fixture')",
+      "    }.width('100%')",
+      "  }",
+      "}",
+    ].join("\n"),
+    "main.ets",
+  );
+  const report = await scanProject(root, target);
+  expect(
+    report.apiUsages.map((usage) => [
+      usage.module,
+      usage.path,
+      usage.kind,
+      usage.location.line,
+    ]),
+  ).toEqual([
+    ["example-api", ["default", "run"], "call", 45],
+    ["example-api", ["run"], "call", 46],
+    ["example-namespace", ["*", "run"], "call", 47],
+  ]);
+});
+
+it("abstains when duplicate ETS imports make module identity ambiguous", async () => {
+  const root = await fixture(
+    [
+      'import { run } from "first-api"',
+      'import { run } from "second-api"',
+      "run()",
+      "@Entry",
+      "@Component",
+      "struct Index {",
+      "  build(): void {",
+      "    Column() { Text('ambiguous') }",
+      "  }",
+      "}",
+    ].join("\n"),
+    "main.ets",
+  );
+  const report = await scanProject(root, target);
+  expect({
+    references: report.references.map((reference) => [
+      reference.specifier,
+      reference.location.line,
+    ]),
+    usages: report.apiUsages,
+    limitations: report.coverage.limitations.filter((limitation) =>
+      limitation.code.startsWith("ets-"),
+    ),
+  }).toEqual({
+    references: [
+      ["first-api", 1],
+      ["second-api", 2],
+    ],
+    usages: [],
+    limitations: [
+      { code: "ets-arkui-dsl-not-analyzed", path: "main.ets" },
+      { code: "ets-source-syntax-partially-analyzed", path: "main.ets" },
+      { code: "ets-import-binding-ambiguous", path: "main.ets" },
+      { code: "ets-type-check-partially-analyzed", path: "main.ets" },
+    ],
+  });
+});

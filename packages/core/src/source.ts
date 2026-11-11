@@ -11,6 +11,21 @@ interface Binding {
   module: string;
   path: string[];
 }
+interface AnalyzeSourceOptions {
+  ets?: boolean;
+}
+/**
+ * Authored ETS uses `struct` as a declaration keyword. Replace only a line-leading
+ * declaration token with a same-length class form so source offsets remain stable.
+ * ArkUI DSL blocks can still produce syntax diagnostics and are handled below.
+ */
+function prepareEtsSource(text: string): string {
+  return text.replace(
+    /(^|\r?\n)([ \t]*)struct(?=[ \t]+[A-Za-z_])/g,
+    (_match, lineBreak: string, indent: string) =>
+      `${lineBreak}${indent}class `,
+  );
+}
 function unwrap(expression: ts.Expression): ts.Expression {
   let value = expression;
   while (
@@ -53,12 +68,19 @@ function initializedConst(
 export function analyzeSource(
   text: string,
   path: string,
+  options: AnalyzeSourceOptions = {},
 ): {
   references: ModuleReference[];
   apiUsages: ApiUsage[];
   limitations: Limitation[];
 } {
-  const source = ts.createSourceFile(path, text, ts.ScriptTarget.Latest, true);
+  const ets = options.ets === true;
+  const source = ts.createSourceFile(
+    path,
+    ets ? prepareEtsSource(text) : text,
+    ts.ScriptTarget.Latest,
+    true,
+  );
   const host: ts.CompilerHost = {
     getSourceFile: (name) => (name === path ? source : undefined),
     getDefaultLibFileName: () => "",
@@ -77,7 +99,7 @@ export function analyzeSource(
     host,
   );
   const errors = program.getSyntacticDiagnostics(source);
-  if (errors.length) {
+  if (errors.length && !ets) {
     const error = errors[0]!;
     const pos = source.getLineAndCharacterOfPosition(error.start ?? 0);
     throw new Error(
@@ -90,11 +112,23 @@ export function analyzeSource(
   const limitations: Limitation[] = [];
   const codes = new Set<string>();
   const bindings = new Map<ts.Symbol, Binding>();
+  const etsImports = new Map<string, Binding>();
+  const ambiguousEtsImports = new Set<string>();
   const analyzedImports = new Set<ts.CallExpression>();
   function limitation(code: string) {
     if (!codes.has(code)) {
       codes.add(code);
       limitations.push({ code, path });
+    }
+  }
+  if (ets) limitation("ets-arkui-dsl-not-analyzed");
+  if (errors.length) limitation("ets-source-syntax-partially-analyzed");
+  function symbolAtLocation(node: ts.Node): ts.Symbol | undefined {
+    try {
+      return checker.getSymbolAtLocation(node);
+    } catch {
+      limitation("ets-type-check-partially-analyzed");
+      return undefined;
     }
   }
   function location(node: ts.Node): SourceLocation {
@@ -126,7 +160,7 @@ export function analyzeSource(
       return false;
     // JS/CommonJS gets a synthesized require symbol without declarations.
     // Any actual declaration (including a parameter) makes loader identity uncertain.
-    return !checker.getSymbolAtLocation(node.expression)?.declarations?.length;
+    return !symbolAtLocation(node.expression)?.declarations?.length;
   }
   function awaitedImport(input: ts.Expression): ts.CallExpression | undefined {
     const value = unwrap(input);
@@ -138,8 +172,174 @@ export function analyzeSource(
       : undefined;
   }
   function bind(name: ts.Identifier, value: Binding) {
-    const symbol = checker.getSymbolAtLocation(name);
+    const symbol = symbolAtLocation(name);
     if (symbol) bindings.set(symbol, value);
+  }
+  function bindEtsImport(name: ts.Identifier, value: Binding) {
+    if (!ets) return;
+    if (etsImports.has(name.text) || ambiguousEtsImports.has(name.text)) {
+      etsImports.delete(name.text);
+      ambiguousEtsImports.add(name.text);
+      limitation("ets-import-binding-ambiguous");
+      return;
+    }
+    etsImports.set(name.text, value);
+  }
+  function bindingNames(name: ts.BindingName, result: Set<string>): void {
+    if (ts.isIdentifier(name)) {
+      result.add(name.text);
+      return;
+    }
+    for (const element of name.elements)
+      if (!ts.isOmittedExpression(element)) bindingNames(element.name, result);
+  }
+  function declarationNames(
+    declaration: ts.VariableDeclaration,
+    result: Set<string>,
+  ): void {
+    bindingNames(declaration.name, result);
+  }
+  const statementNames = new WeakMap<ts.Node, Set<string>>();
+  function namesInStatements(
+    container: ts.Node,
+    statements: readonly ts.Statement[],
+  ): Set<string> {
+    const cached = statementNames.get(container);
+    if (cached) return cached;
+    const names = new Set<string>();
+    for (const statement of statements) {
+      if (ts.isVariableStatement(statement))
+        for (const declaration of statement.declarationList.declarations)
+          declarationNames(declaration, names);
+      else if (
+        (ts.isFunctionDeclaration(statement) ||
+          ts.isClassDeclaration(statement) ||
+          ts.isEnumDeclaration(statement) ||
+          ts.isModuleDeclaration(statement)) &&
+        statement.name
+      )
+        names.add(statement.name.text);
+    }
+    statementNames.set(container, names);
+    return names;
+  }
+  function variableListNames(
+    list: ts.VariableDeclarationList | undefined,
+    result: Set<string>,
+  ): void {
+    for (const declaration of list?.declarations ?? [])
+      declarationNames(declaration, result);
+  }
+  const functionScopeNames = new WeakMap<ts.Node, Set<string>>();
+  function isFunctionScopeNode(node: ts.Node): node is ts.SignatureDeclaration {
+    return (
+      ts.isFunctionDeclaration(node) ||
+      ts.isFunctionExpression(node) ||
+      ts.isArrowFunction(node) ||
+      ts.isMethodDeclaration(node) ||
+      ts.isConstructorDeclaration(node) ||
+      ts.isGetAccessorDeclaration(node) ||
+      ts.isSetAccessorDeclaration(node)
+    );
+  }
+  function namesInFunctionScope(node: ts.SignatureDeclaration): Set<string> {
+    const cached = functionScopeNames.get(node);
+    if (cached) return cached;
+    const names = new Set<string>();
+    for (const parameter of node.parameters)
+      bindingNames(parameter.name, names);
+    if (
+      (ts.isFunctionDeclaration(node) || ts.isFunctionExpression(node)) &&
+      node.name
+    )
+      names.add(node.name.text);
+    function collectVarNames(current: ts.Node) {
+      if (current !== node && isFunctionScopeNode(current)) return;
+      if (current !== node && ts.isClassLike(current)) return;
+      if (
+        ts.isVariableDeclarationList(current) &&
+        (current.flags & ts.NodeFlags.BlockScoped) === 0
+      )
+        variableListNames(current, names);
+      ts.forEachChild(current, collectVarNames);
+    }
+    collectVarNames(node);
+    functionScopeNames.set(node, names);
+    return names;
+  }
+  function loopNames(
+    node: ts.ForStatement | ts.ForInStatement | ts.ForOfStatement,
+  ): Set<string> {
+    const names = new Set<string>();
+    if (
+      node.initializer !== undefined &&
+      ts.isVariableDeclarationList(node.initializer)
+    )
+      variableListNames(node.initializer, names);
+    return names;
+  }
+  function isEtsImportShadowed(
+    identifier: ts.Identifier,
+    name: string,
+  ): boolean {
+    for (
+      let current: ts.Node | undefined = identifier.parent;
+      current;
+      current = current.parent
+    ) {
+      if (ts.isSourceFile(current)) {
+        if (namesInStatements(current, current.statements).has(name))
+          return true;
+      } else if (
+        ts.isBlock(current) ||
+        ts.isModuleBlock(current) ||
+        ts.isCaseBlock(current)
+      ) {
+        const statements = ts.isCaseBlock(current)
+          ? current.clauses.flatMap((clause) => [...clause.statements])
+          : current.statements;
+        if (namesInStatements(current, statements).has(name)) return true;
+      }
+      if (
+        isFunctionScopeNode(current) &&
+        namesInFunctionScope(current).has(name)
+      )
+        return true;
+      if (
+        (ts.isForStatement(current) ||
+          ts.isForInStatement(current) ||
+          ts.isForOfStatement(current)) &&
+        loopNames(current).has(name)
+      )
+        return true;
+      if (
+        ts.isCatchClause(current) &&
+        current.variableDeclaration &&
+        (() => {
+          const names = new Set<string>();
+          declarationNames(current.variableDeclaration, names);
+          return names.has(name);
+        })()
+      )
+        return true;
+      if (
+        (ts.isClassDeclaration(current) || ts.isClassExpression(current)) &&
+        current.name?.text === name
+      )
+        return true;
+    }
+    return false;
+  }
+  function etsImportAccess(identifier: ts.Identifier): Binding | undefined {
+    const imported = etsImports.get(identifier.text);
+    if (
+      !ets ||
+      !imported ||
+      ambiguousEtsImports.has(identifier.text) ||
+      isEtsImportShadowed(identifier, identifier.text)
+    )
+      return undefined;
+    return imported;
   }
   function access(
     input: ts.Expression,
@@ -147,8 +347,8 @@ export function analyzeSource(
   ): Binding | undefined {
     const value = unwrap(input);
     if (ts.isIdentifier(value)) {
-      const symbol = checker.getSymbolAtLocation(value);
-      if (!symbol) return undefined;
+      const symbol = symbolAtLocation(value);
+      if (!symbol) return etsImportAccess(value);
       const binding = bindings.get(symbol);
       if (binding) return binding;
       let declaration: ts.Node | undefined = symbol.valueDeclaration;
@@ -231,20 +431,32 @@ export function analyzeSource(
       const module = literal(node.moduleSpecifier);
       const clause = node.importClause;
       if (module !== null && clause && !clause.isTypeOnly) {
-        if (clause.name) bind(clause.name, { module, path: ["default"] });
-        if (clause.namedBindings && ts.isNamespaceImport(clause.namedBindings))
-          bind(clause.namedBindings.name, { module, path: ["*"] });
-        else if (clause.namedBindings)
+        if (clause.name) {
+          const binding = { module, path: ["default"] };
+          bind(clause.name, binding);
+          bindEtsImport(clause.name, binding);
+        }
+        if (
+          clause.namedBindings &&
+          ts.isNamespaceImport(clause.namedBindings)
+        ) {
+          const binding = { module, path: ["*"] };
+          bind(clause.namedBindings.name, binding);
+          bindEtsImport(clause.namedBindings.name, binding);
+        } else if (clause.namedBindings)
           for (const specifier of clause.namedBindings.elements) {
-            if (!specifier.isTypeOnly)
-              bind(specifier.name, {
+            if (!specifier.isTypeOnly) {
+              const binding = {
                 module,
                 path: [
                   publicSpecifier(
                     specifier.propertyName?.text ?? specifier.name.text,
                   ),
                 ],
-              });
+              };
+              bind(specifier.name, binding);
+              bindEtsImport(specifier.name, binding);
+            }
           }
       }
     } else if (
@@ -252,8 +464,11 @@ export function analyzeSource(
       ts.isExternalModuleReference(node.moduleReference)
     ) {
       const module = literal(node.moduleReference.expression);
-      if (module !== null && !node.isTypeOnly)
-        bind(node.name, { module, path: ["*"] });
+      if (module !== null && !node.isTypeOnly) {
+        const binding = { module, path: ["*"] };
+        bind(node.name, binding);
+        bindEtsImport(node.name, binding);
+      }
     } else if (ts.isVariableDeclaration(node) && node.initializer) {
       const initial = unwrap(node.initializer);
       const loader = commonRequire(initial) ? initial : awaitedImport(initial);
