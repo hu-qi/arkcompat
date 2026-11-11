@@ -1,6 +1,6 @@
 # Canonical report formats · M3 / Issue #5
 
-The CLI now formats the same canonical inventory findings as JSON, Markdown or SARIF. Formats do not install packages, run source, invoke remote models, add rules or change compatibility conclusions. Schema is experimental 0.11.0 (generalized npm/pnpm/Yarn/OHPM module provenance; see [Yarn workspace migration](YARN-WORKSPACES.md)); rules/knowledge snapshots remain none. This is report-adapter delivery, not a CLI beta publication or M3 acceptance pass.
+The CLI now formats the same canonical inventory findings as JSON, Markdown or SARIF. Formats do not install packages, run source, invoke remote models, add rules or change compatibility conclusions. Schema is experimental 0.12.0 (generalized npm/pnpm/Yarn/OHPM module provenance plus explicit semver `mismatch`; see [range validation](DEPENDENCY-RANGE-VALIDATION.md)); rules/knowledge snapshots remain none. This is report-adapter delivery, not a CLI beta publication or M3 acceptance pass.
 
 ```bash
 pnpm install --frozen-lockfile --ignore-scripts

@@ -81,9 +81,12 @@ package metadata from another manifest. Anonymous/duplicate/versionless
 workspaces, missing importers, importer paths outside selected safe
 directories and unparsed lock versions remain declarations-only.
 
-Ranges, peer satisfaction, optional/platform conditions, overrides/settings,
-integrity and installation state remain unverified. Root and module graphs do
-not assert HarmonyOS compatibility.
+Registry edges apply the standard semver comparison described in
+[dependency range validation](DEPENDENCY-RANGE-VALIDATION.md); a mismatch keeps
+the recorded importer target visible. Tags/non-semver protocols, peer
+satisfaction, optional/platform conditions, overrides/settings, integrity and
+installation state remain unverified. Root and module graphs do not assert
+HarmonyOS compatibility.
 
 ## Contract migration
 
@@ -94,11 +97,11 @@ be rebuilt together and stable projects rescanned; rewriting an old artifact's
 version field is unsupported.
 
 Rollback by reverting the scoped pnpm workspace changes, rebuilding all
-consumers and regenerating `0.11.0` reports. The root importer/snapshot graph
+consumers and regenerating `0.12.0` reports. The root importer/snapshot graph
 and npm/OHPM workspace inventories remain independent; no installation state
 was changed.
 
 Unsupported pnpm glob/negation variants,
-cross-workspace link resolution, version-range and peer/hoisting verification,
+cross-workspace link resolution, tags/non-semver range and peer/hoisting verification,
 broader source/dataflow coverage and independent M1 acceptance remain Issue #3
 work.

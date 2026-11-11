@@ -54,7 +54,7 @@ export interface Limitation {
   path?: string;
 }
 export interface ScanReport {
-  schemaVersion: "0.11.0";
+  schemaVersion: "0.12.0";
   scannerVersion: "0.0.0";
   snapshots: { rules: "none"; knowledge: "none" };
   target: TargetProfile;
@@ -154,8 +154,11 @@ export interface DependencyEdge {
   specifier: string;
   section: DependencySection;
   to: string | null;
-  /** locked means a recorded location, not a validated range or runtime verdict. */
-  resolution: "locked" | "missing" | "unsupported";
+  /**
+   * locked means a recorded location with a satisfied standard semver range
+   * when one is present. mismatch keeps the recorded target visible.
+   */
+  resolution: "locked" | "mismatch" | "missing" | "unsupported";
 }
 export interface DependencyGraph {
   source:

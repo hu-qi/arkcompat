@@ -5,7 +5,7 @@
   "additionalProperties": false,
   "properties": {
     "schemaVersion": {
-      "const": "0.11.0"
+      "const": "0.12.0"
     },
     "scannerVersion": {
       "const": "0.0.0"
@@ -440,7 +440,7 @@
                 "type": ["string", "null"]
               },
               "resolution": {
-                "enum": ["locked", "missing", "unsupported"]
+                "enum": ["locked", "mismatch", "missing", "unsupported"]
               }
             },
             "required": [

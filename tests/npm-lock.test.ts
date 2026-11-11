@@ -244,9 +244,62 @@ it("flags stale root declarations and does not pretend version ranges were check
   ).toEqual(
     expect.arrayContaining([
       "manifest-lockfile-mismatch",
-      "dependency-ranges-not-validated",
+      "dependency-ranges-partially-validated",
     ]),
   );
+});
+it("validates standard semver ranges for direct, transitive, alias and prerelease edges", async () => {
+  const root = await fixture(
+    {
+      "node_modules/a": {
+        version: "1.5.0",
+        dependencies: { child: "^2.0.0" },
+      },
+      "node_modules/child": { version: "1.9.0" },
+      "node_modules/alias": {
+        name: "real-library",
+        version: "3.4.0",
+      },
+      "node_modules/or": { version: "3.2.1" },
+      "node_modules/preview": { version: "1.0.0-beta.2" },
+    },
+    {
+      dependencies: {
+        a: "^1.0.0",
+        alias: "npm:real-library@>=3.0.0 <4.0.0",
+        or: "^1.0.0 || ^3.0.0",
+        preview: ">=1.0.0-beta.1 <2.0.0",
+      },
+    },
+  );
+  const report = await scanProject(root, target);
+  expect(
+    report.dependencyGraph.edges.map((edge) => [
+      edge.from,
+      edge.name,
+      edge.resolution,
+      edge.to,
+    ]),
+  ).toEqual([
+    ["", "a", "locked", "node_modules/a"],
+    ["", "alias", "locked", "node_modules/alias"],
+    ["", "or", "locked", "node_modules/or"],
+    ["", "preview", "locked", "node_modules/preview"],
+    ["node_modules/a", "child", "mismatch", "node_modules/child"],
+  ]);
+  expect(report.coverage.limitations).toContainEqual({
+    code: "dependency-range-mismatch",
+    path: "node_modules/a",
+  });
+});
+it("does not infer semver satisfaction for a registry tag", async () => {
+  const root = await fixture(
+    { "node_modules/a": { version: "9.0.0" } },
+    { dependencies: { a: "latest" } },
+  );
+  expect(
+    (await scanProject(root, target)).dependencyGraph.edges[0]?.resolution,
+  ).toBe("locked");
 });
 it.each([
   "{",

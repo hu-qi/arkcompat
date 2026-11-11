@@ -14,6 +14,7 @@ import {
   publicSpecifier,
   record,
 } from "./declarations.js";
+import { registryRangeStatus } from "./registry-range.js";
 
 const source = "pnpm-lock.yaml";
 const sections: DependencySection[] = [
@@ -243,7 +244,10 @@ export function pnpmGraph(
         : !identity || /^(workspace:|file:|link:)/.test(declaration.specifier)
           ? "unsupported"
           : node
-            ? "locked"
+            ? registryRangeStatus(declaration.specifier, node.version!) ===
+              "mismatch"
+              ? "mismatch"
+              : "locked"
             : "missing";
     graph.edges.push({
       from,
@@ -256,9 +260,11 @@ export function pnpmGraph(
     if (resolution !== "locked")
       limitations.push({
         code:
-          resolution === "missing"
-            ? "dependency-edge-missing"
-            : "dependency-edge-unsupported",
+          resolution === "mismatch"
+            ? "dependency-range-mismatch"
+            : resolution === "missing"
+              ? "dependency-edge-missing"
+              : "dependency-edge-unsupported",
         path: from || "package.json",
       });
   }
@@ -290,6 +296,15 @@ export function pnpmGraph(
       (d) => d.section === "peerDependencies",
     );
     const peers = new Map(peerDeclarations.map((d) => [d.name, d]));
+    const declaredByName = new Map(
+      effectiveDependencies(dependencies(metadata, source))
+        .filter(
+          (d) =>
+            d.section === "dependencies" ||
+            d.section === "optionalDependencies",
+        )
+        .map((d) => [d.name, d]),
+    );
     const snapshotDeclarations = effectiveDependencies(
       dependencies(snapshot, source),
     ).filter(
@@ -298,12 +313,16 @@ export function pnpmGraph(
     );
     for (const dependency of snapshotDeclarations) {
       const peer = peers.get(dependency.name);
+      const declared = declaredByName.get(dependency.name);
       edge(
         node.id,
         {
           ...dependency,
-          section: peer ? "peerDependencies" : dependency.section,
-          specifier: peer?.specifier ?? dependency.specifier,
+          section: peer
+            ? "peerDependencies"
+            : (declared?.section ?? dependency.section),
+          specifier:
+            peer?.specifier ?? declared?.specifier ?? dependency.specifier,
         },
         dependency.specifier,
       );
@@ -314,7 +333,7 @@ export function pnpmGraph(
     }
   }
   limitations.push(
-    { code: "dependency-ranges-not-validated" },
+    { code: "dependency-ranges-partially-validated" },
     { code: "lockfile-install-state-not-verified" },
     { code: "pnpm-peer-conditions-not-verified" },
   );
@@ -351,7 +370,10 @@ export function pnpmImporterGraph(
         !identity || /^(workspace:|file:|link:)/.test(declaration.specifier)
           ? "unsupported"
           : node
-            ? "locked"
+            ? registryRangeStatus(declaration.specifier, node.version!) ===
+              "mismatch"
+              ? "mismatch"
+              : "locked"
             : "missing",
     };
   }

@@ -103,7 +103,8 @@ execution occurs.
 ## Contract migration
 
 Schema `0.9.0` generalized `modules[]` to npm and OHPM inventories;
-`0.10.0` added pnpm and `0.11.0` adds Yarn alongside its manager-specific
+`0.10.0` added pnpm, `0.11.0` added Yarn and `0.12.0` added semver
+`mismatch` alongside its manager-specific
 coverage. Every module declares its package manager, and each kind is
 constrained to its matching coverage values. Historical reports keep their
 original version; strict CLI, Web, VS Code and other consumers must be rebuilt
@@ -111,10 +112,10 @@ together and scan the stable checkout again. Rewriting an old artifact's
 version is not supported.
 
 Rollback by reverting the scoped workspace PRs, rebuilding all consumers and
-regenerating `0.11.0` reports. Existing root npm graphs and OHPM module
+regenerating `0.12.0` reports. Existing root npm graphs and OHPM module
 inventory remain independent; no package installation state was changed.
 
 Cross-workspace installation/link resolution, remaining npm/pnpm/Yarn glob
 variants, arbitrary
-workspace-local lock trees, version-range/peer/hoisting verification, broader
+workspace-local lock trees, tags/non-semver range and peer/hoisting verification, broader
 source/dataflow coverage and independent acceptance remain Issue #3 work.

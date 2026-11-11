@@ -124,7 +124,7 @@ it("inventories pnpm workspace importers and scopes reachable edges", async () =
     },
   });
   const report = await scanProject(path, target);
-  expect(report.schemaVersion).toBe("0.11.0");
+  expect(report.schemaVersion).toBe("0.12.0");
   expect(
     report.modules?.map((module) => [
       module.kind,
@@ -195,7 +195,7 @@ it("inventories pnpm workspace importers and scopes reachable edges", async () =
       {
         from: "pnpm:external@1.0.0",
         name: "util",
-        specifier: "2.0.0",
+        specifier: "^2",
         section: "dependencies",
         to: "pnpm:util@2.0.0",
         resolution: "locked",
@@ -220,6 +220,48 @@ it("inventories pnpm workspace importers and scopes reachable edges", async () =
   expect(report.coverage.limitations).toContainEqual({
     code: "lockfile-not-analyzed",
     path: "packages/alpha/pnpm-lock.yaml",
+  });
+});
+
+it("keeps a recorded pnpm workspace target visible when its version contradicts the manifest range", async () => {
+  const manifest = {
+    name: "workspace-root",
+    version: "1.0.0",
+    private: true,
+  };
+  const path = await root(manifest, { packages: ["packages/alpha"] });
+  await workspace(path, "packages/alpha", {
+    name: "@fixture/alpha",
+    version: "1.0.0",
+    dependencies: { external: "^2.0.0" },
+  });
+  await lock(path, {
+    lockfileVersion: "9.0",
+    importers: {
+      ".": {},
+      "packages/alpha": {
+        dependencies: {
+          external: { specifier: "^2.0.0", version: "1.9.0" },
+        },
+      },
+    },
+    packages: { "external@1.9.0": {} },
+    snapshots: { "external@1.9.0": {} },
+  });
+  const report = await scanProject(path, target);
+  expect(report.modules?.[0]?.dependencyGraph.edges).toEqual([
+    {
+      from: "",
+      name: "external",
+      specifier: "^2.0.0",
+      section: "dependencies",
+      to: "pnpm:external@1.9.0",
+      resolution: "mismatch",
+    },
+  ]);
+  expect(report.coverage.limitations).toContainEqual({
+    code: "dependency-range-mismatch",
+    path: "packages/alpha/package.json",
   });
 });
 

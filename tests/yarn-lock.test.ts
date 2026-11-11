@@ -85,6 +85,28 @@ it("does not resolve a missing descriptor by matching its package name or locked
     (await scanProject(root, target)).dependencyGraph.edges[0],
   ).toMatchObject({ resolution: "missing", to: null });
 });
+it("marks a recorded Classic descriptor whose version contradicts its semver range", async () => {
+  const root = await fixture(
+    'a@^1.0.0:\n  version "1.0.0"\n  dependencies:\n    child ">=2.0.0 <3.0.0"\n"child@>=2.0.0 <3.0.0":\n  version "1.9.0"\n',
+    { dependencies: { a: "^1.0.0" } },
+  );
+  const report = await scanProject(root, target);
+  expect(
+    report.dependencyGraph.edges.map((edge) => [
+      edge.from,
+      edge.name,
+      edge.resolution,
+      edge.to,
+    ]),
+  ).toEqual([
+    ["", "a", "locked", "yarn:a@^1.0.0"],
+    ["yarn:a@^1.0.0", "child", "mismatch", "yarn:child@>=2.0.0 <3.0.0"],
+  ]);
+  expect(report.coverage.limitations).toContainEqual({
+    code: "dependency-range-mismatch",
+    path: "yarn:a@^1.0.0",
+  });
+});
 it("exposes local references and root peer installation as unsupported", async () => {
   const root = await fixture('peer@^1:\n  version "1.0.0"\n', {
     dependencies: { local: "file:../local" },

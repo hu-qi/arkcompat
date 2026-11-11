@@ -14,6 +14,7 @@ import {
   publicSpecifier,
   record,
 } from "./declarations.js";
+import { registryRangeStatus } from "./registry-range.js";
 
 const source = "oh-package-lock.json5";
 const versionPattern =
@@ -90,7 +91,7 @@ export function readOhpmLock(
   const ignored = new Set<string>();
   const edges = new Map<string, DeclaredDependency[]>();
   const codes = new Set<string>([
-    "dependency-ranges-not-validated",
+    "dependency-ranges-partially-validated",
     "lockfile-install-state-not-verified",
   ]);
   for (const key of keys) {
@@ -203,13 +204,23 @@ export function readOhpmLock(
             (node && !matching) ||
             matching?.link ||
             specifier !== dependency.specifier;
+          const mismatch =
+            matching &&
+            !unsupported &&
+            registryRangeStatus(dependency.specifier, matching.version!) ===
+              "mismatch";
           const resolution = unsupported
             ? "unsupported"
-            : matching
-              ? "locked"
-              : "missing";
+            : mismatch
+              ? "mismatch"
+              : matching
+                ? "locked"
+                : "missing";
           const attached =
-            !unified || resolution === "locked" || matching?.link
+            !unified ||
+            resolution === "locked" ||
+            resolution === "mismatch" ||
+            matching?.link
               ? matching
               : undefined;
           graph.edges.push({
@@ -222,7 +233,11 @@ export function readOhpmLock(
           });
           if (unified && attached && key !== undefined) reachable.add(key);
           if (resolution !== "locked")
-            graphCodes.add(`dependency-edge-${resolution}`);
+            graphCodes.add(
+              resolution === "mismatch"
+                ? "dependency-range-mismatch"
+                : `dependency-edge-${resolution}`,
+            );
         }
       }
       addEdges("", declared);

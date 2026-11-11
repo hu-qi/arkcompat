@@ -103,13 +103,13 @@ module-local graphs resolve only exact recorded workspace descriptors.
 
 ## Contract and limits
 
-Schema `0.11.0` adds `kind: "yarn"` and binds it to
-`yarn-classic-lockfile-partial` or `yarn-berry-lockfile-partial` coverage.
-Historical Schema0.10 reports remain historical artifacts; rebuild strict
-Web/VS Code consumers and rescan rather than editing a version field.
+Schema `0.12.0` retains `kind: "yarn"` and adds explicit semver `mismatch`
+within Classic/Berry module projections. Historical Schema0.11 reports remain
+historical artifacts; rebuild strict Web/VS Code consumers and rescan rather
+than editing a version field.
 
 All module graphs are inventory evidence, not installation, PnP/hoisting,
-version-range, peer or runtime compatibility proof. URLs and private patch,
+tag/non-semver/peer or runtime compatibility proof. URLs and private patch,
 portal, exec and virtual locators never enter public IDs. Yarn configuration,
 plugins, releases, `.pnp` state, scripts and packages are never loaded or
 executed. Compatibility remains `not-evaluated` until reviewed rules and
@@ -119,7 +119,6 @@ Local `pnpm check` passed 31 files/504 tests before packaging. This field run is
 developer regression evidence; it does not establish dependency-scan accuracy,
 an independent holdout result or M1 acceptance.
 
-Rollback by reverting the scoped Yarn workspace adapter, deleting completed
-`IMPLEMENTATION_PLAN.md`, rebuilding Web/VS Code/package consumers and
-regenerating Schema0.11 reports. No package manager or installed project state
-is changed.
+Rollback by reverting the scoped Yarn workspace adapter, rebuilding Web/VS
+Code/package consumers and regenerating Schema0.12 reports. No package manager
+or installed project state is changed.

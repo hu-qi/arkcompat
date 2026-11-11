@@ -173,6 +173,39 @@ it("inventories Classic workspace declarations and scopes exact lock edges", asy
   });
 });
 
+it("keeps a recorded Classic workspace target visible when its version contradicts the manifest range", async () => {
+  const manifest = {
+    name: "workspace-root",
+    version: "1.0.0",
+    private: true,
+    workspaces: ["packages/alpha"],
+  };
+  const path = await root(
+    manifest,
+    '# yarn lockfile v1\n\n"external@^2.0.0":\n  version "1.9.0"\n',
+  );
+  await workspace(path, "packages/alpha", {
+    name: "@fixture/alpha",
+    version: "1.0.0",
+    dependencies: { external: "^2.0.0" },
+  });
+  const report = await scanProject(path, target);
+  expect(report.modules?.[0]?.dependencyGraph.edges).toEqual([
+    {
+      from: "",
+      name: "external",
+      specifier: "^2.0.0",
+      section: "dependencies",
+      to: "yarn:external@^2.0.0",
+      resolution: "mismatch",
+    },
+  ]);
+  expect(report.coverage.limitations).toContainEqual({
+    code: "dependency-range-mismatch",
+    path: "package.json",
+  });
+});
+
 it("does not mistake a same-name registry descriptor for a Classic workspace link", async () => {
   const path = await root(
     {
@@ -364,6 +397,58 @@ it("links selected Berry workspace descriptors without loading Yarn plugins", as
       resolution: "locked",
     },
   ]);
+});
+
+it("keeps a recorded Berry workspace target visible when its version contradicts the manifest range", async () => {
+  const manifest = {
+    name: "workspace-root",
+    version: "1.0.0",
+    private: true,
+    workspaces: ["packages/alpha"],
+  };
+  const path = await root(
+    manifest,
+    `__metadata:
+  version: 8
+
+"@fixture/alpha@workspace:packages/alpha":
+  version: 0.0.0-use.local
+  resolution: "@fixture/alpha@workspace:packages/alpha"
+  dependencies:
+    external: "npm:^2.0.0"
+  linkType: soft
+
+"external@npm:^2.0.0":
+  version: 1.9.0
+  resolution: "external@npm:1.9.0"
+  linkType: hard
+
+"workspace-root@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "workspace-root@workspace:."
+  linkType: soft
+`,
+  );
+  await workspace(path, "packages/alpha", {
+    name: "@fixture/alpha",
+    version: "1.0.0",
+    dependencies: { external: "^2.0.0" },
+  });
+  const report = await scanProject(path, target);
+  expect(report.modules?.[0]?.dependencyGraph.edges).toEqual([
+    {
+      from: "",
+      name: "external",
+      specifier: "^2.0.0",
+      section: "dependencies",
+      to: "yarn-berry:external@npm:^2.0.0",
+      resolution: "mismatch",
+    },
+  ]);
+  expect(report.coverage.limitations).toContainEqual({
+    code: "dependency-range-mismatch",
+    path: "package.json",
+  });
 });
 
 it("keeps stale, anonymous, duplicate and unsafe Yarn workspaces declarations-only", async () => {

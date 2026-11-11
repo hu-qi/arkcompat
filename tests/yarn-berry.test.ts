@@ -45,7 +45,7 @@ it("records Berry v8 grouped registry descriptors and exact direct/transitive ed
       e.resolution,
     ]),
   }).toEqual({
-    version: "0.11.0",
+    version: "0.12.0",
     coverage: "yarn-berry-lockfile-partial",
     nodes: [
       "yarn-berry:a@npm:^1",
@@ -85,6 +85,38 @@ it("does not select another range by same package name/version", async () => {
   expect(report.dependencyGraph.edges[0]).toMatchObject({
     resolution: "missing",
     to: null,
+  });
+});
+it("validates Berry OR, prerelease and alias ranges and exposes a mismatch", async () => {
+  const report = await scanProject(
+    await fixture(
+      '"a@npm:^1.0.0 || >=3.0.0 <4.0.0":\n  version: 3.2.0\n  resolution: "a@npm:3.2.0"\n  linkType: hard\n"bad@npm:>=2.0.0 <3.0.0":\n  version: 3.0.0\n  resolution: "bad@npm:3.0.0"\n  linkType: hard\n"alias@npm:real@>=3.0.0 <4.0.0":\n  version: 3.4.0\n  resolution: "real@npm:3.4.0"\n  linkType: hard\n"preview@npm:>=1.0.0-beta.1 <2.0.0":\n  version: 1.0.0-beta.2\n  resolution: "preview@npm:1.0.0-beta.2"\n  linkType: hard\n',
+      {
+        dependencies: {
+          a: "^1.0.0 || >=3.0.0 <4.0.0",
+          bad: ">=2.0.0 <3.0.0",
+          alias: "npm:real@>=3.0.0 <4.0.0",
+          preview: ">=1.0.0-beta.1 <2.0.0",
+        },
+      },
+    ),
+    target,
+  );
+  expect(
+    report.dependencyGraph.edges.map((edge) => [
+      edge.name,
+      edge.resolution,
+      edge.to,
+    ]),
+  ).toEqual([
+    ["a", "locked", "yarn-berry:a@npm:^1.0.0 || >=3.0.0 <4.0.0"],
+    ["alias", "locked", "yarn-berry:alias@npm:real@>=3.0.0 <4.0.0"],
+    ["bad", "mismatch", "yarn-berry:bad@npm:>=2.0.0 <3.0.0"],
+    ["preview", "locked", "yarn-berry:preview@npm:>=1.0.0-beta.1 <2.0.0"],
+  ]);
+  expect(report.coverage.limitations).toContainEqual({
+    code: "dependency-range-mismatch",
+    path: "package.json",
   });
 });
 it("retains optional metadata, missing edges and unresolved peer context", async () => {

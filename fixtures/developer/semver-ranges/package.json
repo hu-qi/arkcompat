@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "dependencies": {
+    "good": "^1.0.0",
+    "latest-tag": "latest",
+    "mismatch": ">=2.0.0 <3.0.0",
+    "preview": ">=1.0.0-beta.1 <2.0.0"
+  }
+}

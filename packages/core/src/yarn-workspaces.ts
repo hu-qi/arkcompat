@@ -7,6 +7,7 @@ import type {
   ModuleInventory,
 } from "@arkcompat/contracts";
 import { effectiveDependencies, publicSpecifier } from "./declarations.js";
+import { registryRangeStatus } from "./registry-range.js";
 import type { YarnBerryWorkspaceEntry } from "./yarn-berry.js";
 import {
   discoverWorkspaceManifests,
@@ -139,29 +140,42 @@ function projectModule(
     // the same name must not turn a selected workspace dependency into a
     // confident third-party resolution.
     const target = localWorkspace ? undefined : (workspaceNode ?? registered);
+    const mismatch =
+      target?.version !== null &&
+      target?.version !== undefined &&
+      dependency.section !== "peerDependencies" &&
+      !localWorkspace &&
+      registryRangeStatus(dependency.specifier, target.version) === "mismatch";
     const resolution: DependencyEdge["resolution"] =
       dependency.section === "peerDependencies" ||
       (target && target.version === null) ||
       localWorkspace
         ? "unsupported"
-        : target
-          ? "locked"
-          : "missing";
+        : mismatch
+          ? "mismatch"
+          : target
+            ? "locked"
+            : "missing";
     const edge: DependencyEdge = {
       from,
       name: dependency.name,
       specifier: publicSpecifier(dependency.specifier),
       section: dependency.section,
-      to: resolution === "locked" ? target!.id : null,
+      to:
+        resolution === "locked" || resolution === "mismatch"
+          ? target!.id
+          : null,
       resolution,
     };
     if (resolution !== "locked")
       limitations.push({
         code: localWorkspace
           ? "yarn-classic-workspace-link-not-recorded"
-          : resolution === "missing"
-            ? "dependency-edge-missing"
-            : "dependency-edge-unsupported",
+          : resolution === "mismatch"
+            ? "dependency-range-mismatch"
+            : resolution === "missing"
+              ? "dependency-edge-missing"
+              : "dependency-edge-unsupported",
         path: localWorkspace ? dependency.name : from || "package.json",
       });
     return edge;
