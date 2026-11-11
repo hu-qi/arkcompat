@@ -13,8 +13,8 @@ acceptance sign-off.
 |---|---|---|---|
 | [#1 · M0](https://github.com/hu-qi/arkcompat/issues/1) | TypeScript/Node/pnpm defaults, JSON vertical slice, versioned inventory contracts, protected CI, MIT license and confirmed thresholds | Freeze the remaining target/runtime profiles and name the independent adjudicator in `DECISIONS.md` | MIT and the five acceptance thresholds are confirmed; D-01–D-04 and release-surface decisions remain open |
 | [#2 · DevEco](https://github.com/hu-qi/arkcompat/issues/2) | [Exact-build local compile/load, process parity and editor navigation](DEVECO-FEASIBILITY.md); **closed** | Continue product integration under #6 | Local feasibility proven; public trustlist/signing/updates, Windows and actual HarmonyOS projects remain open |
-| [#3 · M1 core](https://github.com/hu-qi/arkcompat/issues/3) | [npm](NPM-LOCKFILES.md), bounded [npm](NPM-WORKSPACES.md), [pnpm](PNPM-WORKSPACES.md) and [Yarn](YARN-WORKSPACES.md) workspaces with shared `*`/`**` discovery, Yarn Classic, [Berry v8](YARN-BERRY-LOCKFILES.md), [OHPM modules/lock](OHPM-MODULES.md) and [ETS imported-call/lexical-shadow](SOURCE-API-INVENTORY.md#ets-and-arkui-source-boundary) inventory; static brackets, awaited imports, bounded const aliases, destructuring, target rules and portable CLI | Finish remaining unsupported glob shapes, broader lock/source coverage and reconcile the amended runtime evidence with M1 | The vertical slice and 506-test suite pass, but “full” dependency/source coverage and independent evaluation are not established |
-| [#4 · M2 knowledge](https://github.com/hu-qi/arkcompat/issues/4) | [Metadata schema](KNOWLEDGE-CONTRACT.md), [offline semantic import/query/export](KNOWLEDGE-SEMANTICS.md), [API 20 target/API 26 runtime amendment](HARMONYOS-API20-RUNTIME.md), and a second Claude Code public-evidence review supporting the scoped candidate | Obtain licensed adapters, broader equivalence evidence, an independent benchmark and explicit human import approval | Zero real/verified recommendations active; candidate remains local and inactive pending human import approval; formal acceptance remains open |
+| [#3 · M1 core](https://github.com/hu-qi/arkcompat/issues/3) | [npm](NPM-LOCKFILES.md), bounded [npm](NPM-WORKSPACES.md), [pnpm](PNPM-WORKSPACES.md) and [Yarn](YARN-WORKSPACES.md) workspaces with shared `*`/`**` discovery, Yarn Classic, [Berry v8](YARN-BERRY-LOCKFILES.md), [OHPM modules/lock](OHPM-MODULES.md), [standard semver range validation](DEPENDENCY-RANGE-VALIDATION.md) and [ETS imported-call/lexical-shadow](SOURCE-API-INVENTORY.md#ets-and-arkui-source-boundary) inventory; static brackets, awaited imports, bounded const aliases, destructuring, target rules and portable CLI | Finish remaining unsupported glob shapes, broader lock/source coverage and reconcile the amended runtime evidence with M1 | The vertical slice and 536-test suite pass, but “full” dependency/source coverage and independent evaluation are not established |
+| [#4 · M2 knowledge](https://github.com/hu-qi/arkcompat/issues/4) | [Metadata schema](KNOWLEDGE-CONTRACT.md), [offline semantic import/query/export](KNOWLEDGE-SEMANTICS.md), [API 20 target/API 26 runtime amendment](HARMONYOS-API20-RUNTIME.md), and a Claude Code CLI public-evidence review that returned **support only with amendments** | Implement the review's lifecycle, timing, real-device/signing/AOT and stress-test prerequisites; obtain licensed adapters, broader equivalence evidence, an independent benchmark and explicit human import approval | Zero real/verified recommendations active; candidate remains local and inactive pending successful independent review and human import approval; formal acceptance remains open |
 | [#5 · M3 reports](https://github.com/hu-qi/arkcompat/issues/5) | [JSON/Markdown/SARIF adapters and deterministic finding explanation](REPORT-FORMATS.md); default JSON parity and real public sample scan | Evidence-backed advice once rules/data exist; beta packaging and consent controls if remote AI is added | Report/explanation projection is complete; actual reviewed migration advice, beta/release and independent sample acceptance are not |
 | [#6 · M4 entries](https://github.com/hu-qi/arkcompat/issues/6) | [Local Web with operator-selected evidence metadata lookup](LOCAL-REPORT-VIEWER.md), [MCP with the same explicit knowledge store](LOCAL-MCP.md), [source-run CI](LOCAL-CI-ACTION.md), [portable CLI](CLI-PACKAGE-REHEARSAL.md), [installed VSIX in VS Code and Cursor](LOCAL-VSCODE.md), embedded VSIX [runtime provenance](RUNTIME-PROVENANCE.md), and [DevEco disk-install probe](DEVECO-FEASIBILITY.md#install-from-disk-verified--2026-11-10--issue-6) matched the shared CLI in scoped rehearsals | Build the production DevEco adapter and verify public distribution plus shipped-surface parity | Local host evidence only; public registries, DevEco trustlist/signing/updates, other hosts, and acceptance remain open |
 | [#7 · M5 verification](https://github.com/hu-qi/arkcompat/issues/7) | Required regressions, input/privacy audit, [evaluation harness](EVALUATION-HARNESS.md), one actual [API 20 runtime probe](HARMONYOS-API20-RUNTIME.md), and an [API 20 target/API 26 runtime lifecycle amendment](HARMONYOS-API20-RUNTIME.md#lifecycle-amendment--2026-11-11) | Extend prediction adapters, freeze the target matrix, and complete shipped-surface checks | The amended lifecycle probe still did not execute on API 20; independent labels and adjudication remain open, and no accuracy threshold is claimed |
@@ -94,14 +94,27 @@ The open engineering actions above remain actionable; they are not all blocked b
   passed; merge `de4e9356a32ed798ed0c60221cd7b9bff4df5d5b` is the current
   merged baseline. Exact fixture/runtime hashes are in
   [globstar evidence](evidence/workspace-globstar-2026-11-11.json).
-- Claude Code independent review (2026-11-10): evaluated PR #41's public
-  evidence and returned "support only with amendments". The 2026-11-11 rewrite
-  adds packed-dependency provenance, timestamp-bound captures, a 36-loop
-  observation, foreground cleanup and a reproducible Web rerun. A second Claude
-  Code review of public commit `68d472a` returned **support** for the scoped
-  candidate evidence and noted one duplicate frame-0 pin that is now
-  annotated. The candidate remains local and inactive with SHA-256
+- [semver range PR #67](https://github.com/hu-qi/arkcompat/pull/67):
+  adds strict standard-range reconciliation with Schema 0.12 `mismatch` across
+  npm, pnpm, Yarn, OHPM and workspace projections. Local `pnpm check` passed
+  536 tests; the five required PR and merged-main checks passed. Source,
+  portable CLI and embedded VSIX reports were byte-identical, and an installed
+  VSIX host matched all 10 authored source findings. Exact hashes and limits
+  are in [semver evidence](evidence/semver-ranges-2026-11-11.json).
+- Claude Code CLI evidence review (2026-11-11): reviewed only the public material
+  at commit `ea6b79e` and returned **support only with amendments** for the
+  initial API 20 Canvas smoke. It identified a synchronous load log rather than
+  a verified ArkTS lifecycle event, an unverified ArkTS destroy callback,
+  missing frame/timestamp evidence, unsigned emulator-only execution, and the
+  absence of real-device/signing/AOT, stress/leak and complex-animation tests.
+  It excluded drop-in, SVG/HTML-renderer and production-readiness claims. The
+  CLI requested `claude-opus-4-8`, but its result metadata records model routing
+  to `geminigw/antigravity/gemini-3.8-flash[1m]`; this was not an Opus review.
+  The 2026-11-11 amendment has not received an independent review. The candidate
+  remains local and inactive with SHA-256
   `cfdea420d8d96d3ed49602a4354c8ed08dd042e15503792862cac5617f85caee`.
+  Hashes, findings and review boundaries are in
+  [Claude Code review evidence](evidence/claude-lottie-review-2026-11-11.json).
 
 CI runs are engineering evidence. Authored fixtures, structural schema validation and public inventory counts do not establish SDK runtime support or any independent 80%/100% requirement. CodeRabbit skipped automatic review; author self-review is not independent acceptance.
 

@@ -58,6 +58,22 @@ contradictory version never remains `locked`. These regressions prove bounded
 parser behavior only; they do not satisfy the independent dependency-scanning
 accuracy threshold or close Issue #3.
 
+## Delivery evidence · 2026-11-11
+
+[PR #67](https://github.com/hu-qi/arkcompat/pull/67) merged at
+`e85e3da3827bcf94b7f6a5bd4b26b5035f2836b7` after all five required Actions
+jobs passed. The local suite passed 32 files / 536 tests. Source CLI, portable
+CLI and embedded VSIX produced byte-identical Schema `0.12.0` fixture reports;
+the installed VSIX host matched 10/10 authored source findings in the separate
+VS Code host smoke. Runtime provenance independently validated 13 components,
+14 dependency entries and 1,043 files in both packaged runtimes. Exact hashes,
+run IDs and boundaries are in
+[the evidence record](evidence/semver-ranges-2026-11-11.json).
+
+These package and host checks prove a bounded integration slice. They do not
+establish dependency-scanning accuracy, installation state, compatibility or
+independent acceptance.
+
 Rollback by reverting the range-validation PR and rebuilding all consumers
 against Schema `0.11.0`. No installation state or external registry resource
 is changed by this feature.

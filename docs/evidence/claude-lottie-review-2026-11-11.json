@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "1",
+  "observedAt": "2026-11-11",
+  "issue": 4,
+  "kind": "public-evidence-review-by-claude-code-cli",
+  "observationalScope": "Documentation/code review only; the reviewer did not execute or independently replicate the runtime probe.",
+  "publicSourceCommit": "ea6b79ebab23acd583062c237d5da2f37a063cc5",
+  "input": {
+    "kind": "complete-public-evidence-export",
+    "sha256": "39ec833b6613ab26fbe86baaa303e330b84ce750b49d8bede7c065f55d444030",
+    "candidateRecordIncluded": false,
+    "priorModelConclusionsIncluded": false
+  },
+  "review": {
+    "resultSha256": "1283c8bb4cf404d9304798833468fe5901c9b9475c831a21467e8766af9cfc84",
+    "markdownReportSha256": "d01a44cce5abd992528dc8587b487eb2fa5f618e7506e28abea86e19a9ee9743",
+    "isError": false,
+    "requestedModel": "claude-opus-4-8",
+    "actualModel": "geminigw/antigravity/gemini-3.8-flash[1m]",
+    "modelRoutingMatchedRequest": false,
+    "decision": "support-only-with-amendments"
+  },
+  "materialFindings": [
+    "The ArkTS loaded log records a non-throwing synchronous call rather than an independently observed library lifecycle event.",
+    "The ArkTS probe records a caller-written destroyed log and zero matching pixels without independently observing the library destroy callback.",
+    "ArkTS captures lack frame indexes and timestamps.",
+    "The observation covers an unsigned ARM emulator only.",
+    "No real-device signed Release/AOT result, 100-cycle leak/stress audit or complex-animation matrix was supplied.",
+    "Drop-in replacement, SVG/HTML renderer support and production readiness are excluded."
+  ],
+  "candidate": {
+    "localRecordSha256": "cfdea420d8d96d3ed49602a4354c8ed08dd042e15503792862cac5617f85caee",
+    "knowledgeSnapshotState": "absent",
+    "promotionState": "not-promoted",
+    "humanImportApproval": false
+  },
+  "amendedObservationReviewed": false,
+  "boundaries": {
+    "reviewIsOpusReview": false,
+    "databaseActivationApproved": false,
+    "independentAccuracyMeasured": false,
+    "productionSupportClaimed": false,
+    "formalAcceptanceCompleted": false
+  }
+}

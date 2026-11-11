@@ -262,19 +262,30 @@
   },
   "knowledgeMappingImported": false,
   "independentReview": {
-    "status": "support for the scoped candidate evidence",
-    "reviewedPublicCommit": "68d472a796692c7460372647c2215c769d006e2a",
-    "reviewTool": "Claude Code 2.1.316 with tools disabled through an isolated public-evidence prompt",
-    "reviewInputSha256": "c72971d29aebd57ec1fbec9df33bc436eb998569c26f6664942254a54c07bfd2",
-    "scope": "Exactly one authored synthetic vector Canvas animation using lottie-web 5.12.2 and @ohos/lottie 2.0.0.",
-    "findingResolution": "The review noted two frame-0 pin observations and requested an annotation. The lifecycle log now identifies the unused first observation and the second observation bound to the capture.",
-    "priorReviewBlockersResolvedInThisRecord": [
+    "status": "support only with amendments",
+    "reviewedPublicCommit": "ea6b79ebab23acd583062c237d5da2f37a063cc5",
+    "reviewTool": "Claude Code CLI with tools disabled through an isolated public-evidence prompt",
+    "requestedModel": "claude-opus-4-8",
+    "actualModel": "geminigw/antigravity/gemini-3.8-flash[1m]",
+    "modelRoutingMatchedRequest": false,
+    "reviewInputSha256": "39ec833b6613ab26fbe86baaa303e330b84ce750b49d8bede7c065f55d444030",
+    "reviewResultSha256": "1283c8bb4cf404d9304798833468fe5901c9b9475c831a21467e8766af9cfc84",
+    "scope": "Initial API 20 smoke for exactly one authored synthetic vector Canvas animation using lottie-web 5.12.2 and @ohos/lottie 2.0.0. The review did not consume the 2026-11-11 amendment.",
+    "materialFindings": [
+      "the initial ArkTS loaded log was synchronous rather than a library lifecycle observation",
+      "the initial ArkTS destroy callback was not independently observed",
+      "the initial ArkTS captures lacked frame indexes and timestamps",
+      "the evidence was unsigned ARM emulator evidence only",
+      "real-device Release/AOT, 100-cycle leak/stress and complex-animation coverage were absent"
+    ],
+    "engineeringChangesAfterReview": [
       "separated API 20 target metadata from API 26 runtime execution",
       "bound pinned and destroyed captures to lifecycle timestamps",
       "recorded packed API metadata and bundled dependency provenance",
       "made Web frame measurements reproducible from the committed probe",
       "observed ten loops, 36 total loop events, foreground cleanup and isolated-instance shutdown"
     ],
+    "amendmentIndependentlyReviewed": false,
     "activationApproval": false
   },
   "limitations": [
