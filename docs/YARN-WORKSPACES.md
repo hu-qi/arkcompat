@@ -22,6 +22,14 @@ were byte-identical at SHA-256
 Source CLI, the portable CLI and the CLI embedded in the rebuilt VSIX produced
 the same bytes; all three contained Schema0.11.0.
 
+The implementation [PR #63](https://github.com/hu-qi/arkcompat/pull/63) passed
+all five required [PR checks](https://github.com/hu-qi/arkcompat/actions/runs/42989481909)
+at `3ba65ee13fa59aadfcc04cec1041544b521189c9` and
+[merged-main checks](https://github.com/hu-qi/arkcompat/actions/runs/42989742731)
+as merge `961e43039c9c25217935b1c3f64f6487f4c8229d`. Exact run IDs and required
+jobs are recorded in
+[machine-readable evidence](evidence/yarn-workspaces-2026-11-11.json).
+
 The fixture lockfile SHA-256 is
 `3f3f55a0281dd7a4748f13b7883b9cda75f8729d518e1091b0c8a3610d7e554d`.
 Its comments and entries are authored regression data, not registry or
