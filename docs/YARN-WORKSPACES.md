@@ -45,12 +45,14 @@ set, `enableScripts:false`, and no package installation from a remote project.
 - The root workspace value follows npm/Yarn's array or
   `{ "packages": string[] }` shape. Nonempty strings are required; malformed
   data aborts.
-- Shared discovery accepts exact safe path parts, single-segment `*` and
-  zero-or-more-segment `**` patterns. It normalizes one leading `./`, rejects
-  traversal, absolute/URL-like patterns, unsupported glob syntax, symlinks and
-  excluded directories, and stops at 128 selected workspaces. Wildcard traversal
-  shares a 4,096-directory read budget; a terminal globstar selects directories
-  containing `package.json`.
+- Shared discovery accepts exact safe path parts, single-segment `*`,
+  zero-or-more-segment `**` patterns and nested or adjacent comma-list brace
+  groups, including alternatives containing `*` or `**`. One authored
+  selection is limited to 64 expanded patterns. It normalizes one leading `./`,
+  rejects traversal, absolute/URL-like patterns, brace sequences and other
+  unsupported glob syntax, symlinks and excluded directories, and stops at 128
+  selected workspaces. Wildcard traversal shares a 4,096-directory read budget;
+  a terminal globstar selects directories containing `package.json`.
 - Each selected manifest must be a regular, non-symlink `package.json` within
   the shared file and total-byte limits. Duplicate names, missing
   names/versions and unavailable manifests remain `declarations-only` with an
@@ -109,11 +111,13 @@ historical artifacts; rebuild strict Web/VS Code consumers and rescan rather
 than editing a version field.
 
 All module graphs are inventory evidence, not installation, PnP/hoisting,
-tag/non-semver/peer or runtime compatibility proof. URLs and private patch,
-portal, exec and virtual locators never enter public IDs. Yarn configuration,
-plugins, releases, `.pnp` state, scripts and packages are never loaded or
-executed. Compatibility remains `not-evaluated` until reviewed rules and
-knowledge are explicitly supplied.
+tag/non-semver/peer or runtime compatibility proof. Comma-list brace discovery
+is shared with the npm and pnpm adapters; remaining brace-sequence and glob
+variants remain explicit gaps. URLs and private patch, portal, exec and
+virtual locators never enter public IDs. Yarn configuration, plugins, releases,
+`.pnp` state, scripts and packages are never loaded or executed. Compatibility
+remains `not-evaluated` until reviewed rules and knowledge are explicitly
+supplied.
 
 Local `pnpm check` passed 31 files/504 tests before packaging. This field run is
 developer regression evidence; it does not establish dependency-scan accuracy,

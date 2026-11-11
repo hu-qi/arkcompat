@@ -1,0 +1,130 @@
+{
+  "schemaVersion": "1",
+  "issue": 3,
+  "assessment": "developer-regression-only",
+  "scope": "Bounded comma-list brace expansion shared by npm, pnpm and Yarn workspace discovery; not installation, compatibility, accuracy or M1 acceptance evidence.",
+  "pullRequest": {
+    "number": 70,
+    "head": "552d9a4d61fdaf15cbfb149bd7eb6c6d64bcf24b",
+    "mergeCommit": "3ee0accd170b676c3cb48369f75c901c8211d2f3",
+    "url": "https://github.com/hu-qi/arkcompat/pull/70"
+  },
+  "fixture": {
+    "path": "fixtures/developer/workspace-braces",
+    "workspacePattern": "{apps/alpha,packages/team-{a,b}/*}",
+    "rootManifestSha256": "e48003b9eb6f157ccf971dcd854e15a19625205c2f432a2562e0377d595c4efb",
+    "reportSha256": "d7a06525aa4ea2ec3d016ce7bf7544906b78affee71161e179a386c96f3d5225",
+    "repeatByteIdentical": true,
+    "schemaVersionInReport": "0.12.0",
+    "modules": [
+      {
+        "path": "apps/alpha",
+        "coverage": "declarations-only",
+        "dependencies": 1,
+        "nodes": 0,
+        "edges": 0
+      },
+      {
+        "path": "packages/team-a/beta",
+        "coverage": "declarations-only",
+        "dependencies": 0,
+        "nodes": 0,
+        "edges": 0
+      },
+      {
+        "path": "packages/team-b/gamma",
+        "coverage": "declarations-only",
+        "dependencies": 0,
+        "nodes": 0,
+        "edges": 0
+      }
+    ],
+    "unselectedNestedManifest": "packages/other/delta/package.json",
+    "findings": 1,
+    "allFindingsUnknown": true
+  },
+  "matching": {
+    "commaListBraces": true,
+    "nestedBraces": true,
+    "adjacentBracePrefixSuffix": true,
+    "wildcardInsideAlternative": true,
+    "expandedPatternLimit": 64,
+    "directoriesReadLimit": 4096,
+    "selectedWorkspacesLimit": 128,
+    "symlinksFollowed": false,
+    "excludedDirectoriesFollowed": false,
+    "unsupportedBraceSyntax": [
+      "numeric or alphabetic brace sequences",
+      "empty alternatives",
+      "unmatched braces",
+      "extglobs",
+      "negation"
+    ]
+  },
+  "hostProbes": {
+    "noPackagesInstalled": true,
+    "selectedPaths": [
+      "apps/alpha",
+      "packages/team-a/beta",
+      "packages/team-b/gamma"
+    ],
+    "npm": {
+      "version": "10.9.9",
+      "command": "npm install --package-lock-only --ignore-scripts --no-audit --no-fund",
+      "packageLockRecordsSelectedPaths": true
+    },
+    "pnpm": {
+      "version": "10.34.9",
+      "command": "pnpm list --recursive --depth -1 --json",
+      "workspaceListSelectedPaths": true
+    },
+    "yarn": {
+      "version": "4.0.0",
+      "command": "corepack yarn workspaces list --json",
+      "workspaceListSelectedPaths": true
+    }
+  },
+  "localCheck": {
+    "testFiles": 33,
+    "tests": 543,
+    "workspaceStatementCoverage": 0.9393,
+    "workspaceBranchCoverage": 0.9208,
+    "workspaceFunctionCoverage": 0.9736,
+    "workspaceLineCoverage": 0.9572,
+    "workspaceDiscoveryStatementCoverage": 0.8984,
+    "workspaceDiscoveryBranchCoverage": 0.8727,
+    "workspaceDiscoveryFunctionCoverage": 1,
+    "workspaceDiscoveryLineCoverage": 0.9141,
+    "passed": true
+  },
+  "shippedRuntimeParity": {
+    "portableCliIndexSha256": "47cc6b7b2e15e6dbf901cd875e626273cc0b54b75d302a698c67aa25cd8fb35c",
+    "portableCliSbomSha256": "c8bcb17c2b42fba22b039fbb084b4e24f14b1e99f586246d5b7eedd6cb7de4cc",
+    "portableCliSha256SumsSha256": "6e9d7d2a7404de7f6b14e00c633c59e8df9d902c88f0a12f12c48b1182d40ccc",
+    "thirdPartyNoticesSha256": "f1d54227082fcee7b8a8744f3973578bbf7023f7db16c0c6ea5c9c8a7b2a4eac",
+    "vsixSha256": "a1af97243258eb793b3b85ef88ef454c60f2d3e447562ddf78b70869bb7c3a9c",
+    "sourceCliReportSha256": "d7a06525aa4ea2ec3d016ce7bf7544906b78affee71161e179a386c96f3d5225",
+    "portableCliReportSha256": "d7a06525aa4ea2ec3d016ce7bf7544906b78affee71161e179a386c96f3d5225",
+    "vsixEmbeddedCliReportSha256": "d7a06525aa4ea2ec3d016ce7bf7544906b78affee71161e179a386c96f3d5225"
+  },
+  "authoritativeCI": {
+    "pullRequestRunId": 43007259714,
+    "pullRequestConclusion": "success",
+    "mergedMainRunId": 43007485825,
+    "mergedMainConclusion": "success",
+    "requiredJobs": [
+      "docs-integrity",
+      "actionlint",
+      "workspace-ubuntu-node22",
+      "workspace-ubuntu-node24",
+      "workspace-macos-node24"
+    ]
+  },
+  "boundaries": {
+    "installationVerified": false,
+    "workspaceLinksActivated": false,
+    "compatibilityEvaluated": false,
+    "independentAccuracyMeasured": false,
+    "m1Signoff": "not-adjudicated"
+  }
+}
