@@ -45,10 +45,12 @@ set, `enableScripts:false`, and no package installation from a remote project.
 - The root workspace value follows npm/Yarn's array or
   `{ "packages": string[] }` shape. Nonempty strings are required; malformed
   data aborts.
-- Shared discovery accepts exact safe path parts and single-segment `*`
-  patterns. It normalizes one leading `./`, rejects traversal, absolute/URL-like
-  patterns, unsupported glob syntax, symlinks and excluded directories, and
-  stops at 128 selected workspaces.
+- Shared discovery accepts exact safe path parts, single-segment `*` and
+  zero-or-more-segment `**` patterns. It normalizes one leading `./`, rejects
+  traversal, absolute/URL-like patterns, unsupported glob syntax, symlinks and
+  excluded directories, and stops at 128 selected workspaces. Wildcard traversal
+  shares a 4,096-directory read budget; a terminal globstar selects directories
+  containing `package.json`.
 - Each selected manifest must be a regular, non-symlink `package.json` within
   the shared file and total-byte limits. Duplicate names, missing
   names/versions and unavailable manifests remain `declarations-only` with an

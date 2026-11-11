@@ -373,7 +373,7 @@ it("keeps stale, anonymous, duplicate and unsafe Yarn workspaces declarations-on
       "members/*",
       "../outside-secret",
       "https://secret.invalid/workspace",
-      "members/**",
+      "members/{stale,anonymous}",
     ],
   };
   const path = await root(manifest, berryLock);

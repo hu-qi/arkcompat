@@ -7,6 +7,7 @@ const manifestName = "package.json";
 const maxWorkspaces = 128;
 const maxPathLength = 1024;
 const maxPathParts = 64;
+const maxTraversedDirectories = 4096;
 
 export interface WorkspaceManifest {
   path: string;
@@ -71,6 +72,11 @@ function unsafePattern(raw: string): boolean {
   );
 }
 
+interface TraversalState {
+  remaining: number;
+  exhausted: boolean;
+}
+
 function normalizePattern(
   raw: string,
   excluded: ReadonlySet<string>,
@@ -103,13 +109,103 @@ function normalizePattern(
       limitation: { code: `${prefix}-pattern-unsafe` },
     };
   }
-  if (!parts.every((part) => part === "*" || safePart(part))) {
+  if (!parts.every((part) => part === "*" || part === "**" || safePart(part))) {
     return {
       parts: null,
       limitation: { code: `${prefix}-pattern-unsupported` },
     };
   }
   return { parts, limitation: null };
+}
+
+async function listDirectories(
+  root: string,
+  path: string,
+  excluded: ReadonlySet<string>,
+  prefix: WorkspaceDiscoveryOptions["codePrefix"],
+  state: TraversalState,
+  limitations: Limitation[],
+  seenLimitations: Set<string>,
+) {
+  if (state.remaining <= 0) {
+    state.exhausted = true;
+    addLimitation(limitations, seenLimitations, {
+      code: `${prefix}-limit-exceeded`,
+    });
+    return [] as string[];
+  }
+  state.remaining--;
+  let entries;
+  try {
+    entries = await readdir(join(root, path), { withFileTypes: true });
+  } catch {
+    if (path)
+      addLimitation(limitations, seenLimitations, {
+        code: `${prefix}-directory-unavailable`,
+        path,
+      });
+    return [] as string[];
+  }
+  entries.sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
+  const directories: string[] = [];
+  for (const entry of entries) {
+    const child = path ? path + "/" + entry.name : entry.name;
+    if (
+      entry.isDirectory() &&
+      safePart(entry.name) &&
+      !excluded.has(entry.name)
+    ) {
+      if (child.length > maxPathLength)
+        addLimitation(limitations, seenLimitations, {
+          code: `${prefix}-limit-exceeded`,
+        });
+      else directories.push(child);
+    } else if (entry.isSymbolicLink())
+      addLimitation(limitations, seenLimitations, {
+        code: `${prefix}-directory-unavailable`,
+        path: child,
+      });
+  }
+  return directories;
+}
+
+async function globstarDescendants(
+  root: string,
+  base: string,
+  excluded: ReadonlySet<string>,
+  prefix: WorkspaceDiscoveryOptions["codePrefix"],
+  state: TraversalState,
+  limitations: Limitation[],
+  seenLimitations: Set<string>,
+) {
+  const queue = [base];
+  const visited = new Set(queue);
+  for (let index = 0; index < queue.length; index++) {
+    const current = queue[index]!;
+    const depth = current ? current.split("/").length : 0;
+    if (depth >= maxPathParts) {
+      addLimitation(limitations, seenLimitations, {
+        code: `${prefix}-limit-exceeded`,
+      });
+      continue;
+    }
+    const children = await listDirectories(
+      root,
+      current,
+      excluded,
+      prefix,
+      state,
+      limitations,
+      seenLimitations,
+    );
+    for (const child of children)
+      if (!visited.has(child)) {
+        visited.add(child);
+        queue.push(child);
+      }
+    if (state.exhausted) break;
+  }
+  return visited;
 }
 
 function addLimitation(
@@ -129,6 +225,7 @@ async function resolvePattern(
   parts: string[],
   excluded: ReadonlySet<string>,
   prefix: WorkspaceDiscoveryOptions["codePrefix"],
+  state: TraversalState,
   limitations: Limitation[],
   seenLimitations: Set<string>,
 ) {
@@ -136,7 +233,19 @@ async function resolvePattern(
   for (const [index, part] of parts.entries()) {
     const next: string[] = [];
     for (const prefixPath of prefixes) {
-      if (part !== "*") {
+      if (part === "**") {
+        next.push(
+          ...(await globstarDescendants(
+            root,
+            prefixPath,
+            excluded,
+            prefix,
+            state,
+            limitations,
+            seenLimitations,
+          )),
+        );
+      } else if (part !== "*") {
         const path = prefixPath ? prefixPath + "/" + part : part;
         try {
           if ((await lstat(join(root, path))).isDirectory()) next.push(path);
@@ -152,39 +261,38 @@ async function resolvePattern(
           });
         }
         continue;
-      }
-      let entries;
-      try {
-        entries = await readdir(join(root, prefixPath), {
-          withFileTypes: true,
-        });
-      } catch {
-        if (prefixPath)
-          addLimitation(limitations, seenLimitations, {
-            code: `${prefix}-directory-unavailable`,
-            path: prefixPath,
-          });
-        continue;
-      }
-      entries.sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
-      for (const entry of entries) {
-        const path = prefixPath ? prefixPath + "/" + entry.name : entry.name;
-        if (
-          entry.isDirectory() &&
-          safePart(entry.name) &&
-          !excluded.has(entry.name)
-        )
-          next.push(path);
-        else if (entry.isSymbolicLink())
-          addLimitation(limitations, seenLimitations, {
-            code: `${prefix}-directory-unavailable`,
-            path,
-          });
-      }
+      } else
+        next.push(
+          ...(await listDirectories(
+            root,
+            prefixPath,
+            excluded,
+            prefix,
+            state,
+            limitations,
+            seenLimitations,
+          )),
+        );
     }
-    prefixes = next;
+    prefixes = [...new Set(next)].sort();
     if (!prefixes.length) return [] as string[];
-    if (index === parts.length - 1) return prefixes.sort();
+    if (index === parts.length - 1) {
+      if (part === "**") {
+        const candidates: string[] = [];
+        for (const path of prefixes) {
+          if (!path) continue;
+          try {
+            await lstat(join(root, path, manifestName));
+            candidates.push(path);
+          } catch {
+            // A terminal globstar selects workspace directories rather than
+            // reporting every ordinary directory below the prefix.
+          }
+        }
+        return candidates.sort();
+      }
+      return prefixes.sort();
+    }
   }
   return prefixes.sort();
 }
@@ -279,12 +387,17 @@ export async function discoverWorkspaceManifests(
     });
     selections.length = maxWorkspaces;
   }
+  const traversal: TraversalState = {
+    remaining: maxTraversedDirectories,
+    exhausted: false,
+  };
   for (const parts of selections) {
     const resolved = await resolvePattern(
       options.root,
       parts,
       options.excluded,
       options.codePrefix,
+      traversal,
       limitations,
       seenLimitations,
     );

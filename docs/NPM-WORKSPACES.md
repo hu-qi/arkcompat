@@ -34,12 +34,22 @@ metric.
 The exact PR head, merged-main workflow, report hashes and scoped coverage are
 recorded in [machine-readable evidence](evidence/npm-workspaces-2026-11-11.json).
 
+The bounded globstar slice has its own authored
+[fixture](../fixtures/developer/workspace-globstar) and
+[machine-readable evidence](evidence/workspace-globstar-2026-11-11.json).
+`packages/**/components/*` selects both the zero-segment
+`packages/components/direct` workspace and the multi-segment
+`packages/team-a/components/nested` workspace while excluding an unrelated
+manifest outside the tail glob. The two deterministic declarations-only scans
+produced SHA-256
+`6cfc2b61ec551b6fb3cdd84770e0b4ccfc5cbc7644bfe97177bc6118ec1a7026`.
+
 ## Discovery boundary
 
 - `workspaces` may be a string array or an object with a `packages` string
-  array. Exact relative directories and `*` path segments are supported.
-  `./` is normalized, paths are deduplicated, and discovery stops at 128
-  selections.
+  array. Exact relative directories, `*` for one segment and `**` for zero or
+  more segments are supported. `./` is normalized, paths are deduplicated, and
+  discovery stops at 128 selections.
 - Only non-hidden, non-excluded in-tree directories with regular, size-bounded
   `package.json` files are read. Absolute, escaping, URL, backslash, NUL,
   excluded-directory and unsupported glob syntax is rejected or disclosed.
@@ -48,9 +58,11 @@ recorded in [machine-readable evidence](evidence/npm-workspaces-2026-11-11.json)
   fail the scan rather than returning partial success. Missing/unavailable
   directories and manifests, `nohoist`, excessive selections and glob gaps are
   explicit limitations.
-- Discovery supports one `*` per path segment, including multiple wildcard
-  segments. Brace expansion, extglobs, `**`, dot segments and glob characters
-  embedded in a segment are outside the supported boundary.
+- Discovery accepts multiple `*` and `**` segments. A terminal globstar selects
+  directories containing a `package.json` rather than reporting every ordinary
+  descendant as a failed workspace. Shared wildcard traversal stops after
+  4,096 directory reads. Brace expansion, extglobs, negation, dot segments and
+  glob characters embedded in a segment remain outside the supported boundary.
 
 The package-manager selection rules remain unchanged. npm workspace discovery
 runs only when the selected lock family is npm or when no npm/pnpm/Yarn lock is
@@ -96,7 +108,7 @@ Rollback by reverting the scoped workspace PRs, rebuilding all consumers and
 regenerating `0.11.0` reports. Existing root npm graphs and OHPM module
 inventory remain independent; no package installation state was changed.
 
-Cross-workspace installation/link resolution, unsupported npm/pnpm/Yarn glob
+Cross-workspace installation/link resolution, remaining npm/pnpm/Yarn glob
 variants, arbitrary
 workspace-local lock trees, version-range/peer/hoisting verification, broader
 source/dataflow coverage and independent acceptance remain Issue #3 work.
