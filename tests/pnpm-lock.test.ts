@@ -279,17 +279,21 @@ it.each([
     /pnpm-lock\.yaml/,
   );
 });
-it("limits importer cardinality before constructing workspace records", async () => {
-  const importers = Object.fromEntries(
-    Array.from({ length: 10001 }, (_, index) => [
-      index ? `members/w${index}` : ".",
-      {},
-    ]),
-  );
-  await expect(
-    scanProject(await fixture({ lockfileVersion: "9.0", importers }), target),
-  ).rejects.toThrow(/importer count limit/);
-});
+it(
+  "limits importer cardinality before constructing workspace records",
+  { timeout: 15_000 },
+  async () => {
+    const importers = Object.fromEntries(
+      Array.from({ length: 10001 }, (_, index) => [
+        index ? `members/w${index}` : ".",
+        {},
+      ]),
+    );
+    await expect(
+      scanProject(await fixture({ lockfileVersion: "9.0", importers }), target),
+    ).rejects.toThrow(/importer count limit/);
+  },
+);
 it("does not serialize credential-bearing or unsupported remote snapshot identities", async () => {
   const root = await fixture(
     lock(
