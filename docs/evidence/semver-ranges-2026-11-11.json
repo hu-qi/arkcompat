@@ -1,0 +1,126 @@
+{
+  "schemaVersion": "1",
+  "observedAt": "2026-11-11",
+  "issue": 3,
+  "assessment": "developer-regression-and-local-package-parity-only",
+  "scope": "Standard registry semver reconciliation against recorded lock versions; not installation, peer/hoisting, compatibility, independent accuracy or M1 acceptance evidence.",
+  "pullRequest": {
+    "number": 67,
+    "head": "e578e7ee68e9f4570de55d8f383f90a17c6a199f",
+    "mergeCommit": "e85e3da3827bcf94b7f6a5bd4b26b5035f2836b7",
+    "url": "https://github.com/hu-qi/arkcompat/pull/67"
+  },
+  "implementation": {
+    "schemaVersion": "0.12.0",
+    "parser": "node-semver-7.8.6",
+    "strictParsing": true,
+    "coercion": false,
+    "supportedSelectors": [
+      "exact",
+      "caret",
+      "tilde",
+      "comparator",
+      "intersection",
+      "or",
+      "hyphen-range",
+      "wildcard",
+      "npm-alias"
+    ],
+    "supportedGraphFamilies": [
+      "npm-package-lock-v2",
+      "npm-package-lock-v3",
+      "pnpm-v9",
+      "yarn-classic-v1",
+      "yarn-berry-v8",
+      "ohpm-v3",
+      "npm-workspaces",
+      "pnpm-workspaces",
+      "yarn-workspaces"
+    ],
+    "mismatchKeepsTarget": true,
+    "limitationCodes": [
+      "dependency-ranges-partially-validated",
+      "dependency-range-mismatch"
+    ]
+  },
+  "fixture": {
+    "path": "fixtures/developer/semver-ranges",
+    "reportSha256": "3f6acec61f4fd64027e76e11f4f3b998d94d07ca4972ae874c159a016311fd4f",
+    "findings": 4,
+    "allFindingsUnknown": true,
+    "resolutions": {
+      "good": "locked",
+      "latest-tag": "locked",
+      "mismatch": "mismatch",
+      "preview": "locked"
+    },
+    "mismatchLimitation": {
+      "code": "dependency-range-mismatch",
+      "path": "package.json"
+    }
+  },
+  "localVerification": {
+    "command": "pnpm check",
+    "testFiles": 32,
+    "tests": 536,
+    "coverage": {
+      "statements": 94.12,
+      "branches": 92.25,
+      "functions": 97.31,
+      "lines": 95.82
+    },
+    "markdownFilesChecked": 44,
+    "passed": true
+  },
+  "shippedRuntimeParity": {
+    "sourceCliReportSha256": "3f6acec61f4fd64027e76e11f4f3b998d94d07ca4972ae874c159a016311fd4f",
+    "portableCliReportSha256": "3f6acec61f4fd64027e76e11f4f3b998d94d07ca4972ae874c159a016311fd4f",
+    "vsixEmbeddedCliReportSha256": "3f6acec61f4fd64027e76e11f4f3b998d94d07ca4972ae874c159a016311fd4f",
+    "byteIdentical": true,
+    "vsixSha256": "7f353b8d174706688a319d0f48cbe1f83008dab207802792c3c197b45231dacb",
+    "portableCliTarballSha256": "6ec9eb3e0f83cc12ed27d3e562c9f0879cf5d874d1a9f81ca0800c974b150bbf",
+    "portableCliSbomSha256": "c8bcb17c2b42fba22b039fbb084b4e24f14b1e99f586246d5b7eedd6cb7de4cc",
+    "portableCliChecksumsSha256": "8b1ec11793a47c23713060a968a19bd06f5befa781ba5ae91877c6a2ca0e3f42",
+    "thirdPartyNoticesSha256": "f1d54227082fcee7b8a8744f3973578bbf7023f7db16c0c6ea5c9c8a7b2a4eac",
+    "runtimeProvenance": {
+      "components": 13,
+      "dependencyEntries": 14,
+      "files": 1043,
+      "portableRuntimeValidated": true,
+      "embeddedVsixRuntimeValidated": true
+    }
+  },
+  "installedVsixHostSmoke": {
+    "fixture": "fixtures/developer/source-api copied into ArkCompatVsCodeProbe",
+    "hostVersion": "1.145.3",
+    "hostPlatform": "macOS arm64",
+    "installedVsix": true,
+    "diagnostics": 10,
+    "canonicalIdsAndLocationsMatched": true,
+    "allUnknown": true,
+    "proofSha256": "a146b33cc57d640e26837591f0424341db9b42681d11da926b7e8c5feb6aaec4",
+    "isolation": "Short /private/tmp profile plus installed VSIX and a non-contributing development test runner."
+  },
+  "authoritativeCI": {
+    "pullRequestRunId": 42996252291,
+    "pullRequestConclusion": "success",
+    "mergedMainRunId": 42997416077,
+    "mergedMainConclusion": "success",
+    "requiredJobs": [
+      "docs-integrity",
+      "actionlint",
+      "workspace-ubuntu-node22",
+      "workspace-ubuntu-node24",
+      "workspace-macos-node24"
+    ]
+  },
+  "boundaries": {
+    "tagsAndNonSemverSelectorsChecked": false,
+    "registryAvailabilityChecked": false,
+    "installationStateVerified": false,
+    "peerAndHoistingResolutionVerified": false,
+    "harmonyosCompatibilityEvaluated": false,
+    "independentAccuracyMeasured": false,
+    "m1Signoff": "not-adjudicated"
+  }
+}

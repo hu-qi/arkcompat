@@ -66,11 +66,21 @@ the log for completeness.
 public `AnimationEventName` union, but the looping default segment did not
 trigger those events.
 
-A second Claude Code review consumed only the public evidence in commit
-`68d472a` and returned **support** for this scoped candidate record. It found no
-material contradiction. Its one minor request was the duplicate frame-0 pin
-annotation above. The review does not approve database activation, independent
-accuracy, production support or formal acceptance.
+A Claude Code CLI review consumed only the public evidence in commit
+`ea6b79e` and returned **support only with amendments** for the initial API 20
+Canvas smoke. It did not review this 2026-11-11 amendment. The review requires
+an explicit ArkTS loading lifecycle event, an independently observed ArkTS
+destroy event, frame indexes and timestamps, real-device signed Release/AOT
+coverage, a 100-cycle leak/stress audit and a complex-animation matrix before
+recommendation. It excluded drop-in, SVG/HTML-renderer and production-readiness
+claims. Model-result metadata shows that the CLI request for
+`claude-opus-4-8` routed to
+`geminigw/antigravity/gemini-3.8-flash[1m]`, so this is a Claude Code CLI review
+with a model-routing mismatch, not an Opus review. Neither observation nor
+review approves database activation, independent accuracy, production support
+or formal acceptance. The operator-held review input/result hashes and decision
+are recorded in
+[the review evidence](evidence/claude-lottie-review-2026-11-11.json).
 
 This amendment does **not** replace the earlier API 20 runtime observation. The
 API 20 image could not be recreated on this machine because its download endpoint
