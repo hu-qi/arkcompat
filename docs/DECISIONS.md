@@ -1,14 +1,14 @@
 # Decisions, Assumptions & Expert Escalations
 
-**Updated:** 2026-11-07. A question here is an actual **project decision** or request for non-public evidence, not something readily answerable by reading basic documentation.
+**Updated:** 2026-11-11. A question here is an actual **project decision** or request for non-public evidence, not something readily answerable by reading basic documentation.
 
 | ID | Status | Decision or dependency | Working default | Needed from Huawei / owner | Due |
 |---|---|---|---|---|---|
-| D-01 | Proposed | Official target runtime matrix for HarmonyOS 6.0.0+ | Explicit runtime profiles; do not generalize across ArkTS/ArkWeb/RN | Confirm which target profiles/devices/SDK versions will be judged | Nov 6 |
+| D-01 | Partially confirmed; runtime profiles pending | Official target runtime matrix for HarmonyOS 6.0.0+ | HarmonyOS 6.0.0 / API 20 is the confirmed minimum engineering floor; explicit profiles; do not generalize across ArkTS/ArkWeb/RN | Confirm target profiles/devices/SDK versions and later release coverage beyond the 6.0.0 floor | Nov 6 |
 | D-02 | Pending | Independent acceptance set and adjudicator | Maintain own fixtures but no self-only acceptance | Provide/review blind cases, calculation denominator, sign-off owner | Nov 6 |
 | D-03 | Pending | Substitute recognition 100% interpretation | Only verified, scoped substitutions; abstain on unknown; disclose coverage | Confirm partial equivalence and false-positive/abstention policy | Nov 6 |
 | D-04 | Pending | Verified port / missing port definitions | Distinguish published OHPM, GitCode fork, direct JS use, unknown | Confirm reviewer rubric and data interfaces | Nov 9 |
-| D-05 | Pinned local go; public route pending | DevEco Studio plugin SDK & distribution | [Exact-build isolated probe](DEVECO-FEASIBILITY.md); local route first | Verify public trustlist, signing and update policy under #6 | Nov 6 |
+| D-05 | Local disk-install verified; public route pending | DevEco Studio plugin SDK & distribution | [Exact-build isolated probe](DEVECO-FEASIBILITY.md); local route verified | Verify public trustlist, signing and update policy under #6 | Nov 6 |
 | D-06 | Pending | Trusted ecosystem compatibility data | Provenance-based public data, no unverified mass matching | Access to reviewed official cases, license/reuse rules, feedback mechanism | Nov 9 |
 | D-07 | Proposed | Frontend/build stack | TypeScript First, pnpm Monorepo | Internal team owner confirms toolchain and staffing | Nov 6 |
 | D-08 | MIT confirmed; related policies pending | License/publication policy | MIT for original contributions; third-party terms remain separate | External data terms, attribution, trademarks and release policy | Nov 6 |
@@ -41,3 +41,23 @@ The Issue #3 implementation uses Node 22.13+ (22 line) / Node 24, pnpm 10.34.9, 
 The project requester explicitly selected MIT in the delivery conversation. This resolves the original repository license choice; leaving it unspecified was the earlier state. The [MIT license](../LICENSE) and root SPDX metadata record the selected terms for original ArkCompat contributions. This decision does not grant rights to third-party/Huawei data or trademarks and does not publish a package. Revisit if the owner changes the license policy or a proposed import requires separate rights/attribution review.
 
 The requester also confirmed the original dependency scan ≥80%, replacement identification 100%, incompatible API identification ≥80% for HarmonyOS 6.0.0 and later, missing-port identification ≥80%, and delivery of the replacement knowledge base. This confirms the thresholds in [QUALITY-GATES](QUALITY-GATES.md); it does not approve a scoring formula, name an independent reviewer or establish any measured result. [Huawei's 6.0.0 release overview](https://developer.huawei.com/consumer/en/doc/harmonyos-releases/overview-600) establishes API 20 as the minimum-version engineering reference. Device/runtime profiles, later release coverage and independent adjudication still need separate evidence under D-01–D-04.
+
+## D-05 DevEco Studio disk-install route · 2026-11-10
+
+In DevEco Studio 26.0.0.865 (macOS arm64), the `--disk-install` route was verified using the IDE's native "Install Plugin from Disk" workflow ([PR #49](https://github.com/hu-qi/arkcompat/pull/49)). The staged probe ZIP installed cleanly without pre-staging, loaded on IDE restart, generated a byte-identical Schema 0.8.0 CLI report, and navigated the editor caret to `main.ts:2:1`. This confirms local plugin feasibility; public marketplace distribution, signing, and update policies under #6 remain pending.
+
+## Runtime evidence boundary · 2026-11-11
+
+The confirmed acceptance floor remains HarmonyOS 6.0.0 / API 20 and later. Two
+developer observations answer different questions:
+
+- The 2026-11-09 original probe ran on an actual HarmonyOS 6.0.0 / API 20
+  emulator, with caller-log-level load and cleanup observations.
+- The 2026-11-11 amended lifecycle probe was packed into an API 20 target HAP
+  and ran on a HarmonyOS 7.0.0 / API 26 emulator, with direct library-event
+  evidence and a matching Web rerun.
+
+The amended observation does not establish API 20 runtime behavior. It also
+does not approve a target matrix, scoring rubric, mapping import or independent
+acceptance. D-01–D-04 remain open until the owners and required profiles are
+named.

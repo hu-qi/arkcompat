@@ -1,0 +1,54 @@
+11-11 11:43:53.195  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_domloaded sequence=1 isLoaded=true frame=0 timestampMs=1794368633195
+11-11 11:43:53.195  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_playback_start trigger=DOMLoaded isLoaded=true timestampMs=1794368633195
+11-11 11:43:53.203  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_frame frame=0.24 rawFrame=0.24 playCount=0 timestampMs=1794368633203
+11-11 11:43:53.220  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_frame frame=0.75 rawFrame=0.75 playCount=0 timestampMs=1794368633220
+11-11 11:43:53.233  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_frame frame=1.1400000000000001 rawFrame=1.1400000000000001 playCount=0 timestampMs=1794368633233
+11-11 11:43:53.250  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_frame frame=1.6500000000000001 rawFrame=1.6500000000000001 playCount=0 timestampMs=1794368633250
+11-11 11:43:53.268  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_frame frame=2.1900000000000004 rawFrame=2.1900000000000004 playCount=0 timestampMs=1794368633268
+11-11 11:43:53.283  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_frame frame=2.6400000000000006 rawFrame=2.6400000000000006 playCount=0 timestampMs=1794368633283
+11-11 11:43:53.296  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_frame frame=3.0300000000000007 rawFrame=3.0300000000000007 playCount=0 timestampMs=1794368633296
+11-11 11:43:53.312  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_frame frame=3.5100000000000007 rawFrame=3.5100000000000007 playCount=0 timestampMs=1794368633312
+11-11 11:43:53.327  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_frame frame=3.960000000000001 rawFrame=3.960000000000001 playCount=0 timestampMs=1794368633327
+11-11 11:43:53.343  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_frame frame=4.410000000000001 rawFrame=4.410000000000001 playCount=0 timestampMs=1794368633343
+11-11 11:43:54.202  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=1 frame=0.21000000000000796 playCount=1 elapsedMs=1007 timestampMs=1794368634202
+11-11 11:43:55.202  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=2 frame=0.21000000000002217 playCount=2 elapsedMs=2007 timestampMs=1794368635202
+11-11 11:43:56.202  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=3 frame=0.21000000000002217 playCount=3 elapsedMs=3007 timestampMs=1794368636202
+11-11 11:43:57.202  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=4 frame=0.18000000000003524 playCount=4 elapsedMs=4007 timestampMs=1794368637202
+11-11 11:43:58.201  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=5 frame=0.1800000000000459 playCount=5 elapsedMs=5006 timestampMs=1794368638201
+11-11 11:43:59.201  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=6 frame=0.1800000000000459 playCount=6 elapsedMs=6006 timestampMs=1794368639201
+11-11 11:44:00.202  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=7 frame=0.18000000000006366 playCount=7 elapsedMs=7007 timestampMs=1794368640202
+11-11 11:44:01.202  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=8 frame=0.21000000000006835 playCount=8 elapsedMs=8007 timestampMs=1794368641202
+11-11 11:44:02.202  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=9 frame=0.2100000000000719 playCount=9 elapsedMs=9007 timestampMs=1794368642202
+11-11 11:44:03.201  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=10 frame=0.15000000000007319 playCount=10 elapsedMs=10005 timestampMs=1794368643200
+11-11 11:44:03.201  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop_window count=10 elapsedMs=10005 timestampMs=1794368643200
+11-11 11:44:04.201  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=11 frame=0.15000000000008384 playCount=11 elapsedMs=11006 timestampMs=1794368644201
+11-11 11:44:05.201  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=12 frame=0.15000000000009095 playCount=12 elapsedMs=12006 timestampMs=1794368645201
+11-11 11:44:06.201  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=13 frame=0.15000000000009095 playCount=13 elapsedMs=13006 timestampMs=1794368646201
+11-11 11:44:07.200  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=14 frame=0.15000000000009805 playCount=14 elapsedMs=14005 timestampMs=1794368647200
+11-11 11:44:08.211  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=15 frame=0.4800000000000999 playCount=15 elapsedMs=15016 timestampMs=1794368648211
+11-11 11:44:09.199  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=16 frame=0.12000000000009692 playCount=16 elapsedMs=16004 timestampMs=1794368649199
+11-11 11:44:10.201  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=17 frame=0.18000000000010274 playCount=17 elapsedMs=17006 timestampMs=1794368650201
+11-11 11:44:11.203  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=18 frame=0.210000000000111 playCount=18 elapsedMs=18007 timestampMs=1794368651202
+11-11 11:44:12.200  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=19 frame=0.12000000000011113 playCount=19 elapsedMs=19005 timestampMs=1794368652200
+11-11 11:44:13.201  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=20 frame=0.1800000000001134 playCount=20 elapsedMs=20006 timestampMs=1794368653201
+11-11 11:44:14.209  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=21 frame=0.39000000000011426 playCount=21 elapsedMs=21014 timestampMs=1794368654209
+11-11 11:44:15.204  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=22 frame=0.24000000000011568 playCount=22 elapsedMs=22008 timestampMs=1794368655203
+11-11 11:44:16.203  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=23 frame=0.2400000000001299 playCount=23 elapsedMs=23008 timestampMs=1794368656203
+11-11 11:44:17.203  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=24 frame=0.240000000000137 playCount=24 elapsedMs=24008 timestampMs=1794368657203
+11-11 11:44:18.199  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=25 frame=0.12000000000015021 playCount=25 elapsedMs=25004 timestampMs=1794368658199
+11-11 11:44:19.211  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=26 frame=0.48000000000015675 playCount=26 elapsedMs=26016 timestampMs=1794368659211
+11-11 11:44:20.200  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=27 frame=0.15000000000015845 playCount=27 elapsedMs=27005 timestampMs=1794368660200
+11-11 11:44:21.199  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=28 frame=0.09000000000015973 playCount=28 elapsedMs=28004 timestampMs=1794368661199
+11-11 11:44:22.207  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=29 frame=0.36000000000016996 playCount=29 elapsedMs=29012 timestampMs=1794368662207
+11-11 11:44:23.198  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=30 frame=0.0900000000001775 playCount=30 elapsedMs=30003 timestampMs=1794368663198
+11-11 11:44:24.224  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=31 frame=0.5700000000001779 playCount=31 elapsedMs=31021 timestampMs=1794368664216
+11-11 11:44:25.195  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=32 frame=1.7408297026122455e-13 playCount=32 elapsedMs=32000 timestampMs=1794368665195
+11-11 11:44:26.212  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=33 frame=0.5100000000001721 playCount=33 elapsedMs=33017 timestampMs=1794368666212
+11-11 11:44:27.197  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=34 frame=0.030000000000185878 playCount=34 elapsedMs=34001 timestampMs=1794368667196
+11-11 11:44:28.200  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=35 frame=0.09000000000018105 playCount=35 elapsedMs=35005 timestampMs=1794368668200
+11-11 11:44:29.526  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_loop sequence=36 frame=9.900000000000176 playCount=36 elapsedMs=36331 timestampMs=1794368669526
+11-11 11:44:29.598  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_frame_pinned captureId=pinned-0 requested=0 currentFrame=0 rawFrame=0 timestampMs=1794368669598
+11-11 11:45:05.349  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_frame_pinned captureId=pinned-0 requested=0 currentFrame=0 rawFrame=0 timestampMs=1794368705349
+11-11 11:45:27.405  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_frame_pinned captureId=pinned-18 requested=18 currentFrame=18 rawFrame=18 timestampMs=1794368727405
+11-11 11:45:55.567  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_library_destroy sequence=1 timestampMs=1794368755567
+11-11 11:45:55.567  4246  4246 I A000AC/mple.arkcompatlottieapi20audit/ArkCompatLottie: probe_destroy_returned timestampMs=1794368755567

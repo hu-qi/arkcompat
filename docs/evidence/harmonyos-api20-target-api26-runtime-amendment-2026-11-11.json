@@ -1,0 +1,277 @@
+{
+  "observedAt": "2026-11-11T03:43:53Z",
+  "observedThrough": "2026-11-11T03:45:55.567Z",
+  "kind": "developer-api20-target-api26-runtime-lifecycle-smoke",
+  "amendmentScope": "Revises the ArkTS and Web probes after independent review. An API 20 target artifact ran on an API 26 runtime; this is not an API 20 runtime replication.",
+  "toolchain": {
+    "devecoCli": "1.3.10",
+    "compileSdk": "26.0.0.105",
+    "minimumApiLevel": 20,
+    "targetApiLevel": 20
+  },
+  "artifact": {
+    "project": "ArkCompatLottieApi20Audit",
+    "bundleName": "com.example.arkcompatlottieapi20audit",
+    "hapSha256": "668b09c695efcb59e24ee30017b90f431367cb6654a92c1b86c6086ba271405c",
+    "probeSourceSha256": "4bf850218a1b0e7c93a311dec3a55751e47cdedb302e5109eb352c2c89c47e00",
+    "entryPackageLockSha256": "e6538e1297c0782c64bd03a7c806757ab238327d465220c1d4a4ec1a61f4163f",
+    "unsigned": true,
+    "buildMode": "debug",
+    "packedMetadata": {
+      "moduleMetadataSha256": "d44d9b167a5fb60ed182ab7bbbe2713f63bae03611d28ebd49a428ea317f5e0f",
+      "minimumApiVersion": 60000020,
+      "targetApiVersion": 60000020,
+      "compileSdkVersion": "26.0.0.105",
+      "apiReleaseType": "Release"
+    }
+  },
+  "dependencyProvenance": {
+    "registry": "ohpm",
+    "package": "@ohos/lottie",
+    "version": "2.0.0",
+    "harSha256": "3df593156e08b410fbf0794ef7060bfa1c4903afa762da7200cfd0e4bc8612f7",
+    "installedIndexSha256": "75261a7a862df9ce934d7f12e58692d0828fe892d1183c2a8083843931bf3c24",
+    "installedPackageMetadataSha256": "b283055afcc010750f93b46cbaedf70c0620408a8536ac070bc3ac1e5344ba39",
+    "packedPackageContextSha256": "31bdc3837f09785b53890d8ccd4e1d0623fb1599d1363c9bacfe15bc2ad3926e",
+    "packedPackageContext": {
+      "packageName": "@ohos/lottie",
+      "version": "2.0.0",
+      "entryPath": "src/main/js/modules/full.js"
+    },
+    "packedModulesAbcSha256": "1b1eb4aa133fd9712e59aba881c5f6eae1485e20b80217f7d46c0cf4dc6e2e5d",
+    "packedModulesAbcContains": [
+      "normalized:@ohos/lottie/src/main/js/modules/full&2.0.0",
+      "pkgName:@ohos/lottie",
+      "entry|@ohos/lottie|2.0.0|src/main/js/modules/full.js"
+    ]
+  },
+  "candidate": {
+    "renderer": "ArkUI Canvas",
+    "container": "CanvasRenderingContext2D",
+    "autoplay": false,
+    "playTrigger": "animationItem.play() from the DOMLoaded listener",
+    "playbackFallbackObserved": false
+  },
+  "fixture": {
+    "description": "One authored synthetic vector animation: 30 fps, 30 frames, 128x128, and one blue circle translating from x=32 to x=96.",
+    "canonicalAnimationJsonSha256": "19d962d01bf1f7083a151bea530425636e2897012ff6dc4f4c1b82dcc6c803e7",
+    "canonicalization": "Compact JSON with preserved key order; the parsed ArkTS and Web animation objects compare equal.",
+    "sources": [
+      "spikes/harmony-runtime/Index.ets",
+      "spikes/harmony-runtime/web/probe.js"
+    ]
+  },
+  "runtime": {
+    "kind": "isolated-local-phone-emulator",
+    "device": "Mate 90 Pro emulator",
+    "release": "7.0.0",
+    "apiLevel": 26,
+    "softwareVersion": "emulator 7.0.0.106(SP1DEVC00E999R4P11)",
+    "abiList": ["arm64-v8a"],
+    "scope": "An API 20 target artifact ran on a later API 26 runtime. This is not an API 20 runtime replication.",
+    "appStateDuringCleanupCapture": "FOREGROUND",
+    "focusedAppWindowDuringCleanupCapture": true
+  },
+  "publicEventCoverage": {
+    "sourceDeclaration": {
+      "package": "@ohos/lottie",
+      "version": "2.0.0",
+      "indexSha256": "75261a7a862df9ce934d7f12e58692d0828fe892d1183c2a8083843931bf3c24",
+      "eventUnion": [
+        "enterFrame",
+        "loopComplete",
+        "complete",
+        "segmentStart",
+        "destroy",
+        "DOMLoaded"
+      ]
+    },
+    "registered": [
+      "DOMLoaded",
+      "enterFrame",
+      "loopComplete",
+      "complete",
+      "segmentStart",
+      "destroy"
+    ],
+    "triggered": ["DOMLoaded", "enterFrame", "loopComplete", "destroy"],
+    "notTriggeredByFixture": {
+      "complete": "The animation is configured with loop=true.",
+      "segmentStart": "The fixture uses the default implicit segment and does not call playSegments()."
+    }
+  },
+  "lifecycle": {
+    "load": {
+      "event": "DOMLoaded",
+      "sequence": 1,
+      "isLoaded": true,
+      "currentFrame": 0,
+      "timestampMs": 1794368633195
+    },
+    "sustainedLooping": {
+      "event": "loopComplete",
+      "firstTimestampMs": 1794368634202,
+      "tenthTimestampMs": 1794368643200,
+      "observedCountBeforeFramePinning": 36,
+      "tenLoopWindowMs": 10005,
+      "lastSequenceAtLarge": 36,
+      "lastTimestampMs": 1794368669526
+    },
+    "framePinning": [
+      {
+        "captureId": "pinned-0",
+        "requestedFrame": 0,
+        "currentFrame": 0,
+        "rawFrame": 0,
+        "timestampMs": 1794368705349
+      },
+      {
+        "captureId": "pinned-18",
+        "requestedFrame": 18,
+        "currentFrame": 18,
+        "rawFrame": 18,
+        "timestampMs": 1794368727405
+      }
+    ],
+    "cleanup": {
+      "libraryDestroy": {
+        "event": "destroy",
+        "sequence": 1,
+        "timestampMs": 1794368755567
+      },
+      "callerReturn": {
+        "kind": "caller-return-observation",
+        "timestampMs": 1794368755567
+      },
+      "pageStillForeground": true,
+      "destroyStatusVisible": "destroy event observed",
+      "destroyReturnedVisible": "destroy=completed"
+    }
+  },
+  "lifecycleLog": {
+    "file": "harmonyos-api20-target-api26-runtime-lifecycle-2026-11-11.txt",
+    "sha256": "afe6b31b998bee439d3a40c1a697ebef95ea601b9ed073bb769aa93e6e1a1de4",
+    "lineCount": 54,
+    "selection": "ArkCompatLottie lifecycle lines",
+    "containsAbsolutePaths": false
+  },
+  "captures": {
+    "method": "Count pixels where 250 <= x < 1030, 1250 <= y < 1600, R < 80, 80 < G < 200 and B > 180; report mean x. This Canvas-only band excludes the blue buttons.",
+    "frames": [
+      {
+        "captureId": "pinned-0",
+        "stage": "pinned frame 0",
+        "frame": 0,
+        "libraryLogTimestampMs": 1794368705349,
+        "captureStartUtc": "2026-11-11T03:45:14.242Z",
+        "captureEndUtc": "2026-11-11T03:45:15.370Z",
+        "sha256": "e863280161bd1c5193cc5b1793f12324f6781d4fe51dc64db2eb942c8509840d",
+        "bluePixels": 29980,
+        "meanX": 527.5
+      },
+      {
+        "captureId": "pinned-18",
+        "stage": "pinned frame 18",
+        "frame": 18,
+        "libraryLogTimestampMs": 1794368727405,
+        "captureStartUtc": "2026-11-11T03:45:26.744Z",
+        "captureEndUtc": "2026-11-11T03:45:27.674Z",
+        "sha256": "9eaffa4aba8b972ae4a783b755ff8551ff36ef6a89fb84e2a19a456ac7fbe196",
+        "bluePixels": 29977,
+        "meanX": 679.0911031791039
+      },
+      {
+        "stage": "destroyed",
+        "libraryLogTimestampMs": 1794368755567,
+        "captureStartUtc": "2026-11-11T03:45:56.073Z",
+        "captureEndUtc": "2026-11-11T03:45:56.867Z",
+        "sha256": "42b348e85e9c2298fd657accc244ba496ccde551e15d32c712e4c68780948a69",
+        "bluePixels": 0,
+        "meanX": null
+      }
+    ],
+    "destroyedUiLayout": {
+      "sha256": "1d9268aaa4fe8484919fc0cbf6a3f893026d8b65ed0eac4f0c7ab8c6c9477c5d",
+      "contains": ["destroy event observed", "destroy=completed"]
+    }
+  },
+  "webComparison": {
+    "observedAt": "2026-11-11T03:39:41.845Z",
+    "package": "lottie-web",
+    "version": "5.12.2",
+    "lottieRuntimeVersion": "5.12.2",
+    "archiveSha256": "8600b50a5cecc3d327f32e62f744812f4dbe9279469280117d7e64f59fb343c2",
+    "playerSha256": "a0757321f974527bda3cc2593bf56cc7ffe4578421249ced6ae49ffb1c529f90",
+    "fixtureHtmlSha256": "12b4e0818b646ff275adde8733e9257a6cdddb68ceed50aab3d7ed2eb8af2248",
+    "fixtureScriptSha256": "85ef76693cfe00316363caadaab5e19acb754f4c2d724604ff9138ca87ecf795",
+    "eventEvidenceSha256": "bc165c9989dd9e740a2f4b1f7f37e3a6d2e888b2ea29ac5323ee399898e52e22",
+    "browser": "Ego Lite Chromium 156.0.0.0 (reported user agent)",
+    "renderer": "browser Canvas",
+    "eventCounts": {
+      "DOMLoaded": 1,
+      "enterFrame": 10,
+      "loopComplete": 10,
+      "complete": 0,
+      "segmentStart": 0,
+      "destroy": 1
+    },
+    "tenLoopWindowMs": 10417,
+    "frames": [
+      {
+        "captureId": "pinned-0-10643.10",
+        "frame": 0,
+        "measurementUtc": "2026-11-11T03:39:40.380Z",
+        "captureStartUtc": "2026-11-11T03:39:40.434Z",
+        "captureEndUtc": "2026-11-11T03:39:41.465Z",
+        "sha256": "f228ddd3a7fdac26513eb502bf48131022f85a4559f1f36be8d30d357ee9ca98",
+        "bluePixels": 2588,
+        "meanX": 32
+      },
+      {
+        "captureId": "pinned-18-11816.90",
+        "frame": 18,
+        "measurementUtc": "2026-11-11T03:39:41.553Z",
+        "captureStartUtc": "2026-11-11T03:39:41.604Z",
+        "captureEndUtc": "2026-11-11T03:39:41.648Z",
+        "sha256": "b706945fec2c83d36dabd96a7df94826466536dffebadf122b3cb2fdca2ede13",
+        "bluePixels": 2589,
+        "meanX": 75.99266125917343
+      }
+    ],
+    "cleanup": {
+      "destroyRequestUtc": "2026-11-11T03:39:41.680Z",
+      "libraryDestroyUtc": "2026-11-11T03:39:41.680Z",
+      "destroyReturnedUtc": "2026-11-11T03:39:41.680Z",
+      "canvasElementsAfterDestroy": 0,
+      "captureStartUtc": "2026-11-11T03:39:41.786Z",
+      "captureEndUtc": "2026-11-11T03:39:41.834Z",
+      "sha256": "a26f7aa2976d96af9295fa5dfe541b5c4b45fa2d1f3f0257df9b6e2444f2df03"
+    },
+    "scope": "One developer smoke with the same authored synthetic animation. No pixel parity or drop-in substitution claim."
+  },
+  "instanceLifecycle": {
+    "taskOwnedInstance": true,
+    "stoppedAfterEvidence": true,
+    "postStopStatus": "stopped"
+  },
+  "knowledgeMappingImported": false,
+  "independentReview": {
+    "status": "pending review of this amended public evidence",
+    "priorPublicEvidenceReview": "support only with the listed amendments",
+    "priorReviewBlockersResolvedInThisRecord": [
+      "separated API 20 target metadata from API 26 runtime execution",
+      "bound pinned and destroyed captures to lifecycle timestamps",
+      "recorded packed API metadata and bundled dependency provenance",
+      "made Web frame measurements reproducible from the committed probe",
+      "observed ten loops, 36 total loop events, foreground cleanup and isolated-instance shutdown"
+    ]
+  },
+  "limitations": [
+    "The target artifact declares API 20, but the available runtime was HarmonyOS 7.0.0/API 26.",
+    "The rewritten lifecycle probe was not executed on an API 20 runtime; earlier 2026-11-09 evidence remains caller-log level for load and cleanup.",
+    "The Web browser binary is identified only by its reported user agent.",
+    "The fixture is one synthetic vector translation animation and does not cover image assets, text, masks, mattes, gradients or expressions.",
+    "The build is unsigned debug on an emulator; there is no physical-device, release-signing, AOT, profiling or leak result.",
+    "This record supports lifecycle instrumentation only and does not activate a replacement mapping."
+  ]
+}
