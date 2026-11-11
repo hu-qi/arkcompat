@@ -1,0 +1,132 @@
+{
+  "schemaVersion": "1",
+  "issue": 3,
+  "assessment": "developer-regression-only",
+  "pullRequest": {
+    "number": 61,
+    "head": "cb6f5a8e9129a5b4122687616ecac1caa813cb79",
+    "mergeCommit": "a509fa0e0a39b439f1b7cd260a53ae763de5b99b",
+    "url": "https://github.com/hu-qi/arkcompat/pull/61"
+  },
+  "ci": {
+    "prRunId": 42983780436,
+    "prConclusion": "success",
+    "mergedMainRunId": 42984008440,
+    "mergedMainConclusion": "success",
+    "requiredJobs": [
+      "docs-integrity",
+      "actionlint",
+      "workspace-ubuntu-node22",
+      "workspace-ubuntu-node24",
+      "workspace-macos-node24"
+    ]
+  },
+  "fixture": {
+    "path": "fixtures/developer/pnpm-workspaces",
+    "reportSha256": "f560014706c675529d4ac057c3f6f68f2a7db36f8b93386d3ae3fa5e25b1f7f0",
+    "repeatByteIdentical": true,
+    "schemaVersion": "0.10.0",
+    "modules": [
+      {
+        "path": "packages/alpha",
+        "coverage": "pnpm-lockfile-partial",
+        "dependencies": 2,
+        "nodes": 2,
+        "edges": 3,
+        "unsupportedWorkspaceLinks": 1
+      },
+      {
+        "path": "packages/beta",
+        "coverage": "pnpm-lockfile-partial",
+        "dependencies": 0,
+        "nodes": 0,
+        "edges": 0
+      }
+    ],
+    "findings": 3
+  },
+  "repositoryLockSmoke": {
+    "commandMode": "scan-only",
+    "installation": "not-performed-by-scanner",
+    "nodeModulesRead": false,
+    "reportSha256": "046cfbf5399331a89c043f4f53744d17ed36e7650b204f477285c7c3add558f2",
+    "repeatByteIdentical": true,
+    "schemaVersion": "0.10.0",
+    "workspaces": 9,
+    "findings": 2922,
+    "sourceFiles": 88,
+    "modules": [
+      {
+        "path": "apps/cli",
+        "dependencies": 3,
+        "nodes": 0,
+        "edges": 3
+      },
+      {
+        "path": "apps/evaluate",
+        "dependencies": 1,
+        "nodes": 0,
+        "edges": 1
+      },
+      {
+        "path": "apps/mcp",
+        "dependencies": 5,
+        "nodes": 3,
+        "edges": 8
+      },
+      {
+        "path": "apps/vscode",
+        "dependencies": 2,
+        "nodes": 1,
+        "edges": 2
+      },
+      {
+        "path": "apps/web",
+        "dependencies": 4,
+        "nodes": 32,
+        "edges": 34
+      },
+      {
+        "path": "packages/contracts",
+        "dependencies": 0,
+        "nodes": 0,
+        "edges": 0
+      },
+      {
+        "path": "packages/core",
+        "dependencies": 7,
+        "nodes": 10,
+        "edges": 11
+      },
+      {
+        "path": "packages/evaluation",
+        "dependencies": 3,
+        "nodes": 5,
+        "edges": 7
+      },
+      {
+        "path": "packages/knowledge",
+        "dependencies": 4,
+        "nodes": 7,
+        "edges": 8
+      }
+    ]
+  },
+  "localCheck": {
+    "testFiles": 30,
+    "tests": 492,
+    "workspaceStatementCoverage": 0.9414,
+    "workspaceBranchCoverage": 0.9221,
+    "workspaceFunctionCoverage": 0.9692,
+    "workspaceLineCoverage": 0.9578
+  },
+  "boundaries": {
+    "compatibilityEvaluated": false,
+    "installationVerified": false,
+    "rangeOrPeerSatisfactionVerified": false,
+    "workspaceLinksResolved": false,
+    "independentAccuracyMeasured": false,
+    "acceptanceThresholdClaimed": false,
+    "codeRabbitAutomaticReview": "skipped"
+  }
+}
