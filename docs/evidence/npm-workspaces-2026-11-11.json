@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "1",
+  "issue": 3,
+  "assessment": "developer-regression-only",
+  "pullRequest": {
+    "number": 59,
+    "head": "c611932366988b9dc2d41dc0653a71211d3c5860",
+    "mergeCommit": "ac55fa8363e770779da0a4577528d5432ad9025e",
+    "url": "https://github.com/hu-qi/arkcompat/pull/59"
+  },
+  "ci": {
+    "runId": 42980288979,
+    "conclusion": "success",
+    "requiredJobs": [
+      "docs-integrity",
+      "actionlint",
+      "workspace-ubuntu-node22",
+      "workspace-ubuntu-node24",
+      "workspace-macos-node24"
+    ],
+    "url": "https://github.com/hu-qi/arkcompat/actions/runs/42980288979"
+  },
+  "fixture": {
+    "path": "fixtures/developer/npm-workspaces",
+    "reportSha256": "a3c381bf72963f05aa68512f0eb97061666ab57c0a301024018d938a265d2ed0",
+    "repeatByteIdentical": true,
+    "schemaVersion": "0.9.0",
+    "rootDependencies": 1,
+    "modules": [
+      {
+        "name": "@fixture/alpha",
+        "path": "packages/alpha",
+        "coverage": "npm-lockfile-partial",
+        "dependencies": 3,
+        "nodes": 3,
+        "edges": 3
+      },
+      {
+        "name": "@fixture/beta",
+        "path": "packages/beta",
+        "coverage": "npm-lockfile-partial",
+        "dependencies": 0,
+        "nodes": 0,
+        "edges": 0
+      }
+    ],
+    "findings": 4
+  },
+  "actualNpmSmoke": {
+    "npmVersion": "10.9.9",
+    "commandMode": "package-lock-only",
+    "scripts": "disabled",
+    "networkInstall": false,
+    "lockfileVersion": 3,
+    "reportSha256": "cfc4021d230b513ddc6755cb711d21a385af89a0d6e42e4b0867116aa4386282",
+    "rootNodes": 2,
+    "rootEdges": 2,
+    "modules": [
+      {
+        "path": "packages/alpha",
+        "nodes": 1,
+        "edges": 1
+      },
+      {
+        "path": "packages/beta",
+        "nodes": 0,
+        "edges": 0
+      }
+    ]
+  },
+  "localCheck": {
+    "testFiles": 29,
+    "tests": 471,
+    "workspaceStatementCoverage": 0.9382,
+    "workspaceBranchCoverage": 0.9318,
+    "workspaceFunctionCoverage": 1,
+    "workspaceLineCoverage": 0.9386
+  },
+  "boundaries": {
+    "compatibilityEvaluated": false,
+    "installationVerified": false,
+    "independentAccuracyMeasured": false,
+    "acceptanceThresholdClaimed": false,
+    "codeRabbitAutomaticReview": "skipped"
+  }
+}
