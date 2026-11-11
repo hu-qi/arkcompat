@@ -36,4 +36,4 @@ await Promise.all(
     copyFile(join(root, file), join(dist, file)),
   ),
 );
-console.log("Local report viewer built (schema 0.8.0, no runtime eval)");
+console.log("Local report viewer built (schema 0.9.0, no runtime eval)");

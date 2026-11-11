@@ -1,0 +1,11 @@
+{
+  "name": "@fixture/alpha",
+  "version": "1.0.0",
+  "dependencies": {
+    "@fixture/beta": "*",
+    "external": "^1"
+  },
+  "devDependencies": {
+    "devtool": "^1"
+  }
+}

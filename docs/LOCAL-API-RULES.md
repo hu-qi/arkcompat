@@ -1,6 +1,6 @@
 # Local static API rule evaluation · Issue #3 / M1
 
-The opt-in evaluator applies a caller-supplied [rule snapshot](../packages/contracts/api-rules.schema.json) to the source API observations from the same deterministic scanner. The default `scan` output uses the separate JSON 0.8.0 inventory contract. The advisory results use a separate JSON contract; no adapters enable these rules implicitly.
+The opt-in evaluator applies a caller-supplied [rule snapshot](../packages/contracts/api-rules.schema.json) to the source API observations from the same deterministic scanner. The default `scan` output uses the separate JSON 0.9.0 inventory contract. The advisory results use a separate JSON contract; no adapters enable these rules implicitly.
 
 ```sh
 pnpm install --frozen-lockfile --ignore-scripts
