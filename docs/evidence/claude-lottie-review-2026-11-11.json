@@ -20,6 +20,34 @@
     "modelRoutingMatchedRequest": false,
     "decision": "support-only-with-amendments"
   },
+  "amendedReviewAttempts": [
+    {
+      "attempt": 1,
+      "publicSourceCommit": "94544e32f86867dbcb6b704008c7d59c509d6949",
+      "inputSha256": "d4769c525dd73faf3b6937ac8d9cc154cd11e144f1ed5a2414e141b1f6ad372d",
+      "resultSha256": "862691eba274d317197d12c41ae1225e7231670486087376c4041ca61f798ea3",
+      "requestedModel": "claude-opus-4-8",
+      "actualModel": null,
+      "isError": true,
+      "apiError": "connection_failed",
+      "durationMs": 182599,
+      "modelUsageTokens": 0,
+      "reportProduced": false
+    },
+    {
+      "attempt": 2,
+      "publicSourceCommit": "94544e32f86867dbcb6b704008c7d59c509d6949",
+      "inputSha256": "d4769c525dd73faf3b6937ac8d9cc154cd11e144f1ed5a2414e141b1f6ad372d",
+      "resultSha256": "d98035c01c822921979ea366a22de654580d8b6df1f48f9dd88d40a5a991565f",
+      "requestedModel": "claude-opus-4-8",
+      "actualModel": null,
+      "isError": true,
+      "apiError": "connection_failed",
+      "durationMs": 175176,
+      "modelUsageTokens": 0,
+      "reportProduced": false
+    }
+  ],
   "materialFindings": [
     "The ArkTS loaded log records a non-throwing synchronous call rather than an independently observed library lifecycle event.",
     "The ArkTS probe records a caller-written destroyed log and zero matching pixels without independently observing the library destroy callback.",
@@ -35,6 +63,7 @@
     "humanImportApproval": false
   },
   "amendedObservationReviewed": false,
+  "amendedReviewFailureSummary": "Both isolated amended-evidence review attempts stopped before receiving a model response with connection_failed/ECONNREFUSED. No amended verdict exists; these failures are not evidence for or against the candidate.",
   "boundaries": {
     "reviewIsOpusReview": false,
     "databaseActivationApproved": false,
