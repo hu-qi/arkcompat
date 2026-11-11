@@ -1,0 +1,21 @@
+<idea-plugin>
+  <id>org.arkcompat.deveco</id>
+  <name>ArkCompat</name>
+  <version>0.1.0</version>
+  <vendor>ArkCompat contributors</vendor>
+  <description>Explicit local inventory scans for HarmonyOS projects. No automatic scan, upload or inferred compatibility verdict.</description>
+  <idea-version since-build="261.23567.138" until-build="261.23567.138"/>
+  <depends>com.intellij.modules.platform</depends>
+  <extensions defaultExtensionNs="com.intellij">
+    <notificationGroup id="ArkCompat" displayType="BALLOON"/>
+  </extensions>
+  <actions>
+    <action
+        id="ArkCompat.ScanProject"
+        class="org.arkcompat.deveco.ArkCompatScanAction"
+        text="ArkCompat: Scan Current Project"
+        description="Run one explicit local ArkCompat inventory scan for the current project.">
+      <add-to-group group-id="ToolsMenu" anchor="last"/>
+    </action>
+  </actions>
+</idea-plugin>

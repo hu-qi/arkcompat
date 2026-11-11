@@ -51,3 +51,39 @@ Use `node spikes/deveco/prepare.mjs <verified-app> <new-output-directory> --disk
 On the exact macOS arm64 build `DS-261.23567.138.36.2600865`, DevEco's file chooser accepted the ZIP and queued installation. The queued copy matched the original SHA-256. Restart applied it into the previously empty isolated plugins directory. The installed JAR matched the packaged JAR, DevEco logged that it loaded the ArkCompat probe, and the plugin produced a byte-identical schema 0.8.0 report with two `unknown` findings. It opened the authored `main.ts` and recorded the canonical caret at `2:1`. The [disk-install observation](evidence/deveco-disk-install-2026-11-10.json) records the exact artifact hashes. The original probe preparation pre-staged the JAR; for this observation it was moved out of the plugins directory before launching. `--disk-install` now performs this separation during preparation.
 
 The original app reported two disallowed Finder attributes on its emulator component. The test used an isolated copy after removing only those attributes from the copy and passing strict code-signature verification. The original bundle and usual IDE configuration were left alone. The copied app, plugin settings and logs were isolated; the ZIP contains no Huawei SDK or vendor files. This verifies one local disk-install route. Huawei's public trustlist, publisher onboarding, signing and update policy are still separate; no public plugin was submitted or distributed.
+
+## Explicit product-adapter host smoke · 2026-11-11 · Issue #6
+
+The product-oriented adapter now exposes one **Tools → ArkCompat: Scan Current
+Project** action. It has no startup listener, performs no project-lifecycle
+script, uses DevEco's bundled Node runtime and the portable CLI packaged beside
+its JAR, starts the subprocess with a cleared environment, rejects paths
+outside the current project and bounds subprocess time and report size. Its
+target is fixed to ArkTS, HarmonyOS 6.0.0 and API 20. The report and navigation
+adapters change no finding status.
+
+On the exact macOS arm64 build above, `pnpm package:deveco` compiled the Java
+action against the bundled JDK 25/platform archives with
+`-proc:none -Xlint:all -Werror`, packaged the portable CLI and produced a
+disk-install ZIP. A second independent build produced the same ZIP, JAR and CLI
+entry SHA-256 values. The packager also compared the embedded CLI report with
+the source CLI report and found them byte-identical.
+
+In the signed isolated application profile, DevEco loaded the adapter and
+exposed the action under **Tools**. Invoking it through native accessibility
+produced a schema 0.12.0 report with the same two canonical `unknown` findings
+as the expected fixture report. The visible notification contained
+`2 canonical findings · 2 unknown · 0 other`, plus **Open report** and **Open
+first finding** actions. Selecting **Open first finding** opened `main.ts` and
+the IDE status bar and accessibility tree showed the canonical `1:1` caret.
+The [host observation](evidence/deveco-adapter-local-host-2026-11-11.json)
+records the exact hashes, IDs, isolated-profile and recovery boundaries.
+
+The first host attempt exposed a real packaging defect: the Java code resolved
+the CLI one directory above `plugins/arkcompat/lib`. It produced no report. The
+resolver now places `runtime/dist/index.js` beside the JAR, with a regression
+test and a successful repeated host action. This smoke used a plain TypeScript
+fixture, so DevEco's HarmonyOS project sync banner is expected; it does not
+prove HarmonyOS project synchronization, build, device execution, marketplace
+distribution or Huawei trustlist/signing/update acceptance. The original
+application and normal IDE profile were not modified.
