@@ -3,7 +3,7 @@
   "observedAt": "2026-11-11",
   "issue": 3,
   "kind": "bounded-workspace-character-glob-host-and-artifact-evidence",
-  "implementationHead": null,
+  "implementationHead": "8cf38353f13bb1f77f6dec928dacefc65226014a",
   "fixture": {
     "path": "fixtures/developer/workspace-character-globs",
     "patterns": [
