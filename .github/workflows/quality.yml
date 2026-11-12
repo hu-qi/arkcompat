@@ -85,6 +85,7 @@ jobs:
           pnpm package:cli "$second"
           pnpm verify:runtime-provenance "$second"
           cmp "$first/SBOM.cdx.json" "$second/SBOM.cdx.json"
+          cmp "$first/THIRD-PARTY-NOTICES.json" "$second/THIRD-PARTY-NOTICES.json"
           cmp "$first/SHA256SUMS" "$second/SHA256SUMS"
           node "$first/dist/index.js" --help > "$RUNNER_TEMP/arkcompat-cli-provenance-help.txt"
       - name: Retain CLI provenance rehearsal, not a release

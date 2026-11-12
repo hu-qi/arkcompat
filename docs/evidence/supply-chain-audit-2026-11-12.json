@@ -1,0 +1,188 @@
+{
+  "schemaVersion": "1",
+  "observedAt": "2026-11-12",
+  "scope": "Production dependency, license, vulnerability, portable-runtime SBOM, third-party notice and checksum audit; not legal approval, publication, signing, clean-host acceptance or formal product acceptance.",
+  "source": {
+    "baseCommit": "92cd5a37fc28de964994dc47636a0beeb887fed0",
+    "branch": "codex/m5-07-supply-chain-audit",
+    "pullRequest": null,
+    "mainCommit": null,
+    "mainRun": null,
+    "inputSha256": {
+      "pnpm-lock.yaml": "762e9ad023f8e521a9ea3a9d8da6b7b998773a5c9a4c098079f93ddc16f1baa9",
+      "package.json": "f55e5dd1cd04efe88fffb27495bed0343eba8558c8dcde83b0b8cc98845c939f",
+      "scripts/runtime-notices.mjs": "e67706693302ec8d09c8df11069082cf60eefdfdd71f8ea429ae24998f4032cb",
+      "scripts/runtime-sbom.mjs": "667eb6220546a9b0bf7c24319507db703b3b06316ca9701b49862238c07e9206"
+    }
+  },
+  "host": {
+    "productName": "macOS",
+    "productVersion": "27.2.1",
+    "darwinVersion": "27.2.0",
+    "architecture": "arm64",
+    "node": "22.23.4",
+    "pnpm": "10.34.9"
+  },
+  "commands": [
+    "pnpm install --frozen-lockfile --ignore-scripts",
+    "pnpm audit --json",
+    "pnpm licenses list --prod --json",
+    "pnpm list --prod --depth Infinity --json",
+    "pnpm --filter @arkcompat/cli list --prod --depth Infinity --json",
+    "pnpm package:cli <new-output-directory>",
+    "pnpm verify:runtime-provenance <output-directory>",
+    "cmp <first>/SBOM.cdx.json <second>/SBOM.cdx.json",
+    "cmp <first>/THIRD-PARTY-NOTICES.json <second>/THIRD-PARTY-NOTICES.json",
+    "cmp <first>/SHA256SUMS <second>/SHA256SUMS",
+    "cmp <first>/package.json <second>/package.json",
+    "cmp <first>/LICENSE <second>/LICENSE"
+  ],
+  "vulnerabilitySnapshot": {
+    "database": "pnpm audit via the configured npm registry",
+    "resolvedDependencies": 243,
+    "devDependencies": 0,
+    "optionalDependencies": 0,
+    "advisories": 0,
+    "severity": {
+      "critical": 0,
+      "high": 0,
+      "moderate": 0,
+      "low": 0,
+      "info": 0
+    },
+    "result": "no advisories reported at observation time",
+    "limitation": "Dated registry observation only; rerun against the accepted SHA immediately before release."
+  },
+  "productionLicenses": {
+    "packageCount": 15,
+    "packages": [
+      {
+        "name": "@modelcontextprotocol/core",
+        "version": "2.4.0",
+        "license": "Apache-2.0"
+      },
+      {
+        "name": "@modelcontextprotocol/server",
+        "version": "2.4.0",
+        "license": "Apache-2.0"
+      },
+      {
+        "name": "@yarnpkg/lockfile",
+        "version": "1.1.0",
+        "license": "BSD-2-Clause"
+      },
+      {
+        "name": "ajv",
+        "version": "8.20.0",
+        "license": "MIT"
+      },
+      {
+        "name": "balanced-match",
+        "version": "4.0.4",
+        "license": "MIT"
+      },
+      {
+        "name": "brace-expansion",
+        "version": "5.0.12",
+        "license": "MIT"
+      },
+      {
+        "name": "fast-deep-equal",
+        "version": "3.1.3",
+        "license": "MIT"
+      },
+      {
+        "name": "fast-uri",
+        "version": "3.1.9",
+        "license": "BSD-3-Clause"
+      },
+      {
+        "name": "json-schema-traverse",
+        "version": "1.0.0",
+        "license": "MIT"
+      },
+      {
+        "name": "json5",
+        "version": "2.2.3",
+        "license": "MIT"
+      },
+      {
+        "name": "require-from-string",
+        "version": "2.0.2",
+        "license": "MIT"
+      },
+      {
+        "name": "semver",
+        "version": "7.8.6",
+        "license": "ISC"
+      },
+      {
+        "name": "typescript",
+        "version": "5.9.3",
+        "license": "Apache-2.0"
+      },
+      {
+        "name": "yaml",
+        "version": "2.9.1",
+        "license": "ISC"
+      },
+      {
+        "name": "zod",
+        "version": "4.6.7",
+        "license": "MIT"
+      }
+    ]
+  },
+  "portableCli": {
+    "thirdPartyPackages": 12,
+    "arkcompatWorkspacePackages": 3,
+    "sbomComponents": 15,
+    "dependencyEntries": 16,
+    "runtimeFilesExcludingChecksumManifest": 1070,
+    "regularFilesIncludingChecksumManifest": 1071,
+    "provenanceValidation": "passed in both builds",
+    "byteIdenticalFiles": {
+      "compared": 5,
+      "matched": 5
+    },
+    "sha256": {
+      "SBOM.cdx.json": "bbac7f9d73d52604fe2e7393f24973e4d43ecb2db817f4b7cd00f924a273a5d6",
+      "THIRD-PARTY-NOTICES.json": "2d266f7f844a91a75164d3a5b939074234d06a257c4705bfe58871b73cc373f6",
+      "SHA256SUMS": "db7e7b62a28e7a576a631de6b3c2f90e4f8f18e686819345ec2869c44b6e6511",
+      "package.json": "34600f1be553168aa2d8c9112c9a7eb43dfb548826608e5fa7a6275ee24ccfe1",
+      "LICENSE": "6b6334259b96c3247d1cc959c45f8c3713045b0f7731e03a2b7a0e06c6049669"
+    }
+  },
+  "knownGaps": [
+    {
+      "id": "A2-GAP-001",
+      "package": "@yarnpkg/lockfile",
+      "version": "1.1.0",
+      "declaredLicense": "BSD-2-Clause",
+      "gap": "missing-license-file",
+      "status": "open; supplemental source recorded, legal disposition pending S-09",
+      "supplementalLicenseSource": {
+        "kind": "upstream-tag",
+        "url": "https://raw.githubusercontent.com/yarnpkg/yarn/v1.1.0/LICENSE",
+        "tag": "v1.1.0",
+        "commit": "ee5d4a153a3fe85145c45c0bb251ffffffcfe210",
+        "sha256": "ae09761b5d27e237571245437653b483bbb85de3cc64b802e8ef47d03aabec1e"
+      }
+    }
+  ],
+  "acceptance": "pending",
+  "humanSignOff": {
+    "decision": "S-09",
+    "status": "pending",
+    "required": "Legal/security disposition of third-party notices, external data, trademark use, SBOM/notice output and distribution route."
+  },
+  "boundaries": [
+    "The vulnerability result is a dated snapshot, not permanent security clearance.",
+    "Declared license metadata and top-level notice-file inventory do not authenticate registry downloads or replace legal review.",
+    "The supplemental Yarn source does not remove the installed-package missing-license-file gap.",
+    "The CycloneDX SBOM and SHA256SUMS are unsigned.",
+    "The portable CLI is a local rehearsal artifact, not a published or signed release.",
+    "No clean independent-host install, post-download smoke, release tag or formal acceptance occurred in this audit.",
+    "Issues #7 and #8 remain open after this engineering slice."
+  ]
+}

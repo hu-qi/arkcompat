@@ -2,7 +2,7 @@
 
 **更新时间：** 2026-11-12
 **执行入口：** [根目录 TODO](../TODO.md)
-**当前 main：** `0c94cd1487342081ec1d1109b372a0a37b4d385e`
+**当前 main：** `92cd5a37fc28de964994dc47636a0beeb887fed0`
 **当前状态：** 8 个开放 Issue、0 个开放 PR；正式验收 0/5；人工签字 0/10
 
 这份文档把剩余工作按执行顺序拆成可勾选项。每个工程项都必须走
@@ -14,19 +14,19 @@ main 检查 → AtomGit 同 SHA 读回 → Issue 评论”的闭环。AtomGit �
 
 ### T1. 合并 M5-05 安全矩阵（#7）
 
-状态：工程实现已通过 PR #109 合并；main 流水线 43215854339 待最终完成。
+状态：`DONE`。工程实现已通过 PR #109 合并；PR 与 main 流水线五项必需 job 全部成功。
 
 - [x] 13 项安全负例覆盖根路径、symlink、socket、资源上限、超时、报告注入、
-  lifecycle scripts、文件系统错误、损坏 manifest 和凭据 URL。
+      lifecycle scripts、文件系统错误、损坏 manifest 和凭据 URL。
 - [x] 核心 `scanProject` 增加可选 `timeoutMs`，CLI 增加
-  `--timeout-ms <milliseconds>`。
+      `--timeout-ms <milliseconds>`。
 - [x] `pnpm exec vitest run tests/security-matrix.test.ts`：13/13。
-- [x] `pnpm check`：37 个文件、588 项测试、全部质量检查通过。
+- [x] `pnpm check`：37 个文件、589 项测试、全部质量检查通过。
 - [x] 证据：[security-negative-matrix-2026-11-12.json](evidence/security-negative-matrix-2026-11-12.json)。
 - [x] 提交并推送 `codex/m5-05-security-negative-matrix`。
 - [x] 创建关联 #7 的 PR #109，确认五项必需 job 通过。
 - [x] 正常合并；合并 SHA 为 `0c94cd1487342081ec1d1109b372a0a37b4d385e`。
-- [ ] 确认 main 流水线 43215854339 的五项必需 job 全部通过。
+- [x] 确认 [main 流水线 43217340260](https://github.com/hu-qi/arkcompat/actions/runs/43217340260) 的五项必需 job 全部通过。
 - [ ] 把 PR、commit、run、哈希、残余风险评论到 #7。
 - [x] 推送 main 到 AtomGit，并独立读回相同 SHA。
 
@@ -35,19 +35,28 @@ main 检查 → AtomGit 同 SHA 读回 → Issue 评论”的闭环。AtomGit �
 
 ### T2. M5-07 供应链与分发审计（#7/#8）
 
-状态：`READY`。
+状态：`IN PROGRESS`。先完成工程证据与审查包；S-09 仍待具名人工处置。
 
-- [ ] 在全新输出目录运行 `pnpm audit --json`，保存完整结果。
-- [ ] 生成 CLI/VSIX 的 CycloneDX SBOM 和第三方通知。
-- [ ] 生成生产依赖许可证清单、版本与许可证映射。
-- [ ] 核对 `@yarnpkg/lockfile@1.1.0` 缺少独立 LICENSE 文件的处置。
-- [ ] 核对 artifact 内 SBOM、notices、`SHA256SUMS` 的引用和哈希。
-- [ ] 运行 `pnpm package:cli` 与 `pnpm verify:runtime-provenance`。
-- [ ] 运行 `pnpm check`，提交 PR 并通过五项必需检查。
+- [x] 在全新输出目录运行 `pnpm audit --json`，保存完整结果：243 个依赖、0 个
+      advisory。
+- [x] 生成并验证 portable CLI runtime 的 CycloneDX SBOM 和第三方通知；VSIX
+      打包调用同一 runtime 打包器，正式 VSIX 双构建仍由 T9 验证。
+- [x] 生成生产依赖许可证清单、版本与许可证映射：15 个包。
+- [x] 核对 `@yarnpkg/lockfile@1.1.0` 缺少独立 LICENSE 文件的处置：保留
+      `missing-license-file`，并记录精确版本的上游补充来源；法律处置仍待
+      S-09。
+- [x] 核对 artifact 内 SBOM、notices、`SHA256SUMS` 的引用和哈希。
+- [x] 在独立输出目录两次运行 `pnpm package:cli`，两次均通过
+      `pnpm verify:runtime-provenance`，比较的 5 个文件逐字节一致。
+- [x] 运行 `pnpm check`：37 个测试文件、589 项测试、58 个 Markdown 文档检查
+      全部通过。
+- [ ] 提交 A2 分支，创建 PR 并通过五项必需检查。
 - [ ] 合并、验证 main、同步 AtomGit、评论 #7/#8。
 
 完成定义：漏洞、许可和 provenance 缺口均已修复，或有具名风险接受；
-法务/安全处置仍属于 S-09。
+法务/安全处置仍属于 S-09。工程证据见
+[供应链审计](SUPPLY-CHAIN-AUDIT.md)和
+[机器可读记录](evidence/supply-chain-audit-2026-11-12.json)。
 
 ## 2. 依赖人工输入的工作
 
@@ -100,7 +109,7 @@ main 检查 → AtomGit 同 SHA 读回 → Issue 评论”的闭环。AtomGit �
 
 - [ ] 取得有授权的真实项目，记录版本、哈希和访问边界。
 - [ ] 完成 scan → finding → navigate → replacement query → recommendation →
-  export，保留 unknown 和错误。
+      export，保留 unknown 和错误。
 - [ ] 为全部承诺入口建立同一 canonical fixture 和预期报告。
 - [ ] 验证 CLI、VS Code/Cursor、DevEco、Web、MCP、CI 的 finding 语义一致。
 - [ ] 每个入口完成干净安装、首跑、取消/损坏输入、恢复、卸载/回滚。
@@ -112,7 +121,7 @@ main 检查 → AtomGit 同 SHA 读回 → Issue 评论”的闭环。AtomGit �
 ### T7. 运行时、安全与性能（#7）
 
 - [ ] 在每个冻结 profile 的对应实际 runtime 运行 signed Release/AOT 或批准的
-  等价构建；API 20 target 不得冒充 API 20 runtime。
+      等价构建；API 20 target 不得冒充 API 20 runtime。
 - [ ] 完成独立安全复核和 OS 特殊文件/TOCTOU 威胁处置。
 - [ ] 在小、中、大获准输入上测量耗时和峰值内存，对照冻结预算。
 - [ ] 运行 `pnpm audit`、SBOM、第三方通知、许可证和分发审查。
@@ -136,7 +145,7 @@ main 检查 → AtomGit 同 SHA 读回 → Issue 评论”的闭环。AtomGit �
 - [ ] S-09 完成商标、外部数据、许可、安全和分发处置。
 - [ ] S-10 批准 accepted SHA、tag、签名/校验、渠道、回滚人和验收包。
 - [ ] 从 accepted SHA 两次重建 CLI、VSIX、DevEco ZIP、Web、源码、SBOM、
-  notices 和 SHA-256 manifest。
+      notices 和 SHA-256 manifest。
 - [ ] 在干净环境安装全部制品并完成 download/install smoke。
 - [ ] 创建 tag/release，推送 GitHub 与 AtomGit 的 main/tag。
 - [ ] 从两个平台读回相同代码 SHA，并核对托管制品哈希。
@@ -147,17 +156,17 @@ main 检查 → AtomGit 同 SHA 读回 → Issue 评论”的闭环。AtomGit �
 
 ## 4. 建议执行顺序
 
-| 顺序 | 工作包 | 当前状态 | 解锁条件 | 可关闭 Issue |
-|---:|---|---|---|---|
-| 1 | T1 M5-05 | 已合并；main 流水线待完成 | PR 检查已通过 | 否 |
-| 2 | T2 M5-07 | `READY` | T1 合并 | 否 |
-| 3 | T3 S-01–S-07 | `GATED` | 具名负责人、裁定人和数据许可 | #1 仍待全部决定 |
-| 4 | T4 扫描/知识 | `GATED` | T3 | #3/#4 仍待独立评分 |
-| 5 | T5 正式指标 | `GATED` | T3/T4 和合法 holdout | #7 仍待 runtime/security/perf |
-| 6 | T6 产品闭环 | `GATED` | T3、获准项目和稳定快照 | #5/#6 |
-| 7 | T7 runtime/security/perf | `GATED` | T3/T5、设备与安全复核 | #7 |
-| 8 | T8 Stage 2 CI | `GATED` | T4–T7 稳定产物 | #11 |
-| 9 | T9 发布 | `GATED` | T5–T8、S-09/S-10 | #8 |
+| 顺序 | 工作包                   | 当前状态                      | 解锁条件                     | 可关闭 Issue                  |
+| ---: | ------------------------ | ----------------------------- | ---------------------------- | ----------------------------- |
+|    1 | T1 M5-05                 | `DONE`；PR/main 五项 job 通过 | PR 检查已通过                | 否                            |
+|    2 | T2 M5-07                 | `IN PROGRESS`                 | T1 合并                      | 否                            |
+|    3 | T3 S-01–S-07             | `GATED`                       | 具名负责人、裁定人和数据许可 | #1 仍待全部决定               |
+|    4 | T4 扫描/知识             | `GATED`                       | T3                           | #3/#4 仍待独立评分            |
+|    5 | T5 正式指标              | `GATED`                       | T3/T4 和合法 holdout         | #7 仍待 runtime/security/perf |
+|    6 | T6 产品闭环              | `GATED`                       | T3、获准项目和稳定快照       | #5/#6                         |
+|    7 | T7 runtime/security/perf | `GATED`                       | T3/T5、设备与安全复核        | #7                            |
+|    8 | T8 Stage 2 CI            | `GATED`                       | T4–T7 稳定产物               | #11                           |
+|    9 | T9 发布                  | `GATED`                       | T5–T8、S-09/S-10             | #8                            |
 
 只有 T1 和 T2 是工程侧当前可以继续独立完成的事项。T3 开始的每项都需要外部
 输入或具名批准，不能由工程侧代填。
@@ -185,14 +194,14 @@ docs/evidence/acceptance-2026-12/
 
 ## 6. 状态判定
 
-| 标记 | 含义 |
-|---|---|
-| `[x]` | 当前有可复核证据，且证据路径已记录 |
-| `[ ]` | 尚未完成 |
-| `READY` | 工程输入足够，可以立即执行 |
-| `IN REVIEW` | 实现完成，等待 PR/CI 或合并验证 |
-| `GATED` | 等待具名批准、外部数据、运行时或发布授权 |
-| `BLOCKED` | 前置条件已确认失败，需记录原因和重试条件 |
+| 标记        | 含义                                     |
+| ----------- | ---------------------------------------- |
+| `[x]`       | 当前有可复核证据，且证据路径已记录       |
+| `[ ]`       | 尚未完成                                 |
+| `READY`     | 工程输入足够，可以立即执行               |
+| `IN REVIEW` | 实现完成，等待 PR/CI 或合并验证          |
+| `GATED`     | 等待具名批准、外部数据、运行时或发布授权 |
+| `BLOCKED`   | 前置条件已确认失败，需记录原因和重试条件 |
 
 CI 绿灯、作者 fixture、本地制品、截图、模型评审和历史运行都只是工程证据。
 正式验收还必须具备独立 holdout、实际 runtime、安全/性能/许可处置和最终签字。

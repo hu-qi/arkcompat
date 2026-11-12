@@ -174,6 +174,16 @@ function component(entry, notice, packages) {
       name: "arkcompat:notice-gaps",
       value: notice.gaps.join(","),
     });
+  if (notice?.supplementalLicenseSources.length) {
+    properties.push({
+      name: "arkcompat:supplemental-license-sources",
+      value: notice.supplementalLicenseSources
+        .map(({ sourceTag, sourceCommit, sha256 }) => {
+          return `${sourceTag}:${sourceCommit}:${sha256}`;
+        })
+        .join(","),
+    });
+  }
   if (unresolved)
     properties.push({
       name: "arkcompat:unresolved-dependency-declarations",

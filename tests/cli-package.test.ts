@@ -80,6 +80,17 @@ it("runs the portable CLI after relocation without source, local paths or symlin
           version: "1.1.0",
           declaredLicense: "BSD-2-Clause",
           licenseFiles: [],
+          supplementalLicenseSources: [
+            {
+              kind: "upstream-tag",
+              source:
+                "https://raw.githubusercontent.com/yarnpkg/yarn/v1.1.0/LICENSE",
+              sourceTag: "v1.1.0",
+              sourceCommit: "ee5d4a153a3fe85145c45c0bb251ffffffcfe210",
+              sha256:
+                "ae09761b5d27e237571245437653b483bbb85de3cc64b802e8ef47d03aabec1e",
+            },
+          ],
           gaps: ["missing-license-file"],
         }),
         expect.objectContaining({

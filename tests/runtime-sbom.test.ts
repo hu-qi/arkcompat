@@ -13,6 +13,7 @@ import { join } from "node:path";
 import { expect, it } from "vitest";
 
 const script = "scripts/runtime-sbom.mjs";
+const noticesScript = "scripts/runtime-notices.mjs";
 const validator = "scripts/validate-runtime-provenance.mjs";
 
 async function writePackage(
@@ -73,6 +74,13 @@ function run(runtime: string) {
   });
 }
 
+function writeNotices(runtime: string) {
+  return spawnSync(process.execPath, [noticesScript, runtime], {
+    encoding: "utf8",
+    timeout: 10_000,
+  });
+}
+
 function validate(runtime: string) {
   return spawnSync(process.execPath, [validator, runtime], {
     encoding: "utf8",
@@ -120,6 +128,7 @@ it("writes a deterministic CycloneDX inventory with dependency edges and checksu
       };
       components: {
         name: string;
+        version: string;
         group?: string;
         scope?: string;
         purl: string;
@@ -166,6 +175,11 @@ it("writes a deterministic CycloneDX inventory with dependency edges and checksu
       value:
         "optionalDependencies:@fixture/missing-optional,peerDependencies:@fixture/missing-peer",
     });
+    const yarn = bom.components.find(
+      ({ group, name, version }) =>
+        group === "@yarnpkg" && name === "lockfile" && version === "1.1.0",
+    );
+    expect(yarn).toBeUndefined();
     for (const dependency of bom.dependencies.slice(1))
       for (const ref of dependency.dependsOn)
         expect(references.has(ref)).toBe(true);
@@ -181,6 +195,95 @@ it("writes a deterministic CycloneDX inventory with dependency edges and checksu
       rm(first, { recursive: true, force: true }),
       rm(second, { recursive: true, force: true }),
     ]);
+  }
+});
+
+it("keeps the missing file gap and supplements only the exact Yarn lockfile release", async () => {
+  const runtime = await fixture();
+  try {
+    await writePackage(runtime, "node_modules/@yarnpkg/lockfile", {
+      name: "@yarnpkg/lockfile",
+      version: "1.1.0",
+      license: "BSD-2-Clause",
+    });
+    await writePackage(runtime, "node_modules/@yarnpkg/other", {
+      name: "@yarnpkg/lockfile",
+      version: "1.1.1",
+      license: "BSD-2-Clause",
+    });
+    const noticesResult = writeNotices(runtime);
+    expect(noticesResult.status, noticesResult.stderr).toBe(0);
+    const result = run(runtime);
+    expect(result.status, result.stderr).toBe(0);
+    const notices = JSON.parse(
+      await readFile(join(runtime, "THIRD-PARTY-NOTICES.json"), "utf8"),
+    ) as {
+      packages: {
+        version: string;
+        installPath: string;
+        gaps: string[];
+        supplementalLicenseSources: {
+          kind: string;
+          source: string;
+          sourceTag: string;
+          sourceCommit: string;
+          sha256: string;
+        }[];
+      }[];
+    };
+    const exact = notices.packages.find(
+      ({ installPath }) => installPath === "node_modules/@yarnpkg/lockfile",
+    );
+    expect(exact).toMatchObject({
+      version: "1.1.0",
+      gaps: ["missing-license-file"],
+      supplementalLicenseSources: [
+        {
+          kind: "upstream-tag",
+          source:
+            "https://raw.githubusercontent.com/yarnpkg/yarn/v1.1.0/LICENSE",
+          sourceTag: "v1.1.0",
+          sourceCommit: "ee5d4a153a3fe85145c45c0bb251ffffffcfe210",
+          sha256:
+            "ae09761b5d27e237571245437653b483bbb85de3cc64b802e8ef47d03aabec1e",
+        },
+      ],
+    });
+    const other = notices.packages.find(
+      ({ installPath }) => installPath === "node_modules/@yarnpkg/other",
+    );
+    expect(other).toMatchObject({
+      version: "1.1.1",
+      gaps: ["missing-license-file"],
+      supplementalLicenseSources: [],
+    });
+
+    const bomText = await readFile(join(runtime, "SBOM.cdx.json"), "utf8");
+    const bom = JSON.parse(bomText) as {
+      components: {
+        group?: string;
+        name: string;
+        version: string;
+        properties: { name: string; value: string }[];
+      }[];
+    };
+    const yarn = bom.components.find(
+      ({ group, name, version }) =>
+        group === "@yarnpkg" && name === "lockfile" && version === "1.1.0",
+    );
+    expect(yarn?.properties).toContainEqual({
+      name: "arkcompat:notice-gaps",
+      value: "missing-license-file",
+    });
+    expect(yarn?.properties).toContainEqual({
+      name: "arkcompat:supplemental-license-sources",
+      value:
+        "v1.1.0:ee5d4a153a3fe85145c45c0bb251ffffffcfe210:ae09761b5d27e237571245437653b483bbb85de3cc64b802e8ef47d03aabec1e",
+    });
+    expect(bomText).not.toContain(runtime);
+    expect(validate(runtime).status).toBe(0);
+  } finally {
+    await rm(runtime, { recursive: true, force: true });
   }
 });
 
