@@ -2,7 +2,7 @@
 
 **更新时间：** 2026-11-12
 **目标日期：** 2026-12-23
-**当前主干：** `a6896a48e2b9392519543c09167a2c3e52fe522d`
+**当前主干：** `f5d878dd180dac6109d283ea81f6e5345d643d06`
 **用途：** 把 [#1](https://github.com/hu-qi/arkcompat/issues/1)、
 [#3](https://github.com/hu-qi/arkcompat/issues/3)、
 [#4](https://github.com/hu-qi/arkcompat/issues/4)、
@@ -17,6 +17,9 @@
 [DECISIONS](DECISIONS.md) 的人工决策、[QUALITY-GATES](QUALITY-GATES.md)
 的阈值或 evidence 中的实测结果。工程实现、模型评审、开发者 fixture、
 CI 绿灯和正式验收分别记录，不能互相替代。
+
+需要负责人和独立裁定人填写的范围、评分、数据治理、Lottie 处置与发布授权
+集中在 [验收与发布签字包](ACCEPTANCE-SIGNOFF-PACKAGE.md)。
 
 ## 1. 完成定义
 
@@ -43,7 +46,7 @@ CI 绿灯和正式验收分别记录，不能互相替代。
 | 区域 | 已确认证据 | 尚缺的完成证据 |
 |---|---|---|
 | 产品与许可 | MIT；HarmonyOS 6.0.0/API 20 最低目标；原始阈值已由负责人确认 | 目标 profile、入口范围、评分细则和最终裁定人签字 |
-| 扫描 | npm/pnpm/Yarn/OHPM、workspace、semver、JS/TS/ETS 静态 inventory；当前分支 568 项测试基线 | 约定范围内剩余解析缺口、真实项目覆盖和独立扫描准确率 |
+| 扫描 | npm/pnpm/Yarn/OHPM、workspace、semver、JS/TS/ETS 静态 inventory；主干 `f5d878d` 的 568 项测试与五项 CI 已通过 | 约定范围内剩余解析缺口、真实项目覆盖和独立扫描准确率 |
 | 规则 | HarmonyOS 6.0/API 20 静态规则快照 `0.2.0` | 规则完整度、冲突/unknown 的独立复核和目标运行时验证 |
 | 知识 | 元数据契约、离线查询/导出、公开来源候选快照、生命周期策略 | 独立评审后的 reviewed 记录、正式许可/导入批准和可交付知识库快照 |
 | 报告与建议 | JSON/Markdown/SARIF、解释、扫描→规则→知识→建议引擎 | 端到端真实项目演练、beta 文档和正式用户验收 |
@@ -295,14 +298,14 @@ docs/evidence/
 
 ## 8. 当前立即执行顺序
 
-1. 完成当前 `stage2-knowledge-pipeline-eval` 分支的 B4–B9/C1 变更，跑
-   `pnpm check`，开 PR，确认五个必需 job，再合并并验证 main。
+1. 提交 [验收与发布签字包](ACCEPTANCE-SIGNOFF-PACKAGE.md) 的 S-01–S-07，
+   冻结目标 profile、v1 入口、评分、数据许可、独立角色和 Lottie 处置。
 2. 完成 C9 parity 和 C3–C8 的入口 walkthrough；补齐资源限制、错误恢复、
    安装/卸载和 Remote AI 延期说明。
 3. 增加 D5 安全审计、D7 性能基准和 D8 CI 评测/parity 门禁。
-4. 整理 A5/A8 与 D-01–D-06/D-09 的单页签字包，提交负责人/裁定人。
-5. 获得独立标签和目标设备后执行 D1–D4；记录失败、修复和独立复核。
-6. 通过验收后按 E1–E10 发布，最终关闭所有应关闭 issue 并删除 `TODO.md`。
+4. 获得独立标签和目标设备后执行 D1–D4；记录失败、修复和独立复核。
+5. 完成 S-09/S-10 后按 E1–E10 发布，最终关闭所有应关闭 issue 并删除
+   `TODO.md`。
 
 本计划的任何日期、候选 profile 或候选记录都不能被解释为已批准；
 只有在对应签字和证据完成后才更新为“完成”。

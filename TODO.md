@@ -8,7 +8,8 @@
 相关依据：[产品需求](docs/PRD.md)、[路线图](ROADMAP.md)、
 [质量门禁](docs/QUALITY-GATES.md)、[决策记录](docs/DECISIONS.md)、
 [交付状态](docs/DELIVERY-STATUS.md)、
-[项目完成计划](docs/PROJECT-COMPLETION-PLAN.md)。任务编号仅用于本清单，
+[项目完成计划](docs/PROJECT-COMPLETION-PLAN.md)、
+[验收与发布签字包](docs/ACCEPTANCE-SIGNOFF-PACKAGE.md)。任务编号仅用于本清单，
 对应 GitHub issue 如下。工程步骤、责任边界、证据目录和发布顺序以项目完成
 计划为准。
 
@@ -24,7 +25,7 @@
 
 - [x] MIT 原创代码许可证及原始验收阈值由项目负责人确认。
 - [x] 扫描、规则接口、知识元数据、报告和多入口基础已实现，已有范围内的本地验证。
-- [x] 主干基线为 `a6896a48e2b9392519543c09167a2c3e52fe522d`；当前分支完整回归已通过 568 项测试，最终仍以合并 PR 的五项检查和主干流水线为准。
+- [x] 当前主干为 `f5d878dd180dac6109d283ea81f6e5345d643d06`；PR #79 合并后完整回归为 568 项测试，[PR 检查](https://github.com/hu-qi/arkcompat/actions/runs/43173965081)和[主干检查](https://github.com/hu-qi/arkcompat/actions/runs/43174225771)均通过五项必需任务。
 - [x] 上述基线已同步 GitHub 与 AtomGit，并读回相同提交。
 - [x] 项目负责人确认 AtomGit 即 GitCode：后续只核对 GitHub + AtomGit，不再单列旧 GitCode URL 的凭据或同步任务。
 - [ ] 项目正式验收通过。
@@ -153,19 +154,18 @@
 
 ## 下一批优先行动
 
-1. 完成当前 B4–B9/C1 工程分支的回归、PR、五项 CI、合并及 GitHub + AtomGit
-   同 SHA 读回。
-2. 准备 A1–A6 的签字包，把 profile、评分、入口范围、数据许可和裁定人集中
-   提交负责人确认。
-3. 完成 C2–C9 的真实项目演练、各入口安装/错误恢复文档和跨入口 parity。
-4. 增加 D5 安全审计、D7 性能基准和 D8 的评测/provenance/parity CI 门禁。
-5. 在独立标签与目标设备就绪后执行 D1–D4，保留失败、整改和独立复核证据。
-6. 验收通过后执行 E1–E10；正式发布、双远端读回和交接完成前不删除
+1. 提交 [验收与发布签字包](docs/ACCEPTANCE-SIGNOFF-PACKAGE.md) 的
+   S-01–S-07，确定目标 profile、入口范围、评分、数据许可和独立裁定人。
+2. 完成 C2–C9 的真实项目演练、各入口安装/错误恢复文档和跨入口 parity。
+3. 增加 D5 安全审计、D7 性能基准和 D8 的评测/provenance/parity CI 门禁。
+4. 在独立标签与目标设备就绪后执行 D1–D4，保留失败、整改和独立复核证据。
+5. 完成 S-09/S-10 并执行 E1–E10；正式发布、双远端读回和交接完成前不删除
    `TODO.md`。
 
 ## 人工决策签字包
 
-以下内容必须在同一份签字记录中给出决定人、日期、选项、依据和重访条件：
+以下内容已在 [验收与发布签字包](docs/ACCEPTANCE-SIGNOFF-PACKAGE.md)
+整理成 S-01–S-10；必须由相应责任方填写决定人、日期、选项、依据和重访条件：
 
 1. 冻结 HarmonyOS/API/ArkTS/ArkWeb/设备/SDK/构建模式矩阵，区分 compile
    target 与 actual runtime。

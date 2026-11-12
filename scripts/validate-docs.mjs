@@ -21,6 +21,7 @@ const required = [
   'docs/DECISIONS.md',
   'docs/ENGINEERING-PLAN.md',
   'docs/PROJECT-COMPLETION-PLAN.md',
+  'docs/ACCEPTANCE-SIGNOFF-PACKAGE.md',
   'docs/LEGACY-AUDIT.md',
   'docs/REPOSITORY-STRUCTURE.md',
 ];
