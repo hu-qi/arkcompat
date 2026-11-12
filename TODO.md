@@ -2,11 +2,19 @@
 
 **更新时间：** 2026-11-12
 **目标验收日：** 2026-12-23
-**当前主线基线：** `b9542c89e7b504a89b0a6b9a7512e9c18233b350`
-**权威主干流水线：** [43199050794](https://github.com/hu-qi/arkcompat/actions/runs/43199050794)，五项必需 job 全部通过
+**当前主线基线：** `336e82130a23317e842d03a59f20b008cd5d0a10`
+**权威主干流水线：** [43199908891](https://github.com/hu-qi/arkcompat/actions/runs/43199908891)，五项必需 job 全部通过
 **当前状态：** 8 个开放 Issue、0 个开放 PR、3 个工程 `READY` 工作包、正式验收 0/5、人工签字 0/10
 
 本文是 ArkCompat 剩余工作的**唯一执行入口**，也是长期维护文档。每次开始工作先在这里选择一个 `READY` 工作包；`GATED` 项必须先取得具名人工决定或外部输入。工程实现、CI 绿灯、开发者 fixture、本地制品和模型评审都不能替代正式验收。
+
+需要直接执行的文档顺序是：
+
+1. 从本文第 3 节领取一个 `READY` 工作包，并复制其中的 Issue、命令、证据路径和完成判据。
+2. 到[项目执行台账](docs/PROJECT-EXECUTION-LEDGER.md)查看该工作包的依赖、责任角色和上游/下游任务。
+3. 遇到 S-01–S-10 时，在[验收与发布签字包](docs/ACCEPTANCE-SIGNOFF-PACKAGE.md)记录具名决定；工程侧不得代签。
+4. 从[项目完成计划](docs/PROJECT-COMPLETION-PLAN.md)查看阶段 A–E 的整体顺序和正式证据目录。
+5. 用[项目总控 TODO](docs/PROJECT-MASTER-TODO.md)、[完成行动清单](docs/PROJECT-COMPLETION-ACTIONS.md)和[交付状态](docs/DELIVERY-STATUS.md)复核 Issue 关闭条件与对外口径。
 
 ## 1. 文档职责
 
