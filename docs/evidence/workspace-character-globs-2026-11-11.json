@@ -179,5 +179,12 @@
     "formalAcceptanceCompleted": false
   },
   "matchingAmendedAt": "2026-11-12",
-  "matchingAlgorithm": "Dynamic programming, O(pattern tokens * directory-name length); no wildcard regex backtracking."
+  "matchingAlgorithm": "Dynamic programming, O(pattern tokens * directory-name length); no wildcard regex backtracking.",
+  "validation": {
+    "localTests": 552,
+    "testFiles": 33,
+    "prRunId": 43138675845,
+    "prHead": "f7ba3183ff642cc334e8080601627f4f757ea978",
+    "requiredJobsPassed": 5
+  }
 }
