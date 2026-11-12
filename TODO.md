@@ -5,6 +5,11 @@
 本清单按交付依赖组织剩余工作。日期为建议安排，未经裁定的方案仍为待确认。
 仅在完成条件及证据均满足后勾选；CI、开发者样例和模型评审分别记录，不能替代正式验收。
 
+需要按执行顺序查看全部事项、Issue 关闭条件、人工签字门禁和发布清单时，先阅读
+[项目总控 TODO](docs/PROJECT-MASTER-TODO.md)。本文保留阶段勾选与当前状态；
+逐项命令和证据登记仍以
+[项目执行台账](docs/PROJECT-EXECUTION-LEDGER.md)为准。
+
 相关依据：[产品需求](docs/PRD.md)、[路线图](ROADMAP.md)、
 [质量门禁](docs/QUALITY-GATES.md)、[决策记录](docs/DECISIONS.md)、
 [交付状态](docs/DELIVERY-STATUS.md)、
