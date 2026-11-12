@@ -2,7 +2,7 @@
 
 **更新日期：** 2026-11-12
 **目标验收日：** 2026-12-23
-**本文件更新前核对基线：** `444fb42f1656f34c4279fc559c5d6e68d78f6dcd`
+**本文件更新前核对基线：** `b9542c89e7b504a89b0a6b9a7512e9c18233b350`
 **当前结论：** 工程持续交付；正式验收 0/5；正式版本未发布；开放 Issue
 [#1](https://github.com/hu-qi/arkcompat/issues/1)、
 [#3](https://github.com/hu-qi/arkcompat/issues/3)、
