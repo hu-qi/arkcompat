@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "1",
+  "issue": 3,
+  "assessment": "developer-regression-only",
+  "scope": "Bounded no-execution and hostile-input regressions for the local scanner and CLI; not an independent security certification, compatibility accuracy measurement or M1 acceptance.",
+  "host": {
+    "platform": "Darwin 27.2.0 arm64",
+    "node": "22.23.4",
+    "pnpm": "10.34.9"
+  },
+  "sourceHashes": {
+    "packages/core/src/index.ts": "a1a7c64eb019ce285d4ba0419b7ef241453857b9aa4bc856bd8003dbe6b5c4e4",
+    "tests/scan.test.ts": "297677375f8c6585924d34b06d79b6e98f7981973a205b1ffd438463ae348dbb",
+    "apps/cli/src/index.ts": "f1437daeda50034f5de23fb9cd7fdd85c24a74e8e4b104e330121bfd83e0fe6b",
+    "apps/cli/src/local-input.ts": "cb32aa0b51dd8d5ecaee9e367a2fb38f92349fdeec529f8317e5e7244c19dad3"
+  },
+  "command": "pnpm build && pnpm vitest run tests/scan.test.ts",
+  "result": {
+    "testFiles": 1,
+    "tests": 26,
+    "status": "passed",
+    "fullCheck": {
+      "command": "pnpm check",
+      "testFiles": 35,
+      "tests": 573,
+      "coverage": {
+        "statements": "94.82%",
+        "branches": "92.62%",
+        "functions": "98.11%",
+        "lines": "96.74%"
+      },
+      "status": "passed"
+    }
+  },
+  "probes": [
+    {
+      "name": "manifest lifecycle scripts are inert",
+      "test": "never executes malicious manifest lifecycle scripts in core or CLI scans",
+      "scripts": ["preinstall", "install", "postinstall", "prepare"],
+      "expected": "No marker file is created by a core scan or CLI scan; both return explicit unknown inventory findings.",
+      "observed": "passed"
+    },
+    {
+      "name": "special file is skipped",
+      "test": "skips a FIFO special file without opening it",
+      "expected": "The FIFO is not opened and the report records special-file-skipped.",
+      "observed": "passed"
+    },
+    {
+      "name": "aggregate input limit",
+      "test": "fails when the aggregate 32 MiB input limit is exhausted",
+      "expected": "A scan exceeding 32 MiB aborts instead of returning a partial report.",
+      "observed": "passed"
+    },
+    {
+      "name": "directory depth limit",
+      "test": "fails at the 64-level directory depth boundary",
+      "expected": "A directory below the 64-level boundary aborts with the documented depth-limit diagnostic.",
+      "observed": "passed"
+    },
+    {
+      "name": "corrupt lockfile diagnostic",
+      "test": "rejects a corrupt lockfile through the CLI without leaking paths or contents",
+      "expected": "CLI exits 1, leaves stdout empty, names the lockfile and exposes neither the absolute root nor source contents.",
+      "observed": "passed"
+    }
+  ],
+  "limits": [
+    "The probe is authored regression evidence and does not establish independent security certification.",
+    "Concurrent hostile directory replacement remains outside this local scanner isolation model.",
+    "This does not establish dependency/API accuracy, runtime compatibility, formal M1 acceptance or release readiness."
+  ]
+}

@@ -98,7 +98,8 @@ GitHub 与 AtomGit 读回同一 SHA）
 
 ### R-01 · M1-06：扫描器不执行包脚本及恶意输入边界
 
-**关联：** #3。**证据：** 隔离目录探针、负例测试、提交 SHA。
+**关联：** #3。**证据：** [隔离探针与安全边界](SCANNER-SECURITY.md)、
+[机器可读记录](evidence/scanner-security-2026-11-12.json)、负例测试、提交 SHA。
 
 1. 创建会写 marker 的 npm lifecycle scripts，运行 scan，确认 marker 不存在；
 2. 覆盖损坏 lockfile/manifest、超深 JSON、超大输入、超限 workspace、路径逃逸和
@@ -107,8 +108,8 @@ GitHub 与 AtomGit 读回同一 SHA）
 4. 运行 `pnpm check`，提交 PR，验证 5 个必需 job，正常合并后验证 main；
 5. 把命令、宿主版本、输入/输出哈希和限制评论到 Issue #3。
 
-**关闭本项的条件：** 包脚本执行数为 0；资源上限和错误行为有回归测试；安全
-复核者确认没有未处置高风险。
+**工程完成：** 包脚本执行数为 0；资源上限和错误行为有回归测试。独立安全复核
+仍作为正式验收门禁保留，不能用本地回归替代。
 
 ### R-02 · M3-04：CLI beta 安装、升级、离线与恢复
 
