@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it } from "vitest";
 import {
+  access,
   mkdtemp,
   mkdir,
   readFile,
@@ -117,6 +118,89 @@ describe("offline scan slice", () => {
       ["unknown", target, "rule-static"],
     ]);
   });
+  it("never executes malicious manifest lifecycle scripts in core or CLI scans", async () => {
+    const root = await mkdtemp(join(tmpdir(), "arkcompat-scripts-"));
+    roots.push(root);
+    const marker = join(root, "lifecycle-ran");
+    const script = `node -e ${JSON.stringify(
+      `require("node:fs").writeFileSync(${JSON.stringify(marker)}, "executed")`,
+    )}`;
+    await writeFile(
+      join(root, "package.json"),
+      JSON.stringify({
+        dependencies: { sample: "^1" },
+        scripts: {
+          preinstall: script,
+          install: script,
+          postinstall: script,
+          prepare: script,
+        },
+      }),
+    );
+    await source(root, 'import "sample";');
+
+    const report = await scanProject(root, target);
+    expect(report.findings).toHaveLength(2);
+    await expect(access(marker)).rejects.toMatchObject({ code: "ENOENT" });
+
+    const cli = spawnSync(
+      process.execPath,
+      [
+        "apps/cli/dist/index.js",
+        "scan",
+        root,
+        "--runtime",
+        "arkts",
+        "--release",
+        "6.0.0",
+      ],
+      { encoding: "utf8" },
+    );
+    expect({ status: cli.status, stderr: cli.stderr }).toEqual({
+      status: 0,
+      stderr: "",
+    });
+    expect(JSON.parse(cli.stdout)).toMatchObject({
+      findings: [{ status: "unknown" }, { status: "unknown" }],
+    });
+    await expect(access(marker)).rejects.toMatchObject({ code: "ENOENT" });
+  });
+  it("skips a FIFO special file without opening it", async () => {
+    const root = await project();
+    const fifo = join(root, "named-pipe");
+    execFileSync("mkfifo", [fifo]);
+
+    const report = await scanProject(root, target);
+    expect(report.coverage.limitations).toContainEqual({
+      code: "special-file-skipped",
+      path: "named-pipe",
+    });
+  });
+  it("fails when the aggregate 32 MiB input limit is exhausted", async () => {
+    const root = await project();
+    const block = Buffer.alloc(1024 * 1024, 0x20);
+    block[0] = 0x2f;
+    block[1] = 0x2f;
+    block[block.length - 1] = 0x0a;
+    for (let index = 0; index < 33; index += 1)
+      await writeFile(
+        join(root, `${String(index).padStart(2, "0")}.ts`),
+        block,
+      );
+
+    await expect(scanProject(root, target)).rejects.toThrow(
+      /within scan limits/,
+    );
+  }, 20_000);
+  it("fails at the 64-level directory depth boundary", async () => {
+    const root = await project();
+    const deep = Array.from({ length: 65 }, () => "d").join("/");
+    await mkdir(join(root, deep), { recursive: true });
+
+    await expect(scanProject(root, target)).rejects.toThrow(
+      /depth limit exceeded \(64\)/,
+    );
+  });
   it("reports lockfiles, ArkUI DSL and CommonJS exports blind spots as incomplete coverage", async () => {
     const root = await project();
     await source(root, "{}", "oh-package-lock.json5");
@@ -176,6 +260,36 @@ describe("offline scan slice", () => {
       stdout: result.stdout,
       error: result.stderr.includes("--runtime"),
     }).toEqual({ status: 1, stdout: "", error: true });
+  });
+  it("rejects a corrupt lockfile through the CLI without leaking paths or contents", async () => {
+    const root = await project({ dependencies: { sample: "^1" } });
+    await source(root, '{"private":"lockfile-secret"', "package-lock.json");
+    const result = spawnSync(
+      process.execPath,
+      [
+        "apps/cli/dist/index.js",
+        "scan",
+        root,
+        "--runtime",
+        "arkts",
+        "--release",
+        "6.0.0",
+      ],
+      { encoding: "utf8" },
+    );
+    expect({
+      status: result.status,
+      stdout: result.stdout,
+      namesLockfile: result.stderr.includes("package-lock.json"),
+      leaksRoot: result.stderr.includes(root),
+      leaksContents: result.stderr.includes("lockfile-secret"),
+    }).toEqual({
+      status: 1,
+      stdout: "",
+      namesLockfile: true,
+      leaksRoot: false,
+      leaksContents: false,
+    });
   });
 });
 
