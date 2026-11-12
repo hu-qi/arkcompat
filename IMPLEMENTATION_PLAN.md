@@ -15,11 +15,11 @@ machine-readable example.
 
 **Goal**: Extend the shared workspace discovery matcher without changing
 globstar, brace, exclusion, symlink or traversal limits.
-**Success Criteria**: Exact regex construction from validated literal and glob
+**Success Criteria**: Bounded dynamic-programming matching from validated literal and glob
 tokens; unsupported extglobs and malformed classes remain explicit limitations.
 **Tests**: Determinism, no-match, unsupported-pattern, wildcard amplification and
 existing workspace suites.
-**Status**: In Progress
+**Status**: Complete
 
 ## Stage 3: Host and artifact evidence
 
@@ -28,4 +28,4 @@ report parity.
 **Success Criteria**: Host outputs match the parser, artifact reports have
 identical bytes and all mandatory GitHub checks pass.
 **Tests**: `pnpm check`, package/relocation/VSIX smoke and authoritative Actions.
-**Status**: Not Started
+**Status**: In Progress

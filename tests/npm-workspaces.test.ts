@@ -948,3 +948,16 @@ it("scans the documented npm workspace fixture deterministically", async () => {
     },
   ]);
 });
+
+it("bounds repeated wildcard matching against a long nonmatching directory", async () => {
+  const path = await root({
+    private: true,
+    workspaces: ["members/" + "*a".repeat(25) + "b"],
+  });
+  await workspace(path, "members/" + "a".repeat(200), {
+    name: "@fixture/nonmatching",
+    version: "1.0.0",
+  });
+  const report = await scanProject(path, target);
+  expect(report.modules).toBeUndefined();
+}, 2000);

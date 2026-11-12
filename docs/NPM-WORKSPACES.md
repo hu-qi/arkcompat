@@ -129,7 +129,8 @@ recorded in
   reversed character classes, dot segments, and other unvalidated syntax remain
   outside the supported boundary. A segment is capped at 256 characters and 32
   wildcard/class tokens; rejected syntax is disclosed without serializing the
-  raw pattern.
+  raw pattern. Matching uses a token/character dynamic-programming table,
+  so repeated stars cannot trigger regular-expression backtracking.
 
 The package-manager selection rules remain unchanged. npm workspace discovery
 runs only when the selected lock family is npm or when no npm/pnpm/Yarn lock is

@@ -70,7 +70,7 @@ function globPart(
   part: string,
 ):
   | { kind: "literal" }
-  | { kind: "glob"; expression: RegExp }
+  | { kind: "glob"; expression: { test(value: string): boolean } }
   | { kind: "unsupported" } {
   if (
     part.length > maxGlobPartLength ||
@@ -84,14 +84,14 @@ function globPart(
     return { kind: "unsupported" };
   if (safePart(part)) return { kind: "literal" };
 
-  let source = "^";
+  const tokens: Array<RegExp | null> = [];
   let wildcards = 0;
   for (let index = 0; index < part.length; index++) {
     const character = part[index]!;
     if (character === "*" || character === "?") {
       wildcards++;
       if (wildcards > maxGlobWildcards) return { kind: "unsupported" };
-      source += character === "*" ? ".*" : ".";
+      tokens.push(character === "*" ? null : /^.$/);
       continue;
     }
     if (character === "[") {
@@ -108,19 +108,42 @@ function globPart(
         return { kind: "unsupported" };
       wildcards++;
       if (wildcards > maxGlobWildcards) return { kind: "unsupported" };
-      source += `[${negated ? "^" : ""}${body}]`;
+      try {
+        tokens.push(new RegExp(`^[${negated ? "^" : ""}${body}]$`));
+      } catch {
+        return { kind: "unsupported" };
+      }
       index = close;
       continue;
     }
     if (!/[A-Za-z0-9._-]/.test(character)) return { kind: "unsupported" };
-    source += character.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    tokens.push(
+      new RegExp("^" + (character === "." ? "\\." : character) + "$"),
+    );
   }
   if (wildcards === 0) return { kind: "unsupported" };
-  try {
-    return { kind: "glob", expression: new RegExp(source + "$") };
-  } catch {
-    return { kind: "unsupported" };
-  }
+  return {
+    kind: "glob",
+    expression: {
+      test(value) {
+        // Each token visits each character once; stars never cause backtracking.
+        let previous = Array<boolean>(value.length + 1).fill(false);
+        previous[0] = true;
+        for (const token of tokens) {
+          const current = Array<boolean>(value.length + 1).fill(false);
+          current[0] = token === null && previous[0]!;
+          for (let index = 1; index <= value.length; index++) {
+            current[index] =
+              token === null
+                ? previous[index]! || current[index - 1]!
+                : previous[index - 1]! && token.test(value[index - 1]!);
+          }
+          previous = current;
+        }
+        return previous[value.length]!;
+      },
+    },
+  };
 }
 
 function unsafePattern(raw: string): boolean {
