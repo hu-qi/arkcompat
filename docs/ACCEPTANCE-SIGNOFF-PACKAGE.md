@@ -2,8 +2,8 @@
 
 **Status:** Ready for owner and independent adjudicator review.
 **Prepared:** 2026-11-12.
-**Verified main commit before this package update:** `1a12274d82e7eba69341e508a9e1de0340cca0f1`.
-**Engineering regression baseline:** `6e35d03c3d0aebf46558143853502eba6aabfba1`.
+**Verified main commit before this package update:** `444fb42f1656f34c4279fc559c5d6e68d78f6dcd`.
+**Engineering regression baseline:** `444fb42f1656f34c4279fc559c5d6e68d78f6dcd`.
 **Purpose:** Turn the remaining human decisions into one reviewable record that
 unlocks the formal evaluation and release sequence.
 
@@ -21,12 +21,11 @@ in [ACCEPTANCE-PROTOCOL](ACCEPTANCE-PROTOCOL.md),
 |---|---|
 | License for original code | MIT, confirmed by project requester |
 | Minimum target | HarmonyOS 6.0.0 / API 20 and later |
-| Verified main commit before this package update | `1a12274d82e7eba69341e508a9e1de0340cca0f1` on GitHub and AtomGit; [main checks](https://github.com/hu-qi/arkcompat/actions/runs/43194123302) passed all five required jobs |
-| Latest merged execution-document PRs | [#93](https://github.com/hu-qi/arkcompat/pull/93) made [TODO](../TODO.md) actionable; [#94](https://github.com/hu-qi/arkcompat/pull/94) removed the completed temporary plan |
-| Execution-document PR checks | [43192587201](https://github.com/hu-qi/arkcompat/actions/runs/43192587201) and [43193856478](https://github.com/hu-qi/arkcompat/actions/runs/43193856478), each passed all five required jobs |
-| Engineering main checks | [43194123302](https://github.com/hu-qi/arkcompat/actions/runs/43194123302), all five required jobs passed |
-| Engineering regression commit | `6e35d03c3d0aebf46558143853502eba6aabfba1` |
-| Regression suite | 573 tests across 35 files at `6e35d03` |
+| Verified main commit before this package update | `444fb42f1656f34c4279fc559c5d6e68d78f6dcd` on GitHub and AtomGit; [main checks](https://github.com/hu-qi/arkcompat/actions/runs/43196999301) passed all five required jobs |
+| Execution entry | [TODO](../TODO.md) is the permanent single execution entry and is not deleted after release |
+| Engineering main checks | [43196999301](https://github.com/hu-qi/arkcompat/actions/runs/43196999301), all five required jobs passed |
+| Engineering regression commit | `444fb42f1656f34c4279fc559c5d6e68d78f6dcd` |
+| Regression suite | 574 tests across 35 files at `444fb42` |
 | Core coverage | statements 94.82%, branches 92.62%, functions 98.11%, lines 96.74% |
 | Assessment pipeline | scan → rules → knowledge → five-way classification → next action |
 | Prediction adapters | five label-blind scopes implemented and hash-bound |

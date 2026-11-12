@@ -2,15 +2,12 @@
 
 **更新日期：** 2026-11-12
 **计划验收日期：** 2026-12-23
-**本文件更新前验证主干：** `1a12274d82e7eba69341e508a9e1de0340cca0f1`
-（[五项必需检查](https://github.com/hu-qi/arkcompat/actions/runs/43194123302)通过，
+**本文件更新前验证主干：** `444fb42f1656f34c4279fc559c5d6e68d78f6dcd`
+（[五项必需检查](https://github.com/hu-qi/arkcompat/actions/runs/43196999301)通过，
 GitHub 与 AtomGit 读回同一 SHA）
 
-**最近完整代码回归基线：** `6e35d03c3d0aebf46558143853502eba6aabfba1`
-（PR [#90](https://github.com/hu-qi/arkcompat/pull/90)；35 个测试文件、
-573 项测试）；此后 PR [#93](https://github.com/hu-qi/arkcompat/pull/93)整理执行
-入口，PR [#94](https://github.com/hu-qi/arkcompat/pull/94)删除已完成的临时
-实施计划，均为文档变更
+**最近完整代码回归基线：** `444fb42f1656f34c4279fc559c5d6e68d78f6dcd`
+（35 个测试文件、574 项测试）；`TODO.md` 是长期唯一执行入口。
 **当前状态：** 工程基础持续交付；正式验收 0/5；正式版本未发布；开放 Issue
 [#1](https://github.com/hu-qi/arkcompat/issues/1)、
 [#3](https://github.com/hu-qi/arkcompat/issues/3)、
@@ -26,7 +23,7 @@ GitHub 与 AtomGit 读回同一 SHA）
 1. 现在还剩什么；
 2. 哪些能由工程直接完成，哪些必须由负责人或独立裁定人签字；
 3. 每项工作用什么命令、什么证据证明；
-4. 在什么条件下可以关闭 Issue、发布和删除临时清单。
+4. 在什么条件下可以关闭 Issue、发布，以及如何维护长期执行清单。
 
 详细命令和证据字段见
 [项目执行台账](PROJECT-EXECUTION-LEDGER.md)，阶段与依赖见
@@ -66,7 +63,7 @@ GitHub 与 AtomGit 读回同一 SHA）
 - GitHub 与 AtomGit 的 `main` 和正式 tag 指向同一代码 SHA，托管制品哈希一致；
 - 最终验收人能够不依赖作者本机复现结果；
 - 维护责任、数据刷新周期、撤回流程、升级/卸载和故障恢复已交接；
-- 所有应关闭的 Issue 已关闭，临时 `TODO.md` 及文档校验中的强制引用已移除。
+- 所有应关闭的 Issue 已关闭，长期 `TODO.md` 与最终证据、发布和维护状态一致。
 
 ## 2. 执行顺序
 
@@ -238,7 +235,7 @@ SHA-256 manifest 和人工处置记录。
 - [ ] 推送 GitHub 与 AtomGit 的 `main` 和 tag，分别读回 SHA；
 - [ ] 从两个渠道下载制品并核对哈希，执行安装 smoke；
 - [ ] 更新 ROADMAP、DELIVERY-STATUS、DECISIONS、Issue 状态和维护交接；
-- [ ] 关闭所有已完成 Issue，复核零遗漏后删除临时 `TODO.md` 和强制文档引用。
+- [ ] 关闭所有已完成 Issue，复核零遗漏后把长期 `TODO.md` 更新为最终维护状态。
 
 发布门禁与 Issue #8 的完整映射见
 [项目执行台账](PROJECT-EXECUTION-LEDGER.md)。
@@ -290,4 +287,4 @@ AtomGit main SHA read-back:
 5. 外部验收方能够从公开制品独立复现；
 6. 维护责任和后续数据更新/撤回流程已交接；
 7. 8 个开放 Issue 已满足关闭条件，或存在负责人签署的正式延期；
-8. 最终 main 质量流水线通过，`TODO.md` 的临时内容已迁入长期文档并删除。
+8. 最终 main 质量流水线通过，长期 `TODO.md` 与所有证据、发布和维护状态一致。
