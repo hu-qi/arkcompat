@@ -8,7 +8,7 @@
 - **目标形态**：CLI / VS Code-Cursor / DevEco Studio / Web / MCP / CI/CD，共享同一扫描引擎。
 - **交付时间**：2026-12-23
 - **当前状态**：工程纵向切片持续交付；正式验收 0/5，正式版本尚未发布。
-- **当前主干**：`4537668c11e834969518fad2c9c67fed9929a0e0`；项目执行入口与状态收口 PR [#114](https://github.com/hu-qi/arkcompat/pull/114) 已合并。[PR 质量流水线](https://github.com/hu-qi/arkcompat/actions/runs/43232823593)和 [main 质量流水线](https://github.com/hu-qi/arkcompat/actions/runs/43233201954)的五项必需 job 全部成功。当前开放 Issue 为 #3、#4、#5、#6、#7、#8、#11；GitHub 与 AtomGit（即 GitCode）的 `main` 已独立读回该 SHA。
+- **当前主干**：`b6ff4eb2702b90441118880aca88781271cb7a86`；`READY-ENG-01`（受限 CommonJS 静态导出盘点）PR [#116](https://github.com/hu-qi/arkcompat/pull/116) 已合并。[PR 质量流水线](https://github.com/hu-qi/arkcompat/actions/runs/43236623133)和 [main 质量流水线](https://github.com/hu-qi/arkcompat/actions/runs/43237122871)的五项必需 job 全部成功。当前开放 Issue 为 #3、#4、#5、#6、#7、#8、#11；GitHub 与 AtomGit（即 GitCode）的 `main` 已独立读回该 SHA。
 
 首个验收节点目标 HarmonyOS 6.0.0+，里程碑排期见 [ROADMAP](ROADMAP.md)。
 **[TODO](TODO.md) 是剩余工作的唯一执行入口**，包含文档索引、A1–A8 工作包、

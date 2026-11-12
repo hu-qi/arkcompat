@@ -2,9 +2,9 @@
 
 **更新时间：** 2026-11-12
 **执行入口：** [根目录 TODO](../TODO.md)
-**当前 main：** `4537668c11e834969518fad2c9c67fed9929a0e0`
+**当前 main：** `b6ff4eb2702b90441118880aca88781271cb7a86`
 **当前状态：** 7 个开放 Issue（#3、#4、#5、#6、#7、#8、#11）、0 个开放
-PR；A1/A2 工程切片 `DONE`，`READY-ENG-01` 可执行；正式验收 0/5；人工
+PR；A1/A2 与 `READY-ENG-01` 工程切片 `DONE`（37 个文件、593 项测试），A3–A8 全部 `GATED`；正式验收 0/5；人工
 决定 0/10
 
 这份文档把剩余工作按执行顺序拆成可勾选项。每个工程项都必须走
@@ -23,7 +23,7 @@ main 检查 → AtomGit 同 SHA 读回 → Issue 评论”的闭环。AtomGit �
 - [x] 核心 `scanProject` 增加可选 `timeoutMs`，CLI 增加
       `--timeout-ms <milliseconds>`。
 - [x] `pnpm exec vitest run tests/security-matrix.test.ts`：13/13。
-- [x] `pnpm check`：37 个文件、589 项测试、全部质量检查通过。
+- [x] `pnpm check`：37 个文件、593 项测试、全部质量检查通过。
 - [x] 证据：[security-negative-matrix-2026-11-12.json](evidence/security-negative-matrix-2026-11-12.json)。
 - [x] 提交并推送 `codex/m5-05-security-negative-matrix`。
 - [x] 创建关联 #7 的 PR #109，确认五项必需 job 通过。
@@ -51,7 +51,7 @@ S-09 仍待具名人工处置。
 - [x] 核对 artifact 内 SBOM、notices、`SHA256SUMS` 的引用和哈希。
 - [x] 在独立输出目录两次运行 `pnpm package:cli`，两次均通过
       `pnpm verify:runtime-provenance`，比较的 5 个文件逐字节一致。
-- [x] 运行 `pnpm check`：37 个测试文件、589 项测试、58 个 Markdown 文档检查
+- [x] 运行 `pnpm check`：37 个测试文件、593 项测试、58 个 Markdown 文档检查
       全部通过。
 - [x] 创建 PR #111，PR 流水线
       [43223890359](https://github.com/hu-qi/arkcompat/actions/runs/43223890359)
@@ -185,8 +185,7 @@ Issue #1 已于 2026-11-12 关闭为 `COMPLETED`，作为 M0 历史记录保留�
 
 T1 和 T2 的工程侧事项已经完成，Issue #1 的 M0 记录也已关闭。T3 开始需要
 外部输入或具名批准，不能由工程侧代填；仓库绿色 CI 或 A2 审计不能替代 S-09
-和正式验收。`READY-DOC-01` 已在本轮完成；`READY-ENG-01` 负责 Issue #3
-的受限 CommonJS 导出静态盘点，完成后仍不关闭 #3。
+和正式验收。`READY-DOC-01` 与 `READY-ENG-01`（PR #116，Issue #3 受限 CommonJS 导出静态盘点）均已完成，#3 仍保持开放。
 
 ## 5. 完成项目前必须出现的证据
 

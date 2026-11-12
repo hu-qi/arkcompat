@@ -2,10 +2,10 @@
 
 **更新时间：** 2026-11-12
 **目标日期：** 2026-12-23
-**当前 main 基线：** `4537668c11e834969518fad2c9c67fed9929a0e0`
-**PR 检查：** [状态收口 PR #114 / 43232823593](https://github.com/hu-qi/arkcompat/actions/runs/43232823593) 五项必需检查通过
-**main 检查：** [43233201954](https://github.com/hu-qi/arkcompat/actions/runs/43233201954) 五项必需 job 全部成功
-**当前工程动作：** A1/A2 工程切片为 `DONE`；`READY-ENG-01` 可执行；
+**当前 main 基线：** `b6ff4eb2702b90441118880aca88781271cb7a86`
+**PR 检查：** [`READY-ENG-01` PR #116 / 43236623133](https://github.com/hu-qi/arkcompat/actions/runs/43236623133) 五项必需检查通过
+**main 检查：** [43237122871](https://github.com/hu-qi/arkcompat/actions/runs/43237122871) 五项必需 job 全部成功
+**当前工程动作：** A1/A2 与 `READY-ENG-01` 工程切片为 `DONE`；A3–A8 全部 `GATED`，
 正式验收、S-09 和人工签字仍待完成
 **用途：** 把 [#3](https://github.com/hu-qi/arkcompat/issues/3)、
 [#4](https://github.com/hu-qi/arkcompat/issues/4)、
@@ -51,7 +51,7 @@ CI 绿灯和正式验收分别记录，不能互相替代。
 | 区域       | 已确认证据                                                                                                                               | 尚缺的完成证据                                                  |
 | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
 | 产品与许可 | MIT；HarmonyOS 6.0.0/API 20 最低目标；原始阈值已由负责人确认                                                                             | 目标 profile、入口范围、评分细则和最终裁定人签字                |
-| 扫描       | npm/pnpm/Yarn/OHPM、workspace、semver、JS/TS/ETS 静态 inventory 和输入安全边界；当前工程回归为 589 项测试 | 约定范围内剩余解析缺口、真实项目覆盖和独立扫描准确率            |
+| 扫描       | npm/pnpm/Yarn/OHPM、workspace、semver、JS/TS/ETS 与受限 CommonJS 静态 inventory 和输入安全边界；当前工程回归为 593 项测试 | 约定范围内剩余解析缺口、真实项目覆盖和独立扫描准确率            |
 | 规则       | HarmonyOS 6.0/API 20 静态规则快照 `0.2.0`                                                                                                | 规则完整度、冲突/unknown 的独立复核和目标运行时验证             |
 | 知识       | 元数据契约、离线查询/导出、公开来源候选快照、生命周期策略                                                                                | 独立评审后的 reviewed 记录、正式许可/导入批准和可交付知识库快照 |
 | 报告与建议 | JSON/Markdown/SARIF、解释、扫描→规则→知识→建议引擎                                                                                       | 端到端真实项目演练、beta 文档和正式用户验收                     |
