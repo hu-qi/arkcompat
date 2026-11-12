@@ -40,7 +40,8 @@ Node 22.13+（22 系列）或 Node 24，pnpm 10.34.9。实现范围、报告语�
 
 ## Project documentation
 
-- [TODO — 项目完成清单、验收产物与 issue 关闭条件](TODO.md)
+- [项目总控 TODO — 执行顺序、Issue 状态、签字门禁和发布清单](docs/PROJECT-MASTER-TODO.md)
+- [TODO — 当前勾选状态与阶段任务](TODO.md)
 - [项目执行台账 — 逐 Issue 动作、命令、证据、责任与关闭条件](docs/PROJECT-EXECUTION-LEDGER.md)
 - [项目完成计划 — 剩余 issue、验收与发布路径](docs/PROJECT-COMPLETION-PLAN.md)
 - [验收与发布签字包 — 待决事项、冻结记录和签字表](docs/ACCEPTANCE-SIGNOFF-PACKAGE.md)
