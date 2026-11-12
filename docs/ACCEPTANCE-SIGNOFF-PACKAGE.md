@@ -2,7 +2,7 @@
 
 **Status:** Ready for owner and independent adjudicator review.
 **Prepared:** 2026-11-12.
-**Main commit verified when this package was updated:** `bca754f6e057c0e252b2377f751335b7bee1b433`.
+**Main commit verified when this package was updated:** `38b725ac85e46c0df848203984e40b858e4143c2`.
 **Engineering regression baseline:** `f5d878dd180dac6109d283ea81f6e5345d643d06`.
 **Purpose:** Turn the remaining human decisions into one reviewable record that
 unlocks the formal evaluation and release sequence.
@@ -21,10 +21,10 @@ in [ACCEPTANCE-PROTOCOL](ACCEPTANCE-PROTOCOL.md),
 |---|---|
 | License for original code | MIT, confirmed by project requester |
 | Minimum target | HarmonyOS 6.0.0 / API 20 and later |
-| Main commit verified when this package was updated | `bca754f6e057c0e252b2377f751335b7bee1b433` on GitHub and AtomGit; [main checks](https://github.com/hu-qi/arkcompat/actions/runs/43180811776) passed all five required jobs |
-| Latest merged planning PR | [#85](https://github.com/hu-qi/arkcompat/pull/85) |
-| Planning PR checks | [43180591993](https://github.com/hu-qi/arkcompat/actions/runs/43180591993), all five required jobs passed |
-| Planning merge checks | [43180811776](https://github.com/hu-qi/arkcompat/actions/runs/43180811776), all five required jobs passed |
+| Main commit verified when this package was updated | `38b725ac85e46c0df848203984e40b858e4143c2` on GitHub and AtomGit; [main checks](https://github.com/hu-qi/arkcompat/actions/runs/43182839402) passed all five required jobs |
+| Latest merged planning PR | [#87](https://github.com/hu-qi/arkcompat/pull/87) |
+| Planning PR checks | [43182600874](https://github.com/hu-qi/arkcompat/actions/runs/43182600874), all five required jobs passed |
+| Planning merge checks | [43182839402](https://github.com/hu-qi/arkcompat/actions/runs/43182839402), all five required jobs passed |
 | Engineering regression commit | `f5d878dd180dac6109d283ea81f6e5345d643d06` |
 | Merged engineering PR | [#79](https://github.com/hu-qi/arkcompat/pull/79) |
 | Engineering PR checks | [43173965081](https://github.com/hu-qi/arkcompat/actions/runs/43173965081), all five required jobs passed |
@@ -120,14 +120,19 @@ as partial evidence. They do not fill the signed acceptance rows.
 
 ## 6. Surface Acceptance Checklist
 
-| Surface | Install | Core workflow | Error recovery | Uninstall / rollback | Finding parity | Distribution approval |
-|---|---|---|---|---|---|---|
-| CLI | Pending | Pending | Pending | Pending | Pending | Pending |
-| VS Code/Cursor | Local install verified | Local scan/navigation verified | Pending | Pending | Scoped local parity verified | Pending |
-| DevEco | Local disk install verified | Local product-adapter smoke verified | Pending | Pending | Scoped local parity verified | Pending |
-| Web | Pending release package | Local smoke verified | Pending | Pending | Pending | Pending |
-| MCP | Pending host walkthrough | Integration tests verified | Pending | Pending | Pending | Pending |
-| CI adapter | Source-run verified | Developer fixture verified | Pending | Pending | Source/CLI parity verified | Pending |
+Each committed surface must complete every applicable cell. A local smoke is not
+public distribution approval. For Web and MCP, knowledge lookup must use the
+same reviewed snapshot and show provenance, applicability, exclusions and
+unknown/error behavior.
+
+| Surface | Install / first run | Core workflow | Cancellation / corrupt input | Error recovery | Uninstall / rollback | Knowledge lookup | Finding parity | Distribution approval |
+|---|---|---|---|---|---|---|---|---|
+| CLI | Pending | Pending | Pending | Pending | Pending | Pending | Pending | Pending |
+| VS Code/Cursor | Local install verified; first run Pending | Local scan/navigation verified | Pending | Pending | Pending | Pending | Scoped local parity verified | Pending |
+| DevEco | Local disk install/restart verified | Local adapter smoke verified | Pending | Pending | Pending | Pending | Scoped local parity verified | Pending |
+| Web | Local source-run verified; release package Pending | Local report smoke verified | Pending | Pending | Pending | Pending | Pending | Pending |
+| MCP | Pending supported-host walkthrough | Local scan/explain and explicit snapshot integration verified | Pending | Pending | Pending | Local explicit-snapshot tests verified; accepted reviewed snapshot Pending | Pending cross-host parity | Pending |
+| CI adapter | Source-run verified | Developer fixture verified | Pending | Pending | Pending | Pending reviewed active snapshot | Source/CLI parity verified | Pending |
 
 ## 7. Release Evidence Checklist
 

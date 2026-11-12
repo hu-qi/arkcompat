@@ -2,7 +2,12 @@
 
 **更新日期：** 2026-11-12
 **计划验收日期：** 2026-12-23
-**当前基线：** `fdba5614f345c7b155be02a4d945ef31ef89241c`
+**当前验证主干：** `38b725ac85e46c0df848203984e40b858e4143c2`
+（[五项必需检查](https://github.com/hu-qi/arkcompat/actions/runs/43182839402)通过，
+GitHub 与 AtomGit 读回同一 SHA）
+
+**最近完整代码回归基线：** `f5d878dd180dac6109d283ea81f6e5345d643d06`
+（35 个测试文件、568 项测试；后续提交只新增规划文档）
 **当前状态：** 工程基础持续交付；正式验收 0/5；正式版本未发布；开放 Issue
 [#1](https://github.com/hu-qi/arkcompat/issues/1)、
 [#3](https://github.com/hu-qi/arkcompat/issues/3)、
@@ -25,6 +30,17 @@
 [项目完成计划](PROJECT-COMPLETION-PLAN.md)，人工决策表见
 [验收与发布签字包](ACCEPTANCE-SIGNOFF-PACKAGE.md)，当前勾选状态见
 [TODO](../TODO.md)。这些文档分工不同，状态不一致时以最新证据和签字记录为准。
+
+文档使用顺序：
+
+| 需要完成的事情 | 打开文档 |
+|---|---|
+| 查看整体依赖、Issue 总表和当前五个 READY 任务 | **本文** |
+| 领取今天的工作并查看原子任务、命令和证据 | [项目执行台账](PROJECT-EXECUTION-LEDGER.md) |
+| 填写阶段期、依赖和发布路径 | [项目完成计划](PROJECT-COMPLETION-PLAN.md) |
+| 推进当前工程任务，核对逐项勾选状态 | [TODO](../TODO.md) |
+| 做人工决策、入口验收和最终签字 | [验收与发布签字包](ACCEPTANCE-SIGNOFF-PACKAGE.md) |
+| 对外说明“已验证到哪一步” | [交付状态](DELIVERY-STATUS.md) |
 
 ## 1. 完成定义
 
