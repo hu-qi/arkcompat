@@ -3,7 +3,7 @@
   "observedAt": "2026-11-11",
   "issue": 3,
   "kind": "bounded-workspace-character-glob-host-and-artifact-evidence",
-  "implementationHead": "8cf38353f13bb1f77f6dec928dacefc65226014a",
+  "implementationHead": "c99bbb3340dda562c79481e3e5f58fc5f89c31f2",
   "fixture": {
     "path": "fixtures/developer/workspace-character-globs",
     "patterns": [
@@ -152,7 +152,7 @@
       "reportSha256": "8090ab217787a4293ced6ac99b9851a229abf1d75eb5d88d7179fa6820c5cf87",
       "indexSha256": "47cc6b7b2e15e6dbf901cd875e626273cc0b54b75d302a698c67aa25cd8fb35c",
       "sbomSha256": "3ab54d331f25a97b36310871f60ae256c30ff730887b7ee7e17ea92a3f1f199d",
-      "checksumsSha256": "039cbd912ffe76e3451bf40a97e5732958e285570c0e66585068977dbe1ec3d2",
+      "checksumsSha256": "d5b44f336b306ff106b17d6d81df931d4406bf9c7cb5bb927da0415f68fef86f",
       "runtimeValidation": {
         "components": 15,
         "dependencyEntries": 16,
@@ -160,10 +160,10 @@
       }
     },
     "vsix": {
-      "archiveSha256": "f68c3d3cd136f77acfd2412201351fd34f5d4ee463549671b44261aef0e31853",
+      "archiveSha256": "8cf256050fff12b4e7c20d89f2a78eeffd6f9b1aee834ab2e00b6c6ace78c002",
       "reportSha256": "8090ab217787a4293ced6ac99b9851a229abf1d75eb5d88d7179fa6820c5cf87",
       "runtimeSbomSha256": "3ab54d331f25a97b36310871f60ae256c30ff730887b7ee7e17ea92a3f1f199d",
-      "runtimeChecksumsSha256": "039cbd912ffe76e3451bf40a97e5732958e285570c0e66585068977dbe1ec3d2",
+      "runtimeChecksumsSha256": "d5b44f336b306ff106b17d6d81df931d4406bf9c7cb5bb927da0415f68fef86f",
       "runtimeValidation": {
         "components": 15,
         "dependencyEntries": 16,
@@ -177,5 +177,7 @@
     "hostInstallationOrScriptExecution": false,
     "independentAccuracyMeasured": false,
     "formalAcceptanceCompleted": false
-  }
+  },
+  "matchingAmendedAt": "2026-11-12",
+  "matchingAlgorithm": "Dynamic programming, O(pattern tokens * directory-name length); no wildcard regex backtracking."
 }
