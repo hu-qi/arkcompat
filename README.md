@@ -8,7 +8,7 @@
 - **目标形态**：CLI / VS Code-Cursor / DevEco Studio / Web / MCP / CI/CD，共享同一扫描引擎。
 - **交付时间**：2026-12-23
 - **当前状态**：工程纵向切片持续交付；正式验收 0/5，正式版本尚未发布。
-- **当前主干**：`92cd5a37fc28de964994dc47636a0beeb887fed0`；PR [#109](https://github.com/hu-qi/arkcompat/pull/109) 和文档收口 PR [#110](https://github.com/hu-qi/arkcompat/pull/110) 已合并，[main 质量流水线](https://github.com/hu-qi/arkcompat/actions/runs/43217340260)的五项必需 job 全部成功。GitHub 与 AtomGit 已独立读回同一 SHA。
+- **当前主干**：`06279d67e02f0724d9e8ee39a2c4a06ecf6dcfc0`；M5-07 供应链审计 PR [#111](https://github.com/hu-qi/arkcompat/pull/111) 已合并。[PR 质量流水线](https://github.com/hu-qi/arkcompat/actions/runs/43223890359)和 [main 质量流水线](https://github.com/hu-qi/arkcompat/actions/runs/43224216503)的五项必需 job 全部成功。工程审计切片已完成；AtomGit 同步状态以 [TODO](TODO.md) 的最终读回记录为准。
 
 首个验收节点目标 HarmonyOS 6.0.0+，里程碑排期见 [ROADMAP](ROADMAP.md)。
 **[TODO](TODO.md) 是剩余工作的唯一执行入口**，包含文档索引、A1–A8 工作包、

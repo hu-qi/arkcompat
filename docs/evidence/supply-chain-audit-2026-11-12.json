@@ -5,9 +5,9 @@
   "source": {
     "baseCommit": "92cd5a37fc28de964994dc47636a0beeb887fed0",
     "branch": "codex/m5-07-supply-chain-audit",
-    "pullRequest": null,
-    "mainCommit": null,
-    "mainRun": null,
+    "pullRequest": "https://github.com/hu-qi/arkcompat/pull/111",
+    "mainCommit": "06279d67e02f0724d9e8ee39a2c4a06ecf6dcfc0",
+    "mainRun": "https://github.com/hu-qi/arkcompat/actions/runs/43224216503",
     "inputSha256": {
       "pnpm-lock.yaml": "762e9ad023f8e521a9ea3a9d8da6b7b998773a5c9a4c098079f93ddc16f1baa9",
       "package.json": "f55e5dd1cd04efe88fffb27495bed0343eba8558c8dcde83b0b8cc98845c939f",
@@ -170,7 +170,7 @@
       }
     }
   ],
-  "acceptance": "pending",
+  "acceptance": "engineering-slice-complete; formal-acceptance-pending",
   "humanSignOff": {
     "decision": "S-09",
     "status": "pending",
