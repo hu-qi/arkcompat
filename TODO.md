@@ -6,7 +6,8 @@
 **文档核对流水线：** [43205307730](https://github.com/hu-qi/arkcompat/actions/runs/43205307730)，五项必需 job 全部通过
 **后续纯文档收尾合并：** `5193c65935c58386c9bf8b7a76b76690d7986c70`（[43205954055](https://github.com/hu-qi/arkcompat/actions/runs/43205954055)）
 **最近完整代码回归基线：** `511790bcdac6f19bbc0dc53089336c16aeae9896`（[43202341237](https://github.com/hu-qi/arkcompat/actions/runs/43202341237)）
-**当前状态：** 8 个开放 Issue、0 个开放 PR、3 个工程 `READY` 工作包、正式验收 0/5、人工签字 0/10
+**当前工程基线：** `75e2af597bebac3240752f688d27cc66478436d4`
+**当前状态：** 8 个开放 Issue、0 个开放 PR、2 个工程 `READY` 工作包、正式验收 0/5、人工签字 0/10
 
 本文是 ArkCompat 剩余工作的**唯一执行入口**，也是长期维护文档。每次开始工作先在这里选择一个 `READY` 工作包；`GATED` 项必须先取得具名人工决定或外部输入。工程实现、CI 绿灯、开发者 fixture、本地制品和模型评审都不能替代正式验收。
 
@@ -51,11 +52,10 @@
 
 | 顺序 | 工作包 | Issue | 当前状态 | 本轮工程交付 | 完成后是否可关闭 Issue |
 |---:|---|---|---|---|---|
-| 1 | M3-05 报告契约与稳定字节 | #5 | `READY` | JSON/Markdown/SARIF schema、重复导出哈希、CLI/Web 语义 parity | 否 |
-| 2 | M5-05 安全负例与资源边界 | #7 | `READY` | 威胁矩阵、隔离探针、失败样例和处置记录 | 否 |
-| 3 | M5-07 供应链与分发审计 | #7、#8 | `READY` | audit、CycloneDX SBOM、通知、许可证、制品哈希和分发缺口 | 否 |
+| 1 | M5-05 安全负例与资源边界 | #7 | `READY` | 威胁矩阵、隔离探针、失败样例和处置记录 | 否 |
+| 2 | M5-07 供应链与分发审计 | #7、#8 | `READY` | audit、CycloneDX SBOM、通知、许可证、制品哈希和分发缺口 | 否 |
 
-### 3.1 M3-05 · 报告契约与稳定字节
+### 3.1 M3-05 · 报告契约与稳定字节（工程完成）
 
 1. **关联 Issue / 里程碑：** [#5](https://github.com/hu-qi/arkcompat/issues/5) / M3。
 2. **验收条件：** JSON、Markdown 和 SARIF schema 有效；相同输入重复导出字节稳定；CLI 与 Web 的 finding ID、status、证据、位置、目标 profile 和快照版本语义一致；仅展示层差异有测试和说明。
@@ -81,9 +81,10 @@
 
 5. **输出制品：** 两份 JSON、一份 Markdown、一份 SARIF、SHA-256 清单、CLI/Web 字段对照表和 schema 验证日志。
 6. **证据路径：** `docs/evidence/report-stability-2026-11-12.json`；必要时同步更新 [REPORT-FORMATS](docs/REPORT-FORMATS.md)。
-7. **完成判据：** 所有 schema 验证通过；相同输入两次 JSON 字节一致；finding 不丢失、顺序不漂移、unknown 不省略、路径/秘密不泄漏；CLI/Web 稳定字段一致或差异有回归测试与书面理由。
-8. **已知限制：** 开发者 fixture 只能证明确定性和投影语义，不能证明正式扫描准确率；Web 的展示排序或 DOM 结构差异不能改变 canonical finding。
-9. **是否可关闭 Issue：** **否。** #5 仍需获准真实项目 walkthrough、独立干净主机、公开 beta、产品验收及相关人工签字。
+7. **完成证据：** [report-stability-2026-11-12.json](docs/evidence/report-stability-2026-11-12.json)；聚焦回归 5 个文件、74 项测试通过；`pnpm check` 36 个文件、575 项测试及文档完整性通过。
+8. **完成判据：** 所有 schema 验证通过；相同输入重复渲染字节一致；finding 不丢失、顺序不漂移、unknown 不省略；CLI/Web 稳定字段一致；SARIF 的 finding、位置和 coverage 与 canonical report 一致。
+9. **已知限制：** 开发者 fixture 只能证明确定性和投影语义，不能证明正式扫描准确率；Web 的展示排序或 DOM 结构差异不能改变 canonical finding。
+10. **是否可关闭 Issue：** **否。** #5 仍需获准真实项目 walkthrough、独立干净主机、公开 beta、产品验收及相关人工签字。
 
 ### 3.2 M5-05 · 安全负例与资源边界
 
@@ -163,7 +164,7 @@ Lottie 候选保持本地、未激活、未提交：`/Users/huqi/Documents/Codex
 | [#1](https://github.com/hu-qi/arkcompat/issues/1) | 验收协议、目标矩阵、决策候选稿已具备 | S-01–S-07 具名签字、独立角色、holdout 许可、样例评分和最终裁定 |
 | [#3](https://github.com/hu-qi/arkcompat/issues/3) | 多格式依赖图、workspace、JS/TS/ETS inventory、规则、确定性与安全边界已具备 | 约定范围缺口闭环；依赖扫描 ≥80%；不兼容 API ≥80%；独立标签和裁定 |
 | [#4](https://github.com/hu-qi/arkcompat/issues/4) | schema、五类判定、离线导入/查询/导出、五类 blind adapter 已具备 | reviewed 知识库；confident replacement 100% 且 coverage 非空；missing-port ≥80%；Lottie 决定 |
-| [#5](https://github.com/hu-qi/arkcompat/issues/5) | 三种报告、assessment、portable CLI 生命周期切片已具备 | M3-05；获准真实项目 walkthrough；独立干净主机；公开 beta；产品验收 |
+| [#5](https://github.com/hu-qi/arkcompat/issues/5) | 三种报告、assessment、M3-05 稳定字节与跨入口语义、portable CLI 生命周期切片已具备 | 获准真实项目 walkthrough；独立干净主机；公开 beta；产品验收 |
 | [#6](https://github.com/hu-qi/arkcompat/issues/6) | CLI/VSIX/DevEco/Web/MCP/CI 已有局部 smoke | 冻结入口范围；公开分发；完整 parity；安装、恢复、卸载/回滚和宿主矩阵 |
 | [#7](https://github.com/hu-qi/arkcompat/issues/7) | 回归、评测骨架、API 20 局部运行时、安全边界已具备 | M5-05；M5-07；正式指标；运行时矩阵；性能/许可/安全审查；最终签字 |
 | [#8](https://github.com/hu-qi/arkcompat/issues/8) | CLI/VSIX、SBOM/通知/哈希机制可重建 | accepted SHA；tag/release；签名或校验；下载 smoke；GitHub/AtomGit 同 SHA 读回和交接 |

@@ -42,7 +42,7 @@ Node 22.13+（22 系列）或 Node 24，pnpm 10.34.9。实现范围、报告语�
 
 ## Project documentation
 
-- **[TODO — 长期唯一执行入口、三个 READY 工作包、人工门禁和完成条件](TODO.md)**
+- **[TODO — 长期唯一执行入口、两个 READY 工作包、人工门禁和完成条件](TODO.md)**
 - [项目执行台账 — 原子任务、命令、证据、责任与 Issue 关闭条件](docs/PROJECT-EXECUTION-LEDGER.md)
 - [验收与发布签字包 — S-01–S-10 人工决定、冻结记录和签字表](docs/ACCEPTANCE-SIGNOFF-PACKAGE.md)
 - [项目总控 TODO — 里程碑和 Issue 总览快照](docs/PROJECT-MASTER-TODO.md)

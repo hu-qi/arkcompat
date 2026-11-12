@@ -38,7 +38,7 @@
 | 需要完成的事情 | 打开文档 |
 |---|---|
 | 选择下一项任务并复制执行命令 | **[根目录 TODO](../TODO.md)** |
-| 查看整体依赖、Issue 总表和当前三个 READY 任务 | 本文 |
+| 查看整体依赖、Issue 总表和当前两个 READY 任务 | 本文 |
 | 按剩余 Issue 直接领取任务并核对正式关闭证据 | [项目完成行动清单](PROJECT-COMPLETION-ACTIONS.md) |
 | 领取今天的工作并查看原子任务、命令和证据 | [项目执行台账](PROJECT-EXECUTION-LEDGER.md) |
 | 填写阶段期、依赖和发布路径 | [项目完成计划](PROJECT-COMPLETION-PLAN.md) |
@@ -71,7 +71,7 @@
 
 | 顺序 | 工作流 | 当前可执行状态 | 解锁条件 | 完成证据 |
 |---:|---|---|---|---|
-| 1 | 工程安全与可发布性 | M1-06、M3-04 已完成工程切片；可立即执行 M3-05、M5-05、M5-07 | 无 | 测试、隔离探针、生命周期日志、SBOM、通知、哈希 |
+| 1 | 工程安全与可发布性 | M1-06、M3-04、M3-05 已完成工程切片；可立即执行 M5-05、M5-07 | 无 | 测试、隔离探针、生命周期日志、报告哈希、SBOM、通知、哈希 |
 | 2 | 冻结验收范围 | 候选材料已具备，S-01–S-07 待签 | 项目负责人和裁定人 | 签字后的目标矩阵、评分协议、角色与数据治理 |
 | 3 | 扫描、知识库和产品闭环 | 基础实现已具备；真实 reviewed 数据、授权项目和 holdout 待提供 | 第 2 项与获准输入 | 真实项目演练、reviewed 知识快照、完整指标 |
 | 4 | 多入口交付与 parity | CLI、VSIX、DevEco、Web、MCP、CI 已有局部 smoke | 第 2、3 项 | 各入口安装/恢复/卸载日志与 parity 报告 |
@@ -89,7 +89,7 @@
 | [#1](https://github.com/hu-qi/arkcompat/issues/1) M0 范围与口径 | 冻结目标、入口、评分、角色和数据治理 | 验收协议、目标矩阵、决策候选稿 | S-01–S-07 未签；裁定人、holdout 许可未落实 | 完成签字包并组织一次样例评分 | 决策记录包含具名负责人、日期、依据和重访条件 |
 | [#3](https://github.com/hu-qi/arkcompat/issues/3) M1 扫描 | 确定性依赖图、源码 inventory、规则和 CLI | npm/pnpm/Yarn/OHPM 多种锁文件、workspace、JS/TS/ETS inventory、确定性报告、安全边界 | 约定范围内解析缺口、真实项目负例、独立扫描评测 | M1-02 范围签字后执行 M1-03–M1-05、M1-07–M1-09 | 范围缺口均有实现或显式 unknown；重复扫描字节稳定；不执行生命周期脚本；独立标签完成 |
 | [#4](https://github.com/hu-qi/arkcompat/issues/4) M2 知识库 | 五类移植判定、版本化知识、独立基准 | schema、离线导入/查询/导出、五类 adapter、公开来源候选 | reviewed 数据、许可 holdout、正式指标、Lottie 人工决定 | 整理待评审数据队列与导出验收样例 | 无 false-confident mapping；完整分母和弃答率公开；知识快照可复现 |
-| [#5](https://github.com/hu-qi/arkcompat/issues/5) M3 报告与 CLI | 可追溯建议、JSON/Markdown/SARIF、CLI beta | 报告适配器、assessment、portable CLI、生命周期回归 | 真实项目端到端演练、独立干净主机、schema 与稳定字节复核、公开 beta | M3-05 和获准项目 | 真实项目完成 scan→定位→查询→导出；独立环境可安装、恢复和卸载 |
+| [#5](https://github.com/hu-qi/arkcompat/issues/5) M3 报告与 CLI | 可追溯建议、JSON/Markdown/SARIF、CLI beta | 报告适配器、assessment、稳定字节与跨入口语义、portable CLI、生命周期回归 | 真实项目端到端演练、独立干净主机、公开 beta | 获准项目 | 真实项目完成 scan→定位→查询→导出；独立环境可安装、恢复和卸载 |
 | [#6](https://github.com/hu-qi/arkcompat/issues/6) M4 多入口 | 已承诺入口可安装并语义一致 | CLI、VSIX、DevEco、Web、MCP、CI 局部 smoke | 公开分发、完整 parity、恢复/卸载/回滚、受支持宿主矩阵 | 冻结入口范围后建立 canonical parity fixture | 每个承诺入口都能安装、运行、恢复和卸载，finding 语义一致 |
 | [#7](https://github.com/hu-qi/arkcompat/issues/7) M5 验收与安全 | 正式指标、运行时、安全、性能与验收包 | 回归、评测骨架、API 20 局部运行时、安全边界 | 独立 holdout、冻结运行时矩阵、完整安全/性能/许可审查、最终裁定 | M5-05 与 M5-07 | 四项指标达标；目标运行时通过；无阻断缺陷；裁定人签署验收包 |
 | [#8](https://github.com/hu-qi/arkcompat/issues/8) M6 发布 | 可复现安装、指标、制品与交接 | 可重建 CLI/VSIX、SBOM/通知/哈希机制 | 验收签字、签名/信任、tag/release、下载 smoke、双远端同步 | 完成 #1–#7 后冻结 release candidate | 验收方能在干净环境复现；GitHub 与 AtomGit 的代码和制品一致 |
@@ -132,7 +132,7 @@
 产物 provenance 通过。独立干净主机、公开 beta、签名和产品验收仍由 #5 的
 M3-07/M3-08 跟踪，不能用本工程切片关闭 Issue。
 
-### R-02 · M3-05：报告 schema 与稳定字节
+### R-02 · M3-05：报告 schema 与稳定字节（工程切片已完成）
 
 **关联：** #5。**证据：** schema 验证结果、重复导出和报告 SHA-256。
 
@@ -141,7 +141,11 @@ M3-07/M3-08 跟踪，不能用本工程切片关闭 Issue。
 3. 验证 CLI 与 Web 的 finding ID、status、证据、位置、版本字段一致；
 4. 对展示层差异写明原因，并加入回归测试。
 
-**关闭本项的条件：** 相同输入字节稳定；schema 全部有效；语义字段一致。
+**工程完成：** 相同输入字节稳定；schema 全部有效；CLI/Web 语义字段和
+SARIF finding/位置/coverage 一致。聚焦回归 5 个文件、74 项测试和完整
+`pnpm check`（36 个文件、575 项测试）通过。证据见
+[报告稳定性](evidence/report-stability-2026-11-12.json)。这不关闭 Issue #5；
+真实项目 walkthrough、独立干净主机、公开 beta 和产品验收仍待完成。
 
 ### R-03 · M5-05：安全负例与资源边界
 
