@@ -19,6 +19,17 @@
 对应 GitHub issue 如下。逐项动作、命令、证据路径、责任角色和关闭条件以
 项目执行台账为准。
 
+文档入口：
+
+| 文档 | 回答的问题 | 什么时候使用 |
+|---|---|---|
+| [项目总控 TODO](docs/PROJECT-MASTER-TODO.md) | 项目整体按什么顺序完成，哪些工作现在能做 | 每个阶段开始时 |
+| 本文 | 当前勾选状态和可立即执行的五个工程任务是什么 | 领取任务和每日推进时 |
+| [项目执行台账](docs/PROJECT-EXECUTION-LEDGER.md) | 每项任务做什么、命令、证据、依赖、负责人和关闭条件 | 实施、取证和关 Issue 时 |
+| [项目完成计划](docs/PROJECT-COMPLETION-PLAN.md) | A–E 各阶段如何依赖和推进 | 排期和检查跨阶段依赖时 |
+| [验收与发布签字包](docs/ACCEPTANCE-SIGNOFF-PACKAGE.md) | 哪些决定必须由人签字、如何验收入口与正式发布 | 评审、验收和发布前 |
+| [交付状态](docs/DELIVERY-STATUS.md) | 当前哪些只是本地证据，哪些已经公开或验收 | 对外汇报和避免夸大完成度时 |
+
 状态含义：
 
 - `[x]`：已有可复核证据；若依赖人工批准，括注仍会明确保留。
@@ -77,6 +88,34 @@ SHA、命令、宿主/工具版本、输入与产物哈希、已知限制写入�
 | CI-06 | `GATED` | M5-07 | 加入打包、SBOM/通知/校验和、干净安装和下载 smoke | 打包与 clean job | 制品哈希、smoke 日志 | 工程 | 坏包或 provenance 不符会失败 |
 | CI-07 | `GATED` | CI-03–CI-06 | 为每个新门禁保留一次故意失败，再验证恢复 | 独立临时 PR/commit | 失败和恢复 run URL | 工程 | 每个门禁都有拦截证据 |
 
+## Issue 完成矩阵
+
+### Issue #5：建议、报告与 CLI beta
+
+| 原始完成条件 | 当前状态 | 必须补齐的证据 | 截止项 |
+|---|---|---|---|
+| finding 和 recommendation 可追溯到位置、目标 profile、规则/知识版本、证据、限制与下一步 | 报告契约与确定性解释已实现 | 同一输入经 CLI/Web/IDE 产出的 schema/语义对照 | M3-01、M3-05 |
+| 错误和 unknown 必须显式出现 | 已有返回契约与测试 | 损坏输入、未知规则、无 reviewed 知识、无替换候选的负例 | M3-04、M3-05 |
+| 一个真实项目完成端到端流程 | 未完成 | `scan → inspect finding → navigate source → query replacement → recommendation → export` 的命令、输入/输出 SHA 与日志 | M3-02、M3-03 |
+| CLI beta 可复现安装和恢复 | 本地便携包已验证，公开 beta 未发布 | 干净安装、升级、离线、损坏包、权限/磁盘失败、卸载和回滚日志；公开渠道与批准 | M3-04、M3-08 |
+| 可复现样例和 benchmark 说明 | 部分 | 固定样例、期望报告、完整命令、环境与性能采集字段 | M3-04、M3-08 |
+| 可选 AI 不改写确定性结论 | 工程边界已定义，v1 范围待确认 | 默认关闭；若启用，同意、发送预览、脱敏、撤回、审计和模型不可覆盖规则/unknown | M3-09 |
+
+### Issue #6：已承诺入口
+
+每个入口必须分别完成安装/首次运行、取消或损坏输入、错误恢复、卸载/回滚和
+canonical finding parity。Web 与 MCP 还必须证明 evidence-backed knowledge
+lookup；本地 smoke、绿色 CI 或目录存在都不等于公开分发完成。
+
+| 入口 | 工程验证 | 公开/生产分发 | 尚缺 |
+|---|---|---|---|
+| CLI | 便携运行时和重定位已验证 | `Pending` | 安装/升级/卸载/回滚、发布渠道、parity |
+| VS Code / Cursor | 隔离 profile 安装、扫描和导航已验证 | `Pending` | 首次运行、取消、恢复、卸载/回滚、发布审批 |
+| DevEco Studio | 固定版本 disk-install、加载、扫描、导航已验证 | `Pending` | 真实 HarmonyOS 工程、更新/卸载、签名/信任链、官方分发 |
+| Web | 本地报告 smoke 已验证 | `Pending` | evidence-backed lookup、损坏/版本不符/取消/清除/离线、发布包 |
+| MCP | 本地 scan/explain 与显式快照查询已验证 | `Pending` | 宿主矩阵、mapping 查询验收、超时/崩溃恢复、发布包 |
+| CI Action | source-run 与 CLI parity 已验证 | `Pending` | reviewed active snapshot、正式版本 pin、失败/产物/release smoke |
+
 ### 人工签字与外部输入门禁
 
 | ID | 状态 | 决策 | 输入 / 动作 | 证据 | 决策人 | 解锁 |
@@ -96,9 +135,9 @@ SHA、命令、宿主/工具版本、输入与产物哈希、已知限制写入�
 
 - [x] MIT 原创代码许可证及原始验收阈值由项目负责人确认。
 - [x] 扫描、规则接口、知识元数据、报告和多入口基础已实现，已有范围内的本地验证。
-- [x] 本文最近一次核对的主干提交为 `bca754f6e057c0e252b2377f751335b7bee1b433`；对应的[主干检查](https://github.com/hu-qi/arkcompat/actions/runs/43180811776)通过五项必需任务。GitHub 与 AtomGit 已读回同一 SHA。
+- [x] 本文最近一次核对的主干提交为 `38b725ac85e46c0df848203984e40b858e4143c2`；对应的[主干检查](https://github.com/hu-qi/arkcompat/actions/runs/43182839402)通过五项必需任务。GitHub 与 AtomGit 已读回同一 SHA。
 - [x] 最近一次完整工程回归对应的基线为 `f5d878dd180dac6109d283ea81f6e5345d643d06`；PR #79 合并后完整回归为 568 项测试，[PR 检查](https://github.com/hu-qi/arkcompat/actions/runs/43173965081)和[主干检查](https://github.com/hu-qi/arkcompat/actions/runs/43174225771)均通过五项必需任务。
-- [x] `f5d878d` 至当前主干只新增规划文档，没有新增代码实现；当前主干仍通过相同五项 CI，但不能把旧回归测试数说成当前提交刚重新执行的本地结果。
+- [x] `f5d878d` 至当前主干只新增规划文档，没有新增代码实现；`38b725a` 仍通过相同五项 CI，但不能把旧回归测试数说成当前提交刚重新执行的本地结果。
 - [x] 项目负责人确认 AtomGit 即 GitCode：后续只核对 GitHub + AtomGit，不再单列旧 GitCode URL 的凭据或同步任务。
 - [ ] 项目正式验收通过。
 - [ ] 正式版本发布及交接完成。
@@ -181,15 +220,15 @@ SHA、命令、宿主/工具版本、输入与产物哈希、已知限制写入�
 关联 [#5](https://github.com/hu-qi/arkcompat/issues/5)、[#6](https://github.com/hu-qi/arkcompat/issues/6)。
 
 - [x] C1 JSON/Markdown assessment 报告提供位置、目标环境、分类原因、来源、规则/知识版本、替换限制和可执行下一步。
-- [ ] C2 在真实获准项目上完成扫描→查看问题→定位代码→查询替换→导出报告的完整流程。
-- [ ] C3 完成 CLI beta 的安装、升级、错误码、损坏输入、资源上限及离线运行说明。
+- [ ] C2 在真实获准项目上完成扫描→查看问题→定位代码→查询替换→显示 recommendation→导出报告的完整流程，并证明 errors/unknown 不会被省略。
+- [ ] C3 完成 CLI beta 的安装、升级、错误码、损坏输入、资源上限、离线运行、卸载和回滚说明，提供可复现 sample/benchmark 命令。
 - [ ] C4 完成 VS Code/Cursor 包安装、首次使用、导航、取消、错误恢复和卸载验证。
 - [ ] C5 完成 DevEco 约定版本与实际 HarmonyOS 工程验证，落定公开分发、签名/信任和更新路线。
 - [ ] C6 完成 Web 本地报告/知识导入、版本不匹配、损坏文件、清除数据和离线使用验证。
 - [ ] C7 完成 MCP 约定宿主的安装、工作区权限、扫描/解释/查询及失败恢复验证。
 - [ ] C8 完成 CI 在真实工作流中的固定快照扫描、报告保留、失败反馈及最小权限验证。
 - [ ] C9 同一输入和快照经所有交付入口运行，比较 finding ID、状态、证据和位置；记录宿主版本与差异。
-- [ ] C10 明确可选远程 AI 的首版范围；若纳入，则实现明确同意、发送预览、脱敏、禁用/撤回和确定性结果保护。
+- [ ] C10 明确可选远程 AI 的首版范围；默认关闭。若纳入，则实现明确同意、发送预览、脱敏、禁用/撤回、审计记录，并保证模型不能覆盖确定性规则或 unknown。
 - [ ] C11 更新支持说明、安装文档与已知限制，满足原始完成条件后关闭 #5/#6。
 
 产物：候选制品、入口支持表、安装/卸载日志、真实项目演练记录、入口一致性报告。

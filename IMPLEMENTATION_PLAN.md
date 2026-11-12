@@ -1,49 +1,53 @@
-## Stage 1: Audit the existing project plan
+## Stage 1: Audit the planning documents
 
-**Goal**: Compare the proposed master TODO with the current roadmap, issue list,
-acceptance package, execution ledger, and temporary checklist.
+**Goal**: Compare the master TODO, execution ledger, completion plan, sign-off
+package, delivery status, README, and temporary checklist.
 
-**Success Criteria**: Every open issue has a close condition; engineering work and
-human gates are separated; release and synchronization steps are explicit.
+**Success Criteria**: All eight open Issues have explicit engineering actions,
+close conditions, dependencies, evidence, and accountable roles; stale status is
+identified.
 
-**Tests**: Inspect the rendered source, verify the recorded baseline against Git
-and GitHub Actions, and confirm the current open-issue set.
+**Tests**: Cross-check open Issues with the ledger; compare recorded baselines
+with Git and GitHub Actions.
 
 **Status**: Complete
 
-## Stage 2: Publish one executable master TODO
+## Stage 2: Reconcile one verified baseline
 
-**Goal**: Add a concise project-level TODO and link it from the existing planning
-entry points without replacing detailed evidence ledgers.
+**Goal**: Make every planning entry point distinguish the latest verified main
+commit from the latest full code-regression baseline.
 
-**Success Criteria**: `docs/PROJECT-MASTER-TODO.md` describes execution order,
-issue status, READY and GATED work, acceptance metrics, release, evidence, and
-completion conditions; README and TODO link to it.
+**Success Criteria**: README, TODO, master TODO, execution ledger, completion
+plan, delivery status, and sign-off package agree on `38b725a`, main run
+`43182839402`, and regression baseline `f5d878d`.
 
-**Tests**: Run the documentation validator and check every local link and
-referenced anchor.
+**Tests**: Search for superseded baseline SHAs and run documentation integrity.
+
+**Status**: Complete
+
+## Stage 3: Correct executable status and close conditions
+
+**Goal**: Ensure READY work can start without human input and GATED work names the
+missing decision or external input.
+
+**Success Criteria**: Master TODO and ledger agree on the five READY tasks, Issue
+close conditions, human gates, formal metrics, release sequence, and the rule
+that CI or model review cannot establish acceptance.
+
+**Tests**: Compare each open Issue's original body with its ledger row and
+validate every local link.
+
+**Status**: Complete
+
+## Stage 4: Verify and publish the documentation
+
+**Goal**: Run the repository quality gate, merge the documentation correction,
+and synchronize GitHub with AtomGit.
+
+**Success Criteria**: `pnpm check` and all five required PR/main jobs pass; the
+merged main SHA is identical on GitHub and AtomGit.
+
+**Tests**: Full `pnpm check`; PR checks; post-merge main checks; two independent
+`git ls-remote` reads.
 
 **Status**: In Progress
-
-## Stage 3: Run the full quality gate
-
-**Goal**: Verify formatting, lint, types, unit and integration tests, coverage,
-documentation integrity, and generated build output.
-
-**Success Criteria**: `pnpm check` passes on the final branch commit.
-
-**Tests**: Full `pnpm check`, followed by the five required GitHub Actions jobs.
-
-**Status**: Not Started
-
-## Stage 4: Merge and synchronize
-
-**Goal**: Merge the reviewed documentation change and keep GitHub and AtomGit on
-the same verified commit.
-
-**Success Criteria**: The pull request and resulting main workflow pass; GitHub
-and AtomGit read back the same main SHA.
-
-**Tests**: Inspect PR checks, post-merge main run, and remote SHA read-backs.
-
-**Status**: Not Started

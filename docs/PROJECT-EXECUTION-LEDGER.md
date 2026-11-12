@@ -2,8 +2,8 @@
 
 **Updated:** 2026-11-12
 **Target acceptance date:** 2026-12-23
-**Verified main baseline:** `bca754f6e057c0e252b2377f751335b7bee1b433`
-**Latest verified main run:** [43180811776](https://github.com/hu-qi/arkcompat/actions/runs/43180811776), all five required jobs passed
+**Verified main baseline:** `38b725ac85e46c0df848203984e40b858e4143c2`
+**Latest verified main run:** [43182839402](https://github.com/hu-qi/arkcompat/actions/runs/43182839402), all five required jobs passed
 **Latest complete code regression baseline:** `f5d878dd180dac6109d283ea81f6e5345d643d06` (568 tests across 35 files)
 **Remote read-back:** GitHub `origin/main` and AtomGit `atomgit-https/main` both resolved to the baseline SHA
 
@@ -145,11 +145,13 @@ project completes the full workflow.
 |---|---|---|---|---|---|---|---|
 | M3-01 | `DONE` | Implement JSON/Markdown/SARIF reports and deterministic assessment explanations. | Scanner/rule contracts | `pnpm check`; scan and `assess` fixtures | [REPORT-FORMATS](REPORT-FORMATS.md) | Engineering | Authored fixtures preserve IDs, locations, evidence, and limitations. |
 | M3-02 | `GATED` | Obtain authorization for a real project and record its version/hash. | Project owner | Use an approved project snapshot; do not upload private source | Input manifest and access record | Project owner + engineering | Approved project is available under recorded terms. |
-| M3-03 | `GATED` | Execute scan → inspect finding → navigate code → query replacement → export report on the approved project. | M3-02 | CLI/IDE/Web commands from the support matrix | Report, navigation log, source locations, SHA-256 | Engineering | One end-to-end journey is reproducible without author machine state. |
+| M3-03 | `GATED` | Execute scan → inspect finding → navigate code → query replacement → show recommendation → export report on the approved project. | M3-02 | CLI/IDE/Web commands from the support matrix | Report, navigation log, source locations, errors/unknown inventory, SHA-256 | Engineering | One end-to-end journey is reproducible without author machine state, and errors/unknown remain visible. |
 | M3-04 | `READY` | Write CLI beta install, upgrade, uninstall, offline, corrupted-input, resource-limit, exit-code, and recovery guidance. | None | `pnpm package:cli <new-output>`; `pnpm verify:runtime-provenance <output>` | [CLI-PACKAGE-REHEARSAL](CLI-PACKAGE-REHEARSAL.md) and clean-environment logs | Engineering | Commands work from a clean extraction and all failures have documented exit behavior. |
 | M3-05 | `READY` | Validate report schema compatibility and stable bytes across JSON, Markdown, SARIF, CLI, and Web. | M3-01 | `pnpm check`; schema validators; repeat export | Schema result and report hashes | Engineering | Stable fields agree; surface-only presentation differences are documented. |
 | M3-06 | `GATED` | Confirm that recommendations use only reviewed and applicable knowledge. | M2-04 | Run the assessment with candidate, expired, conflicting, and mismatched records | Negative-case report | Engineering + reviewer | Only reviewed applicable records produce confident recommendations. |
 | M3-07 | `GATED` | Complete user/product acceptance for the CLI beta and report semantics. | M3-03–06, M0-04 | Review walkthrough and output with the product owner | Signed walkthrough record | Product owner | Beta workflow and known limits are accepted or explicitly amended. |
+| M3-08 | `GATED` | Publish an approved CLI beta with a reproducible sample and benchmark guide. | M2-04, M3-03–07, S-02/S-09 | Clean-install a signed/checksummed candidate; run sample and benchmark commands | Distribution URL, package SHA, sample/report hashes, host log | Engineering + release owner | A recipient can install, run, recover, uninstall and reproduce the sample without author state. |
+| M3-09 | `GATED` | Decide whether optional remote AI is deferred or included, and verify its privacy and determinism controls if included. | M0-04, S-02 | Exercise disabled/default state, consent, pre-send preview, sanitization, revocation and hostile model output | Privacy test log and ADR | Product owner + security reviewer | v1 is explicitly AI-off, or every required consent/privacy/non-override control blocks release on failure. |
 
 ### 3.5 Issue #6 · M4 multi-surface delivery
 
@@ -162,11 +164,13 @@ semantically equivalent results and has install/run evidence.
 | M4-01 | `DONE` | Implement local CLI, VS Code/Cursor VSIX, DevEco disk-install probe, Web, MCP, and source-run CI adapter. | Shared core | `pnpm check` | [DELIVERY-STATUS](DELIVERY-STATUS.md), surface docs | Engineering | Each surface has scoped local smoke evidence. |
 | M4-02 | `GATED` | Create one canonical parity fixture and expected report using the frozen core/rules/knowledge versions. | M0-04 | Scan fixture once; run every surface adapter | Input SHA and expected canonical report | Engineering | Expected report is stable and contains locations and evidence. |
 | M4-03 | `GATED` | Automate finding parity across CLI, VS Code extension process, DevEco adapter, Web, MCP, and CI. | M4-02 | Run each entry point; compare finding ID/status/evidence/location | `parity-report.json` and host-version log | Engineering | Every promised surface yields equivalent findings or an explained adapter-only difference. |
-| M4-04 | `GATED` | Verify clean install, first run, cancellation, corrupt input, recovery, uninstall, and rollback for CLI and VSIX. | M4-02 | Clean-profile scripts/manual run logs | Installation and rollback logs | Engineering | A clean host can install, run, recover, and remove each package. |
+| M4-04 | `GATED` | Verify clean install, first run, cancellation, corrupt input, recovery, uninstall, and rollback for CLI and VSIX. | M4-02 | Clean-profile scripts/manual run logs | Installation and rollback logs | Engineering | A clean host can install, run, recover, remove and restore each package. |
 | M4-05 | `GATED` | Validate DevEco on the frozen IDE version and a real HarmonyOS project. | DevEco access and M0-03 | `pnpm package:deveco <DevEco-Studio.app> <new-output> [--prestage]`; install and scan | [DEVECO-FEASIBILITY](DEVECO-FEASIBILITY.md) plus new host log | Engineering + owner | Disk install, restart, scan, navigation, update, and uninstall are recorded. |
-| M4-06 | `GATED` | Verify Web and MCP local hosts, permissions, size limits, corrupt snapshots, cancellation, and offline behavior. | M4-02 | Run documented host commands | Host/version logs and error traces | Engineering | No default upload, no unconsented AI transfer, and failure recovery is visible. |
+| M4-06 | `GATED` | Verify Web and MCP local hosts, permissions, size limits, corrupt snapshots, cancellation, recovery, uninstall and offline behavior. | M4-02 | Run documented host commands | Host/version logs and error traces | Engineering | No default upload, no unconsented AI transfer, and every failure has a documented recovery path. |
 | M4-07 | `GATED` | Verify the CI action in a real workflow with fixed inputs, minimal permissions, JSON/SARIF retention, and failure feedback. | M4-02 | Use `.github/actions/arkcompat-scan` in a test repository/workflow | Workflow run and downloaded artifacts | Engineering | Required report appears; failed scans fail the job and do not publish secrets. |
 | M4-08 | `GATED` | Approve public distribution, signing/trust, update route, and deferred surfaces. | M0-04, M0-08 | Complete S-02/S-09 and host-specific distribution records | Signed distribution matrix | Project owner + security | Every surface is released or explicitly deferred with owner/date. |
+| M4-09 | `GATED` | Verify evidence-backed knowledge lookup in Web, including provenance, version, applicability, exclusions and unknown/error behavior. | M2-04, M4-02 | Load an approved snapshot; query reviewed, candidate, expired, conflicting and absent records | Query report and snapshot SHA | Engineering + reviewer | Reviewed applicable evidence is displayed; candidate data cannot become a confident recommendation. |
+| M4-10 | `GATED` | Verify evidence-backed mapping queries in MCP and the supported host matrix. | M2-04, M4-02 | Query reviewed, candidate, expired, conflicting and absent records through stdio | Protocol transcript and snapshot SHA | Engineering + reviewer | Web/MCP/CLI agree on canonical evidence, verdict and exclusion reasons or document adapter-only differences. |
 
 ### 3.6 Issue #7 · M5 independent acceptance, runtime, safety, and performance
 
@@ -203,7 +207,7 @@ products exist.
 | CI-05 | `GATED` | Add shipped-surface parity checks for every promised entry point. | M4-02–03 | Run canonical fixture through surface adapters; compare findings | Artifact and diff report | Engineering | A parity regression fails the required job. |
 | CI-06 | `GATED` | Add release packaging, SBOM/notices/checksum, clean-install, and download smoke checks. | M5-07 | Package artifacts; verify provenance; install in clean job | Artifact hashes and smoke logs | Engineering | A broken package or provenance mismatch fails the workflow. |
 | CI-07 | `GATED` | Record a deliberate failure for each new gate, then remove the probe and verify the green main run. | CI-03–06 | Separate temporary PRs/commits with retained run URLs | Failure and recovery runs | Engineering | Each gate has demonstrated enforcement. |
-| CI-08 | `READY` | Update protection/required checks and close #11 after Stage 2 is verified. | CI-03–07 | Read back required checks and main run | Protection API output and Issue comment | Engineering | Stage 0–2 conditions are all satisfied. |
+| CI-08 | `GATED` | Update protection/required checks and close #11 after Stage 2 is verified. | CI-03–07 | Read back required checks and main run | Protection API output and Issue comment | Engineering | Stage 0–2 conditions are all satisfied. |
 
 ### 3.8 Issue #8 · M6 release and acceptance
 

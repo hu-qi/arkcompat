@@ -2,9 +2,9 @@
 
 **更新时间：** 2026-11-12
 **目标日期：** 2026-12-23
-**文档整理时核对的主干：** `bca754f6e057c0e252b2377f751335b7bee1b433`
+**文档整理时核对的主干：** `38b725ac85e46c0df848203984e40b858e4143c2`
 **最近工程回归基线：** `f5d878dd180dac6109d283ea81f6e5345d643d06`
-**最近主干检查：** [43180811776](https://github.com/hu-qi/arkcompat/actions/runs/43180811776)
+**最近主干检查：** [43182839402](https://github.com/hu-qi/arkcompat/actions/runs/43182839402)
 **用途：** 把 [#1](https://github.com/hu-qi/arkcompat/issues/1)、
 [#3](https://github.com/hu-qi/arkcompat/issues/3)、
 [#4](https://github.com/hu-qi/arkcompat/issues/4)、
@@ -49,7 +49,7 @@ CI 绿灯和正式验收分别记录，不能互相替代。
 | 区域 | 已确认证据 | 尚缺的完成证据 |
 |---|---|---|
 | 产品与许可 | MIT；HarmonyOS 6.0.0/API 20 最低目标；原始阈值已由负责人确认 | 目标 profile、入口范围、评分细则和最终裁定人签字 |
-| 扫描 | npm/pnpm/Yarn/OHPM、workspace、semver、JS/TS/ETS 静态 inventory；工程回归基线 `f5d878d` 的 568 项测试与五项 CI 已通过；当前文档主干 `1a1ab11` 的五项 CI 亦已通过 | 约定范围内剩余解析缺口、真实项目覆盖和独立扫描准确率 |
+| 扫描 | npm/pnpm/Yarn/OHPM、workspace、semver、JS/TS/ETS 静态 inventory；工程回归基线 `f5d878d` 的 568 项测试与五项 CI 已通过；当前文档主干 `38b725a` 的五项 CI 亦已通过 | 约定范围内剩余解析缺口、真实项目覆盖和独立扫描准确率 |
 | 规则 | HarmonyOS 6.0/API 20 静态规则快照 `0.2.0` | 规则完整度、冲突/unknown 的独立复核和目标运行时验证 |
 | 知识 | 元数据契约、离线查询/导出、公开来源候选快照、生命周期策略 | 独立评审后的 reviewed 记录、正式许可/导入批准和可交付知识库快照 |
 | 报告与建议 | JSON/Markdown/SARIF、解释、扫描→规则→知识→建议引擎 | 端到端真实项目演练、beta 文档和正式用户验收 |
@@ -157,21 +157,23 @@ toolchainVersions, generatedAtUtc, command
 为 CLI、Web、MCP 和 IDE 输出做 schema/语义一致性测试。
 
 **C2 真实项目演练：** 使用获准项目完成
-`scan → view finding → navigate code → query replacement → export report`。
-保存输入版本、命令、报告哈希、截图/日志和已知限制。
+`scan → view finding → navigate code → query replacement → show recommendation →
+export report`。每条结果须保留源码位置、目标 profile、规则/知识版本、证据、
+限制与下一步；错误和 unknown 必须出现在结果与导出中。保存输入版本、命令、
+报告哈希、截图/日志和已知限制。
 
 **C3 各入口文档与验证：**
 
 | 入口 | 必做验证 | 文档 |
 |---|---|---|
-| CLI | 干净安装、升级、离线、损坏输入、资源上限、退出码 | 安装/卸载、错误码、限制 |
+| CLI | 干净安装、首次运行、升级、离线、损坏输入、取消、资源上限、恢复、卸载/回滚、退出码 | 安装/卸载、错误码、限制、sample/benchmark |
 | VS Code/Cursor | 隔离 profile 安装、首次扫描、导航、取消、错误恢复、卸载 | 宿主版本、设置、故障处理 |
 | DevEco | disk-install、重启加载、真实 HarmonyOS 工程扫描、更新/卸载 | 精确 IDE 版本、签名/信任边界 |
 | Web | 本地报告/知识导入、损坏/版本不符、清除数据、离线 | CSP、大小限制、隐私 |
 | MCP | `--allow-root`、扫描/解释/查询、超时/崩溃恢复 | 宿主配置和权限 |
 | CI | 固定快照、JSON/SARIF 保留、失败反馈、最小权限 | action 用法和 release pin |
 
-**C4 Remote AI：** v1 默认不发送用户源码。若纳入，必须实现显式同意、
+**C4 Remote AI：** v1 默认关闭且不发送用户源码。若纳入，必须实现显式同意、
 发送预览、路径/secret 脱敏、撤回和确定性 finding 不被模型覆盖；若延期，
 在 `DECISIONS.md` 和发布说明中写明。
 
