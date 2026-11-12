@@ -2,11 +2,11 @@
 
 Issues #1, #3, #4, #5, #6, #7, #8 and #11 remain open. Issues #2 and #9 are
 closed. The current main baseline is
-`06279d67e02f0724d9e8ee39a2c4a06ecf6dcfc0`; M5-07 supply-chain audit
-[PR #111](https://github.com/hu-qi/arkcompat/pull/111) was merged after
-[PR run 43223890359](https://github.com/hu-qi/arkcompat/actions/runs/43223890359)
+`3649d86fa3d449224008fee460df3d951d3d309a`; the M5-07 documentation
+closeout [PR #112](https://github.com/hu-qi/arkcompat/pull/112) was merged after
+[PR run 43225392959](https://github.com/hu-qi/arkcompat/actions/runs/43225392959)
 passed, and
-[main run 43224216503](https://github.com/hu-qi/arkcompat/actions/runs/43224216503)
+[main run 43225772028](https://github.com/hu-qi/arkcompat/actions/runs/43225772028)
 passed all five required jobs.
 The latest full gate passed 37 test files and 589 tests. A1 is complete as an
 engineering slice. A2 supply-chain audit evidence is complete and merged as an

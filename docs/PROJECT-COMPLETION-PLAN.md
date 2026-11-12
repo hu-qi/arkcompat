@@ -2,10 +2,11 @@
 
 **更新时间：** 2026-11-12
 **目标日期：** 2026-12-23
-**当前 main 基线：** `06279d67e02f0724d9e8ee39a2c4a06ecf6dcfc0`
-**PR 检查：** [M5-07 PR #111 / 43223890359](https://github.com/hu-qi/arkcompat/actions/runs/43223890359) 五项必需检查通过
-**main 检查：** [43224216503](https://github.com/hu-qi/arkcompat/actions/runs/43224216503) 五项必需 job 全部成功
-**当前工程动作：** A1/A2 工程切片为 `DONE`；正式验收、S-09 和人工签字仍待完成
+**当前 main 基线：** `3649d86fa3d449224008fee460df3d951d3d309a`
+**PR 检查：** [M5-07 文档收口 PR #112 / 43225392959](https://github.com/hu-qi/arkcompat/actions/runs/43225392959) 五项必需检查通过
+**main 检查：** [43225772028](https://github.com/hu-qi/arkcompat/actions/runs/43225772028) 五项必需 job 全部成功
+**当前工程动作：** A1/A2 工程切片为 `DONE`；`READY-DOC-01` 和
+`READY-ENG-01` 可执行；正式验收、S-09 和人工签字仍待完成
 **用途：** 把 [#1](https://github.com/hu-qi/arkcompat/issues/1)、
 [#3](https://github.com/hu-qi/arkcompat/issues/3)、
 [#4](https://github.com/hu-qi/arkcompat/issues/4)、
