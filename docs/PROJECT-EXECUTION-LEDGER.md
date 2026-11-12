@@ -2,9 +2,9 @@
 
 **Updated:** 2026-11-12
 **Target acceptance date:** 2026-12-23
-**Verified main baseline:** `336e82130a23317e842d03a59f20b008cd5d0a10`
-**Latest verified main run:** [43199908891](https://github.com/hu-qi/arkcompat/actions/runs/43199908891), all five required jobs passed
-**Latest complete code regression baseline:** `336e82130a23317e842d03a59f20b008cd5d0a10` (574 tests across 35 files)
+**Verified main baseline:** `511790bcdac6f19bbc0dc53089336c16aeae9896`
+**Latest verified main run:** [43202341237](https://github.com/hu-qi/arkcompat/actions/runs/43202341237), all five required jobs passed
+**Latest complete code regression baseline:** `511790bcdac6f19bbc0dc53089336c16aeae9896` (574 tests across 35 files)
 **Execution entry:** [TODO](../TODO.md) is the permanent single execution entry and remains the maintenance entry after release.
 **Remote read-back:** GitHub `origin/main` and AtomGit `atomgit-https/main` both resolved to the baseline SHA
 
