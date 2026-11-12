@@ -2,8 +2,8 @@
 
 **Status:** Ready for owner and independent adjudicator review.
 **Prepared:** 2026-11-12.
-**Current main commit:** `4a6de52dea4647dda60bb0253a1085548748e0a8`.
-**Current main checks:** [43204842537](https://github.com/hu-qi/arkcompat/actions/runs/43204842537).
+**Current main commit:** `c2324e0b31f27fd02570710a9fbfd93af75bda0e`.
+**Current main checks:** [43205307730](https://github.com/hu-qi/arkcompat/actions/runs/43205307730).
 **Engineering regression baseline:** `511790bcdac6f19bbc0dc53089336c16aeae9896`.
 **Purpose:** Turn the remaining human decisions into one reviewable record that
 unlocks the formal evaluation and release sequence.
@@ -22,7 +22,7 @@ in [ACCEPTANCE-PROTOCOL](ACCEPTANCE-PROTOCOL.md),
 |---|---|
 | License for original code | MIT, confirmed by project requester |
 | Minimum target | HarmonyOS 6.0.0 / API 20 and later |
-| Current main commit | `4a6de52dea4647dda60bb0253a1085548748e0a8` on GitHub and AtomGit; [main checks](https://github.com/hu-qi/arkcompat/actions/runs/43204842537) passed all five required jobs |
+| Current main commit | `c2324e0b31f27fd02570710a9fbfd93af75bda0e` on GitHub; [main checks](https://github.com/hu-qi/arkcompat/actions/runs/43205307730) passed all five required jobs |
 | Execution entry | [TODO](../TODO.md) is the permanent single execution entry and is not deleted after release |
 | Engineering regression commit | `511790bcdac6f19bbc0dc53089336c16aeae9896` |
 | Regression-baseline checks | [43202341237](https://github.com/hu-qi/arkcompat/actions/runs/43202341237), all five required jobs passed |

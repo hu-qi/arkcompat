@@ -2,9 +2,8 @@
 
 **更新日期：** 2026-11-12
 **计划验收日期：** 2026-12-23
-**当前主干：** `4a6de52dea4647dda60bb0253a1085548748e0a8`
-（[五项必需检查](https://github.com/hu-qi/arkcompat/actions/runs/43204842537)通过，
-GitHub 与 AtomGit 读回同一 SHA）
+**当前主干：** `c2324e0b31f27fd02570710a9fbfd93af75bda0e`
+（[五项必需检查](https://github.com/hu-qi/arkcompat/actions/runs/43205307730)通过）
 
 **最近完整代码回归基线：** `511790bcdac6f19bbc0dc53089336c16aeae9896`
 （35 个测试文件、574 项测试；[回归检查](https://github.com/hu-qi/arkcompat/actions/runs/43202341237)通过）；
