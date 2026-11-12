@@ -14,7 +14,7 @@ import type { TargetProfile } from "@arkcompat/contracts";
 import { readLocalUtf8 } from "./local-input.js";
 
 const usage =
-  "Usage: arkcompat scan <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] [--format <json|markdown|sarif>]\n       arkcompat api-rules <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] --rules <snapshot.json>\n       arkcompat explain <project> --finding-id <sha256> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>]\n       arkcompat knowledge-export <snapshot.json>\n       arkcompat ohpm-evidence <capture.json> <package> <version> <observed-at-utc>";
+  "Usage: arkcompat scan <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] [--timeout-ms <milliseconds>] [--format <json|markdown|sarif>]\n       arkcompat api-rules <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] --rules <snapshot.json>\n       arkcompat explain <project> --finding-id <sha256> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>]\n       arkcompat knowledge-export <snapshot.json>\n       arkcompat ohpm-evidence <capture.json> <package> <version> <observed-at-utc>";
 const assessUsage =
   "       arkcompat assess <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] [--rules <snapshot.json>] [--knowledge <snapshot.json> --as-of <utc>] [--format <json|markdown>]";
 const fullUsage = `${usage}\n${assessUsage}`;
@@ -90,7 +90,13 @@ async function main(args: string[]) {
               "--as-of",
               "--format",
             ]
-          : ["--runtime", "--release", "--api-level", "--format"];
+          : [
+              "--runtime",
+              "--release",
+              "--api-level",
+              "--timeout-ms",
+              "--format",
+            ];
   for (let i = 0; i < flags.length; i += 2) {
     const flag = flags[i]!;
     const value = flags[i + 1];
@@ -126,6 +132,14 @@ async function main(args: string[]) {
     const level = options.get("--api-level")!;
     if (!/^\d+$/.test(level)) throw new Error(fullUsage);
     target.apiLevel = Number(level);
+  }
+  let timeoutMs: number | undefined;
+  if (options.has("--timeout-ms")) {
+    const timeout = options.get("--timeout-ms")!;
+    const parsed = Number(timeout);
+    if (!/^\d+$/.test(timeout) || !Number.isSafeInteger(parsed))
+      throw new Error(fullUsage);
+    timeoutMs = parsed;
   }
   if (command === "assess") {
     const rulesPath = options.get("--rules");
@@ -189,7 +203,14 @@ async function main(args: string[]) {
   }
   const format = options.get("--format") ?? "json";
   console.log(
-    formatReport(await scanProject(project, target), format as ReportFormat),
+    formatReport(
+      await scanProject(
+        project,
+        target,
+        timeoutMs === undefined ? {} : { timeoutMs },
+      ),
+      format as ReportFormat,
+    ),
   );
 }
 try {

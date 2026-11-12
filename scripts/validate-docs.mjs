@@ -24,6 +24,7 @@ const required = [
   'docs/PROJECT-COMPLETION-PLAN.md',
   'docs/PROJECT-COMPLETION-ACTIONS.md',
   'docs/PROJECT-MASTER-TODO.md',
+  'docs/PROJECT-TODO.md',
   'docs/ACCEPTANCE-SIGNOFF-PACKAGE.md',
   'docs/LEGACY-AUDIT.md',
   'docs/REPOSITORY-STRUCTURE.md',

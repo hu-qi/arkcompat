@@ -70,6 +70,17 @@ const lockfiles = new Set([
 const maxFileBytes = 1024 * 1024;
 const maxTotalBytes = 32 * maxFileBytes;
 
+export interface ScanProjectOptions {
+  timeoutMs?: number;
+}
+
+class ScanDeadlineError extends Error {
+  constructor(timeoutMs: number) {
+    super(`Scan time limit exceeded (${timeoutMs} ms)`);
+    this.name = "ScanDeadlineError";
+  }
+}
+
 function declarationLocations(
   filename: string,
   text: string,
@@ -126,13 +137,30 @@ function validateTarget(target: TargetProfile): void {
 export async function scanProject(
   projectPath: string,
   inputTarget: TargetProfile,
+  options: ScanProjectOptions = {},
 ): Promise<ScanReport> {
   validateTarget(inputTarget);
+  const timeoutMs = options.timeoutMs;
+  if (
+    timeoutMs !== undefined &&
+    (!Number.isSafeInteger(timeoutMs) || timeoutMs < 0)
+  )
+    throw new Error(
+      "Invalid scan timeout: expected a non-negative safe integer",
+    );
+  const deadline =
+    timeoutMs === undefined ? Number.POSITIVE_INFINITY : Date.now() + timeoutMs;
+  function assertDeadline(): void {
+    if (Date.now() >= deadline) throw new ScanDeadlineError(timeoutMs!);
+  }
+  assertDeadline();
   const target = { ...inputTarget };
   const root = await realpath(projectPath);
+  assertDeadline();
   let totalBytes = 0;
   let visitedEntries = 0;
   async function read(path: string) {
+    assertDeadline();
     const label = relative(root, path).split(sep).join("/");
     let file;
     try {
@@ -151,6 +179,7 @@ export async function scanProject(
       const buffer = Buffer.alloc(maxFileBytes + 1);
       let length = 0;
       while (length < buffer.length) {
+        assertDeadline();
         const { bytesRead } = await file.read(
           buffer,
           length,
@@ -160,16 +189,19 @@ export async function scanProject(
         if (bytesRead === 0) break;
         length += bytesRead;
       }
+      assertDeadline();
       totalBytes += length;
       if (length > maxFileBytes || totalBytes > maxTotalBytes)
         throw new Error("limit");
       return buffer.subarray(0, length).toString("utf8");
-    } catch {
+    } catch (error) {
+      if (error instanceof ScanDeadlineError) throw error;
       throw new Error(
         `Cannot read ${label}: expected a regular non-symlink file within scan limits`,
       );
     } finally {
       await file?.close();
+      assertDeadline();
     }
   }
   let manifest: unknown;
@@ -178,6 +210,7 @@ export async function scanProject(
   const ohpm = hasOhpmManifest && !rootEntries.includes("package.json");
   const manifestName = ohpm ? "oh-package.json5" : "package.json";
   const manifestText = await read(join(root, manifestName));
+  assertDeadline();
   try {
     manifest = ohpm ? JSON5.parse(manifestText) : JSON.parse(manifestText);
   } catch {
@@ -225,6 +258,7 @@ export async function scanProject(
       ? readOhpmProfile(await read(join(root, "build-profile.json5")))
       : undefined;
   const text = source ? await read(join(root, source)) : null;
+  assertDeadline();
   const ohpmLock =
     source === "oh-package-lock.json5"
       ? readOhpmLock(text!, Array.isArray(profile?.modules))
@@ -235,6 +269,7 @@ export async function scanProject(
       : source === "pnpm-lock.yaml" || source === "yarn.lock"
         ? parseDependencyGraph(text, source, rawDeclared)
         : npmGraph(text, source, rawDeclared);
+  assertDeadline();
   const {
     graph: dependencyGraph,
     limitations: graphLimitations,
@@ -276,6 +311,7 @@ export async function scanProject(
           read,
         })
       : { modules: [], limitations: [] };
+  assertDeadline();
   const pnpmImporters: PnpmImporterRecord[] =
     "importers" in lockResult && Array.isArray(lockResult.importers)
       ? (lockResult.importers as PnpmImporterRecord[])
@@ -298,6 +334,7 @@ export async function scanProject(
           read,
         })
       : { modules: [], limitations: [] };
+  assertDeadline();
   const yarnWorkspaceEntries: YarnBerryWorkspaceEntry[] =
     "workspaceEntries" in lockResult &&
     Array.isArray(lockResult.workspaceEntries)
@@ -315,6 +352,7 @@ export async function scanProject(
           read,
         })
       : { modules: [], limitations: [] };
+  assertDeadline();
   const modules = profile
     ? await scanOhpmModules(root, read, excluded, profile, ohpmLock)
     : workspaceManager === "pnpm"
@@ -322,6 +360,7 @@ export async function scanProject(
       : workspaceManager === "yarn"
         ? yarnWorkspaces
         : npmWorkspaces;
+  assertDeadline();
   const moduleFiles = new Set<string>();
   if (modules) {
     limitations.push(...modules.limitations);
@@ -338,10 +377,13 @@ export async function scanProject(
   }
   let sourceFiles = 0;
   async function walk(dir: string, depth: number): Promise<void> {
+    assertDeadline();
     if (depth > 64) throw new Error("Scan directory depth limit exceeded (64)");
     const entries = await readdir(dir, { withFileTypes: true });
+    assertDeadline();
     entries.sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
     for (const entry of entries) {
+      assertDeadline();
       if (++visitedEntries > 10000)
         throw new Error("Scan entry limit exceeded (10000)");
       const full = join(dir, entry.name);
@@ -381,9 +423,11 @@ export async function scanProject(
           });
         const extension = extname(entry.name);
         if (sourceExtensions.has(extension)) {
+          assertDeadline();
           const analyzed = analyzeSource(await read(full), path, {
             ets: extension === ".ets",
           });
+          assertDeadline();
           moduleReferences.push(...analyzed.references);
           apiUsages.push(...analyzed.apiUsages);
           limitations.push(...analyzed.limitations);
@@ -393,8 +437,10 @@ export async function scanProject(
         limitations.push({ code: "special-file-skipped", path });
       }
     }
+    assertDeadline();
   }
   await walk(root, 0);
+  assertDeadline();
   const findings: Finding[] = [];
   function finding(
     ruleId: Finding["ruleId"],

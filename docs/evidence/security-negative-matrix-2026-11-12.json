@@ -1,0 +1,194 @@
+{
+  "schemaVersion": "1",
+  "issue": 7,
+  "relatedIssues": [3],
+  "workPackage": "M5-05",
+  "assessment": "author-regression-only",
+  "scope": "M5-05 hostile-input and resource-boundary regression matrix for the local core scanner and CLI; not an independent security certification, formal accuracy measurement, target-runtime result, Issue #7 acceptance or release authorization.",
+  "baselineCommit": "845ed8755d1d86b225b3634c85647aa5de72bb42",
+  "host": {
+    "platform": "Darwin 27.2.0 arm64",
+    "productVersion": "macOS 27.2.1",
+    "node": "22.23.4",
+    "pnpm": "10.34.9"
+  },
+  "sourceHashes": {
+    "packages/core/src/index.ts": "964cf5ec03d983c6a0bab28c08e5d72281dcd9393b0ff789217ead0e278afba3",
+    "apps/cli/src/index.ts": "70b300129844d0169ce00e7b86a6cb0bcd3e79cea8627dfb44e89bb6f306f926",
+    "tests/security-matrix.test.ts": "7f3e6d313a01ca9ef0c603be739f19a90e04d89943d6357a3644f06d0b4cbf3f"
+  },
+  "commands": [
+    "pnpm exec prettier --write packages/core/src/index.ts apps/cli/src/index.ts tests/security-matrix.test.ts",
+    "pnpm build",
+    "pnpm exec vitest run tests/security-matrix.test.ts",
+    "pnpm check"
+  ],
+  "focusedResult": {
+    "testFiles": 1,
+    "tests": 13,
+    "status": "passed",
+    "durationSeconds": 1.63
+  },
+  "fullCheck": {
+    "command": "pnpm check",
+    "testFiles": 37,
+    "tests": 588,
+    "coverage": {
+      "statements": "94.89%",
+      "branches": "92.65%",
+      "functions": "98.13%",
+      "lines": "96.79%"
+    },
+    "documentationFiles": 57,
+    "status": "passed",
+    "authority": "Local evidence only; PR and main GitHub Actions runs are authoritative."
+  },
+  "limits": {
+    "maxFileBytes": 1048576,
+    "maxTotalBytes": 33554432,
+    "maxEntries": 10000,
+    "maxDirectoryDepth": 64,
+    "workspacePatternCharacters": 1024
+  },
+  "threatMatrix": [
+    {
+      "id": "SEC-01",
+      "test": "normalizes absolute and dot-dot project roots while keeping report paths relative",
+      "expected": "Equivalent roots produce the same canonical report and the absolute root is not disclosed.",
+      "observed": "passed",
+      "severity": "medium",
+      "disposition": "regression-covered"
+    },
+    {
+      "id": "SEC-02",
+      "test": "treats an explicitly selected root symlink as the scan root and keeps internal links skipped",
+      "expected": "The selected root is followed once; internal symlinks are skipped and disclosed.",
+      "observed": "passed",
+      "severity": "high",
+      "disposition": "regression-covered"
+    },
+    {
+      "id": "SEC-03",
+      "test": "skips a Unix socket as a special file without opening it",
+      "expected": "The socket is not opened and special-file-skipped is disclosed.",
+      "observed": "passed",
+      "severity": "high",
+      "disposition": "regression-covered"
+    },
+    {
+      "id": "SEC-04",
+      "test": "fails closed when the scan entry budget is exceeded",
+      "expected": "More than 10000 visited entries aborts the scan.",
+      "observed": "passed",
+      "severity": "medium",
+      "disposition": "regression-covered"
+    },
+    {
+      "id": "SEC-05",
+      "test": "fails closed when the cooperative scan deadline is already exhausted",
+      "expected": "A zero-millisecond core deadline throws a stable ScanDeadlineError diagnostic.",
+      "observed": "passed",
+      "severity": "medium",
+      "disposition": "regression-covered-with-cooperative-timeout-limit"
+    },
+    {
+      "id": "SEC-06",
+      "test": "fails closed through the CLI when its scan deadline is zero",
+      "expected": "CLI exits 1, stdout is empty and stderr contains only Scan time limit exceeded (0 ms).",
+      "observed": "passed",
+      "severity": "medium",
+      "disposition": "regression-covered-with-cooperative-timeout-limit"
+    },
+    {
+      "id": "SEC-07",
+      "test": "fails closed at the per-file, aggregate and directory-depth limits",
+      "expected": "Files above 1 MiB, aggregate input above 32 MiB and depth beyond 64 fail closed.",
+      "observed": "passed",
+      "severity": "medium",
+      "disposition": "regression-covered"
+    },
+    {
+      "id": "SEC-08",
+      "test": "fails closed on an overlong workspace selection without echoing it",
+      "expected": "An overlong workspace pattern is marked unsafe and omitted from the report.",
+      "observed": "passed",
+      "severity": "low",
+      "disposition": "regression-covered"
+    },
+    {
+      "id": "SEC-09",
+      "test": "keeps hostile Markdown fields inert while retaining their machine-readable values",
+      "expected": "Markdown neutralizes HTML, control characters and active link syntax; SARIF retains canonical values.",
+      "observed": "passed",
+      "severity": "high",
+      "disposition": "regression-covered"
+    },
+    {
+      "id": "SEC-10",
+      "test": "does not execute lifecycle scripts while preserving inventory unknowns",
+      "expected": "Lifecycle scripts are never run and inventory remains explicit unknown.",
+      "observed": "passed",
+      "severity": "high",
+      "disposition": "regression-covered"
+    },
+    {
+      "id": "SEC-11",
+      "test": "sanitizes filesystem failures at the CLI boundary",
+      "expected": "CLI exits 1 and exposes only a stable filesystem code without private paths.",
+      "observed": "passed",
+      "severity": "medium",
+      "disposition": "regression-covered"
+    },
+    {
+      "id": "SEC-12",
+      "test": "rejects corrupt manifests through a stable CLI diagnostic without echoing source",
+      "expected": "CLI exits 1 with a stable diagnostic and does not echo source or a placeholder secret.",
+      "observed": "passed",
+      "severity": "medium",
+      "disposition": "regression-covered"
+    },
+    {
+      "id": "SEC-13",
+      "test": "redacts credential-bearing URLs from canonical and rendered reports",
+      "expected": "User info, password and token values are absent from JSON, Markdown and SARIF.",
+      "observed": "passed",
+      "severity": "high",
+      "disposition": "regression-covered"
+    }
+  ],
+  "residualRisks": [
+    {
+      "id": "RISK-01",
+      "description": "The cooperative timeout checks between asynchronous boundaries and cannot interrupt a synchronous parser that has already started.",
+      "severity": "medium",
+      "owner": "Engineering Lead",
+      "dueDate": null,
+      "disposition": "documented limitation; independent security review required"
+    },
+    {
+      "id": "RISK-02",
+      "description": "CPU and peak-memory budgets have not been measured independently on frozen small, medium and large inputs.",
+      "severity": "medium",
+      "owner": "Engineering Lead and Security Reviewer",
+      "dueDate": null,
+      "disposition": "blocked on frozen performance inputs and independent review"
+    },
+    {
+      "id": "RISK-03",
+      "description": "A privileged actor can replace directories during traversal; this local model does not defend against all time-of-check/time-of-use races.",
+      "severity": "medium",
+      "owner": "Security Reviewer",
+      "dueDate": null,
+      "disposition": "documented threat-model boundary"
+    },
+    {
+      "id": "RISK-04",
+      "description": "Operating-system-specific special files, real malicious supply-chain inputs and independent security certification remain untested.",
+      "severity": "medium",
+      "owner": "Security Reviewer",
+      "dueDate": null,
+      "disposition": "independent review required before formal acceptance"
+    }
+  ],
+  "acceptanceBoundary": "Issue #7 remains open. Independent security review, formal metrics, actual-runtime validation, performance budgets, legal disposition and final adjudication remain required."
+}

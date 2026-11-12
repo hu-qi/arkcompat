@@ -2,10 +2,11 @@
 
 **Updated:** 2026-11-12
 **Target acceptance date:** 2026-12-23
-**Current verified baseline:** `4503a429e754284d1e3cb8013774ef9f27eb2048`
-**Current baseline checks:** [43211625225](https://github.com/hu-qi/arkcompat/actions/runs/43211625225), all five required jobs passed
+**Current verified baseline:** `845ed8755d1d86b225b3634c85647aa5de72bb42`
+**Current baseline checks:** [43213853305](https://github.com/hu-qi/arkcompat/actions/runs/43213853305), all five required jobs passed
 **Current baseline suite:** 36 test files and 575 tests passed
-**Current remote read-back:** GitHub `origin/main` and AtomGit `atomgit-https/main` both resolved to `4503a429e754284d1e3cb8013774ef9f27eb2048`
+**Current remote read-back:** GitHub `origin/main` and AtomGit `atomgit-https/main` both resolved to `845ed8755d1d86b225b3634c85647aa5de72bb42`
+**Current local A1 worktree:** 37 test files and 588 tests passed, including 13 M5-05 security-matrix tests; PR/main runs pending
 **Documentation review baseline:** `c2324e0b31f27fd02570710a9fbfd93af75bda0e`
 **Documentation review run:** [43205307730](https://github.com/hu-qi/arkcompat/actions/runs/43205307730), all five required jobs passed
 **Documentation closeout merge:** `5193c65935c58386c9bf8b7a76b76690d7986c70`; [43205954055](https://github.com/hu-qi/arkcompat/actions/runs/43205954055), all five required jobs passed
@@ -25,7 +26,8 @@ This is the working ledger for completing the eight open Issues:
 [#11](https://github.com/hu-qi/arkcompat/issues/11).
 
 [TODO](../TODO.md) is the single execution entry: choose one work package there
-before starting. This document is the detailed execution register: each row
+before starting. The detailed action checklist is
+[PROJECT-TODO](PROJECT-TODO.md). This document is the execution register: each row
 names the work, dependency, reproducible command or artifact, evidence
 destination, accountable role, and close condition. The
 [project completion plan](PROJECT-COMPLETION-PLAN.md) explains the sequence; the
@@ -193,7 +195,7 @@ blocking defect.
 | M5-02 | `GATED` | Freeze code, rules, knowledge, cases, labels, toolchain, SDK, devices, and target profiles into one manifest. | M0-03–07 | Generate immutable SHA-256 manifest | Acceptance run directory | Engineering + adjudicator | Every evaluation input is immutable and traceable. |
 | M5-03 | `GATED` | Execute the four formal metrics with complete denominators and retained failures. | M1-07–08, M2-07–08 | `pnpm evaluate ... <new-evidence-dir>` for each scope | Results JSON/Markdown, confusion matrices, error analysis | Adjudicator | All confirmed thresholds pass or Issue remains open. |
 | M5-04 | `GATED` | Validate each frozen profile on its actual runtime, distinguishing target from runtime. | M5-02 | Install and run the signed HAP/probe on the approved device/emulator | Device/OS/API/build logs and hashes | Runtime owner | Required runtime rows pass; unsupported environments are explicit. |
-| M5-05 | `READY` | Complete security probes for path escape, symlinks, special files, malformed/large input, resource exhaustion, secrets, and script execution. | None | Negative fixtures and disposable-host probes | Threat review and command logs | Engineering + security reviewer | No undisposed high-risk finding. |
+| M5-05 | `IN REVIEW` | Complete security probes for path escape, symlinks, special files, malformed/large input, resource exhaustion, secrets, and script execution. | None | `pnpm exec vitest run tests/security-matrix.test.ts`; `pnpm check` | [Security matrix evidence](evidence/security-negative-matrix-2026-11-12.json), [scanner security](SCANNER-SECURITY.md), PR/main runs | Engineering + security reviewer | Local author matrix passes 13/13 and the full gate passes 37 files/588 tests. Merge and independent review remain; Issue #7 stays open. |
 | M5-06 | `GATED` | Record performance for small, medium, and large approved inputs against a frozen budget. | M0-03 and approved projects | Time and peak-memory runs with repeated measurements | Benchmark JSON/Markdown | Engineering | Results are within budget or have an accepted remediation/deferral. |
 | M5-07 | `READY` | Produce dependency, SBOM, notice, trademark, and distribution evidence for legal/security disposition. | None | `pnpm audit`; `pnpm package:cli`; `pnpm verify:runtime-provenance` | Audit, SBOM, notices, SHA-256, review record | Engineering; then security/legal reviewer | No blocker remains or formal disposition is signed. |
 | M5-08 | `GATED` | Retain first failures and track every defect through fix and independent regression. | M5-03–07 | Defect register linked to failing run and corrective PR | Corrective run and reviewer sign-off | Engineering + reviewer | No blocking defect is open. |
@@ -352,8 +354,8 @@ role is not an assigned person until the sign-off package records a name.
 
 | ID | Status | Work / accountable role | Target | Concrete next action | Evidence / close condition | Issue closure authority |
 |---|---|---|---|---|---|---|
-| A1 | `READY` | M5-05 security negative and resource-boundary matrix; Engineering Lead + Security Reviewer | 2026-11-15 | Add hostile fixtures and isolated probes; run focused Vitest suites and `pnpm check`; record host/toolchain and hashes | Security tests, evidence JSON, scanner-security docs, PR/main run; no undisposed high risk | Cannot close #7 alone; independent security review remains |
-| A2 | `GATED` | M5-07 supply-chain and distribution audit; Engineering Lead + Security Reviewer + Legal/Release Owner | 2026-11-22 | Generate audit, SBOM, notices, licenses and artifact hashes in a fresh directory; reconcile every dependency and gap | Evidence JSON, provenance verification, review package; no undisposed vulnerability/license blocker | Feeds S-09; cannot close #7/#8 or release |
+| A1 | `IN REVIEW` | M5-05 security negative and resource-boundary matrix; Engineering Lead + Security Reviewer | 2026-11-15 | Local matrix and `pnpm check` pass; push, open Issue #7 PR, wait for five required checks, merge, verify main and AtomGit SHA | 13 security tests, evidence JSON, scanner-security docs, PR/main run; independent security review remains | Cannot close #7 alone; independent security review remains |
+| A2 | `READY` | M5-07 supply-chain and distribution audit; Engineering Lead + Security Reviewer + Legal/Release Owner | 2026-11-22 | Generate audit, SBOM, notices, licenses and artifact hashes in a fresh directory; reconcile every dependency and gap | Evidence JSON, provenance verification, review package; no undisposed vulnerability/license blocker | Feeds S-09; cannot close #7/#8 or release |
 | A3 | `GATED` | S-01–S-10 decision package; Project Owner + Final Adjudicator + named independent roles | 2026-11-15 review; decisions before dependent gates | Obtain named decisions with approve/amend/reject/defer, rationale, evidence, conflict/access boundary and revisit trigger | Signed package plus decisions/target matrix; no engineering defaults presented as approval | Cannot close #1 until every required decision is signed or formally deferred |
 | A4 | `GATED` | In-scope scanner and reviewed-knowledge gaps; Engineering Lead + Independent Label Provider + Non-author Reviewer | 2026-11-29 | Disposition every capability-matrix row; add failing fixtures; produce reviewed snapshot and canonical export | Gap disposition, regressions, snapshot SHA, source/license/review/validity/revocation records | Cannot close #3/#4 alone; A5 independent scoring still required |
 | A5 | `GATED` | Independent holdout, four metrics and runtime matrix; Label Provider + Engineering + Runtime Owner + Final Adjudicator | 2026-12-06 predictions; 2026-12-13 adjudication | Freeze manifest, generate label-blind predictions, score with complete denominators, execute actual-runtime profiles | Acceptance evidence tree, failures and remediation, signed adjudication; thresholds and knowledge-base delivery pass | Cannot close #7 alone; release and runtime sign-off remain |
@@ -361,8 +363,8 @@ role is not an assigned person until the sign-off package records a name.
 | A7 | `GATED` | Stage 2 CI enforcement; Engineering Lead + Final Adjudicator | 2026-12-15 | Add benchmark, provenance, parity, packaging/SBOM/checksum and download-smoke required gates; demonstrate failure then recovery | Workflow and PR/main runs for deliberate failure and recovery, protection read-back | Cannot close #11 unless every bad input is actually blocked |
 | A8 | `GATED` | Accepted-SHA rebuild, release and handover; Release Owner + Final Adjudicator + Project Owner | 2026-12-23 | Rebuild twice from accepted SHA; sign/checksum; publish; install/download-smoke; read back GitHub and AtomGit main/tag/artifact hashes | Release assets, checksums, readback manifest, final acceptance package, maintenance handover | Only then close Issues whose original conditions are met |
 
-The action register does not change the dependency order: A1 can proceed now;
-A2 engineering evidence can be prepared while S-09 remains unsigned; A3
+The action register does not change the dependency order: A1 is in PR/CI review;
+A2 engineering evidence can start after A1 merges while S-09 remains unsigned; A3
 requires named people; A4 depends on the frozen scope and data decisions; A5
 depends on A3/A4; A6 depends on S-02 and approved inputs; A7 depends on stable
 A4–A6 outputs; A8 requires all preceding gates.
