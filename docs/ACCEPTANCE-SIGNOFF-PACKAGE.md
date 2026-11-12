@@ -2,7 +2,7 @@
 
 **Status:** Ready for owner and independent adjudicator review.
 **Prepared:** 2026-11-12.
-**Main commit verified when this package was updated:** `60bad3aae52481b74afc2adbaf9b9c8afb1043c8`.
+**Main commit verified when this package was updated:** `4160cb212cb1f65f427987023c0c5cf7907104b3`.
 **Engineering regression baseline:** `f5d878dd180dac6109d283ea81f6e5345d643d06`.
 **Purpose:** Turn the remaining human decisions into one reviewable record that
 unlocks the formal evaluation and release sequence.
@@ -21,7 +21,7 @@ in [ACCEPTANCE-PROTOCOL](ACCEPTANCE-PROTOCOL.md),
 |---|---|
 | License for original code | MIT, confirmed by project requester |
 | Minimum target | HarmonyOS 6.0.0 / API 20 and later |
-| Main commit verified when this package was updated | `60bad3aae52481b74afc2adbaf9b9c8afb1043c8` on GitHub and AtomGit; [main checks](https://github.com/hu-qi/arkcompat/actions/runs/43175582351) passed all five required jobs |
+| Main commit verified when this package was updated | `4160cb212cb1f65f427987023c0c5cf7907104b3` on GitHub and AtomGit; [main checks](https://github.com/hu-qi/arkcompat/actions/runs/43176254888) passed all five required jobs |
 | Documentation PR | [#80](https://github.com/hu-qi/arkcompat/pull/80) |
 | Documentation PR checks | [43174730701](https://github.com/hu-qi/arkcompat/actions/runs/43174730701), all five required jobs passed |
 | Documentation main checks | [43174960901](https://github.com/hu-qi/arkcompat/actions/runs/43174960901), all five required jobs passed |

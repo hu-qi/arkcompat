@@ -2,8 +2,9 @@
 
 **更新时间：** 2026-11-12
 **目标日期：** 2026-12-23
-**文档整理时核对的主干：** `60bad3aae52481b74afc2adbaf9b9c8afb1043c8`
+**文档整理时核对的主干：** `4160cb212cb1f65f427987023c0c5cf7907104b3`
 **最近工程回归基线：** `f5d878dd180dac6109d283ea81f6e5345d643d06`
+**最近主干检查：** [43176254888](https://github.com/hu-qi/arkcompat/actions/runs/43176254888)
 **用途：** 把 [#1](https://github.com/hu-qi/arkcompat/issues/1)、
 [#3](https://github.com/hu-qi/arkcompat/issues/3)、
 [#4](https://github.com/hu-qi/arkcompat/issues/4)、
@@ -15,6 +16,7 @@
 可关闭的交付路径。
 
 本文是执行与验收计划，不替代 [TODO](../TODO.md) 的任务勾选、
+[项目执行台账](PROJECT-EXECUTION-LEDGER.md)的逐项命令与证据登记、
 [DECISIONS](DECISIONS.md) 的人工决策、[QUALITY-GATES](QUALITY-GATES.md)
 的阈值或 evidence 中的实测结果。工程实现、模型评审、开发者 fixture、
 CI 绿灯和正式验收分别记录，不能互相替代。

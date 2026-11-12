@@ -9,9 +9,10 @@
 [质量门禁](docs/QUALITY-GATES.md)、[决策记录](docs/DECISIONS.md)、
 [交付状态](docs/DELIVERY-STATUS.md)、
 [项目完成计划](docs/PROJECT-COMPLETION-PLAN.md)、
+[项目执行台账](docs/PROJECT-EXECUTION-LEDGER.md)、
 [验收与发布签字包](docs/ACCEPTANCE-SIGNOFF-PACKAGE.md)。任务编号仅用于本清单，
-对应 GitHub issue 如下。工程步骤、责任边界、证据目录和发布顺序以项目完成
-计划为准。
+对应 GitHub issue 如下。逐项动作、命令、证据路径、责任角色和关闭条件以
+项目执行台账为准。
 
 状态含义：
 
@@ -25,7 +26,7 @@
 
 - [x] MIT 原创代码许可证及原始验收阈值由项目负责人确认。
 - [x] 扫描、规则接口、知识元数据、报告和多入口基础已实现，已有范围内的本地验证。
-- [x] 本文最近一次核对的主干提交为 `60bad3aae52481b74afc2adbaf9b9c8afb1043c8`；对应的[主干检查](https://github.com/hu-qi/arkcompat/actions/runs/43175582351)通过五项必需任务。执行时仍应以 GitHub 与 AtomGit 的远端 `main` 读回结果为准。
+- [x] 本文最近一次核对的主干提交为 `4160cb212cb1f65f427987023c0c5cf7907104b3`；对应的[主干检查](https://github.com/hu-qi/arkcompat/actions/runs/43176254888)通过五项必需任务。执行时仍应以 GitHub 与 AtomGit 的远端 `main` 读回结果为准。
 - [x] 最近一次完整工程回归对应的基线为 `f5d878dd180dac6109d283ea81f6e5345d643d06`；PR #79 合并后完整回归为 568 项测试，[PR 检查](https://github.com/hu-qi/arkcompat/actions/runs/43173965081)和[主干检查](https://github.com/hu-qi/arkcompat/actions/runs/43174225771)均通过五项必需任务。
 - [x] 上述基线已同步 GitHub 与 AtomGit，并读回相同提交。
 - [x] 项目负责人确认 AtomGit 即 GitCode：后续只核对 GitHub + AtomGit，不再单列旧 GitCode URL 的凭据或同步任务。
