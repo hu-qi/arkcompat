@@ -2,7 +2,8 @@
 
 **Status:** Ready for owner and independent adjudicator review.
 **Prepared:** 2026-11-12.
-**Code baseline:** `f5d878dd180dac6109d283ea81f6e5345d643d06`.
+**Documentation baseline:** `d28950636bf5f3fdf8f5e132ca38f304edc0544d`.
+**Engineering regression baseline:** `f5d878dd180dac6109d283ea81f6e5345d643d06`.
 **Purpose:** Turn the remaining human decisions into one reviewable record that
 unlocks the formal evaluation and release sequence.
 
@@ -20,10 +21,14 @@ in [ACCEPTANCE-PROTOCOL](ACCEPTANCE-PROTOCOL.md),
 |---|---|
 | License for original code | MIT, confirmed by project requester |
 | Minimum target | HarmonyOS 6.0.0 / API 20 and later |
-| Main commit | `f5d878dd180dac6109d283ea81f6e5345d643d06` on GitHub and AtomGit |
+| Main commit | `d28950636bf5f3fdf8f5e132ca38f304edc0544d` on GitHub and AtomGit |
+| Documentation PR | [#80](https://github.com/hu-qi/arkcompat/pull/80) |
+| Documentation PR checks | [43174730701](https://github.com/hu-qi/arkcompat/actions/runs/43174730701), all five required jobs passed |
+| Documentation main checks | [43174960901](https://github.com/hu-qi/arkcompat/actions/runs/43174960901), all five required jobs passed |
+| Engineering regression commit | `f5d878dd180dac6109d283ea81f6e5345d643d06` |
 | Merged engineering PR | [#79](https://github.com/hu-qi/arkcompat/pull/79) |
-| PR checks | [43173965081](https://github.com/hu-qi/arkcompat/actions/runs/43173965081), all five required jobs passed |
-| Main checks | [43174225771](https://github.com/hu-qi/arkcompat/actions/runs/43174225771), all five required jobs passed |
+| Engineering PR checks | [43173965081](https://github.com/hu-qi/arkcompat/actions/runs/43173965081), all five required jobs passed |
+| Engineering main checks | [43174225771](https://github.com/hu-qi/arkcompat/actions/runs/43174225771), all five required jobs passed |
 | Regression suite | 568 tests across 35 files |
 | Core coverage | statements 94.74%, branches 92.53%, functions 98.11%, lines 96.70% |
 | Assessment pipeline | scan → rules → knowledge → five-way classification → next action |
