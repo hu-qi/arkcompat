@@ -2,8 +2,8 @@
 
 **Status:** Ready for owner and independent adjudicator review.
 **Prepared:** 2026-11-12.
-**Verified main commit before this package update:** `b9542c89e7b504a89b0a6b9a7512e9c18233b350`.
-**Engineering regression baseline:** `b9542c89e7b504a89b0a6b9a7512e9c18233b350`.
+**Verified main commit:** `336e82130a23317e842d03a59f20b008cd5d0a10`.
+**Engineering regression baseline:** `336e82130a23317e842d03a59f20b008cd5d0a10`.
 **Purpose:** Turn the remaining human decisions into one reviewable record that
 unlocks the formal evaluation and release sequence.
 
@@ -21,11 +21,11 @@ in [ACCEPTANCE-PROTOCOL](ACCEPTANCE-PROTOCOL.md),
 |---|---|
 | License for original code | MIT, confirmed by project requester |
 | Minimum target | HarmonyOS 6.0.0 / API 20 and later |
-| Verified main commit before this package update | `b9542c89e7b504a89b0a6b9a7512e9c18233b350` on GitHub and AtomGit; [main checks](https://github.com/hu-qi/arkcompat/actions/runs/43199050794) passed all five required jobs |
+| Verified main commit | `336e82130a23317e842d03a59f20b008cd5d0a10` on GitHub and AtomGit; [main checks](https://github.com/hu-qi/arkcompat/actions/runs/43199908891) passed all five required jobs |
 | Execution entry | [TODO](../TODO.md) is the permanent single execution entry and is not deleted after release |
-| Engineering main checks | [43199050794](https://github.com/hu-qi/arkcompat/actions/runs/43199050794), all five required jobs passed |
-| Engineering regression commit | `b9542c89e7b504a89b0a6b9a7512e9c18233b350` |
-| Regression suite | 574 tests across 35 files at `b9542c8` |
+| Engineering main checks | [43199908891](https://github.com/hu-qi/arkcompat/actions/runs/43199908891), all five required jobs passed |
+| Engineering regression commit | `336e82130a23317e842d03a59f20b008cd5d0a10` |
+| Regression suite | 574 tests across 35 files at `336e821` |
 | Core coverage | statements 94.82%, branches 92.62%, functions 98.11%, lines 96.74% |
 | Assessment pipeline | scan → rules → knowledge → five-way classification → next action |
 | Prediction adapters | five label-blind scopes implemented and hash-bound |
