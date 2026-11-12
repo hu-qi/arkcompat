@@ -1,11 +1,13 @@
 # Delivery status and next gates · 2026-11-12
 
 Issues #1, #3, #4, #5, #6, #7, #8 and #11 remain open. Issues #2 and #9 are
-closed. The verified main commit before this document update is
-`511790bcdac6f19bbc0dc53089336c16aeae9896` on GitHub and AtomGit; its
-[quality run](https://github.com/hu-qi/arkcompat/actions/runs/43202341237)
+closed. The current main is `4a6de52dea4647dda60bb0253a1085548748e0a8` on
+GitHub and AtomGit; its
+[quality run](https://github.com/hu-qi/arkcompat/actions/runs/43204842537)
 passed all five required jobs. The latest complete code regression is
-`511790b` with 574 tests across 35 files. All original thresholds, target
+`511790bcdac6f19bbc0dc53089336c16aeae9896` with 574 tests across 35 files;
+its [regression run](https://github.com/hu-qi/arkcompat/actions/runs/43202341237)
+also passed all five required jobs. All original thresholds, target
 surfaces and human decision boundaries remain those in [PRD](PRD.md),
 [quality gates](QUALITY-GATES.md) and [decisions](DECISIONS.md). This snapshot
 distinguishes verified engineering from remaining work; it is not a release or
