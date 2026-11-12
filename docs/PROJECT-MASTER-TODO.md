@@ -2,8 +2,10 @@
 
 **更新日期：** 2026-11-12
 **计划验收日期：** 2026-12-23
-**当前主干：** `c2324e0b31f27fd02570710a9fbfd93af75bda0e`
+**本轮文档核对基线：** `c2324e0b31f27fd02570710a9fbfd93af75bda0e`
 （[五项必需检查](https://github.com/hu-qi/arkcompat/actions/runs/43205307730)通过）
+**后续纯文档收尾合并：** `5193c65935c58386c9bf8b7a76b76690d7986c70`
+（[五项必需检查](https://github.com/hu-qi/arkcompat/actions/runs/43205954055)通过）
 
 **最近完整代码回归基线：** `511790bcdac6f19bbc0dc53089336c16aeae9896`
 （35 个测试文件、574 项测试；[回归检查](https://github.com/hu-qi/arkcompat/actions/runs/43202341237)通过）；
