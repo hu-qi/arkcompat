@@ -2,8 +2,8 @@
 
 **Updated:** 2026-11-12
 **Target acceptance date:** 2026-12-23
-**Current main:** `4a6de52dea4647dda60bb0253a1085548748e0a8`
-**Current main run:** [43204842537](https://github.com/hu-qi/arkcompat/actions/runs/43204842537), all five required jobs passed
+**Current main:** `c2324e0b31f27fd02570710a9fbfd93af75bda0e`
+**Current main run:** [43205307730](https://github.com/hu-qi/arkcompat/actions/runs/43205307730), all five required jobs passed
 **Latest complete code regression baseline:** `511790bcdac6f19bbc0dc53089336c16aeae9896` (574 tests across 35 files)
 **Regression-baseline run:** [43202341237](https://github.com/hu-qi/arkcompat/actions/runs/43202341237), all five required jobs passed
 **Execution entry:** [TODO](../TODO.md) is the permanent single execution entry and remains the maintenance entry after release.

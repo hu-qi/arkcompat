@@ -2,8 +2,8 @@
 
 **更新时间：** 2026-11-12
 **目标日期：** 2026-12-23
-**当前主干：** `4a6de52dea4647dda60bb0253a1085548748e0a8`
-**当前主干检查：** [43204842537](https://github.com/hu-qi/arkcompat/actions/runs/43204842537)
+**当前主干：** `c2324e0b31f27fd02570710a9fbfd93af75bda0e`
+**当前主干检查：** [43205307730](https://github.com/hu-qi/arkcompat/actions/runs/43205307730)
 **最近工程回归基线：** `511790bcdac6f19bbc0dc53089336c16aeae9896`
 **回归基线检查：** [43202341237](https://github.com/hu-qi/arkcompat/actions/runs/43202341237)
 **用途：** 把 [#1](https://github.com/hu-qi/arkcompat/issues/1)、
