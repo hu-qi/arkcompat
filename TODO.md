@@ -25,7 +25,7 @@
 
 - [x] MIT 原创代码许可证及原始验收阈值由项目负责人确认。
 - [x] 扫描、规则接口、知识元数据、报告和多入口基础已实现，已有范围内的本地验证。
-- [x] 当前仓库主干为 `d28950636bf5f3fdf8f5e132ca38f304edc0544d`；PR #80 合并后的[主干检查](https://github.com/hu-qi/arkcompat/actions/runs/43174960901)通过五项必需任务。
+- [x] 本文最近一次核对的主干提交为 `60bad3aae52481b74afc2adbaf9b9c8afb1043c8`；对应的[主干检查](https://github.com/hu-qi/arkcompat/actions/runs/43175582351)通过五项必需任务。执行时仍应以 GitHub 与 AtomGit 的远端 `main` 读回结果为准。
 - [x] 最近一次完整工程回归对应的基线为 `f5d878dd180dac6109d283ea81f6e5345d643d06`；PR #79 合并后完整回归为 568 项测试，[PR 检查](https://github.com/hu-qi/arkcompat/actions/runs/43173965081)和[主干检查](https://github.com/hu-qi/arkcompat/actions/runs/43174225771)均通过五项必需任务。
 - [x] 上述基线已同步 GitHub 与 AtomGit，并读回相同提交。
 - [x] 项目负责人确认 AtomGit 即 GitCode：后续只核对 GitHub + AtomGit，不再单列旧 GitCode URL 的凭据或同步任务。
