@@ -230,3 +230,164 @@ it("rejects missing, symlink, oversized and non-UTF8 rule inputs without printin
   }
   expect(invoke(join(root, "missing-secret.json")).stderr).not.toContain(root);
 });
+
+const v2Snapshot = await readFile(
+  "data/rules/harmonyos-6.0-api20-rules.json",
+  "utf8",
+);
+
+it("evaluates schema 0.2.0 HarmonyOS 6.0.0+ rules with version ranges and runtime differentiation", async () => {
+  const root = await sample();
+  await writeFile(
+    join(root, "main.ts"),
+    [
+      'import { readFileSync } from "node:fs";',
+      'import * as cp from "node:child_process";',
+      'readFileSync("a");',
+      'cp.execSync("ls");',
+      'fetch("https://example.invalid");',
+      'document.getElementById("app");',
+      "new XMLHttpRequest();",
+      "process.cwd();",
+      "unknownLib.call();",
+    ].join("\n"),
+  );
+  const arktsReport = await scanProject(root, {
+    os: "HarmonyOS",
+    runtime: "arkts",
+    release: "7.0.0",
+    apiLevel: 26,
+  });
+  const arktsResult = evaluateApiRules(arktsReport, v2Snapshot);
+  expect(arktsResult.schemaVersion).toBe("0.2.0");
+  expect(arktsResult.counts).toEqual({
+    observed: 6,
+    incompatible: 5,
+    conditional: 1,
+    potentialRisk: 0,
+    unknown: 0,
+  });
+  const arkwebReport = await scanProject(root, {
+    os: "HarmonyOS",
+    runtime: "arkweb",
+    release: "6.0.0",
+    apiLevel: 20,
+  });
+  const arkwebResult = evaluateApiRules(arkwebReport, v2Snapshot);
+  expect(arkwebResult.counts).toEqual({
+    observed: 6,
+    incompatible: 1,
+    conditional: 1,
+    potentialRisk: 0,
+    unknown: 4,
+  });
+});
+
+it("resolves rule precedence by priority, withholds equal-priority overlaps, and respects maxApiLevel bounds", () => {
+  const baseRule = {
+    id: "rule.low",
+    selector: {
+      module: "demo-library",
+      path: ["sample"],
+      kind: "any" as const,
+      pathMatch: "prefix" as const,
+    },
+    profile: {
+      releaseRange: ">=6.0.0",
+      runtime: "arkts" as const,
+      minApiLevel: 20,
+      maxApiLevel: 25,
+    },
+    classification: "potential-risk" as const,
+    severity: "low" as const,
+    priority: 10,
+    rationale: "General module risk",
+    recommendedAction: "Review usage",
+    source: { url: "https://example.invalid/low", revision: "r1" },
+  };
+  const highRule = {
+    ...baseRule,
+    id: "rule.high",
+    selector: { ...baseRule.selector, pathMatch: "exact" as const },
+    classification: "incompatible" as const,
+    severity: "critical" as const,
+    priority: 50,
+    rationale: "Specific override",
+  };
+  const v2 = {
+    schemaVersion: "0.2.0" as const,
+    snapshotId: "precedence-test",
+    generatedAt: "2026-11-12T00:00:00Z",
+    rules: [baseRule, highRule],
+  };
+  const resolved = run(target, [usage], JSON.stringify(v2));
+  expect(resolved.results[0]).toMatchObject({
+    status: "incompatible",
+    ruleId: "rule.high",
+    priority: 50,
+  });
+  expect(
+    run({ ...target, apiLevel: 26 }, [usage], JSON.stringify(v2)).results[0],
+  ).toMatchObject({ status: "unknown", reason: "no-exact-rule" });
+  expect(
+    run(
+      { os: "HarmonyOS", runtime: "arkts", release: "6.0.0" },
+      [usage],
+      JSON.stringify(v2),
+    ).results[0],
+  ).toMatchObject({ status: "unknown", reason: "missing-api-level" });
+
+  const tied = {
+    ...v2,
+    rules: [baseRule, { ...highRule, id: "rule.tie", priority: 10 }],
+  };
+  expect(run(target, [usage], JSON.stringify(tied)).results[0]).toMatchObject({
+    status: "unknown",
+    reason: "ambiguous-rule",
+  });
+});
+
+it("rejects duplicate IDs and invalid semver/apiLevel bounds in 0.2.0 snapshots", () => {
+  const parsed = JSON.parse(v2Snapshot);
+  expect(() =>
+    run(
+      target,
+      [usage],
+      JSON.stringify({ ...parsed, rules: [parsed.rules[0], parsed.rules[0]] }),
+    ),
+  ).toThrow(/duplicate/i);
+  expect(() =>
+    run(
+      target,
+      [usage],
+      JSON.stringify({
+        ...parsed,
+        rules: [
+          {
+            ...parsed.rules[0],
+            profile: { ...parsed.rules[0].profile, releaseRange: ">=5.0.0" },
+          },
+        ],
+      }),
+    ),
+  ).toThrow(/releaseRange/i);
+  expect(() =>
+    run(
+      target,
+      [usage],
+      JSON.stringify({
+        ...parsed,
+        rules: [
+          {
+            ...parsed.rules[0],
+            profile: {
+              ...parsed.rules[0].profile,
+              minApiLevel: 24,
+              maxApiLevel: 20,
+            },
+          },
+        ],
+      }),
+    ),
+  ).toThrow(/API level bounds/i);
+});
