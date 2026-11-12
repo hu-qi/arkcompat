@@ -2,18 +2,18 @@
 
 **Updated:** 2026-11-12
 **Target acceptance date:** 2026-12-23
-**Current baseline:** `06279d67e02f0724d9e8ee39a2c4a06ecf6dcfc0`
-**Current PR checks:** [43223890359](https://github.com/hu-qi/arkcompat/actions/runs/43223890359), all five required jobs passed
-**Current main checks:** [43224216503](https://github.com/hu-qi/arkcompat/actions/runs/43224216503), all five required jobs passed
+**Current baseline:** `3649d86fa3d449224008fee460df3d951d3d309a`
+**Current PR checks:** [43225392959](https://github.com/hu-qi/arkcompat/actions/runs/43225392959), all five required jobs passed
+**Current main checks:** [43225772028](https://github.com/hu-qi/arkcompat/actions/runs/43225772028), all five required jobs passed
 **Current suite:** 37 test files and 589 tests passed, including 13 M5-05 security-matrix tests
-**Current remote read-back:** GitHub `origin/main` resolved to `06279d67e02f0724d9e8ee39a2c4a06ecf6dcfc0`; AtomGit synchronization is completed by this documentation closeout and recorded in its final PR/Issue evidence.
+**Current remote read-back:** GitHub `origin/main` resolved to `3649d86fa3d449224008fee460df3d951d3d309a`; AtomGit (GitCode) was last read at `92cd5a37fc28de964994c47636a0beeb887fed0` before synchronization and must be updated to the final accepted SHA.
 **Documentation review baseline:** `c2324e0b31f27fd02570710a9fbfd93af75bda0e`
 **Documentation review run:** [43205307730](https://github.com/hu-qi/arkcompat/actions/runs/43205307730), all five required jobs passed
 **Documentation closeout merge:** `5193c65935c58386c9bf8b7a76b76690d7986c70`; [43205954055](https://github.com/hu-qi/arkcompat/actions/runs/43205954055), all five required jobs passed
 **Latest complete code regression baseline:** `511790bcdac6f19bbc0dc53089336c16aeae9896` (574 tests across 35 files)
 **Regression-baseline run:** [43202341237](https://github.com/hu-qi/arkcompat/actions/runs/43202341237), all five required jobs passed
 **Execution entry:** [TODO](../TODO.md) is the permanent single execution entry and remains the maintenance entry after release.
-**Documentation closeout read-back:** GitHub `origin/main` and AtomGit `atomgit-https/main` both resolved to `5193c65935c58386c9bf8b7a76b76690d7986c70`
+**Documentation closeout read-back:** Historical PR #112 closeout resolved GitHub `origin/main` to `3649d86fa3d449224008fee460df3d951d3d309a`; AtomGit synchronization is recorded by the next delivery PR/Issue evidence.
 
 This is the working ledger for completing the eight open Issues:
 [#1](https://github.com/hu-qi/arkcompat/issues/1),

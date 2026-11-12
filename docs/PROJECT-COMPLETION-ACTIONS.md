@@ -2,8 +2,8 @@
 
 **更新日期：** 2026-11-12
 **目标验收日：** 2026-12-23
-**当前 main 基线：** `06279d67e02f0724d9e8ee39a2c4a06ecf6dcfc0`（M5-07 供应链审计 PR [#111](https://github.com/hu-qi/arkcompat/pull/111) 已合并；[PR 43223890359](https://github.com/hu-qi/arkcompat/actions/runs/43223890359) 与 [main 43224216503](https://github.com/hu-qi/arkcompat/actions/runs/43224216503) 五项必需 job 通过）
-**当前工程状态：** A1/A2 工程切片为 `DONE`；37 个文件、589 项测试通过；正式验收、S-09 和发布授权仍待完成
+**当前 main 基线：** `3649d86fa3d449224008fee460df3d951d3d309a`（M5-07 文档收口 PR [#112](https://github.com/hu-qi/arkcompat/pull/112) 已合并；[PR 43225392959](https://github.com/hu-qi/arkcompat/actions/runs/43225392959) 与 [main 43225772028](https://github.com/hu-qi/arkcompat/actions/runs/43225772028) 五项必需 job 通过）
+**当前工程状态：** A1/A2 工程切片为 `DONE`；两项 `READY` 工作包可执行；37 个文件、589 项测试通过；正式验收、S-09 和发布授权仍待完成
 **当前结论：** 工程持续交付；正式验收 0/5；正式版本未发布；开放 Issue
 [#1](https://github.com/hu-qi/arkcompat/issues/1)、
 [#3](https://github.com/hu-qi/arkcompat/issues/3)、
@@ -56,6 +56,14 @@ M3-04 CLI 生命周期工程切片已完成，证据见
 [生命周期记录](evidence/cli-beta-lifecycle-2026-11-12.json)。它覆盖本地离线运行、
 损坏候选拒绝、原子升级、回滚和卸载；独立干净主机、真实项目 walkthrough、公开
 beta、签名与产品验收仍由 Issue #5 跟踪。
+
+当前可立即执行的两项为：
+
+- `READY-DOC-01`：把长期 TODO 和各状态视图统一到当前 SHA、CI 结论和
+  `0/5` / `0/10` 口径，并修正能力矩阵中的重复待办；
+- `READY-ENG-01`：在 Issue #3 下增加受限 CommonJS 导出静态盘点，只记录
+  `module.exports` / `exports.member` 的静态声明，不执行源码，不声称运行时
+  导出存在或鸿蒙兼容。
 
 以下动作在人工门禁解锁后立即加入队列：
 

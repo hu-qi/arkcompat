@@ -29,7 +29,12 @@
 
 ## 4. Priority Engineering Sequence (for `B2`–`B9`)
 
-1. **Global & host API + `node:` protocol detection (`B2`)**: Needed immediately for HarmonyOS 6.0.0+ incompatible API recall (`>= 80%`) because browser DOM (`window`/`document`/`localStorage`/`fetch`) and Node globals (`process`/`Buffer`) are major incompatibility sources even without ES `import`.
-2. **Version-range API ruleset & unified scan-to-classification pipeline (`B3`, `B5`)**: Support HarmonyOS `>= 6.0.0` / `apiLevel >= 20` rule matching, conflict precedence, and sourced public HarmonyOS 6.0.0+ API incompatibility rules.
+1. **CommonJS export inventory (`B2`)**: Add bounded static tracking for
+   `module.exports` and `exports.member`, with explicit uncertainty for dynamic
+   names, mutation, reassignment and shadowing. Host globals, `node:*` imports
+   and the version-range ruleset are already implemented.
+2. **Unified scan-to-classification coverage (`B3`, `B5`)**: Expand the sourced
+   HarmonyOS 6.0.0+ API 20 rule set and integration coverage for the frozen
+   target profiles; keep conflict precedence and unknown propagation visible.
 3. **5-way missing-port classifier & verified public-metadata knowledge pipeline (`B4`, `B6`, `B7`)**: Enforce strict provenance, review gating, and zero name-absence-to-missing fallacy.
 4. **Five label-blind evaluation adapters and holdout isolation (`B8`, `B9`)**: Adapters are implemented; obtain licensed labels and a frozen manifest before formal scoring.
