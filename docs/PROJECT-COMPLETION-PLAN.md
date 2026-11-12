@@ -2,13 +2,12 @@
 
 **更新时间：** 2026-11-12
 **目标日期：** 2026-12-23
-**当前 main 基线：** `3649d86fa3d449224008fee460df3d951d3d309a`
-**PR 检查：** [M5-07 文档收口 PR #112 / 43225392959](https://github.com/hu-qi/arkcompat/actions/runs/43225392959) 五项必需检查通过
-**main 检查：** [43225772028](https://github.com/hu-qi/arkcompat/actions/runs/43225772028) 五项必需 job 全部成功
-**当前工程动作：** A1/A2 工程切片为 `DONE`；`READY-DOC-01` 和
-`READY-ENG-01` 可执行；正式验收、S-09 和人工签字仍待完成
-**用途：** 把 [#1](https://github.com/hu-qi/arkcompat/issues/1)、
-[#3](https://github.com/hu-qi/arkcompat/issues/3)、
+**当前 main 基线：** `3fb1f588b8e4223a11a34cc0f7462358d9944df8`
+**PR 检查：** [项目执行入口 PR #113 / 43230088222](https://github.com/hu-qi/arkcompat/actions/runs/43230088222) 五项必需检查通过
+**main 检查：** [43230414666](https://github.com/hu-qi/arkcompat/actions/runs/43230414666) 五项必需 job 全部成功
+**当前工程动作：** A1/A2 工程切片为 `DONE`；`READY-ENG-01` 可执行；
+正式验收、S-09 和人工签字仍待完成
+**用途：** 把 [#3](https://github.com/hu-qi/arkcompat/issues/3)、
 [#4](https://github.com/hu-qi/arkcompat/issues/4)、
 [#5](https://github.com/hu-qi/arkcompat/issues/5)、
 [#6](https://github.com/hu-qi/arkcompat/issues/6)、
@@ -31,7 +30,7 @@ CI 绿灯和正式验收分别记录，不能互相替代。
 
 项目“全部完成”必须同时满足以下条件：
 
-1. 八个开放 issue 的原始完成条件均被实现、测试和证据覆盖，或在发布前
+1. 七个开放 issue 的原始完成条件均被实现、测试和证据覆盖，或在发布前
    由项目负责人明确批准延期并记录责任人与新日期。
 2. 四项准确率/识别率指标由独立、有许可的留出集和获授权裁定人按冻结协议
    评分；开发者 fixture 不进入正式分母。
@@ -86,7 +85,7 @@ issue 完成条件核对`
 
 | Issue  | 工程完成条件                                                                         | 正式关闭证据                                           | 当前动作                                                                  |
 | ------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------------------------- |
-| #1 M0  | A1–A7 候选已存在；确认 A5/A8 的 profile、评分、入口范围和裁定人                      | 签署后的 DECISIONS、TARGET-MATRIX、ACCEPTANCE-PROTOCOL | 工程侧完成剩余候选材料，集中提交签字                                      |
+| #1 M0  | 已于 2026-11-12 关闭为 `COMPLETED`；后续决定继续由 #3–#8、#11 跟踪                    | 历史关闭记录；未签决定不得据此视为完成                 | 仅保留历史记录，不列入当前队列                                            |
 | #3 M1  | B2 范围内解析缺口闭环；相同输入确定性；错误显式 unknown；无脚本执行                  | 真实项目/负例、独立扫描评测、规则/知识联调结果         | 先完成 B2 缺口，再做 B4–B9 纵向闭环                                       |
 | #4 M2  | B4–B10；reviewed 知识快照、五类判定、来源/过期/撤回、五类预测适配器                  | 可导出知识库、独立标签和评测结果、Lottie 人工决定      | 候选数据、assessment 和 blind adapters 已实现，正式 reviewed 记录等待批准 |
 | #5 M3  | C1–C3；每条建议有位置、profile、版本、来源、限制和下一步；CLI beta 文档              | 真实项目完整演练、报告/schema 校验、安装升级和错误恢复 | 完成 assessment 联调后做 walkthrough 与 CLI 文档                          |
@@ -97,7 +96,10 @@ issue 完成条件核对`
 
 ## 5. 分阶段实施计划
 
-### 阶段 A：冻结验收边界（Issue #1）
+### 阶段 A：冻结验收边界（M0 历史，后续由 #3–#8、#11 跟踪）
+
+Issue #1 已关闭为 `COMPLETED`，但 S-01–S-10 仍未签署。该阶段继续约束正式
+评分、运行时、入口和发布，不能因为原 Issue 已关闭而跳过。
 
 **工程产出：** 将 A5/A8 合并为一份签字包，包含四项评分公式、
 partial/abstention 规则、五类 port 判定、目标 profile、v1 入口范围、
