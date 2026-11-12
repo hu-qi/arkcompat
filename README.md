@@ -8,7 +8,7 @@
 - **目标形态**：CLI / VS Code-Cursor / DevEco Studio / Web / MCP / CI/CD，共享同一扫描引擎。
 - **交付时间**：2026-12-23
 - **当前状态**：工程纵向切片已验证；正式验收 0/5，正式版本尚未发布。
-- **已验证主干**：`6d8831452ad69bf57ca54bedfa5782244673f452`；GitHub 与 AtomGit 读回同一 SHA，[质量流水线](https://github.com/hu-qi/arkcompat/actions/runs/43184796540)五项必需任务通过。
+- **已验证主干**：`c4a6af282c4a6025d187daee4cbe1a0237c9971f`；GitHub 与 AtomGit 读回同一 SHA，[质量流水线](https://github.com/hu-qi/arkcompat/actions/runs/43188712825)五项必需任务通过。
 
 首个验收节点目标 HarmonyOS 6.0.0+，里程碑排期见 [ROADMAP](ROADMAP.md)。可执行任务和人工签字门禁见 [TODO](TODO.md)。
 
@@ -41,6 +41,7 @@ Node 22.13+（22 系列）或 Node 24，pnpm 10.34.9。实现范围、报告语�
 ## Project documentation
 
 - [项目总控 TODO — 执行顺序、Issue 状态、签字门禁和发布清单](docs/PROJECT-MASTER-TODO.md)
+- [项目完成行动清单 — 按剩余 Issue 领取任务、人工门禁与关闭证据](docs/PROJECT-COMPLETION-ACTIONS.md)
 - [TODO — 当前勾选状态与阶段任务](TODO.md)
 - [项目执行台账 — 逐 Issue 动作、命令、证据、责任与关闭条件](docs/PROJECT-EXECUTION-LEDGER.md)
 - [项目完成计划 — 剩余 issue、验收与发布路径](docs/PROJECT-COMPLETION-PLAN.md)

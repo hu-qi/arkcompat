@@ -1,29 +1,23 @@
-## Stage 1: Scanner execution and input boundaries
-**Goal**: Prove and enforce that scans never execute project package scripts and fail explicitly for malformed, oversized, escaped, or special-file inputs.
-**Success Criteria**: Negative tests cover lifecycle scripts, path escape, symlinks, special files, malformed lockfiles, and bounded reads; evidence records the exact behavior.
-**Tests**: Focused scanner tests plus `pnpm check`.
+## Stage 1: Reconcile the control documents
+**Goal**: Make the TODO, project register, execution ledger, sign-off package, and README use one current baseline and one definition of READY work.
+**Success Criteria**: M1-06 appears as completed engineering evidence, the remaining READY queue contains exactly M3-04, M3-05, M5-05, and M5-07, and stale baseline references are removed.
+**Tests**: Search for stale counts and SHAs; `git diff --check`.
 **Status**: Complete
 
-## Stage 2: CLI beta lifecycle
-**Goal**: Make install, upgrade, offline execution, corrupt-input recovery, uninstall, and rollback reproducible from a clean directory.
-**Success Criteria**: Packaging and clean-extraction rehearsal evidence includes exit codes, hashes, and recovery commands.
-**Tests**: Portable CLI package verification and clean-host rehearsal.
-**Status**: Not Started
+## Stage 2: Validate documentation
+**Goal**: Ensure all required documents and local links are valid.
+**Success Criteria**: Documentation integrity passes and the complete project quality gate remains green.
+**Tests**: `node scripts/validate-docs.mjs`; `pnpm check`.
+**Status**: Complete
 
-## Stage 3: Report stability and security probes
-**Goal**: Validate stable JSON, Markdown, and SARIF fields across repeated exports and complete security/resource probes.
-**Success Criteria**: Schema checks, repeated hashes, surface-only differences, threat matrix, and no undisposed high-risk finding.
-**Tests**: Focused report tests, negative probes, and `pnpm check`.
-**Status**: Not Started
+## Stage 3: Publish and synchronize
+**Goal**: Merge the documentation update through protected GitHub CI and synchronize the resulting main commit to AtomGit.
+**Success Criteria**: All five PR and main jobs pass, the PR is merged, and GitHub plus AtomGit read back the same SHA.
+**Tests**: GitHub Actions run status and `git ls-remote`.
+**Status**: In Progress
 
-## Stage 4: Supply-chain audit
-**Goal**: Produce dependency, SBOM, notice, license, and distribution evidence for Issue #7/#8.
-**Success Criteria**: Audit, runtime provenance, third-party notices, SHA-256 inventory, and blocker disposition are retained.
-**Tests**: `pnpm audit`, package generation, and `pnpm verify:runtime-provenance`.
-**Status**: Not Started
-
-## Stage 5: Evidence, review, and release closeout
-**Goal**: Publish evidence to Issues, resolve feasible product gaps, complete formal acceptance and release gates, synchronize GitHub and AtomGit, and remove the temporary `TODO.md` only when all closure conditions are proven.
-**Success Criteria**: Every open Issue is closed with evidence or an explicitly authorized deferral; formal release and handoff are complete.
-**Tests**: Authoritative CI, remote SHA read-back, artifact verification, and acceptance audit.
+## Stage 4: Report the actionable project plan
+**Goal**: Give the user direct links to the concrete TODO, Issue closure, decision, execution, and sign-off documents without overstating acceptance.
+**Success Criteria**: The final response names the immediate engineering queue and the remaining formal acceptance and release gates.
+**Tests**: Verify each linked path and commit-pinned GitHub URL.
 **Status**: Not Started

@@ -2,8 +2,8 @@
 
 **Status:** Ready for owner and independent adjudicator review.
 **Prepared:** 2026-11-12.
-**Main commit verified when this package was updated:** `6d8831452ad69bf57ca54bedfa5782244673f452`.
-**Engineering regression baseline:** `f5d878dd180dac6109d283ea81f6e5345d643d06`.
+**Main commit verified when this package was updated:** `c4a6af282c4a6025d187daee4cbe1a0237c9971f`.
+**Engineering regression baseline:** `6e35d03c3d0aebf46558143853502eba6aabfba1`.
 **Purpose:** Turn the remaining human decisions into one reviewable record that
 unlocks the formal evaluation and release sequence.
 
@@ -21,16 +21,13 @@ in [ACCEPTANCE-PROTOCOL](ACCEPTANCE-PROTOCOL.md),
 |---|---|
 | License for original code | MIT, confirmed by project requester |
 | Minimum target | HarmonyOS 6.0.0 / API 20 and later |
-| Main commit verified when this package was updated | `6d8831452ad69bf57ca54bedfa5782244673f452` on GitHub and AtomGit; [main checks](https://github.com/hu-qi/arkcompat/actions/runs/43184796540) passed all five required jobs |
-| Latest merged planning PR | [#88](https://github.com/hu-qi/arkcompat/pull/88) |
-| Planning PR checks | [43184531641](https://github.com/hu-qi/arkcompat/actions/runs/43184531641), all five required jobs passed |
-| Planning merge checks | [43184796540](https://github.com/hu-qi/arkcompat/actions/runs/43184796540), all five required jobs passed |
-| Engineering regression commit | `f5d878dd180dac6109d283ea81f6e5345d643d06` |
-| Merged engineering PR | [#79](https://github.com/hu-qi/arkcompat/pull/79) |
-| Engineering PR checks | [43173965081](https://github.com/hu-qi/arkcompat/actions/runs/43173965081), all five required jobs passed |
-| Engineering main checks | [43174225771](https://github.com/hu-qi/arkcompat/actions/runs/43174225771), all five required jobs passed |
-| Regression suite | 568 tests across 35 files at `f5d878d`; later planning-only commits do not claim a fresh local rerun of that count |
-| Core coverage | statements 94.74%, branches 92.53%, functions 98.11%, lines 96.70% |
+| Main commit verified when this package was updated | `c4a6af282c4a6025d187daee4cbe1a0237c9971f` on GitHub and AtomGit; [main checks](https://github.com/hu-qi/arkcompat/actions/runs/43188712825) passed all five required jobs |
+| Latest merged engineering PR | [#90](https://github.com/hu-qi/arkcompat/pull/90) |
+| Engineering PR checks | [43188453171](https://github.com/hu-qi/arkcompat/actions/runs/43188453171), all five required jobs passed |
+| Engineering main checks | [43188712825](https://github.com/hu-qi/arkcompat/actions/runs/43188712825), all five required jobs passed |
+| Engineering regression commit | `6e35d03c3d0aebf46558143853502eba6aabfba1` |
+| Regression suite | 573 tests across 35 files at `6e35d03` |
+| Core coverage | statements 94.82%, branches 92.62%, functions 98.11%, lines 96.74% |
 | Assessment pipeline | scan → rules → knowledge → five-way classification → next action |
 | Prediction adapters | five label-blind scopes implemented and hash-bound |
 | Curated knowledge | six public-source candidates; zero reviewed; zero confident recommendations |

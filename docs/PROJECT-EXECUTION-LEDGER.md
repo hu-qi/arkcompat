@@ -2,9 +2,9 @@
 
 **Updated:** 2026-11-12
 **Target acceptance date:** 2026-12-23
-**Verified main baseline:** `6d8831452ad69bf57ca54bedfa5782244673f452`
-**Latest verified main run:** [43184796540](https://github.com/hu-qi/arkcompat/actions/runs/43184796540), all five required jobs passed
-**Latest complete code regression baseline:** `f5d878dd180dac6109d283ea81f6e5345d643d06` (568 tests across 35 files)
+**Verified main baseline:** `c4a6af282c4a6025d187daee4cbe1a0237c9971f`
+**Latest verified main run:** [43188712825](https://github.com/hu-qi/arkcompat/actions/runs/43188712825), all five required jobs passed
+**Latest complete code regression baseline:** `6e35d03c3d0aebf46558143853502eba6aabfba1` (573 tests across 35 files)
 **Remote read-back:** GitHub `origin/main` and AtomGit `atomgit-https/main` both resolved to the baseline SHA
 
 This is the working ledger for completing the eight open Issues:

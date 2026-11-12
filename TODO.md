@@ -6,7 +6,9 @@
 仅在完成条件及证据均满足后勾选；CI、开发者样例和模型评审分别记录，不能替代正式验收。
 
 需要按执行顺序查看全部事项、Issue 关闭条件、人工签字门禁和发布清单时，先阅读
-[项目总控 TODO](docs/PROJECT-MASTER-TODO.md)。本文保留阶段勾选与当前状态；
+[项目总控 TODO](docs/PROJECT-MASTER-TODO.md)。需要按剩余 Issue 直接领取下一项
+工程任务、查看负责人和正式关闭证据时，阅读
+[项目完成行动清单](docs/PROJECT-COMPLETION-ACTIONS.md)。本文保留阶段勾选与当前状态；
 逐项命令和证据登记仍以
 [项目执行台账](docs/PROJECT-EXECUTION-LEDGER.md)为准。
 
@@ -24,7 +26,8 @@
 | 文档 | 回答的问题 | 什么时候使用 |
 |---|---|---|
 | [项目总控 TODO](docs/PROJECT-MASTER-TODO.md) | 项目整体按什么顺序完成，哪些工作现在能做 | 每个阶段开始时 |
-| 本文 | 当前勾选状态和可立即执行的五个工程任务是什么 | 领取任务和每日推进时 |
+| [项目完成行动清单](docs/PROJECT-COMPLETION-ACTIONS.md) | 剩余 Issue 各由谁推进、下一步做什么、何时才能关闭 | 领取任务、周度检查、准备结项时 |
+| 本文 | 当前勾选状态和可立即执行的四个工程任务是什么 | 领取任务和每日推进时 |
 | [项目执行台账](docs/PROJECT-EXECUTION-LEDGER.md) | 每项任务做什么、命令、证据、依赖、负责人和关闭条件 | 实施、取证和关 Issue 时 |
 | [项目完成计划](docs/PROJECT-COMPLETION-PLAN.md) | A–E 各阶段如何依赖和推进 | 排期和检查跨阶段依赖时 |
 | [验收与发布签字包](docs/ACCEPTANCE-SIGNOFF-PACKAGE.md) | 哪些决定必须由人签字、如何验收入口与正式发布 | 评审、验收和发布前 |
@@ -56,11 +59,10 @@ SHA、命令、宿主/工具版本、输入与产物哈希、已知限制写入�
 
 | 顺序 | 任务 | 关联 Issue | 本轮应提交的证据 | 通过条件 |
 |---:|---|---|---|---|
-| 1 | M1-06：不执行包脚本及恶意/损坏输入边界 | #3 | [安全边界证据](docs/SCANNER-SECURITY.md)、负例测试、提交 SHA | 包脚本零执行；越界和超限输入显式失败 |
-| 2 | M3-04：CLI beta 安装、升级、离线、错误恢复和卸载 | #5 | 新目录打包、干净解压/安装、故障与恢复日志 | 文档命令可从干净环境复现 |
-| 3 | M3-05：JSON/Markdown/SARIF 与 CLI/Web 稳定字段 | #5 | schema 结果、重复导出、报告哈希 | 相同输入字节稳定；展示层差异有说明 |
-| 4 | M5-05：安全负例与资源边界 | #7 | 威胁矩阵、隔离主机日志、失败样例 | 无未处置高风险 |
-| 5 | M5-07：漏洞、SBOM、通知、许可和分发审计 | #7/#8 | `pnpm audit`、SBOM、通知、SHA-256 | 阻断项为零，或形成具名处置记录 |
+| 1 | M3-04：CLI beta 安装、升级、离线、错误恢复和卸载 | #5 | 新目录打包、干净解压/安装、故障与恢复日志 | 文档命令可从干净环境复现 |
+| 2 | M3-05：JSON/Markdown/SARIF 与 CLI/Web 稳定字段 | #5 | schema 结果、重复导出、报告哈希 | 相同输入字节稳定；展示层差异有说明 |
+| 3 | M5-05：安全负例与资源边界 | #7 | 威胁矩阵、隔离主机日志、失败样例 | 无未处置高风险 |
+| 4 | M5-07：漏洞、SBOM、通知、许可和分发审计 | #7/#8 | `pnpm audit`、SBOM、通知、SHA-256 | 阻断项为零，或形成具名处置记录 |
 
 完成后重新评估下表。`GATED` 任务只有在签字或外部输入真正到位后才能转为
 `READY`；不能用绿色 CI、开发者 fixture 或模型评审替代这些输入。
@@ -135,9 +137,9 @@ lookup；本地 smoke、绿色 CI 或目录存在都不等于公开分发完成�
 
 - [x] MIT 原创代码许可证及原始验收阈值由项目负责人确认。
 - [x] 扫描、规则接口、知识元数据、报告和多入口基础已实现，已有范围内的本地验证。
-- [x] 本文最近一次核对的主干提交为 `6d8831452ad69bf57ca54bedfa5782244673f452`；对应的[主干检查](https://github.com/hu-qi/arkcompat/actions/runs/43184796540)通过五项必需任务。GitHub 与 AtomGit 已读回同一 SHA。
-- [x] 最近一次完整工程回归对应的基线为 `f5d878dd180dac6109d283ea81f6e5345d643d06`；PR #79 合并后完整回归为 568 项测试，[PR 检查](https://github.com/hu-qi/arkcompat/actions/runs/43173965081)和[主干检查](https://github.com/hu-qi/arkcompat/actions/runs/43174225771)均通过五项必需任务。
-- [x] `f5d878d` 至当前主干只新增规划文档，没有新增代码实现；`6d88314` 仍通过相同五项 CI，但不能把旧回归测试数说成当前提交刚重新执行的本地结果。
+- [x] 本文最近一次核对的主干提交为 `c4a6af282c4a6025d187daee4cbe1a0237c9971f`；对应的[主干检查](https://github.com/hu-qi/arkcompat/actions/runs/43188712825)通过五项必需任务。GitHub 与 AtomGit 已读回同一 SHA。
+- [x] 最近一次完整工程回归对应 PR [#90](https://github.com/hu-qi/arkcompat/pull/90)；实现提交 `6e35d03c3d0aebf46558143853502eba6aabfba1` 的[PR 检查](https://github.com/hu-qi/arkcompat/actions/runs/43188453171)和合并后[主干检查](https://github.com/hu-qi/arkcompat/actions/runs/43188712825)均通过五项必需任务。本地 `pnpm check` 为 35 个测试文件、573 项测试。
+- [x] M1-06 已证明包脚本零执行、FIFO 跳过、32 MiB 聚合上限、64 层深度上限及损坏 lockfile 的安全失败；证据见 [扫描安全边界](docs/SCANNER-SECURITY.md)和[机器可读记录](docs/evidence/scanner-security-2026-11-12.json)。这只完成工程切片，不关闭 Issue #3。
 - [x] 项目负责人确认 AtomGit 即 GitCode：后续只核对 GitHub + AtomGit，不再单列旧 GitCode URL 的凭据或同步任务。
 - [ ] 项目正式验收通过。
 - [ ] 正式版本发布及交接完成。
@@ -269,7 +271,7 @@ lookup；本地 smoke、绿色 CI 或目录存在都不等于公开分发完成�
 
 ## 下一批优先行动
 
-1. 按“当前工程执行队列”完成 M1-06、M3-04、M3-05、M5-05 和 M5-07，
+1. 按“当前工程执行队列”完成 M3-04、M3-05、M5-05 和 M5-07，
    每项单独提交证据并更新对应 Issue。
 2. 提交 [验收与发布签字包](docs/ACCEPTANCE-SIGNOFF-PACKAGE.md) 的
    S-01–S-07，确定目标 profile、入口范围、评分、数据许可和独立裁定人。
