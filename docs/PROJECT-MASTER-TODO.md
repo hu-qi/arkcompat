@@ -2,14 +2,14 @@
 
 **更新日期：** 2026-11-12
 **计划验收日期：** 2026-12-23
-**当前 main 基线：** `4537668c11e834969518fad2c9c67fed9929a0e0`
-（状态收口 PR [#114](https://github.com/hu-qi/arkcompat/pull/114) 已合并；
-[main 流水线](https://github.com/hu-qi/arkcompat/actions/runs/43233201954)
+**当前 main 基线：** `b6ff4eb2702b90441118880aca88781271cb7a86`
+（`READY-ENG-01` PR [#116](https://github.com/hu-qi/arkcompat/pull/116) 已合并；
+[main 流水线](https://github.com/hu-qi/arkcompat/actions/runs/43237122871)
 五项必需 job 全部成功）
 
-**当前工程状态：** A1 为 `DONE`（当前 37 个测试文件、589 项测试，M5-05
+**当前工程状态：** A1 与 `READY-ENG-01` 为 `DONE`（当前 37 个测试文件、593 项测试，M5-05
 安全矩阵 13/13）；A2 供应链审计工程切片为 `DONE`，S-09 待签；
-`READY-ENG-01` 可执行；`TODO.md` 是长期唯一执行入口。
+A3–A8 全部为 `GATED`；`TODO.md` 是长期唯一执行入口。
 **当前状态：** 工程基础持续交付；正式验收 0/5；正式版本未发布；开放 Issue
 [#3](https://github.com/hu-qi/arkcompat/issues/3)、
 [#4](https://github.com/hu-qi/arkcompat/issues/4)、
@@ -115,8 +115,7 @@
 **工程完成：** 包脚本执行数为 0；资源上限和错误行为有回归测试。独立安全复核
 仍作为正式验收门禁保留，不能用本地回归替代。
 
-R-02 至 R-04 已完成工程切片。当前 READY 队列是 `READY-ENG-01`
-（Issue #3 的受限 CommonJS 导出盘点）。
+R-02 至 R-04 与 `READY-ENG-01`（PR #116，Issue #3 受限 CommonJS 静态导出盘点）均已完成工程切片；当前已无 `READY` 工程队列，剩余工作均等待 S-01–S-10 人工决定与外部输入。
 
 ### R-01 · M3-04：CLI beta 安装、升级、离线与恢复（工程切片已完成）
 

@@ -2,8 +2,8 @@
 
 **更新日期：** 2026-11-12
 **目标验收日：** 2026-12-23
-**当前 main 基线：** `4537668c11e834969518fad2c9c67fed9929a0e0`（状态收口 PR [#114](https://github.com/hu-qi/arkcompat/pull/114) 已合并；[PR 43232823593](https://github.com/hu-qi/arkcompat/actions/runs/43232823593) 与 [main 43233201954](https://github.com/hu-qi/arkcompat/actions/runs/43233201954) 五项必需 job 通过）
-**当前工程状态：** A1/A2 工程切片为 `DONE`；`READY-ENG-01` 可执行；37 个文件、589 项测试通过；正式验收、S-09 和发布授权仍待完成
+**当前 main 基线：** `b6ff4eb2702b90441118880aca88781271cb7a86`（`READY-ENG-01` PR [#116](https://github.com/hu-qi/arkcompat/pull/116) 已合并；[PR 43236623133](https://github.com/hu-qi/arkcompat/actions/runs/43236623133) 与 [main 43237122871](https://github.com/hu-qi/arkcompat/actions/runs/43237122871) 五项必需 job 通过）
+**当前工程状态：** A1/A2 与 `READY-ENG-01` 工程切片为 `DONE`；37 个文件、593 项测试通过；剩余 A3–A8 全部为 `GATED`，正式验收、S-09 和发布授权仍待完成
 **当前结论：** 工程持续交付；正式验收 0/5；正式版本未发布；开放 Issue
 [#3](https://github.com/hu-qi/arkcompat/issues/3)、
 [#4](https://github.com/hu-qi/arkcompat/issues/4)、
@@ -56,11 +56,7 @@ M3-04 CLI 生命周期工程切片已完成，证据见
 损坏候选拒绝、原子升级、回滚和卸载；独立干净主机、真实项目 walkthrough、公开
 beta、签名与产品验收仍由 Issue #5 跟踪。
 
-当前可立即执行的一项为：
-
-- `READY-ENG-01`：在 Issue #3 下增加受限 CommonJS 导出静态盘点，只记录
-  `module.exports` / `exports.member` 的静态声明，不执行源码，不声称运行时
-  导出存在或鸿蒙兼容。
+`READY-ENG-01`（Issue #3 受限 CommonJS 导出静态盘点）已通过 PR #116 合并为 `DONE`；当前已无不依赖人工决定的 `READY` 工程项。
 
 以下动作在人工门禁解锁后立即加入队列：
 
