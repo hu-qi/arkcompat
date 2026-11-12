@@ -2,9 +2,9 @@
 
 **更新时间：** 2026-11-12
 **目标日期：** 2026-12-23
-**本文更新前核对的主干：** `1a12274d82e7eba69341e508a9e1de0340cca0f1`
-**最近工程回归基线：** `6e35d03c3d0aebf46558143853502eba6aabfba1`
-**最近主干检查：** [43194123302](https://github.com/hu-qi/arkcompat/actions/runs/43194123302)
+**本文更新前核对的主干：** `444fb42f1656f34c4279fc559c5d6e68d78f6dcd`
+**最近工程回归基线：** `444fb42f1656f34c4279fc559c5d6e68d78f6dcd`
+**最近主干检查：** [43196999301](https://github.com/hu-qi/arkcompat/actions/runs/43196999301)
 **用途：** 把 [#1](https://github.com/hu-qi/arkcompat/issues/1)、
 [#3](https://github.com/hu-qi/arkcompat/issues/3)、
 [#4](https://github.com/hu-qi/arkcompat/issues/4)、
@@ -43,14 +43,14 @@ CI 绿灯和正式验收分别记录，不能互相替代。
 6. 从已验收 SHA 生成正式 tag/release 和交付制品，GitHub 与 AtomGit
    （即 GitCode）读回相同代码 SHA 及相同制品哈希。
 7. 验收包、快速开始、支持矩阵、限制、升级/卸载、回滚和维护交接均完成，
-   最终签字后关闭所有应关闭的 issue，并删除临时 `TODO.md` 及其文档引用。
+   最终签字后关闭所有应关闭的 issue，并保留 `TODO.md` 作为长期维护入口。
 
 ## 2. 当前基线与缺口
 
 | 区域 | 已确认证据 | 尚缺的完成证据 |
 |---|---|---|
 | 产品与许可 | MIT；HarmonyOS 6.0.0/API 20 最低目标；原始阈值已由负责人确认 | 目标 profile、入口范围、评分细则和最终裁定人签字 |
-| 扫描 | npm/pnpm/Yarn/OHPM、workspace、semver、JS/TS/ETS 静态 inventory 和输入安全边界；工程回归基线 `6e35d03` 的 573 项测试与五项 CI 已通过；当前主干 `1a12274` 的五项 CI 亦已通过 | 约定范围内剩余解析缺口、真实项目覆盖和独立扫描准确率 |
+| 扫描 | npm/pnpm/Yarn/OHPM、workspace、semver、JS/TS/ETS 静态 inventory 和输入安全边界；当前工程回归基线 `444fb42` 的 574 项测试与五项 CI 已通过 | 约定范围内剩余解析缺口、真实项目覆盖和独立扫描准确率 |
 | 规则 | HarmonyOS 6.0/API 20 静态规则快照 `0.2.0` | 规则完整度、冲突/unknown 的独立复核和目标运行时验证 |
 | 知识 | 元数据契约、离线查询/导出、公开来源候选快照、生命周期策略 | 独立评审后的 reviewed 记录、正式许可/导入批准和可交付知识库快照 |
 | 报告与建议 | JSON/Markdown/SARIF、解释、扫描→规则→知识→建议引擎 | 端到端真实项目演练、beta 文档和正式用户验收 |
@@ -238,7 +238,7 @@ ArkTS/ArkWeb 设备/模拟器、SDK、签名和构建模式上复现。记录失
 7. 更新 ROADMAP、DELIVERY-STATUS、DECISIONS 和 issue 状态；记录维护人、
    数据刷新周期、撤销流程和下一评审日期。
 8. 最终复核所有 issue/PR，确保没有遗漏的阻断项；关闭应关闭的 issue，
-   删除临时 `TODO.md`、README 链接和 docs validator 的强制引用。
+   并把长期 `TODO.md`、README 链接和 docs validator 更新为最终维护状态。
 
 **完成判据：** #8 的 E1–E10 全部有证据；正式 release 可下载可安装；
 双远端 SHA/制品一致；验收方独立复现；交接完成。
