@@ -2,8 +2,9 @@
 
 **更新日期：** 2026-11-12
 **目标验收日：** 2026-12-23
-**当前主干：** `c2324e0b31f27fd02570710a9fbfd93af75bda0e`
-**当前主干检查：** [43205307730](https://github.com/hu-qi/arkcompat/actions/runs/43205307730)
+**本轮文档核对基线：** `c2324e0b31f27fd02570710a9fbfd93af75bda0e`
+**文档核对检查：** [43205307730](https://github.com/hu-qi/arkcompat/actions/runs/43205307730)
+**后续纯文档收尾合并：** `5193c65935c58386c9bf8b7a76b76690d7986c70`（[43205954055](https://github.com/hu-qi/arkcompat/actions/runs/43205954055)）
 **最近完整代码回归基线：** `511790bcdac6f19bbc0dc53089336c16aeae9896`
 **当前结论：** 工程持续交付；正式验收 0/5；正式版本未发布；开放 Issue
 [#1](https://github.com/hu-qi/arkcompat/issues/1)、

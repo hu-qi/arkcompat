@@ -2,8 +2,9 @@
 
 **更新时间：** 2026-11-12
 **目标验收日：** 2026-12-23
-**当前主干：** `c2324e0b31f27fd02570710a9fbfd93af75bda0e`
-**当前主干流水线：** [43205307730](https://github.com/hu-qi/arkcompat/actions/runs/43205307730)，五项必需 job 全部通过
+**本轮文档核对基线：** `c2324e0b31f27fd02570710a9fbfd93af75bda0e`
+**文档核对流水线：** [43205307730](https://github.com/hu-qi/arkcompat/actions/runs/43205307730)，五项必需 job 全部通过
+**后续纯文档收尾合并：** `5193c65935c58386c9bf8b7a76b76690d7986c70`（[43205954055](https://github.com/hu-qi/arkcompat/actions/runs/43205954055)）
 **最近完整代码回归基线：** `511790bcdac6f19bbc0dc53089336c16aeae9896`（[43202341237](https://github.com/hu-qi/arkcompat/actions/runs/43202341237)）
 **当前状态：** 8 个开放 Issue、0 个开放 PR、3 个工程 `READY` 工作包、正式验收 0/5、人工签字 0/10
 
@@ -29,7 +30,7 @@
 | [项目完成计划](docs/PROJECT-COMPLETION-PLAN.md) | A–E 阶段、依赖、排期和证据目录 |
 | [交付状态](docs/DELIVERY-STATUS.md) | 对外说明已验证工程、未完成门禁和发布状态 |
 
-状态冲突时，以已合并的 Issue 评论、具名人工签字和不可变 evidence 为准，并在下一次文档 PR 中同步修正。`TODO.md` 不因项目进入发布阶段而删除；它承担长期的项目状态与后续维护入口。
+状态冲突时，以已合并的 Issue 评论、具名人工签字和不可变 evidence 为准，并在下一次文档 PR 中同步修正。文档中的提交与流水线编号是已经发生的历史核对基线；不要为了追随每次纯文档合并而改写它们。`TODO.md` 不因项目进入发布阶段而删除；它承担长期的项目状态与后续维护入口。
 
 ## 2. 状态口径
 
