@@ -2,11 +2,11 @@
 
 **更新日期：** 2026-11-12
 **计划验收日期：** 2026-12-23
-**本文件更新前验证主干：** `444fb42f1656f34c4279fc559c5d6e68d78f6dcd`
-（[五项必需检查](https://github.com/hu-qi/arkcompat/actions/runs/43196999301)通过，
+**本文件更新前验证主干：** `b9542c89e7b504a89b0a6b9a7512e9c18233b350`
+（[五项必需检查](https://github.com/hu-qi/arkcompat/actions/runs/43199050794)通过，
 GitHub 与 AtomGit 读回同一 SHA）
 
-**最近完整代码回归基线：** `444fb42f1656f34c4279fc559c5d6e68d78f6dcd`
+**最近完整代码回归基线：** `b9542c89e7b504a89b0a6b9a7512e9c18233b350`
 （35 个测试文件、574 项测试）；`TODO.md` 是长期唯一执行入口。
 **当前状态：** 工程基础持续交付；正式验收 0/5；正式版本未发布；开放 Issue
 [#1](https://github.com/hu-qi/arkcompat/issues/1)、

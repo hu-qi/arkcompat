@@ -8,7 +8,7 @@
 - **目标形态**：CLI / VS Code-Cursor / DevEco Studio / Web / MCP / CI/CD，共享同一扫描引擎。
 - **交付时间**：2026-12-23
 - **当前状态**：工程纵向切片已验证；正式验收 0/5，正式版本尚未发布。
-- **本文件更新前已验证主干**：`444fb42f1656f34c4279fc559c5d6e68d78f6dcd`；GitHub 与 AtomGit 读回同一 SHA，[质量流水线](https://github.com/hu-qi/arkcompat/actions/runs/43196999301)五项必需任务通过。
+- **本文件更新前已验证主干**：`b9542c89e7b504a89b0a6b9a7512e9c18233b350`；GitHub 与 AtomGit 读回同一 SHA，[质量流水线](https://github.com/hu-qi/arkcompat/actions/runs/43199050794)五项必需任务通过。
 
 首个验收节点目标 HarmonyOS 6.0.0+，里程碑排期见 [ROADMAP](ROADMAP.md)。
 **[TODO](TODO.md) 是剩余工作的唯一执行入口**：先选择一个 `READY` 工作包；
