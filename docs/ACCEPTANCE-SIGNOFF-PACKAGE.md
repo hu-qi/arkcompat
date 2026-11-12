@@ -2,7 +2,7 @@
 
 **Status:** Ready for owner and independent adjudicator review.
 **Prepared:** 2026-11-12.
-**Main commit verified when this package was updated:** `1a1ab113355ae4f2ae90ae3fc1021e0f1866ad79`.
+**Main commit verified when this package was updated:** `e7ff62d6453197db3fadb7e69604e7a7578bf483`.
 **Engineering regression baseline:** `f5d878dd180dac6109d283ea81f6e5345d643d06`.
 **Purpose:** Turn the remaining human decisions into one reviewable record that
 unlocks the formal evaluation and release sequence.
@@ -21,10 +21,10 @@ in [ACCEPTANCE-PROTOCOL](ACCEPTANCE-PROTOCOL.md),
 |---|---|
 | License for original code | MIT, confirmed by project requester |
 | Minimum target | HarmonyOS 6.0.0 / API 20 and later |
-| Main commit verified when this package was updated | `1a1ab113355ae4f2ae90ae3fc1021e0f1866ad79` on GitHub and AtomGit; [main checks](https://github.com/hu-qi/arkcompat/actions/runs/43177608753) passed all five required jobs |
-| Latest merged planning PR | [#83](https://github.com/hu-qi/arkcompat/pull/83) |
-| Planning PR checks | [43177391379](https://github.com/hu-qi/arkcompat/actions/runs/43177391379), all five required jobs passed |
-| Planning merge checks | [43177608753](https://github.com/hu-qi/arkcompat/actions/runs/43177608753), all five required jobs passed |
+| Main commit verified when this package was updated | `e7ff62d6453197db3fadb7e69604e7a7578bf483` on GitHub and AtomGit; [main checks](https://github.com/hu-qi/arkcompat/actions/runs/43179729177) passed all five required jobs |
+| Latest merged planning PR | [#84](https://github.com/hu-qi/arkcompat/pull/84) |
+| Planning PR checks | [43179489352](https://github.com/hu-qi/arkcompat/actions/runs/43179489352), all five required jobs passed |
+| Planning merge checks | [43179729177](https://github.com/hu-qi/arkcompat/actions/runs/43179729177), all five required jobs passed |
 | Engineering regression commit | `f5d878dd180dac6109d283ea81f6e5345d643d06` |
 | Merged engineering PR | [#79](https://github.com/hu-qi/arkcompat/pull/79) |
 | Engineering PR checks | [43173965081](https://github.com/hu-qi/arkcompat/actions/runs/43173965081), all five required jobs passed |
