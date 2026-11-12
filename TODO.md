@@ -36,13 +36,13 @@
 
 关联 [#1](https://github.com/hu-qi/arkcompat/issues/1)。后续正式评分依赖本阶段。
 
-- [ ] A1 编写验收协议候选稿，列出五项原始要求、判断单位、评分公式、分母、误报漏报及弃答处理。
-- [ ] A2 明确部分功能替换是否合格、100% 替换正确率的覆盖要求；零推荐不能被计为达标。
-- [ ] A3 明确“缺失鸿蒙版本”的裁定依据，区分 OHPM 发布、移植仓库、直接使用 JS、确认缺失与未知。
-- [ ] A4 编写目标矩阵：OS release、API、ArkTS/ArkWeb 等运行时、设备、SDK、构建模式和必要权限；逐行标明已验证或待验证。
+- [x] A1 编写验收协议候选稿，列出五项原始要求、判断单位、评分公式、分母、误报漏报及弃答处理（见 [docs/ACCEPTANCE-PROTOCOL.md](docs/ACCEPTANCE-PROTOCOL.md)，待负责人/裁定人签字）。
+- [x] A2 明确部分功能替换是否合格、100% 替换正确率的覆盖要求；零推荐不能被计为达标（见 [docs/ACCEPTANCE-PROTOCOL.md](docs/ACCEPTANCE-PROTOCOL.md#2-partial-equivalence--abstention-policy-a2)，待签字）。
+- [x] A3 明确“缺失鸿蒙版本”的裁定依据，区分 OHPM 发布、移植仓库、直接使用 JS、确认缺失与未知（见 [docs/ACCEPTANCE-PROTOCOL.md](docs/ACCEPTANCE-PROTOCOL.md#3-missing-port-adjudication-criteria-a3)，待签字）。
+- [x] A4 编写目标矩阵：OS release、API、ArkTS/ArkWeb 等运行时、设备、SDK、构建模式和必要权限；逐行标明已验证或待验证（见 [docs/TARGET-MATRIX.md](docs/TARGET-MATRIX.md)，待签字）。
 - [ ] A5 确认独立标签提供者、复核者、最终裁定人、样本使用许可和访问边界。
-- [ ] A6 列出 CLI、VS Code/Cursor、DevEco、Web、MCP、CI 的首版交付方式、支持宿主和必测环境；未交付项须明确批准延期。
-- [ ] A7 整理 D-01–D-10：补全决策人、日期、依据及重访条件；处理已有 no-import 决定与仍显示 Pending 的 legacy 行之间的差异。
+- [x] A6 列出 CLI、VS Code/Cursor、DevEco、Web、MCP、CI 的首版交付方式、支持宿主和必测环境；未交付项须明确批准延期（见 [docs/TARGET-MATRIX.md](docs/TARGET-MATRIX.md#2-multi-surface-v1-delivery-matrix-2026-12-23-candidate-scope--a6)，待签字）。
+- [x] A7 整理 D-01–D-10：补全决策人、日期、依据及重访条件；处理已有 no-import 决定与仍显示 Pending 的 legacy 行之间的差异（见 [docs/DECISIONS.md](docs/DECISIONS.md)）。
 - [ ] A8 将具体候选方案提交负责人/裁定人确认，记录争议与阻断；满足 issue 完成条件后关闭 #1。
 
 产物：验收协议、支持矩阵、数据来源/许可登记、决策签字记录。工程默认值不能代替批准。
@@ -51,7 +51,7 @@
 
 关联 [#3](https://github.com/hu-qi/arkcompat/issues/3)、[#4](https://github.com/hu-qi/arkcompat/issues/4)。
 
-- [ ] B1 根据 A4 建立扫描能力矩阵，将已有锁文件、workspace、JS/TS/ETS 能力与真实项目缺口逐项对应。
+- [x] B1 根据 A4 建立扫描能力矩阵，将已有锁文件、workspace、JS/TS/ETS 能力与真实项目缺口逐项对应（见 [docs/CAPABILITY-GAP-MATRIX.md](docs/CAPABILITY-GAP-MATRIX.md)）。
 - [ ] B2 优先修复约定验收范围内的依赖图、API/符号识别和不确定性报告缺口；extglob 等扩展按实际需求排期。
 - [ ] B3 完成有来源、版本、目标环境和明确适用条件的实际规则集，验证规则优先级、冲突及 unknown 行为。
 - [ ] B4 建立真实替换关系数据集：源/目标版本、功能范围、证据等级、来源、许可、评审状态和更新时间齐全。
@@ -66,11 +66,11 @@
 
 ### Lottie 候选单独跟踪（#4/#7）
 
-- [ ] L1 诊断 Claude Code API 连接失败，恢复修订证据评审；输入仅限公开证据，排除私有候选和先前结论。
-- [ ] L2 归档输入/输出哈希、退出状态、请求与实际模型；路由不符须明确披露并按约定处理。
-- [ ] L3 对照评审意见逐项记录：加载/销毁事件、帧与时间、API 20 实际运行时、真机签名 Release/AOT、压力/泄漏及复杂动画范围。
+- [x] L1 诊断 Claude Code API 连接失败，恢复修订证据评审；输入仅限公开证据，排除私有候选和先前结论（2026-11-12 复核成功，见 [docs/HARMONYOS-API20-RUNTIME.md](docs/HARMONYOS-API20-RUNTIME.md)）。
+- [x] L2 归档输入/输出哈希、退出状态、请求与实际模型；路由不符须明确披露并按约定处理（见 [docs/evidence/claude-lottie-review-2026-11-11.json](docs/evidence/claude-lottie-review-2026-11-11.json) attempt 3）。
+- [x] L3 对照评审意见逐项记录：加载/销毁事件、帧与时间、API 20 实际运行时、真机签名 Release/AOT、压力/泄漏及复杂动画范围（逐项缺口与限制已归档）。
 - [ ] L4 在批准的环境和授权资源内补测；无法覆盖的项目明确限制结论，交由负责人裁定是否满足候选范围。
-- [ ] L5 准备精确措辞、范围及排除项供人工入库决策；明确批准前保持候选本地、未激活。
+- [x] L5 准备精确措辞、范围及排除项供人工入库决策；明确批准前保持候选本地、未激活（精确措辞与 9 项激活前提已归档，私有候选保持本地未激活）。
 
 已有首轮结论为“修订后支持”，实际模型路由与请求不一致；修订版两次执行连接失败，无新判决。
 模型证据评审不等于运行时复现、正式指标验收或人工入库批准。

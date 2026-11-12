@@ -1,19 +1,19 @@
 # Decisions, Assumptions & Expert Escalations
 
-**Updated:** 2026-11-11. A question here is an actual **project decision** or request for non-public evidence, not something readily answerable by reading basic documentation.
+**Updated:** 2026-11-12. A question here is an actual **project decision** or request for non-public evidence, not something readily answerable by reading basic documentation. Candidate proposals (`A1`–`A4`, `A6`) are documented in [ACCEPTANCE-PROTOCOL](ACCEPTANCE-PROTOCOL.md) and [TARGET-MATRIX](TARGET-MATRIX.md) for explicit owner/adjudicator sign-off.
 
 | ID | Status | Decision or dependency | Working default | Needed from Huawei / owner | Due |
 |---|---|---|---|---|---|
-| D-01 | Partially confirmed; runtime profiles pending | Official target runtime matrix for HarmonyOS 6.0.0+ | HarmonyOS 6.0.0 / API 20 is the confirmed minimum engineering floor; explicit profiles; do not generalize across ArkTS/ArkWeb/RN | Confirm target profiles/devices/SDK versions and later release coverage beyond the 6.0.0 floor | Nov 6 |
-| D-02 | Pending | Independent acceptance set and adjudicator | Maintain own fixtures but no self-only acceptance | Provide/review blind cases, calculation denominator, sign-off owner | Nov 6 |
-| D-03 | Pending | Substitute recognition 100% interpretation | Only verified, scoped substitutions; abstain on unknown; disclose coverage | Confirm partial equivalence and false-positive/abstention policy | Nov 6 |
-| D-04 | Pending | Verified port / missing port definitions | Distinguish published OHPM, GitCode fork, direct JS use, unknown | Confirm reviewer rubric and data interfaces | Nov 9 |
-| D-05 | Local disk-install verified; public route pending | DevEco Studio plugin SDK & distribution | [Exact-build isolated probe](DEVECO-FEASIBILITY.md); local route verified | Verify public trustlist, signing and update policy under #6 | Nov 6 |
-| D-06 | Pending | Trusted ecosystem compatibility data | Provenance-based public data, no unverified mass matching | Access to reviewed official cases, license/reuse rules, feedback mechanism | Nov 9 |
-| D-07 | Proposed | Frontend/build stack | TypeScript First, pnpm Monorepo | Internal team owner confirms toolchain and staffing | Nov 6 |
-| D-08 | MIT confirmed; related policies pending | License/publication policy | MIT for original contributions; third-party terms remain separate | External data terms, attribution, trademarks and release policy | Nov 6 |
-| D-09 | Proposed | Product entry points | CLI + VS Code/Cursor + DevEco + Web + MCP + CI | Confirm whether 2026-12-23 requires each as acceptance artifact or final longer-term goal | Nov 6 |
-| D-10 | Pending | Legacy code migration | Audit PR #2, do not blindly merge | Independent review outcome and ownership of migration | Nov 9 |
+| D-01 | Partially confirmed; runtime profiles pending | Official target runtime matrix for HarmonyOS 6.0.0+ | HarmonyOS 6.0.0 / API 20 floor confirmed (owner, 2026-11-07); [candidate matrix](TARGET-MATRIX.md) separates ArkTS/ArkWeb/RN | Confirm target profiles/devices/SDK versions and RN/non-phone deferral (`A4`) | Nov 6 (open) |
+| D-02 | Candidate drafted; owner/adjudicator pending | Independent acceptance set and adjudicator | [Candidate protocol](ACCEPTANCE-PROTOCOL.md) defines metrics & denominators; developer fixtures stay regression-only | Name label provider, non-author reviewer, final adjudicator, and license/access bounds (`A1`, `A5`) | Nov 6 (open) |
+| D-03 | Candidate drafted; sign-off pending | Substitute recognition 100% interpretation | Verified scoped substitutions only; non-null precision + coverage floor; [candidate rubric](ACCEPTANCE-PROTOCOL.md#2-partial-equivalence--abstention-policy-a2) | Approve partial-equivalence rules, zero-FP policy, and minimum coverage floor (`A2`) | Nov 6 (open) |
+| D-04 | Candidate drafted; sign-off pending | Verified port / missing port definitions | 5-way taxonomy (`ohpm-release`, `gitcode-port`, `pure-js`, `missing-port`, `unknown`); [candidate rubric](ACCEPTANCE-PROTOCOL.md#3-missing-port-adjudication-criteria-a3) | Approve reviewer rubric and missing-port negative-search criteria (`A3`) | Nov 9 (open) |
+| D-05 | Local disk-install verified; public route pending | DevEco Studio plugin SDK & distribution | [Exact-build isolated probe](DEVECO-FEASIBILITY.md) & adapter smoke verified locally on DevEco 26.0.0.865 (2026-11-10/11) | Confirm `--disk-install` v1 delivery vs. Huawei/JetBrains trustlist, signing, and update route (`#6`) | Nov 6 (open) |
+| D-06 | Pending | Trusted ecosystem compatibility data | Provenance-based public data only; local Lottie candidate stays inactive pending review/approval | Approve curated public provenance dataset, third-party data reuse terms, and any official import (`#4`) | Nov 9 (open) |
+| D-07 | Proposed | Frontend/build stack | TypeScript 5.9.3, Node 22/24, pnpm 10.34.9 monorepo, Vitest + ESLint + Prettier (2026-11-03); revisit on parser/runtime shift | Internal owner confirms toolchain and staffing (`#1`) | Nov 6 (open) |
+| D-08 | MIT confirmed; external terms pending | License/publication policy | MIT confirmed for original code (`LICENSE`, owner 2026-11-07); third-party notices tracked via `THIRD-PARTY-NOTICES.json` | Confirm external data terms, trademark usage, and `@yarnpkg/lockfile` notice disposition (`#8`) | Nov 6 (open) |
+| D-09 | Candidate drafted; scope confirmation pending | Product entry points & optional AI | [Candidate surface matrix](TARGET-MATRIX.md#2-multi-surface-v1-delivery-matrix-2026-12-23-candidate-scope--a6); recommends deferring remote AI (`C10`) | Confirm 2026-12-23 v1 required surfaces vs. approved deferrals (`A6`) | Nov 6 (open) |
+| D-10 | Resolved (no-import retained) | Legacy code migration (`ohpm-npm-compat-assistant` PR #2) | Audited 2026-11-06 in [LEGACY-AUDIT](LEGACY-AUDIT.md) ([Issue #9 closed](https://github.com/hu-qi/arkcompat/issues/9), PR #20 `7376eba`); zero legacy code/data imported | Revisit only if an explicit future scoped review proposes adopting a licensed, independently tested component | Closed 2026-11-06 |
 
 ## Decision record format
 
@@ -61,3 +61,12 @@ The amended observation does not establish API 20 runtime behavior. It also
 does not approve a target matrix, scoring rubric, mapping import or independent
 acceptance. D-01–D-04 remain open until the owners and required profiles are
 named.
+
+## Pending owner/adjudicator sign-off bundle (A5 / A8 · 2026-11-12)
+
+All engineering candidate proposals for Stage 1 are now ready for a single sign-off pass before freezing Milestone M0 (Issue [#1](https://github.com/hu-qi/arkcompat/issues/1)):
+
+1. **Scoring & partial substitution (`D-02`, `D-03`, `D-04`)**: Approve or amend [ACCEPTANCE-PROTOCOL](ACCEPTANCE-PROTOCOL.md) (F1/precision/recall formulas, non-vacuous coverage floor for `100%`, partial-equivalence rules, and 5-way missing-port criteria).
+2. **Target runtime & v1 surface scope (`D-01`, `D-05`, `D-09`)**: Approve or amend [TARGET-MATRIX](TARGET-MATRIX.md) (whether `react-native`, non-phone devices, and Optional Remote AI are deferred past 2026-12-23, and whether DevEco 2026-12-23 delivery uses `--disk-install` vs. public marketplace/trustlist).
+3. **Independent adjudication & blind labels (`A5`)**: Name the independent label provider, non-author reviewer, and final acceptance adjudicator, along with dataset licenses and access boundaries.
+4. **Lottie candidate disposition (`D-06` / L5)**: Decide whether to keep `@ohos/lottie@2.0.0` local/inactive until API 20 runtime rerun + real-device/stress prerequisites are satisfied, or schedule those tests in an approved environment.
