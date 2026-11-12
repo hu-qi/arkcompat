@@ -2,13 +2,15 @@
 
 **更新日期：** 2026-11-12
 **计划验收日期：** 2026-12-23
-**本文件更新前验证主干：** `22ecfb78638be6aa90a58703a436ad6300576eb6`
-（[五项必需检查](https://github.com/hu-qi/arkcompat/actions/runs/43190877999)通过，
+**本文件更新前验证主干：** `1a12274d82e7eba69341e508a9e1de0340cca0f1`
+（[五项必需检查](https://github.com/hu-qi/arkcompat/actions/runs/43194123302)通过，
 GitHub 与 AtomGit 读回同一 SHA）
 
 **最近完整代码回归基线：** `6e35d03c3d0aebf46558143853502eba6aabfba1`
 （PR [#90](https://github.com/hu-qi/arkcompat/pull/90)；35 个测试文件、
-573 项测试；合并提交为当前验证主干）
+573 项测试）；此后 PR [#93](https://github.com/hu-qi/arkcompat/pull/93)整理执行
+入口，PR [#94](https://github.com/hu-qi/arkcompat/pull/94)删除已完成的临时
+实施计划，均为文档变更
 **当前状态：** 工程基础持续交付；正式验收 0/5；正式版本未发布；开放 Issue
 [#1](https://github.com/hu-qi/arkcompat/issues/1)、
 [#3](https://github.com/hu-qi/arkcompat/issues/3)、
