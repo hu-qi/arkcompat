@@ -10,6 +10,9 @@ export default defineConfig({
       "@arkcompat/contracts": fileURLToPath(
         new URL("./packages/contracts/src/index.ts", import.meta.url),
       ),
+      "@arkcompat/knowledge": fileURLToPath(
+        new URL("./packages/knowledge/src/index.ts", import.meta.url),
+      ),
     },
   },
   test: {

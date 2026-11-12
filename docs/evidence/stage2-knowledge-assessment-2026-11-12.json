@@ -1,0 +1,109 @@
+{
+  "schemaVersion": "1",
+  "observedAt": "2026-11-12",
+  "issues": [4, 5],
+  "assessment": "engineering-regression-only",
+  "scope": "Curated candidate provenance, five-way assessment, reviewed-only recommendations, canonical knowledge binding and five label-blind prediction adapters.",
+  "branch": "codex/stage2-knowledge-pipeline-eval",
+  "baseCommit": "a6896a48e2b9392519543c09167a2c3e52fe522d",
+  "localVerification": {
+    "command": "pnpm check",
+    "testFiles": 35,
+    "tests": 568,
+    "coverage": {
+      "statements": 94.74,
+      "branches": 92.53,
+      "functions": 98.1,
+      "lines": 96.7
+    },
+    "markdownFilesChecked": 51,
+    "formatLintTypecheckBuildPassed": true,
+    "passed": true
+  },
+  "implementation": {
+    "assessmentStates": [
+      "ohpm-release",
+      "gitcode-port",
+      "pure-js",
+      "missing-port",
+      "unknown"
+    ],
+    "classifications": [
+      "recommended-substitute",
+      "pure-js-usable",
+      "missing-port",
+      "unknown"
+    ],
+    "recommendationPolicy": "Only active reviewed records with an exact version and matching target profile may produce a confident recommendation.",
+    "abstentionReasonsTested": [
+      "not-reviewed",
+      "expired",
+      "ambiguous-match",
+      "missing-api-level",
+      "unresolved-exact-version",
+      "no-exact-rule",
+      "no-rules-snapshot"
+    ],
+    "predictionAdapters": [
+      "root-declaration-presence",
+      "dependency-graph",
+      "incompatible-api",
+      "replacement-mapping",
+      "missing-port"
+    ],
+    "predictionBindings": [
+      "casesSha256",
+      "scanReportSha256",
+      "rulesSha256",
+      "knowledgeSha256"
+    ],
+    "assessmentReportFormats": ["json", "markdown"]
+  },
+  "snapshots": {
+    "rules": {
+      "path": "data/rules/harmonyos-6.0-api20-rules.json",
+      "sha256": "c7a3629690decb8d54b09cde5d12e3fc346b7b401bcae53e3a26605eb684c537"
+    },
+    "knowledge": {
+      "path": "data/knowledge/curated-provenance-snapshot.json",
+      "snapshotId": "arkcompat-curated-public-candidates-2026-11-12",
+      "sha256": "71618d138a13785dfb2c05643f3d8da6c9e72b85b1d666f031ea3aa20de2bc99",
+      "recordCount": 6,
+      "reviewState": "candidate-only",
+      "reviewedRecords": 0,
+      "confidentRecommendations": 0
+    }
+  },
+  "artifacts": {
+    "assessmentContract": {
+      "path": "packages/contracts/assessment-report.schema.json",
+      "sha256": "c8f5949d17fe99e7e892ffd1e609ef42138af5352dda26412d1054768925954f"
+    },
+    "assessmentEngine": {
+      "path": "packages/core/src/assessment.ts",
+      "sha256": "e643d7e9f9ffe60a4b87baebf75a3ed190bdbc3140bad28d548f846eab98443e"
+    },
+    "predictionAdapters": {
+      "path": "packages/evaluation/src/index.ts",
+      "sha256": "35aa3c4bf545bcd86f87faa27e33173cfb241f5948245065137d5b0fa9888487"
+    },
+    "assessmentTests": {
+      "path": "tests/assessment.test.ts",
+      "sha256": "42b0bd4a3ad5f0d3fcbba12b031f0eb9ed52e20c43e30c19aa48c431503d9ea3"
+    },
+    "predictionAdapterTests": {
+      "path": "tests/evaluation-adapters.test.ts",
+      "sha256": "8a58555f90ed760cdc709a08fcdc2f9692801cca9850685820676c89c14557ea"
+    }
+  },
+  "boundaries": {
+    "developerFixturesIncludedInFormalAccuracy": false,
+    "independentHoldoutAvailable": false,
+    "independentAdjudicatorNamed": false,
+    "accuracyThresholdsClaimed": false,
+    "reviewedKnowledgeDatasetDelivered": false,
+    "lottieCandidateImported": false,
+    "formalAcceptance": false,
+    "releaseAuthorized": false
+  }
+}

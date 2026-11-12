@@ -9,6 +9,7 @@
   "dependencies": {
     "@arkcompat/contracts": "workspace:*",
     "@arkcompat/core": "workspace:*",
+    "@arkcompat/knowledge": "workspace:*",
     "ajv": "8.20.0"
   }
 }

@@ -72,6 +72,7 @@ export interface KnowledgeQueryResult {
 }
 export interface KnowledgeStore {
   query(request: KnowledgeQuery): KnowledgeQueryResult;
+  snapshotInfo(): { id: string; sha256: string };
 }
 
 export function isKnowledgeTimestamp(value: unknown): value is string {
@@ -209,8 +210,10 @@ export async function loadKnowledgeStore(
       "Invalid knowledge startup configuration; use a canonical UTC timestamp.",
     );
   const snapshot = await readKnowledgeSnapshot(path);
+  const sha256 = createHash("sha256").update(exported(snapshot)).digest("hex");
   return {
     query: (request) => queryKnowledge(snapshot, request, asOf),
+    snapshotInfo: () => ({ id: snapshot.snapshotId, sha256 }),
   };
 }
 function checked(value: unknown) {

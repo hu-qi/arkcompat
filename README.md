@@ -40,6 +40,7 @@ Node 22.13+（22 系列）或 Node 24，pnpm 10.34.9。实现范围、报告语�
 ## Project documentation
 
 - [TODO — 项目完成清单、验收产物与 issue 关闭条件](TODO.md)
+- [项目完成计划 — 剩余 issue、验收与发布路径](docs/PROJECT-COMPLETION-PLAN.md)
 - [ROADMAP — milestones, dates, exit gates](ROADMAP.md)
 - [PRD — scope and user journeys](docs/PRD.md)
 - [Architecture — shared engine and adapters](docs/ARCHITECTURE.md)

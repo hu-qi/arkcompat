@@ -149,6 +149,9 @@ importers:
       "@arkcompat/core":
         specifier: workspace:*
         version: link:../core
+      "@arkcompat/knowledge":
+        specifier: workspace:*
+        version: link:../knowledge
       ajv:
         specifier: 8.20.0
         version: 8.20.0

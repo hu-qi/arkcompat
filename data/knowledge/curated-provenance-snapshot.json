@@ -1,0 +1,300 @@
+{
+  "schemaVersion": "0.1.0",
+  "snapshotId": "arkcompat-curated-public-candidates-2026-11-12",
+  "generatedAt": "2026-11-12T00:00:00Z",
+  "records": [
+    {
+      "id": "npm.axios.to.ohos-axios.api20",
+      "source": {
+        "name": "axios",
+        "versionRange": ">=1.0.0 <2.0.0"
+      },
+      "target": {
+        "registry": "ohpm",
+        "name": "@ohos/axios",
+        "versionRange": "^2.2.15"
+      },
+      "availability": "ohpm-release",
+      "relation": "partial",
+      "profile": {
+        "os": "HarmonyOS",
+        "releaseRange": ">=6.0.0",
+        "apiLevel": 20,
+        "runtime": "arkts"
+      },
+      "features": {
+        "included": [
+          "http-get-post-requests",
+          "interceptors",
+          "json-transform",
+          "request-cancellation"
+        ],
+        "excluded": [
+          "node-http-agent-sockets",
+          "browser-xhr-document-cookies"
+        ]
+      },
+      "provenance": [
+        {
+          "url": "https://ohpm.openharmony.cn/ohpmweb/registry/oh-package/openapi/v1/detail/%40ohos%2Faxios",
+          "license": "MIT",
+          "sourceVersion": "2.2.15",
+          "retrievedAt": "2026-11-12T00:00:00Z"
+        },
+        {
+          "url": "https://gitcode.com/CPF-ApplicationTPC/ohos_axios",
+          "license": "MIT",
+          "sourceVersion": "2.2.15",
+          "retrievedAt": "2026-11-12T00:00:00Z"
+        },
+        {
+          "url": "https://registry.npmjs.org/axios/latest",
+          "license": "MIT",
+          "sourceVersion": "1.21.1",
+          "retrievedAt": "2026-11-12T00:00:00Z"
+        }
+      ],
+      "review": {
+        "state": "candidate",
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "validUntil": "2027-05-12T00:00:00Z"
+    },
+    {
+      "id": "npm.crypto-js.to.ohos-crypto-js.api20",
+      "source": {
+        "name": "crypto-js",
+        "versionRange": ">=4.0.0 <5.0.0"
+      },
+      "target": {
+        "registry": "ohpm",
+        "name": "@ohos/crypto-js",
+        "versionRange": "^2.0.6"
+      },
+      "availability": "ohpm-release",
+      "relation": "partial",
+      "profile": {
+        "os": "HarmonyOS",
+        "releaseRange": ">=6.0.0",
+        "apiLevel": 20,
+        "runtime": "arkts"
+      },
+      "features": {
+        "included": [
+          "aes-encryption",
+          "hmac-sha256",
+          "md5-sha1-hashing"
+        ],
+        "excluded": [
+          "node-crypto-randombytes-fallback"
+        ]
+      },
+      "provenance": [
+        {
+          "url": "https://ohpm.openharmony.cn/ohpmweb/registry/oh-package/openapi/v1/detail/%40ohos%2Fcrypto-js",
+          "license": "MIT",
+          "sourceVersion": "2.0.6",
+          "retrievedAt": "2026-11-12T00:00:00Z"
+        },
+        {
+          "url": "https://gitcode.com/CPF-ApplicationTPC/ohos_crypto_js",
+          "license": "MIT",
+          "sourceVersion": "2.0.6",
+          "retrievedAt": "2026-11-12T00:00:00Z"
+        },
+        {
+          "url": "https://registry.npmjs.org/crypto-js/latest",
+          "license": "MIT",
+          "sourceVersion": "4.2.0",
+          "retrievedAt": "2026-11-12T00:00:00Z"
+        }
+      ],
+      "review": {
+        "state": "candidate",
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "validUntil": "2027-05-12T00:00:00Z"
+    },
+    {
+      "id": "npm.dayjs.pure-js.api20",
+      "source": {
+        "name": "dayjs",
+        "versionRange": ">=1.11.0 <2.0.0"
+      },
+      "target": null,
+      "availability": "pure-js",
+      "relation": "partial",
+      "profile": {
+        "os": "HarmonyOS",
+        "releaseRange": ">=6.0.0",
+        "apiLevel": 20,
+        "runtime": "arkts"
+      },
+      "features": {
+        "included": [
+          "immutable-date-arithmetic",
+          "iso-formatting",
+          "core-parsing"
+        ],
+        "excluded": [
+          "node-dynamic-locale-filesystem-require"
+        ]
+      },
+      "provenance": [
+        {
+          "url": "https://registry.npmjs.org/dayjs/latest",
+          "license": "MIT",
+          "sourceVersion": "1.11.23",
+          "retrievedAt": "2026-11-12T00:00:00Z"
+        },
+        {
+          "url": "https://ohpm.openharmony.cn/ohpmweb/registry/oh-package/openapi/v1/detail/dayjs",
+          "license": "MIT",
+          "sourceVersion": "1.11.13",
+          "retrievedAt": "2026-11-12T00:00:00Z"
+        }
+      ],
+      "review": {
+        "state": "candidate",
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "validUntil": "2027-05-12T00:00:00Z"
+    },
+    {
+      "id": "npm.iabtechlabtcf-core.to.gitcode-ohos-iabtcf.api20",
+      "source": {
+        "name": "@iabtechlabtcf/core",
+        "versionRange": ">=1.5.0 <2.0.0"
+      },
+      "target": {
+        "registry": "gitcode",
+        "name": "@ohos/ohos_iabtcf",
+        "versionRange": "^1.0.0"
+      },
+      "availability": "gitcode-port",
+      "relation": "partial",
+      "profile": {
+        "os": "HarmonyOS",
+        "releaseRange": ">=6.0.0",
+        "apiLevel": 20,
+        "runtime": "arkts"
+      },
+      "features": {
+        "included": [
+          "tc-string-codec",
+          "gvl-parsing",
+          "json-http-client"
+        ],
+        "excluded": [
+          "published-ohpm-har-distribution"
+        ]
+      },
+      "provenance": [
+        {
+          "url": "https://gitcode.com/CPF-ApplicationTPC/ohos_iabtcf",
+          "license": "Apache-2.0",
+          "sourceVersion": "1.0.0-5419aba",
+          "retrievedAt": "2026-11-12T00:00:00Z"
+        },
+        {
+          "url": "https://registry.npmjs.org/%40iabtcf%2Fcore/latest",
+          "license": "Apache-2.0",
+          "sourceVersion": "1.5.6",
+          "retrievedAt": "2026-11-12T00:00:00Z"
+        }
+      ],
+      "review": {
+        "state": "candidate",
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "validUntil": "2027-05-12T00:00:00Z"
+    },
+    {
+      "id": "npm.sharp.missing-port.api20",
+      "source": {
+        "name": "sharp",
+        "versionRange": ">=0.33.0 <1.0.0"
+      },
+      "target": null,
+      "availability": "missing-port",
+      "relation": "none",
+      "profile": {
+        "os": "HarmonyOS",
+        "releaseRange": ">=6.0.0",
+        "apiLevel": 20,
+        "runtime": "arkts"
+      },
+      "features": {
+        "included": [],
+        "excluded": [
+          "native-libvips-napi-addon",
+          "node-buffer-stream-pipeline"
+        ]
+      },
+      "provenance": [
+        {
+          "url": "https://registry.npmjs.org/sharp/latest",
+          "license": "Apache-2.0",
+          "sourceVersion": "0.35.5",
+          "retrievedAt": "2026-11-12T00:00:00Z"
+        },
+        {
+          "url": "https://ohpm.openharmony.cn/ohpmweb/registry/oh-package/openapi/v1/detail/sharp",
+          "license": "Apache-2.0",
+          "sourceVersion": "absent-2026-11-12",
+          "retrievedAt": "2026-11-12T00:00:00Z"
+        }
+      ],
+      "review": {
+        "state": "candidate",
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "validUntil": "2027-05-12T00:00:00Z"
+    },
+    {
+      "id": "npm.zod.unknown.api20",
+      "source": {
+        "name": "zod",
+        "versionRange": ">=3.0.0 <5.0.0"
+      },
+      "target": null,
+      "availability": "unknown",
+      "relation": "unknown",
+      "profile": {
+        "os": "HarmonyOS",
+        "releaseRange": ">=6.0.0",
+        "apiLevel": 20,
+        "runtime": "arkts"
+      },
+      "features": {
+        "included": [],
+        "excluded": []
+      },
+      "provenance": [
+        {
+          "url": "https://registry.npmjs.org/zod/latest",
+          "license": "MIT",
+          "sourceVersion": "4.6.7",
+          "retrievedAt": "2026-11-12T00:00:00Z"
+        },
+        {
+          "url": "https://ohpm.openharmony.cn/ohpmweb/registry/oh-package/openapi/v1/detail/zod",
+          "license": "MIT",
+          "sourceVersion": "absent-2026-11-12",
+          "retrievedAt": "2026-11-12T00:00:00Z"
+        }
+      ],
+      "review": {
+        "state": "candidate",
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "validUntil": "2027-05-12T00:00:00Z"
+    }
+  ]
+}
