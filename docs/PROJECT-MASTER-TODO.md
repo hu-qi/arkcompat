@@ -2,14 +2,13 @@
 
 **更新日期：** 2026-11-12
 **计划验收日期：** 2026-12-23
-**当前 main 基线：** `92cd5a37fc28de964994dc47636a0beeb887fed0`
-（PR [#109](https://github.com/hu-qi/arkcompat/pull/109) 与文档收口 PR
-[#110](https://github.com/hu-qi/arkcompat/pull/110) 已合并；
-[main 流水线](https://github.com/hu-qi/arkcompat/actions/runs/43217340260)
+**当前 main 基线：** `06279d67e02f0724d9e8ee39a2c4a06ecf6dcfc0`
+（M5-07 供应链审计 PR [#111](https://github.com/hu-qi/arkcompat/pull/111) 已合并；
+[main 流水线](https://github.com/hu-qi/arkcompat/actions/runs/43224216503)
 五项必需 job 全部成功）
 
 **当前工程状态：** A1 为 `DONE`（当前 37 个测试文件、589 项测试，M5-05
-安全矩阵 13/13）；A2 供应链审计为 `IN PROGRESS`；
+安全矩阵 13/13）；A2 供应链审计工程切片为 `DONE`，S-09 待签；
 `TODO.md` 是长期唯一执行入口。
 **当前状态：** 工程基础持续交付；正式验收 0/5；正式版本未发布；开放 Issue
 [#1](https://github.com/hu-qi/arkcompat/issues/1)、
@@ -73,7 +72,7 @@
 
 | 顺序 | 工作流                 | 当前可执行状态                                                         | 解锁条件                | 完成证据                                                 |
 | ---: | ---------------------- | ---------------------------------------------------------------------- | ----------------------- | -------------------------------------------------------- |
-|    1 | 工程安全与可发布性     | M1-06、M3-04、M3-05 和 M5-05 工程切片已完成；当前执行 M5-07 供应链审计 | A2 工程证据及 S-09 审查 | 测试、隔离探针、生命周期日志、报告哈希、SBOM、通知、哈希 |
+|    1 | 工程安全与可发布性     | M1-06、M3-04、M3-05、M5-05 和 M5-07 工程切片已完成             | S-09 法务/安全审查和最终验收 | 测试、隔离探针、生命周期日志、报告哈希、SBOM、通知、哈希 |
 |    2 | 冻结验收范围           | 候选材料已具备，S-01–S-07 待签                                         | 项目负责人和裁定人      | 签字后的目标矩阵、评分协议、角色与数据治理               |
 |    3 | 扫描、知识库和产品闭环 | 基础实现已具备；真实 reviewed 数据、授权项目和 holdout 待提供          | 第 2 项与获准输入       | 真实项目演练、reviewed 知识快照、完整指标                |
 |    4 | 多入口交付与 parity    | CLI、VSIX、DevEco、Web、MCP、CI 已有局部 smoke                         | 第 2、3 项              | 各入口安装/恢复/卸载日志与 parity 报告                   |
@@ -164,7 +163,7 @@ lifecycle scripts、文件系统错误、损坏 manifest 和凭据 URL。聚焦�
 五项必需 job 均通过。独立安全复核、协作式超时无法中断同步解析、
 性能/TOCTOU 等残余风险仍保留在 Issue #7，因此只完成工程切片，不关闭 Issue。
 
-### R-04 · M5-07：依赖、SBOM、通知和分发审计（`IN PROGRESS`）
+### R-04 · M5-07：依赖、SBOM、通知和分发审计（`DONE`）
 
 **关联：** #7/#8。**证据：** audit、CycloneDX SBOM、第三方通知、许可证清单、
 SHA-256 manifest 和人工处置记录。
@@ -175,7 +174,16 @@ SHA-256 manifest 和人工处置记录。
 4. 处置或正式接受 `@yarnpkg/lockfile@1.1.0` 缺少独立 LICENSE 文件的缺口；
 5. 复核商标、外部数据和官方资料的使用边界。
 
-**关闭本项的条件：** 漏洞和许可阻断项为零，或存在具名安全/法务风险接受记录。
+**完成证据：** PR #111 已合并且 PR/main
+[43223890359](https://github.com/hu-qi/arkcompat/actions/runs/43223890359) /
+[43224216503](https://github.com/hu-qi/arkcompat/actions/runs/43224216503)
+五项必需 job 通过。审计覆盖 243 个解析依赖、15 个生产包、portable CLI
+的 12 个三方包、CycloneDX SBOM、第三方通知和 SHA-256。证据见
+[供应链审计](SUPPLY-CHAIN-AUDIT.md)和
+[机器可读记录](evidence/supply-chain-audit-2026-11-12.json)。
+
+**关闭本项的条件：** 工程审计已完成；`@yarnpkg/lockfile@1.1.0` 缺少独立
+LICENSE 文件、第三方条款、商标、安全和分发路线仍须由 S-09 具名处置。
 
 ## 5. 人工签字队列
 

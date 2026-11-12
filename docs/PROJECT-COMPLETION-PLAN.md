@@ -2,10 +2,10 @@
 
 **更新时间：** 2026-11-12
 **目标日期：** 2026-12-23
-**当前 main 基线：** `92cd5a37fc28de964994dc47636a0beeb887fed0`
-**PR 检查：** [#109 / 43215560601](https://github.com/hu-qi/arkcompat/actions/runs/43215560601) 五项必需检查通过
-**main 检查：** [43217340260](https://github.com/hu-qi/arkcompat/actions/runs/43217340260) 五项必需 job 全部成功
-**当前工程动作：** A1 为 `DONE`；A2 供应链审计为 `IN PROGRESS`；正式验收和人工签字仍待完成
+**当前 main 基线：** `06279d67e02f0724d9e8ee39a2c4a06ecf6dcfc0`
+**PR 检查：** [M5-07 PR #111 / 43223890359](https://github.com/hu-qi/arkcompat/actions/runs/43223890359) 五项必需检查通过
+**main 检查：** [43224216503](https://github.com/hu-qi/arkcompat/actions/runs/43224216503) 五项必需 job 全部成功
+**当前工程动作：** A1/A2 工程切片为 `DONE`；正式验收、S-09 和人工签字仍待完成
 **用途：** 把 [#1](https://github.com/hu-qi/arkcompat/issues/1)、
 [#3](https://github.com/hu-qi/arkcompat/issues/3)、
 [#4](https://github.com/hu-qi/arkcompat/issues/4)、
@@ -90,7 +90,7 @@ issue 完成条件核对`
 | #4 M2  | B4–B10；reviewed 知识快照、五类判定、来源/过期/撤回、五类预测适配器                  | 可导出知识库、独立标签和评测结果、Lottie 人工决定      | 候选数据、assessment 和 blind adapters 已实现，正式 reviewed 记录等待批准 |
 | #5 M3  | C1–C3；每条建议有位置、profile、版本、来源、限制和下一步；CLI beta 文档              | 真实项目完整演练、报告/schema 校验、安装升级和错误恢复 | 完成 assessment 联调后做 walkthrough 与 CLI 文档                          |
 | #6 M4  | C4–C9；已承诺入口可安装、可执行、可恢复；finding 语义一致                            | 各宿主日志、卸载/回滚、跨入口 parity、分发批准         | 补 VSIX/DevEco/Web/MCP/CI walkthrough 与 parity                           |
-| #7 M5  | D1–D10；冻结验收包、四项正式评分、安全/性能/漏洞/许可审查和整改                      | 完整混淆矩阵、运行时矩阵、签字包和零阻断缺陷           | 先完成安全、性能、CI，再交独立验收                                        |
+| #7 M5  | D1–D10；冻结验收包、四项正式评分、安全/性能/漏洞/许可审查和整改                      | 完整混淆矩阵、运行时矩阵、签字包和零阻断缺陷           | M5-05/M5-07 工程切片已完成；继续冻结矩阵并交独立验收                      |
 | #8 M6  | E1–E10；正式制品、文档、演示、发布、双平台同步和交接                                 | release、下载校验、安装 smoke、验收签字和交接记录      | 等正式验收后执行，不能用候选 rehearsal 代替                               |
 | #11 CI | Stage 2：独立 benchmark、provenance、shipped-surface parity、release packaging/smoke | 新 PR/主干 run、门禁读回和失败拦截证据                 | D8 落地后关闭；当前 Stage 0/1 已完成                                      |
 
@@ -210,7 +210,8 @@ ArkTS/ArkWeb 设备/模拟器、SDK、签名和构建模式上复现。记录失
 - 路径逃逸、符号链接、大文件、深度、超时、内存/CPU 上限；
 - 不执行 npm lifecycle/package scripts；
 - 报告不泄漏源码片段、token、绝对私有路径或 secret；
-- `pnpm audit`、SBOM、第三方通知和 `@yarnpkg/lockfile@1.1.0` 许可缺口；
+- 复核已合并的 `pnpm audit`、SBOM、第三方通知和
+  `@yarnpkg/lockfile@1.1.0` 许可缺口，完成 S-09 处置；
 - DevEco/VSIX 签名、信任链、发布渠道和更新机制；
 - 外部数据和商标使用有书面许可或明确禁止。
 
@@ -309,7 +310,8 @@ docs/evidence/
    冻结目标 profile、v1 入口、评分、数据许可、独立角色和 Lottie 处置。
 2. 完成 C9 parity 和 C3–C8 的入口 walkthrough；补齐资源限制、错误恢复、
    安装/卸载和 Remote AI 延期说明。
-3. 增加 D5 安全审计、D7 性能基准和 D8 CI 评测/parity 门禁。
+3. 复核已合并的 M5-07 供应链审计；增加 D7 性能基准和 D8 CI
+   评测/parity 门禁。
 4. 获得独立标签和目标设备后执行 D1–D4；记录失败、修复和独立复核。
 5. 完成 S-09/S-10 后按 E1–E10 发布，最终关闭所有应关闭 issue，并把长期
    `TODO.md` 更新为最终维护状态；不要删除该执行入口。

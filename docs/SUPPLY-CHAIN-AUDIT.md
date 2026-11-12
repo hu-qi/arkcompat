@@ -6,6 +6,12 @@ disposition and release authorization are pending.
 [#8](https://github.com/hu-qi/arkcompat/issues/8).
 **Source baseline:** `92cd5a37fc28de964994dc47636a0beeb887fed0`, plus the
 reviewed A2 working-tree changes identified by the hashes below.
+**Merge evidence:** PR
+[#111](https://github.com/hu-qi/arkcompat/pull/111), PR run
+[43223890359](https://github.com/hu-qi/arkcompat/actions/runs/43223890359),
+main `06279d67e02f0724d9e8ee39a2c4a06ecf6dcfc0`, and main run
+[43224216503](https://github.com/hu-qi/arkcompat/actions/runs/43224216503);
+both runs passed all five required jobs.
 **Machine-readable record:**
 [supply-chain-audit-2026-11-12.json](evidence/supply-chain-audit-2026-11-12.json).
 
@@ -225,8 +231,9 @@ Engineering:
 - [x] Generate and validate CycloneDX SBOM, notices and checksums.
 - [x] Build the portable CLI twice and compare deterministic files.
 - [x] Retain the `@yarnpkg/lockfile@1.1.0` gap and exact supplemental source.
-- [ ] Merge through a PR with all five required checks.
-- [ ] Verify the main run and AtomGit main SHA.
+- [x] Merge through PR #111 with all five required checks.
+- [x] Verify main run `43224216503`.
+- [ ] Verify AtomGit main SHA after the documentation closeout is merged.
 - [ ] Comment evidence and remaining gates on Issues #7 and #8.
 
 Human S-09 review:
