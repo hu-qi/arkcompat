@@ -91,6 +91,25 @@ hashes and failure metadata are retained in the review evidence. These attempts
 are not evidence for or against the candidate and do not change its inactive
 status.
 
+On 2026-11-12, a third isolated Claude Code CLI invocation against the identical
+public-only bundle (`d4769c52...`, commit `94544e32`) succeeded (`exitStatus: 0`,
+`isError: false`, `13,752` input tokens, `26,870` output tokens including
+`20,672` thinking tokens, reported model `claude-opus-4-8`) and returned
+**support only with amendments**. It confirmed that the API 20 target artifact
+executed `DOMLoaded`, sustained `loopComplete`, pinned frames 0 and 18, and
+explicit `destroy()` cleanup on the **HarmonyOS 7.0.0 / API 26** simulator,
+while ruling **insufficient** any claim that the revised lifecycle probe ran on
+an API 20 runtime. It flagged target-vs-runtime conflation, clock/capture
+offsets (`+8.893 s` / `-0.661 s` / `+0.506 s`), post-hoc selection of the
+second `pinned-0` sample, the 10-event `enterFrame` instrumentation cap, Web
+fixture hash differences between 2026-11-09 and 2026-11-11, and the absence of
+real-device, release-signing, AOT, 100-cycle leak/stress, `aboutToDisappear`,
+and complex-animation coverage. The exact candidate wording, nine activation
+conditions, and result hashes (`1fec6131...`, report `e6d8eeae...`) are
+archived in [the review evidence](evidence/claude-lottie-review-2026-11-11.json).
+The private candidate remains local, unpromoted, and inactive pending human
+import approval and remaining runtime prerequisites.
+
 This amendment does **not** replace the earlier API 20 runtime observation. The
 API 20 image could not be recreated on this machine because its download endpoint
 rejected the current non-mainland network location. The new result proves that

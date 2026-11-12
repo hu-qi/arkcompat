@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1",
-  "observedAt": "2026-11-11",
+  "observedAt": "2026-11-12",
   "issue": 4,
   "kind": "public-evidence-review-by-claude-code-cli",
   "observationalScope": "Documentation/code review only; the reviewer did not execute or independently replicate the runtime probe.",
@@ -46,6 +46,26 @@
       "durationMs": 175176,
       "modelUsageTokens": 0,
       "reportProduced": false
+    },
+    {
+      "attempt": 3,
+      "observedAt": "2026-11-12",
+      "publicSourceCommit": "94544e32f86867dbcb6b704008c7d59c509d6949",
+      "inputSha256": "d4769c525dd73faf3b6937ac8d9cc154cd11e144f1ed5a2414e141b1f6ad372d",
+      "resultSha256": "1fec613111398c2f32332f21bff141e8cf55d2402d47f6d6ea30b6152e338f15",
+      "markdownReportSha256": "e6d8eeaec030ec855421973fb4b8418cd77a97eb2e69343f08297f9e964656e0",
+      "requestedModel": "claude-opus-4-8",
+      "actualModel": "claude-opus-4-8",
+      "modelRoutingMatchedRequest": true,
+      "exitStatus": 0,
+      "isError": false,
+      "apiError": null,
+      "durationMs": 145305,
+      "inputTokens": 13752,
+      "outputTokens": 26870,
+      "thinkingTokens": 20672,
+      "reportProduced": true,
+      "decision": "support-only-with-amendments"
     }
   ],
   "materialFindings": [
@@ -56,16 +76,39 @@
     "No real-device signed Release/AOT result, 100-cycle leak/stress audit or complex-animation matrix was supplied.",
     "Drop-in replacement, SVG/HTML renderer support and production readiness are excluded."
   ],
+  "amendedMaterialFindings": [
+    "Target vs runtime conflation: packed metadata declares minimum/target API 20 (60000020), while actual amended execution ran on HarmonyOS 7.0.0 / API 26 (arm64-v8a Mate 90 Pro emulator).",
+    "The revised DOMLoaded/destroy/enterFrame lifecycle probe never executed on an API 20 runtime; the 2026-11-09 API 20 run used caller-log-level events with different log names.",
+    "Frame/timestamp attribution has clock/capture offsets (+8.893 s for pinned-0, -0.661 s inverted for pinned-18, +0.506 s for destroyed) and post-hoc selection of the second pinned-0 observation.",
+    "enterFrame count (10) is an instrumentation cap rather than total frame coverage; Web fixture HTML/script hashes changed between 2026-11-09 and 2026-11-11, and browser binary lacks a file hash.",
+    "JSON animation field v=\"5.12.2\" identifies the Bodymovin exporter schema rather than independently verifying lottie-web runtime version.",
+    "No physical device, release signing, AOT/bytecode profiling, 100/1000-cycle stress/leak test, aboutToDisappear/background lifecycle coverage, or complex animation matrix exists."
+  ],
+  "amendedCandidateWording": {
+    "short": "On one authored synthetic vector fixture, lottie-web 5.12.2 (Web Canvas) and @ohos/lottie 2.0.0 (ArkTS / ArkUI Canvas) each completed load (DOMLoaded), playback, looping, and single explicit destroy() pixel clear; the ArkTS artifact declares API 20 target but ran on a HarmonyOS 7.0.0 / API 26 emulator (arm64-v8a, unsigned debug), not an API 20 runtime replication.",
+    "activationConditions": [
+      "Re-run the 2026-11-11 Index.ets lifecycle instrumentation on an actual HarmonyOS 6.0.0 / API 20 runtime.",
+      "Complete runtime matrix coverage across API 20 and API 26 with explicit release, apiLevel, imageVersion, and ABI accounting (arm vs arm64-v8a).",
+      "Verify on at least one physical device with release signing, release build mode, and separate AOT/profiling measurements.",
+      "Run repeated load/destroy (100+ cycles), double-destroy, listener cleanup, background/foreground, and aboutToDisappear() leak/stress checks.",
+      "Unify host/device clock attribution for pinned frames and captures.",
+      "Cover complex animation features (image assets, text, masks, mattes, gradients, expressions, layer effects).",
+      "Pin and hash the Web browser binary, independently verify upstream package hashes, and document the 11-09 vs 11-11 Web fixture diff.",
+      "Complete non-author independent review and governance approval before setting knowledgeMappingImported or independentAcceptanceVerified to true.",
+      "Enforce phrasing gate requiring single-fixture, emulator, unsigned-debug, API-20-target/API-26-runtime, and non-drop-in/non-pixel-parity qualifiers."
+    ]
+  },
   "candidate": {
     "localRecordSha256": "cfdea420d8d96d3ed49602a4354c8ed08dd042e15503792862cac5617f85caee",
     "knowledgeSnapshotState": "absent",
     "promotionState": "not-promoted",
     "humanImportApproval": false
   },
-  "amendedObservationReviewed": false,
-  "amendedReviewFailureSummary": "Both isolated amended-evidence review attempts stopped before receiving a model response with connection_failed/ECONNREFUSED. No amended verdict exists; these failures are not evidence for or against the candidate.",
+  "amendedObservationReviewed": true,
+  "amendedReviewFailureSummary": "Attempts 1 and 2 stopped before a model response with connection_failed/ECONNREFUSED; attempt 3 succeeded on 2026-11-12 using the identical public-only bundle and returned support-only-with-amendments.",
   "boundaries": {
-    "reviewIsOpusReview": false,
+    "initialReviewIsOpusReview": false,
+    "amendedReviewReportedModel": "claude-opus-4-8",
     "databaseActivationApproved": false,
     "independentAccuracyMeasured": false,
     "productionSupportClaimed": false,
