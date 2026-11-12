@@ -2,36 +2,23 @@
 
 更新时间：2026-11-12。目标验收日：2026-12-23。
 
-本清单按交付依赖组织剩余工作。日期为建议安排，未经裁定的方案仍为待确认。
-仅在完成条件及证据均满足后勾选；CI、开发者样例和模型评审分别记录，不能替代正式验收。
+**执行入口：** 本文是项目剩余工作的唯一执行入口。每次开始工作先从这里选择
+一个 `READY` 工作包；`GATED` 项先完成人工签字或取得外部输入。其他项目控制
+文档只承担专项职责：
 
-需要按执行顺序查看全部事项、Issue 关闭条件、人工签字门禁和发布清单时，先阅读
-[项目总控 TODO](docs/PROJECT-MASTER-TODO.md)。需要按剩余 Issue 直接领取下一项
-工程任务、查看负责人和正式关闭证据时，阅读
-[项目完成行动清单](docs/PROJECT-COMPLETION-ACTIONS.md)。本文保留阶段勾选与当前状态；
-逐项命令和证据登记仍以
-[项目执行台账](docs/PROJECT-EXECUTION-LEDGER.md)为准。
+| 文档 | 专项职责 |
+|---|---|
+| [项目执行台账](docs/PROJECT-EXECUTION-LEDGER.md) | 原子任务、命令、证据路径、责任角色和 Issue 关闭条件的完整台账 |
+| [验收与发布签字包](docs/ACCEPTANCE-SIGNOFF-PACKAGE.md) | S-01–S-10 人工决定、冻结记录、正式结果和最终签字 |
+| [项目总控 TODO](docs/PROJECT-MASTER-TODO.md) | 里程碑与 Issue 的总览快照 |
+| [项目完成行动清单](docs/PROJECT-COMPLETION-ACTIONS.md) | 按 Issue 查看关闭路线的工作视图 |
+| [项目完成计划](docs/PROJECT-COMPLETION-PLAN.md) | A–E 阶段、依赖、排期和证据目录约定 |
+| [交付状态](docs/DELIVERY-STATUS.md) | 对外说明工程证据、未完成门禁和发布状态 |
 
 相关依据：[产品需求](docs/PRD.md)、[路线图](ROADMAP.md)、
-[质量门禁](docs/QUALITY-GATES.md)、[决策记录](docs/DECISIONS.md)、
-[交付状态](docs/DELIVERY-STATUS.md)、
-[项目完成计划](docs/PROJECT-COMPLETION-PLAN.md)、
-[项目执行台账](docs/PROJECT-EXECUTION-LEDGER.md)、
-[验收与发布签字包](docs/ACCEPTANCE-SIGNOFF-PACKAGE.md)。任务编号仅用于本清单，
-对应 GitHub issue 如下。逐项动作、命令、证据路径、责任角色和关闭条件以
-项目执行台账为准。
-
-文档入口：
-
-| 文档 | 回答的问题 | 什么时候使用 |
-|---|---|---|
-| [项目总控 TODO](docs/PROJECT-MASTER-TODO.md) | 项目整体按什么顺序完成，哪些工作现在能做 | 每个阶段开始时 |
-| [项目完成行动清单](docs/PROJECT-COMPLETION-ACTIONS.md) | 剩余 Issue 各由谁推进、下一步做什么、何时才能关闭 | 领取任务、周度检查、准备结项时 |
-| 本文 | 当前勾选状态和可立即执行的四个工程任务是什么 | 领取任务和每日推进时 |
-| [项目执行台账](docs/PROJECT-EXECUTION-LEDGER.md) | 每项任务做什么、命令、证据、依赖、负责人和关闭条件 | 实施、取证和关 Issue 时 |
-| [项目完成计划](docs/PROJECT-COMPLETION-PLAN.md) | A–E 各阶段如何依赖和推进 | 排期和检查跨阶段依赖时 |
-| [验收与发布签字包](docs/ACCEPTANCE-SIGNOFF-PACKAGE.md) | 哪些决定必须由人签字、如何验收入口与正式发布 | 评审、验收和发布前 |
-| [交付状态](docs/DELIVERY-STATUS.md) | 当前哪些只是本地证据，哪些已经公开或验收 | 对外汇报和避免夸大完成度时 |
+[质量门禁](docs/QUALITY-GATES.md)和[决策记录](docs/DECISIONS.md)。
+若文档之间出现状态冲突，以已合并的 Issue 评论、人工签字和不可变 evidence
+为准，并在下一次 PR 中同步修正。
 
 状态含义：
 
@@ -53,19 +40,100 @@
 
 ### 当前工程执行队列
 
-以下任务不依赖未签字的验收口径或外部 holdout，可立即开始。每项完成后把提交
-SHA、命令、宿主/工具版本、输入与产物哈希、已知限制写入对应 Issue；完整回归
-使用 `pnpm check`。
+以下任务不依赖未签字的验收口径或外部 holdout，可立即开始。一次只领取一项，
+在独立分支上完成；每项完成后把提交 SHA、命令、宿主/工具版本、输入与产物哈希、
+已知限制写入对应 Issue。完整回归统一运行 `pnpm check`。
 
-| 顺序 | 任务 | 关联 Issue | 本轮应提交的证据 | 通过条件 |
+| 顺序 | 工作包 | 关联 Issue | 本轮交付 | 完成判定 |
 |---:|---|---|---|---|
-| 1 | M3-04：CLI beta 安装、升级、离线、错误恢复和卸载 | #5 | 新目录打包、干净解压/安装、故障与恢复日志 | 文档命令可从干净环境复现 |
-| 2 | M3-05：JSON/Markdown/SARIF 与 CLI/Web 稳定字段 | #5 | schema 结果、重复导出、报告哈希 | 相同输入字节稳定；展示层差异有说明 |
-| 3 | M5-05：安全负例与资源边界 | #7 | 威胁矩阵、隔离主机日志、失败样例 | 无未处置高风险 |
-| 4 | M5-07：漏洞、SBOM、通知、许可和分发审计 | #7/#8 | `pnpm audit`、SBOM、通知、SHA-256 | 阻断项为零，或形成具名处置记录 |
+| 1 | M3-04：CLI beta 生命周期 | #5 | 干净打包、安装/升级/离线/故障恢复/卸载文档与演练记录 | 新主机可按文档完成全部步骤，失败码和回滚可复现 |
+| 2 | M3-05：报告契约与稳定字节 | #5 | JSON/Markdown/SARIF 校验、CLI/Web 语义对照、重复导出哈希 | schema 有效；相同输入稳定；展示层差异有测试和说明 |
+| 3 | M5-05：安全负例与资源边界 | #7 | 威胁矩阵、隔离主机探针、失败样例和处置记录 | 无未处置高风险；中风险有负责人、期限和决定 |
+| 4 | M5-07：供应链与分发审计 | #7/#8 | audit、CycloneDX SBOM、第三方通知、许可证与 SHA-256 | 阻断项为零，或存在具名风险接受记录 |
+
+#### M3-04 · CLI beta 生命周期
+
+**范围：** portable CLI 的安装、升级、离线运行、损坏输入、资源限制、退出码、
+卸载、回滚和恢复。公开 registry 发布、签名和最终分发授权不在本工作包内。
+
+```sh
+run_dir=$(mktemp -d)
+pnpm package:cli "$run_dir/arkcompat"
+pnpm verify:runtime-provenance "$run_dir/arkcompat"
+node "$run_dir/arkcompat/dist/index.js" --help
+node "$run_dir/arkcompat/dist/index.js" scan fixtures/developer/source-api \
+  --runtime arkts --release 6.0.0 --api-level 20
+```
+
+在第二个干净目录重复安装和扫描；分别制造损坏的 lockfile、缺失输入、只读目录
+和超限输入，记录退出码、stderr、恢复动作及回滚结果。证据写入
+`docs/evidence/cli-beta-lifecycle-<date>.json` 和对应 Issue 评论，文档更新
+[CLI 安装演练](docs/CLI-PACKAGE-REHEARSAL.md)。本项完成不关闭 #5。
+
+#### M3-05 · 报告契约与稳定字节
+
+**范围：** 同一 canonical scan 的 JSON、Markdown、SARIF 投影，以及 CLI/Web
+对 finding ID、status、证据、位置、目标 profile 和快照版本的语义一致性。
+
+```sh
+report_dir=$(mktemp -d)
+pnpm --silent scan fixtures/developer/source-api --runtime arkts --release 6.0.0 \
+  --api-level 20 --format json > "$report_dir/first.json"
+pnpm --silent scan fixtures/developer/source-api --runtime arkts --release 6.0.0 \
+  --api-level 20 --format json > "$report_dir/second.json"
+pnpm --silent scan fixtures/developer/source-api --runtime arkts --release 6.0.0 \
+  --api-level 20 --format markdown > "$report_dir/report.md"
+pnpm --silent scan fixtures/developer/source-api --runtime arkts --release 6.0.0 \
+  --api-level 20 --format sarif > "$report_dir/report.sarif"
+cmp "$report_dir/first.json" "$report_dir/second.json"
+shasum -a 256 "$report_dir"/*
+```
+
+保留 schema 校验结果、两次导出哈希、CLI/Web 语义对照和仅展示层差异说明；
+证据写入 `docs/evidence/report-stability-<date>.json` 与 Issue #5。任何 finding
+丢失、顺序漂移、路径泄漏或 unknown 被省略都视为失败。本项完成不关闭 #5。
+
+#### M5-05 · 安全负例与资源边界
+
+**范围：** 路径逃逸、绝对路径、`..`、符号链接、FIFO/设备等特殊文件、损坏和
+超大输入、嵌套深度、CPU/内存/时间限制、秘密泄漏、恶意报告注入和包脚本零执行。
+
+```sh
+pnpm exec vitest run tests/scan.test.ts tests/ohpm-manifest.test.ts \
+  tests/ohpm-modules.test.ts tests/pnpm-workspaces.test.ts \
+  tests/yarn-lock.test.ts tests/api-rules.test.ts tests/evaluation.test.ts
+pnpm check
+```
+
+在一次性目录补充隔离主机探针。每项威胁记录输入、预期、实际、严重度、处置、
+负责人和回归用例；证据写入
+`docs/evidence/security-negative-matrix-<date>.json`，并更新
+[扫描安全边界](docs/SCANNER-SECURITY.md)与 Issue #7。未关闭高风险项时不得把
+本工作包标为完成。
+
+#### M5-07 · 供应链与分发审计
+
+**范围：** 依赖漏洞、运行时 SBOM、第三方通知、许可证、制品 SHA-256、商标和
+分发文件。工程侧生成并核对证据，法律/安全结论仍由 S-09 签字。
+
+```sh
+evidence_dir=$(mktemp -d)
+pnpm audit --json > "$evidence_dir/pnpm-audit.json"
+out=$(mktemp -d)
+pnpm package:cli "$out/arkcompat"
+pnpm verify:runtime-provenance "$out/arkcompat"
+shasum -a 256 "$out/arkcompat"/SBOM.cdx.json \
+  "$out/arkcompat"/THIRD-PARTY-NOTICES.json \
+  "$out/arkcompat"/SHA256SUMS > "$evidence_dir/provenance.sha256"
+```
+
+逐项核对生产依赖的版本、声明许可、通知文件和制品内哈希；对
+`@yarnpkg/lockfile@1.1.0` 缺少独立 LICENSE 文件的缺口完成补充或提交具名风险
+接受。证据写入 `docs/evidence/supply-chain-audit-<date>.json` 与 Issue #7/#8；
+S-09 签字前不得宣称法务或分发审批完成。
 
 完成后重新评估下表。`GATED` 任务只有在签字或外部输入真正到位后才能转为
-`READY`；不能用绿色 CI、开发者 fixture 或模型评审替代这些输入。
+`READY`；绿色 CI、开发者 fixture、本地制品或模型评审不能替代这些输入。
 
 ### 工程任务寄存器
 
@@ -137,8 +205,8 @@ lookup；本地 smoke、绿色 CI 或目录存在都不等于公开分发完成�
 
 - [x] MIT 原创代码许可证及原始验收阈值由项目负责人确认。
 - [x] 扫描、规则接口、知识元数据、报告和多入口基础已实现，已有范围内的本地验证。
-- [x] 本文最近一次核对的主干提交为 `a2c5245692389c09387aa66a740f41eeb1424fc9`；对应的[主干检查](https://github.com/hu-qi/arkcompat/actions/runs/43190111535)通过五项必需任务。GitHub 与 AtomGit 已读回同一 SHA。
-- [x] 最近一次完整工程回归对应 PR [#91](https://github.com/hu-qi/arkcompat/pull/91)；[PR 检查](https://github.com/hu-qi/arkcompat/actions/runs/43189843509)和合并后[主干检查](https://github.com/hu-qi/arkcompat/actions/runs/43190111535)均通过五项必需任务。本地 `pnpm check` 为 35 个测试文件、573 项测试。
+- [x] 本文更新前核对的主干提交为 `22ecfb78638be6aa90a58703a436ad6300576eb6`；对应的[主干检查](https://github.com/hu-qi/arkcompat/actions/runs/43190877999)通过五项必需任务。GitHub 与 AtomGit 已读回同一 SHA。
+- [x] 最近一次完整工程回归对应 PR [#92](https://github.com/hu-qi/arkcompat/pull/92)；[PR 检查](https://github.com/hu-qi/arkcompat/actions/runs/43190613521)和合并后[主干检查](https://github.com/hu-qi/arkcompat/actions/runs/43190877999)均通过五项必需任务。本地 `pnpm check` 为 35 个测试文件、573 项测试。
 - [x] M1-06 已证明包脚本零执行、FIFO 跳过、32 MiB 聚合上限、64 层深度上限及损坏 lockfile 的安全失败；证据见 [扫描安全边界](docs/SCANNER-SECURITY.md)和[机器可读记录](docs/evidence/scanner-security-2026-11-12.json)。这只完成工程切片，不关闭 Issue #3。
 - [x] 项目负责人确认 AtomGit 即 GitCode：后续只核对 GitHub + AtomGit，不再单列旧 GitCode URL 的凭据或同步任务。
 - [ ] 项目正式验收通过。

@@ -2,8 +2,8 @@
 
 **Updated:** 2026-11-12
 **Target acceptance date:** 2026-12-23
-**Verified main baseline:** `a2c5245692389c09387aa66a740f41eeb1424fc9`
-**Latest verified main run:** [43190111535](https://github.com/hu-qi/arkcompat/actions/runs/43190111535), all five required jobs passed
+**Verified main baseline before this document update:** `22ecfb78638be6aa90a58703a436ad6300576eb6`
+**Latest verified main run before this document update:** [43190877999](https://github.com/hu-qi/arkcompat/actions/runs/43190877999), all five required jobs passed
 **Latest complete code regression baseline:** `6e35d03c3d0aebf46558143853502eba6aabfba1` (573 tests across 35 files)
 **Remote read-back:** GitHub `origin/main` and AtomGit `atomgit-https/main` both resolved to the baseline SHA
 
@@ -17,9 +17,10 @@ This is the working ledger for completing the eight open Issues:
 [#8](https://github.com/hu-qi/arkcompat/issues/8), and
 [#11](https://github.com/hu-qi/arkcompat/issues/11).
 
-[TODO](../TODO.md) is the compact status checklist. This document is the
-execution register: each row names the work, dependency, reproducible command or
-artifact, evidence destination, accountable role, and close condition. The
+[TODO](../TODO.md) is the single execution entry: choose one work package there
+before starting. This document is the detailed execution register: each row
+names the work, dependency, reproducible command or artifact, evidence
+destination, accountable role, and close condition. The
 [project completion plan](PROJECT-COMPLETION-PLAN.md) explains the sequence; the
 [acceptance sign-off package](ACCEPTANCE-SIGNOFF-PACKAGE.md) is the form a human
 owner or adjudicator completes.

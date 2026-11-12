@@ -2,9 +2,9 @@
 
 **更新时间：** 2026-11-12
 **目标日期：** 2026-12-23
-**文档整理时核对的主干：** `a2c5245692389c09387aa66a740f41eeb1424fc9`
+**本文更新前核对的主干：** `22ecfb78638be6aa90a58703a436ad6300576eb6`
 **最近工程回归基线：** `6e35d03c3d0aebf46558143853502eba6aabfba1`
-**最近主干检查：** [43190111535](https://github.com/hu-qi/arkcompat/actions/runs/43190111535)
+**最近主干检查：** [43190877999](https://github.com/hu-qi/arkcompat/actions/runs/43190877999)
 **用途：** 把 [#1](https://github.com/hu-qi/arkcompat/issues/1)、
 [#3](https://github.com/hu-qi/arkcompat/issues/3)、
 [#4](https://github.com/hu-qi/arkcompat/issues/4)、
@@ -15,7 +15,8 @@
 [#11](https://github.com/hu-qi/arkcompat/issues/11) 收束为可执行、可取证、
 可关闭的交付路径。
 
-本文是执行与验收计划，不替代 [TODO](../TODO.md) 的任务勾选、
+[根目录 TODO](../TODO.md) 是唯一执行入口。本文是执行与验收计划，不替代
+[TODO](../TODO.md) 的任务勾选、
 [项目执行台账](PROJECT-EXECUTION-LEDGER.md)的逐项命令与证据登记、
 [DECISIONS](DECISIONS.md) 的人工决策、[QUALITY-GATES](QUALITY-GATES.md)
 的阈值或 evidence 中的实测结果。工程实现、模型评审、开发者 fixture、
