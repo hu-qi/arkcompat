@@ -2,11 +2,11 @@
 
 **Updated:** 2026-11-12
 **Target acceptance date:** 2026-12-23
-**Current verified baseline:** `845ed8755d1d86b225b3634c85647aa5de72bb42`
-**Current baseline checks:** [43213853305](https://github.com/hu-qi/arkcompat/actions/runs/43213853305), all five required jobs passed
-**Current baseline suite:** 36 test files and 575 tests passed
-**Current remote read-back:** GitHub `origin/main` and AtomGit `atomgit-https/main` both resolved to `845ed8755d1d86b225b3634c85647aa5de72bb42`
-**Current local A1 worktree:** 37 test files and 588 tests passed, including 13 M5-05 security-matrix tests; PR/main runs pending
+**Current baseline:** `0c94cd1487342081ec1d1109b372a0a37b4d385e`
+**Current PR checks:** [43215560601](https://github.com/hu-qi/arkcompat/actions/runs/43215560601), all five required jobs passed
+**Current main checks:** [43215854339](https://github.com/hu-qi/arkcompat/actions/runs/43215854339), macOS job queued; overall conclusion pending
+**Current suite:** 37 test files and 588 tests passed, including 13 M5-05 security-matrix tests
+**Current remote read-back:** GitHub `origin/main` and AtomGit `atomgit-https/main` both resolved to `0c94cd1487342081ec1d1109b372a0a37b4d385e`
 **Documentation review baseline:** `c2324e0b31f27fd02570710a9fbfd93af75bda0e`
 **Documentation review run:** [43205307730](https://github.com/hu-qi/arkcompat/actions/runs/43205307730), all five required jobs passed
 **Documentation closeout merge:** `5193c65935c58386c9bf8b7a76b76690d7986c70`; [43205954055](https://github.com/hu-qi/arkcompat/actions/runs/43205954055), all five required jobs passed
@@ -195,7 +195,7 @@ blocking defect.
 | M5-02 | `GATED` | Freeze code, rules, knowledge, cases, labels, toolchain, SDK, devices, and target profiles into one manifest. | M0-03–07 | Generate immutable SHA-256 manifest | Acceptance run directory | Engineering + adjudicator | Every evaluation input is immutable and traceable. |
 | M5-03 | `GATED` | Execute the four formal metrics with complete denominators and retained failures. | M1-07–08, M2-07–08 | `pnpm evaluate ... <new-evidence-dir>` for each scope | Results JSON/Markdown, confusion matrices, error analysis | Adjudicator | All confirmed thresholds pass or Issue remains open. |
 | M5-04 | `GATED` | Validate each frozen profile on its actual runtime, distinguishing target from runtime. | M5-02 | Install and run the signed HAP/probe on the approved device/emulator | Device/OS/API/build logs and hashes | Runtime owner | Required runtime rows pass; unsupported environments are explicit. |
-| M5-05 | `IN REVIEW` | Complete security probes for path escape, symlinks, special files, malformed/large input, resource exhaustion, secrets, and script execution. | None | `pnpm exec vitest run tests/security-matrix.test.ts`; `pnpm check` | [Security matrix evidence](evidence/security-negative-matrix-2026-11-12.json), [scanner security](SCANNER-SECURITY.md), PR/main runs | Engineering + security reviewer | Local author matrix passes 13/13 and the full gate passes 37 files/588 tests. Merge and independent review remain; Issue #7 stays open. |
+| M5-05 | `IN REVIEW` | Complete security probes for path escape, symlinks, special files, malformed/large input, resource exhaustion, secrets, and script execution. | None | `pnpm exec vitest run tests/security-matrix.test.ts`; `pnpm check` | [Security matrix evidence](evidence/security-negative-matrix-2026-11-12.json), [scanner security](SCANNER-SECURITY.md), PR/main runs | Engineering + security reviewer | Local author matrix passes 13/13 and the full gate passes 37 files/588 tests; PR #109 is merged. Main run 43215854339 remains queued for macOS; independent review also remains. Issue #7 stays open. |
 | M5-06 | `GATED` | Record performance for small, medium, and large approved inputs against a frozen budget. | M0-03 and approved projects | Time and peak-memory runs with repeated measurements | Benchmark JSON/Markdown | Engineering | Results are within budget or have an accepted remediation/deferral. |
 | M5-07 | `READY` | Produce dependency, SBOM, notice, trademark, and distribution evidence for legal/security disposition. | None | `pnpm audit`; `pnpm package:cli`; `pnpm verify:runtime-provenance` | Audit, SBOM, notices, SHA-256, review record | Engineering; then security/legal reviewer | No blocker remains or formal disposition is signed. |
 | M5-08 | `GATED` | Retain first failures and track every defect through fix and independent regression. | M5-03–07 | Defect register linked to failing run and corrective PR | Corrective run and reviewer sign-off | Engineering + reviewer | No blocking defect is open. |
@@ -354,7 +354,7 @@ role is not an assigned person until the sign-off package records a name.
 
 | ID | Status | Work / accountable role | Target | Concrete next action | Evidence / close condition | Issue closure authority |
 |---|---|---|---|---|---|---|
-| A1 | `IN REVIEW` | M5-05 security negative and resource-boundary matrix; Engineering Lead + Security Reviewer | 2026-11-15 | Local matrix and `pnpm check` pass; push, open Issue #7 PR, wait for five required checks, merge, verify main and AtomGit SHA | 13 security tests, evidence JSON, scanner-security docs, PR/main run; independent security review remains | Cannot close #7 alone; independent security review remains |
+| A1 | `IN REVIEW` | M5-05 security negative and resource-boundary matrix; Engineering Lead + Security Reviewer | 2026-11-15 | PR #109 is merged and all five PR checks passed; finish main run 43215854339, comment #7 and read back AtomGit | 13 security tests, evidence JSON, scanner-security docs, PR/main run; independent security review remains | Cannot close #7 alone; independent security review remains |
 | A2 | `READY` | M5-07 supply-chain and distribution audit; Engineering Lead + Security Reviewer + Legal/Release Owner | 2026-11-22 | Generate audit, SBOM, notices, licenses and artifact hashes in a fresh directory; reconcile every dependency and gap | Evidence JSON, provenance verification, review package; no undisposed vulnerability/license blocker | Feeds S-09; cannot close #7/#8 or release |
 | A3 | `GATED` | S-01–S-10 decision package; Project Owner + Final Adjudicator + named independent roles | 2026-11-15 review; decisions before dependent gates | Obtain named decisions with approve/amend/reject/defer, rationale, evidence, conflict/access boundary and revisit trigger | Signed package plus decisions/target matrix; no engineering defaults presented as approval | Cannot close #1 until every required decision is signed or formally deferred |
 | A4 | `GATED` | In-scope scanner and reviewed-knowledge gaps; Engineering Lead + Independent Label Provider + Non-author Reviewer | 2026-11-29 | Disposition every capability-matrix row; add failing fixtures; produce reviewed snapshot and canonical export | Gap disposition, regressions, snapshot SHA, source/license/review/validity/revocation records | Cannot close #3/#4 alone; A5 independent scoring still required |
@@ -363,8 +363,8 @@ role is not an assigned person until the sign-off package records a name.
 | A7 | `GATED` | Stage 2 CI enforcement; Engineering Lead + Final Adjudicator | 2026-12-15 | Add benchmark, provenance, parity, packaging/SBOM/checksum and download-smoke required gates; demonstrate failure then recovery | Workflow and PR/main runs for deliberate failure and recovery, protection read-back | Cannot close #11 unless every bad input is actually blocked |
 | A8 | `GATED` | Accepted-SHA rebuild, release and handover; Release Owner + Final Adjudicator + Project Owner | 2026-12-23 | Rebuild twice from accepted SHA; sign/checksum; publish; install/download-smoke; read back GitHub and AtomGit main/tag/artifact hashes | Release assets, checksums, readback manifest, final acceptance package, maintenance handover | Only then close Issues whose original conditions are met |
 
-The action register does not change the dependency order: A1 is in PR/CI review;
-A2 engineering evidence can start after A1 merges while S-09 remains unsigned; A3
+The action register does not change the dependency order: A1 is awaiting the
+final main CI result; A2 engineering evidence can start now while S-09 remains unsigned; A3
 requires named people; A4 depends on the frozen scope and data decisions; A5
 depends on A3/A4; A6 depends on S-02 and approved inputs; A7 depends on stable
 A4–A6 outputs; A8 requires all preceding gates.

@@ -2,9 +2,10 @@
 
 **更新时间：** 2026-11-12
 **目标日期：** 2026-12-23
-**当前 main 基线：** `845ed8755d1d86b225b3634c85647aa5de72bb42`
-**main 检查：** [43213853305](https://github.com/hu-qi/arkcompat/actions/runs/43213853305)
-**本地 A1 回归：** 37 个文件、588 项测试通过；M5-05 待 PR/main CI
+**当前 main 基线：** `0c94cd1487342081ec1d1109b372a0a37b4d385e`
+**PR 检查：** [#109 / 43215560601](https://github.com/hu-qi/arkcompat/actions/runs/43215560601) 五项必需检查通过
+**main 检查：** [43215854339](https://github.com/hu-qi/arkcompat/actions/runs/43215854339) 待 macOS 任务完成
+**本地 A1 回归：** 37 个文件、588 项测试通过；M5-05 工程实现已合并
 **用途：** 把 [#1](https://github.com/hu-qi/arkcompat/issues/1)、
 [#3](https://github.com/hu-qi/arkcompat/issues/3)、
 [#4](https://github.com/hu-qi/arkcompat/issues/4)、

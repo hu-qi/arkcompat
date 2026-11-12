@@ -2,7 +2,7 @@
 
 **更新时间：** 2026-11-12
 **执行入口：** [根目录 TODO](../TODO.md)
-**当前 main：** `845ed8755d1d86b225b3634c85647aa5de72bb42`
+**当前 main：** `0c94cd1487342081ec1d1109b372a0a37b4d385e`
 **当前状态：** 8 个开放 Issue、0 个开放 PR；正式验收 0/5；人工签字 0/10
 
 这份文档把剩余工作按执行顺序拆成可勾选项。每个工程项都必须走
@@ -14,7 +14,7 @@ main 检查 → AtomGit 同 SHA 读回 → Issue 评论”的闭环。AtomGit �
 
 ### T1. 合并 M5-05 安全矩阵（#7）
 
-状态：本地工程切片完成，待 PR/CI。
+状态：工程实现已通过 PR #109 合并；main 流水线 43215854339 待最终完成。
 
 - [x] 13 项安全负例覆盖根路径、symlink、socket、资源上限、超时、报告注入、
   lifecycle scripts、文件系统错误、损坏 manifest 和凭据 URL。
@@ -23,11 +23,12 @@ main 检查 → AtomGit 同 SHA 读回 → Issue 评论”的闭环。AtomGit �
 - [x] `pnpm exec vitest run tests/security-matrix.test.ts`：13/13。
 - [x] `pnpm check`：37 个文件、588 项测试、全部质量检查通过。
 - [x] 证据：[security-negative-matrix-2026-11-12.json](evidence/security-negative-matrix-2026-11-12.json)。
-- [ ] 提交并推送 `codex/m5-05-security-negative-matrix`。
-- [ ] 创建关联 #7 的 PR，确认五项必需 job 通过。
-- [ ] 正常合并并确认 main 流水线通过。
+- [x] 提交并推送 `codex/m5-05-security-negative-matrix`。
+- [x] 创建关联 #7 的 PR #109，确认五项必需 job 通过。
+- [x] 正常合并；合并 SHA 为 `0c94cd1487342081ec1d1109b372a0a37b4d385e`。
+- [ ] 确认 main 流水线 43215854339 的五项必需 job 全部通过。
 - [ ] 把 PR、commit、run、哈希、残余风险评论到 #7。
-- [ ] 推送 main 到 AtomGit，并独立读回相同 SHA。
+- [x] 推送 main 到 AtomGit，并独立读回相同 SHA。
 
 完成定义：工程切片为 `DONE`。Issue #7 继续开放，等待独立安全复核、正式
 指标、实际 runtime、性能/许可审查和最终裁定。
@@ -148,7 +149,7 @@ main 检查 → AtomGit 同 SHA 读回 → Issue 评论”的闭环。AtomGit �
 
 | 顺序 | 工作包 | 当前状态 | 解锁条件 | 可关闭 Issue |
 |---:|---|---|---|---|
-| 1 | T1 M5-05 | 本地完成，待 PR/CI | 当前 main | 否 |
+| 1 | T1 M5-05 | 已合并；main 流水线待完成 | PR 检查已通过 | 否 |
 | 2 | T2 M5-07 | `READY` | T1 合并 | 否 |
 | 3 | T3 S-01–S-07 | `GATED` | 具名负责人、裁定人和数据许可 | #1 仍待全部决定 |
 | 4 | T4 扫描/知识 | `GATED` | T3 | #3/#4 仍待独立评分 |

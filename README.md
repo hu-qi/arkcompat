@@ -8,11 +8,12 @@
 - **目标形态**：CLI / VS Code-Cursor / DevEco Studio / Web / MCP / CI/CD，共享同一扫描引擎。
 - **交付时间**：2026-12-23
 - **当前状态**：工程纵向切片持续交付；正式验收 0/5，正式版本尚未发布。
-- **本文件更新前已验证主干**：`845ed8755d1d86b225b3634c85647aa5de72bb42`；GitHub 与 AtomGit 读回同一 SHA，[质量流水线](https://github.com/hu-qi/arkcompat/actions/runs/43213853305)五项必需任务通过。
+- **当前主干**：`0c94cd1487342081ec1d1109b372a0a37b4d385e`；PR [#109](https://github.com/hu-qi/arkcompat/pull/109) 的五项必需检查通过，[main 质量流水线](https://github.com/hu-qi/arkcompat/actions/runs/43215854339)的 macOS 任务尚在排队。GitHub 与 AtomGit 已读回同一 SHA。
 
 首个验收节点目标 HarmonyOS 6.0.0+，里程碑排期见 [ROADMAP](ROADMAP.md)。
-**[TODO](TODO.md) 是剩余工作的唯一执行入口**：先选择一个 `READY` 工作包；
-`GATED` 项必须先在签字包中完成人工决定。
+**[TODO](TODO.md) 是剩余工作的唯一执行入口**，包含文档索引、A1–A8 工作包、
+逐项命令、证据路径和 Issue 关闭条件；先选择一个 `READY` 工作包，`GATED`
+项必须先在签字包中完成人工决定。
 
 已具备：npm、pnpm 和 Yarn 锁文件的部分依赖图、受限 [npm](docs/NPM-WORKSPACES.md)、[pnpm](docs/PNPM-WORKSPACES.md) 与 [Yarn](docs/YARN-WORKSPACES.md) workspace 清单和作用域投影、JS/TS 与部分 ETS 导入/调用清单、JSON/Markdown/SARIF 报告、[本地静态 API 规则评估](docs/LOCAL-API-RULES.md)、[知识库快照导出](docs/KNOWLEDGE-SEMANTICS.md#cli-export)，以及本地 Web、MCP、VS Code 和 CI 入口。Web 与 MCP 可按操作者显式选择的离线快照查询带排除原因和来源的元数据，但不会据此生成替代建议。默认扫描的兼容状态仍为 `unknown`；当前知识库样例为合成数据。真实替代关系、经验证的兼容规则、正式分发和独立验收仍待完成。验证范围与证据见[交付记录](docs/DELIVERY-STATUS.md)。
 
