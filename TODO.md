@@ -91,7 +91,7 @@ SHA、命令、宿主/工具版本、输入与产物哈希、已知限制写入�
 
 - [x] MIT 原创代码许可证及原始验收阈值由项目负责人确认。
 - [x] 扫描、规则接口、知识元数据、报告和多入口基础已实现，已有范围内的本地验证。
-- [x] 本文最近一次核对的主干提交为 `1a1ab113355ae4f2ae90ae3fc1021e0f1866ad79`；对应的[主干检查](https://github.com/hu-qi/arkcompat/actions/runs/43177608753)通过五项必需任务。GitHub 与 AtomGit 已读回同一 SHA。
+- [x] 本文最近一次核对的主干提交为 `e7ff62d6453197db3fadb7e69604e7a7578bf483`；对应的[主干检查](https://github.com/hu-qi/arkcompat/actions/runs/43179729177)通过五项必需任务。GitHub 与 AtomGit 已读回同一 SHA。
 - [x] 最近一次完整工程回归对应的基线为 `f5d878dd180dac6109d283ea81f6e5345d643d06`；PR #79 合并后完整回归为 568 项测试，[PR 检查](https://github.com/hu-qi/arkcompat/actions/runs/43173965081)和[主干检查](https://github.com/hu-qi/arkcompat/actions/runs/43174225771)均通过五项必需任务。
 - [x] `f5d878d` 至当前主干只新增规划文档，没有新增代码实现；当前主干仍通过相同五项 CI，但不能把旧回归测试数说成当前提交刚重新执行的本地结果。
 - [x] 项目负责人确认 AtomGit 即 GitCode：后续只核对 GitHub + AtomGit，不再单列旧 GitCode URL 的凭据或同步任务。
