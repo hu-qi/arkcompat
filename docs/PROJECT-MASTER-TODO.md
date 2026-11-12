@@ -2,11 +2,13 @@
 
 **更新日期：** 2026-11-12
 **计划验收日期：** 2026-12-23
-**当前 main 基线：** `845ed8755d1d86b225b3634c85647aa5de72bb42`
-（[五项必需检查](https://github.com/hu-qi/arkcompat/actions/runs/43213853305)通过）
+**当前 main 基线：** `0c94cd1487342081ec1d1109b372a0a37b4d385e`
+（PR [#109](https://github.com/hu-qi/arkcompat/pull/109) 五项必需检查通过；
+[main 流水线](https://github.com/hu-qi/arkcompat/actions/runs/43215854339)
+待 macOS 任务完成）
 
 **当前本地 A1 回归：** 37 个测试文件、588 项测试；M5-05 聚焦安全矩阵
-13/13；PR/main CI 待完成；
+13/13；工程实现已合并，main CI 待最终完成；
 `TODO.md` 是长期唯一执行入口。
 **当前状态：** 工程基础持续交付；正式验收 0/5；正式版本未发布；开放 Issue
 [#1](https://github.com/hu-qi/arkcompat/issues/1)、
@@ -70,7 +72,7 @@
 
 | 顺序 | 工作流 | 当前可执行状态 | 解锁条件 | 完成证据 |
 |---:|---|---|---|---|
-| 1 | 工程安全与可发布性 | M1-06、M3-04、M3-05 和 M5-05 本地切片已完成；M5-05 待 PR/CI；随后执行 M5-07 | M5-05 合并 | 测试、隔离探针、生命周期日志、报告哈希、SBOM、通知、哈希 |
+| 1 | 工程安全与可发布性 | M1-06、M3-04、M3-05 和 M5-05 工程实现已完成；M5-05 main CI 待最终完成，随后执行 M5-07 | M5-05 main CI | 测试、隔离探针、生命周期日志、报告哈希、SBOM、通知、哈希 |
 | 2 | 冻结验收范围 | 候选材料已具备，S-01–S-07 待签 | 项目负责人和裁定人 | 签字后的目标矩阵、评分协议、角色与数据治理 |
 | 3 | 扫描、知识库和产品闭环 | 基础实现已具备；真实 reviewed 数据、授权项目和 holdout 待提供 | 第 2 项与获准输入 | 真实项目演练、reviewed 知识快照、完整指标 |
 | 4 | 多入口交付与 parity | CLI、VSIX、DevEco、Web、MCP、CI 已有局部 smoke | 第 2、3 项 | 各入口安装/恢复/卸载日志与 parity 报告 |
@@ -146,7 +148,7 @@ SARIF finding/位置/coverage 一致。聚焦回归 5 个文件、74 项测试�
 [报告稳定性](evidence/report-stability-2026-11-12.json)。这不关闭 Issue #5；
 真实项目 walkthrough、独立干净主机、公开 beta 和产品验收仍待完成。
 
-### R-03 · M5-05：安全负例与资源边界（本地工程切片已完成，待 PR/CI）
+### R-03 · M5-05：安全负例与资源边界（工程实现已合并，main CI 待完成）
 
 **关联：** #7。**证据：** 威胁矩阵、隔离主机日志、失败样例和处置记录。
 
@@ -156,8 +158,9 @@ lifecycle scripts、文件系统错误、损坏 manifest 和凭据 URL。聚焦�
 `pnpm check` 37 个文件、588 项测试通过。证据见
 [security-negative-matrix-2026-11-12.json](evidence/security-negative-matrix-2026-11-12.json)。
 
-**关闭本项的条件：** PR 和 main 五项必需检查通过。独立安全复核、协作式超时
-无法中断同步解析、性能/TOCTOU 等残余风险仍保留在 Issue #7。
+**关闭本项的条件：** PR #109 五项必需检查已通过；main 流水线 43215854339
+尚待 macOS 任务和总体结论。独立安全复核、协作式超时无法中断同步解析、
+性能/TOCTOU 等残余风险仍保留在 Issue #7。
 
 ### R-04 · M5-07：依赖、SBOM、通知和分发审计（`READY`）
 

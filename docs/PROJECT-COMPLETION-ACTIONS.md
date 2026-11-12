@@ -2,8 +2,8 @@
 
 **更新日期：** 2026-11-12
 **目标验收日：** 2026-12-23
-**当前 main 基线：** `845ed8755d1d86b225b3634c85647aa5de72bb42`（[43213853305](https://github.com/hu-qi/arkcompat/actions/runs/43213853305)）
-**当前本地 A1 回归：** 37 个文件、588 项测试通过；M5-05 待 PR/main CI
+**当前 main 基线：** `0c94cd1487342081ec1d1109b372a0a37b4d385e`（PR #109 已合并；[main 43215854339](https://github.com/hu-qi/arkcompat/actions/runs/43215854339) 待完成）
+**当前本地 A1 回归：** 37 个文件、588 项测试通过；M5-05 工程实现已合并，main CI 待完成
 **当前结论：** 工程持续交付；正式验收 0/5；正式版本未发布；开放 Issue
 [#1](https://github.com/hu-qi/arkcompat/issues/1)、
 [#3](https://github.com/hu-qi/arkcompat/issues/3)、
@@ -36,7 +36,7 @@ Issue 评论、验收签字和不可变 evidence 为准。
 |---|---:|---|
 | 开放 Issue | 8 | #1、#3、#4、#5、#6、#7、#8、#11 |
 | 开放 PR | 0 | 当前无待合并 PR |
-| 工程工作包 | 2 | M5-05 `IN REVIEW`；M5-07 `READY` |
+| 工程工作包 | 2 | M5-05 `IN REVIEW`（main CI 待完成）；M5-07 `READY` |
 | 正式验收通过指标 | 0/5 | 四项指标加可交付知识库 |
 | 已签字人工决策 | 0/10 | S-01–S-10 均未签；MIT 和原始阈值已另行确认，但不能替代这些决定 |
 
@@ -48,7 +48,7 @@ PR，等待全部五项必需检查通过，正常合并，验证 main，同步 
 
 | 顺序 | 工作包 | Issue | 交付物 | 完成证据 | 完成后是否可关 Issue |
 |---:|---|---|---|---|---|
-| 1 | M5-05 安全与资源边界 | #7 | 13 项威胁矩阵、协作式超时和残余风险；本地 13/13、全量 588 项通过 | [安全矩阵证据](evidence/security-negative-matrix-2026-11-12.json)、PR/main run | 否；还需独立安全复核和正式验收 |
+| 1 | M5-05 安全与资源边界 | #7 | 13 项威胁矩阵、协作式超时和残余风险；本地 13/13、全量 588 项通过；PR #109 已合并 | [安全矩阵证据](evidence/security-negative-matrix-2026-11-12.json)、PR/main run | 否；还需 main CI 结论、独立安全复核和正式验收 |
 | 2 | M5-07 供应链审计 | #7、#8 | `pnpm audit`、CycloneDX SBOM、第三方通知、许可清单、SHA-256 与分发检查 | 审计 JSON、制品哈希、缺口处置或具名风险接受 | 否；还需法律/安全签字与发布授权 |
 
 M3-04 CLI 生命周期工程切片已完成，证据见
@@ -167,7 +167,7 @@ disk-install 和导航、Web/MCP/CI 的本地验证。
 
 **下一步：**
 
-1. 合并已本地通过的 M5-05，随后完成 M5-07；
+1. 完成 M5-05 的 main CI 收口并评论 #7，随后完成 M5-07；
 2. 冻结 code、rules、knowledge、cases、labels、SDK、设备、工具链 manifest；
 3. 在批准的 profile 上执行运行时测试，严格区分 compile target 和实际 runtime；
 4. 执行四项正式指标和知识库交付验收；
