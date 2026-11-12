@@ -2,7 +2,7 @@
 
 **更新日期：** 2026-11-12
 **目标验收日：** 2026-12-23
-**核对基线：** `a2c5245692389c09387aa66a740f41eeb1424fc9`
+**本文件更新前核对基线：** `22ecfb78638be6aa90a58703a436ad6300576eb6`
 **当前结论：** 工程持续交付；正式验收 0/5；正式版本未发布；开放 Issue
 [#1](https://github.com/hu-qi/arkcompat/issues/1)、
 [#3](https://github.com/hu-qi/arkcompat/issues/3)、
@@ -13,7 +13,8 @@
 [#8](https://github.com/hu-qi/arkcompat/issues/8)、
 [#11](https://github.com/hu-qi/arkcompat/issues/11)。
 
-本文是领取和检查剩余工作的单页索引。项目级依赖与完成定义见
+[根目录 TODO](../TODO.md) 是唯一执行入口；本文是按 Issue 检查剩余工作的
+工作视图。项目级依赖与完成定义见
 [项目总控 TODO](PROJECT-MASTER-TODO.md)，逐任务命令和证据字段见
 [项目执行台账](PROJECT-EXECUTION-LEDGER.md)，人工决策表见
 [验收与发布签字包](ACCEPTANCE-SIGNOFF-PACKAGE.md)。若状态冲突，以合并后的

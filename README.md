@@ -8,9 +8,11 @@
 - **目标形态**：CLI / VS Code-Cursor / DevEco Studio / Web / MCP / CI/CD，共享同一扫描引擎。
 - **交付时间**：2026-12-23
 - **当前状态**：工程纵向切片已验证；正式验收 0/5，正式版本尚未发布。
-- **已验证主干**：`a2c5245692389c09387aa66a740f41eeb1424fc9`；GitHub 与 AtomGit 读回同一 SHA，[质量流水线](https://github.com/hu-qi/arkcompat/actions/runs/43190111535)五项必需任务通过。
+- **本文件更新前已验证主干**：`22ecfb78638be6aa90a58703a436ad6300576eb6`；GitHub 与 AtomGit 读回同一 SHA，[质量流水线](https://github.com/hu-qi/arkcompat/actions/runs/43190877999)五项必需任务通过。
 
-首个验收节点目标 HarmonyOS 6.0.0+，里程碑排期见 [ROADMAP](ROADMAP.md)。可执行任务和人工签字门禁见 [TODO](TODO.md)。
+首个验收节点目标 HarmonyOS 6.0.0+，里程碑排期见 [ROADMAP](ROADMAP.md)。
+**[TODO](TODO.md) 是剩余工作的唯一执行入口**：先选择一个 `READY` 工作包；
+`GATED` 项必须先在签字包中完成人工决定。
 
 已具备：npm、pnpm 和 Yarn 锁文件的部分依赖图、受限 [npm](docs/NPM-WORKSPACES.md)、[pnpm](docs/PNPM-WORKSPACES.md) 与 [Yarn](docs/YARN-WORKSPACES.md) workspace 清单和作用域投影、JS/TS 与部分 ETS 导入/调用清单、JSON/Markdown/SARIF 报告、[本地静态 API 规则评估](docs/LOCAL-API-RULES.md)、[知识库快照导出](docs/KNOWLEDGE-SEMANTICS.md#cli-export)，以及本地 Web、MCP、VS Code 和 CI 入口。Web 与 MCP 可按操作者显式选择的离线快照查询带排除原因和来源的元数据，但不会据此生成替代建议。默认扫描的兼容状态仍为 `unknown`；当前知识库样例为合成数据。真实替代关系、经验证的兼容规则、正式分发和独立验收仍待完成。验证范围与证据见[交付记录](docs/DELIVERY-STATUS.md)。
 
@@ -40,12 +42,13 @@ Node 22.13+（22 系列）或 Node 24，pnpm 10.34.9。实现范围、报告语�
 
 ## Project documentation
 
-- [项目总控 TODO — 执行顺序、Issue 状态、签字门禁和发布清单](docs/PROJECT-MASTER-TODO.md)
-- [项目完成行动清单 — 按剩余 Issue 领取任务、人工门禁与关闭证据](docs/PROJECT-COMPLETION-ACTIONS.md)
-- [TODO — 当前勾选状态与阶段任务](TODO.md)
-- [项目执行台账 — 逐 Issue 动作、命令、证据、责任与关闭条件](docs/PROJECT-EXECUTION-LEDGER.md)
-- [项目完成计划 — 剩余 issue、验收与发布路径](docs/PROJECT-COMPLETION-PLAN.md)
-- [验收与发布签字包 — 待决事项、冻结记录和签字表](docs/ACCEPTANCE-SIGNOFF-PACKAGE.md)
+- **[TODO — 唯一执行入口、四个 READY 工作包、门禁和完成条件](TODO.md)**
+- [项目执行台账 — 原子任务、命令、证据、责任与 Issue 关闭条件](docs/PROJECT-EXECUTION-LEDGER.md)
+- [验收与发布签字包 — S-01–S-10 人工决定、冻结记录和签字表](docs/ACCEPTANCE-SIGNOFF-PACKAGE.md)
+- [项目总控 TODO — 里程碑和 Issue 总览快照](docs/PROJECT-MASTER-TODO.md)
+- [项目完成行动清单 — 按 Issue 查看关闭路线](docs/PROJECT-COMPLETION-ACTIONS.md)
+- [项目完成计划 — A–E 阶段、依赖、排期与证据目录](docs/PROJECT-COMPLETION-PLAN.md)
+- [交付状态 — 工程证据、未完成门禁与发布状态](docs/DELIVERY-STATUS.md)
 - [ROADMAP — milestones, dates, exit gates](ROADMAP.md)
 - [PRD — scope and user journeys](docs/PRD.md)
 - [Architecture — shared engine and adapters](docs/ARCHITECTURE.md)

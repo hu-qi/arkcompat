@@ -2,8 +2,8 @@
 
 **更新日期：** 2026-11-12
 **计划验收日期：** 2026-12-23
-**当前验证主干：** `a2c5245692389c09387aa66a740f41eeb1424fc9`
-（[五项必需检查](https://github.com/hu-qi/arkcompat/actions/runs/43190111535)通过，
+**本文件更新前验证主干：** `22ecfb78638be6aa90a58703a436ad6300576eb6`
+（[五项必需检查](https://github.com/hu-qi/arkcompat/actions/runs/43190877999)通过，
 GitHub 与 AtomGit 读回同一 SHA）
 
 **最近完整代码回归基线：** `6e35d03c3d0aebf46558143853502eba6aabfba1`
@@ -19,7 +19,7 @@ GitHub 与 AtomGit 读回同一 SHA）
 [#8](https://github.com/hu-qi/arkcompat/issues/8)、
 [#11](https://github.com/hu-qi/arkcompat/issues/11)。
 
-这份文档是项目级总控入口，回答四个问题：
+[根目录 TODO](../TODO.md) 是唯一执行入口。这份文档是项目级总览快照，回答：
 
 1. 现在还剩什么；
 2. 哪些能由工程直接完成，哪些必须由负责人或独立裁定人签字；
@@ -36,11 +36,12 @@ GitHub 与 AtomGit 读回同一 SHA）
 
 | 需要完成的事情 | 打开文档 |
 |---|---|
-| 查看整体依赖、Issue 总表和当前四个 READY 任务 | **本文** |
+| 选择下一项任务并复制执行命令 | **[根目录 TODO](../TODO.md)** |
+| 查看整体依赖、Issue 总表和当前四个 READY 任务 | 本文 |
 | 按剩余 Issue 直接领取任务并核对正式关闭证据 | [项目完成行动清单](PROJECT-COMPLETION-ACTIONS.md) |
 | 领取今天的工作并查看原子任务、命令和证据 | [项目执行台账](PROJECT-EXECUTION-LEDGER.md) |
 | 填写阶段期、依赖和发布路径 | [项目完成计划](PROJECT-COMPLETION-PLAN.md) |
-| 推进当前工程任务，核对逐项勾选状态 | [TODO](../TODO.md) |
+| 推进当前工程任务，核对逐项勾选状态 | [TODO](../TODO.md)（唯一执行入口） |
 | 做人工决策、入口验收和最终签字 | [验收与发布签字包](ACCEPTANCE-SIGNOFF-PACKAGE.md) |
 | 对外说明“已验证到哪一步” | [交付状态](DELIVERY-STATUS.md) |
 
