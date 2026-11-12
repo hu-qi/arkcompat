@@ -593,3 +593,136 @@ it("excludes shadowed globals in .ets files with partial syntax", async () => {
     report.apiUsages.map((u) => [u.module, u.path, u.location.line]),
   ).toEqual([["globalThis", ["fetch"], 5]]);
 });
+
+it("tracks bounded static CommonJS exports and safe const aliases without executing code", async () => {
+  const root = await fixture(
+    [
+      'const fs = require("node:fs");',
+      'const { readFile } = require("node:fs/promises");',
+      "module.exports = fs;",
+      'module.exports.readFile("a");',
+      "exports.read = readFile;",
+      'exports.read("b");',
+      "const exp = exports;",
+      'exp["sync"] = fs.readFileSync;',
+      'exp.sync("c");',
+      "const { read: r } = module.exports;",
+      'r("d");',
+    ].join("\n"),
+    "main.cjs",
+  );
+  await writeFile(
+    join(root, "obj.cjs"),
+    [
+      'const fs = require("node:fs");',
+      "module.exports = { readFile: fs.readFile, fetch };",
+      'module.exports.readFile("x");',
+      'module.exports.fetch("https://example.invalid");',
+    ].join("\n"),
+  );
+  const report = await scanProject(root, target);
+  expect(
+    report.apiUsages.map((u) => [
+      u.location.path,
+      u.module,
+      u.path,
+      u.location.line,
+    ]),
+  ).toEqual([
+    ["main.cjs", "node:fs", ["*", "readFile"], 4],
+    ["main.cjs", "node:fs/promises", ["readFile"], 6],
+    ["main.cjs", "node:fs", ["*", "readFileSync"], 9],
+    ["main.cjs", "node:fs/promises", ["readFile"], 11],
+    ["obj.cjs", "node:fs", ["*", "readFile"], 3],
+    ["obj.cjs", "globalThis", ["fetch"], 4],
+  ]);
+  expect(
+    report.findings
+      .filter((f) => f.ruleId === "inventory.api-usage")
+      .every((f) => f.status === "unknown"),
+  ).toBe(true);
+});
+
+it("keeps computed, reassigned, mutated and mutable-alias CommonJS exports unknown", async () => {
+  const root = await fixture(
+    [
+      'const fs = require("node:fs");',
+      'const key = "readFile";',
+      "module.exports[key] = fs.readFile;",
+      "exports[`read${key}`] = fs.readFile;",
+      "Object.assign(module.exports, fs);",
+      "exports = fs;",
+      "let alias = exports;",
+      "alias.read = fs.readFile;",
+    ].join("\n"),
+    "main.cjs",
+  );
+  const report = await scanProject(root, target);
+  expect(report.apiUsages).toEqual([]);
+  expect(report.coverage.limitations.map((l) => l.code)).toEqual(
+    expect.arrayContaining([
+      "commonjs-dynamic-export-not-analyzed",
+      "commonjs-export-mutation-not-analyzed",
+      "commonjs-exports-not-analyzed",
+    ]),
+  );
+});
+
+it("does not treat shadowed module or exports identifiers as CommonJS exports", async () => {
+  const root = await fixture(
+    [
+      'const fs = require("node:fs");',
+      "function local(module, exports) {",
+      "  module.exports = fs;",
+      '  module.exports.readFile("x");',
+      "  exports.read = fs.readFile;",
+      '  exports.read("y");',
+      "}",
+      "{",
+      "  const exports = {};",
+      "  exports.read = fs.readFile;",
+      '  exports.read("z");',
+      "}",
+    ].join("\n"),
+    "main.cjs",
+  );
+  const report = await scanProject(root, target);
+  expect(report.apiUsages).toEqual([]);
+  expect(
+    report.coverage.limitations.some(
+      (l) =>
+        l.code === "commonjs-dynamic-export-not-analyzed" ||
+        l.code === "commonjs-export-mutation-not-analyzed",
+    ),
+  ).toBe(false);
+});
+
+it("keeps conflicting CommonJS export reassignments and cross-file barrels unattributed", async () => {
+  const root = await fixture(
+    [
+      'const fs = require("node:fs");',
+      'const path = require("node:path");',
+      "exports.op = fs.readFile;",
+      "exports.op = path.join;",
+      'exports.op("x");',
+    ].join("\n"),
+    "conflict.cjs",
+  );
+  await writeFile(
+    join(root, "barrel.cjs"),
+    'module.exports = require("node:fs");',
+  );
+  await writeFile(
+    join(root, "consumer.cjs"),
+    'const b = require("./barrel.cjs");\nb.readFile("x");',
+  );
+  const report = await scanProject(root, target);
+  expect(
+    report.apiUsages.map((u) => [u.location.path, u.module, u.path]),
+  ).toEqual([["consumer.cjs", "./barrel.cjs", ["*", "readFile"]]]);
+  expect(report.coverage.limitations).toEqual(
+    expect.arrayContaining([
+      { code: "commonjs-export-mutation-not-analyzed", path: "conflict.cjs" },
+    ]),
+  );
+});

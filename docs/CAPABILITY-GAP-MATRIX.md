@@ -16,7 +16,7 @@
 | Capability | Implemented Today | Verified Evidence | Remaining Gap vs. 2026-12-23 Acceptance |
 |---|---|---|---|
 | **JS/TS Module References** | ESM `import`/`export`, `import =`, `import type`, literal `import()`, `require()`, `node:*` and bare specifiers | `tests/scan.test.ts`, `tests/source-api.test.ts` | Non-literal/computed dynamic imports (`import(expr)`), `require.resolve()`, `package.json` `exports`/`imports` subpath resolution |
-| **Imported Symbol & API Access** | Direct calls, constructors, optional chaining, static brackets, awaited literal imports, bounded `const` aliases (depth 32, cycle guard), `const` object destructures, lexical-shadow-safe Web/Node host globals (`window`, `document`, `navigator`, `localStorage`, `sessionStorage`, `XMLHttpRequest`, `fetch`, `WebSocket`, `history`, `location`, `process`, `Buffer`, `global`, `globalThis`) | `tests/awaited-import.test.ts`, `tests/const-alias.test.ts`, `tests/source-api.test.ts` | **CommonJS `module.exports` / `exports` assignments**, non-call property reads (`process.env`), cross-file/barrel re-export tracing, `let` / class-field alias flows |
+| **Imported Symbol & API Access** | Direct calls, constructors, optional chaining, static brackets, awaited literal imports, bounded `const` aliases (depth 32, cycle guard), `const` object destructures, lexical-shadow-safe Web/Node host globals (`window`, `document`, `navigator`, `localStorage`, `sessionStorage`, `XMLHttpRequest`, `fetch`, `WebSocket`, `history`, `location`, `process`, `Buffer`, `global`, `globalThis`), bounded static CommonJS `module.exports` / `exports` assignments | `tests/awaited-import.test.ts`, `tests/const-alias.test.ts`, `tests/source-api.test.ts` | Computed/mutated/reassigned CommonJS exports (explicitly flagged), non-call property reads (`process.env`), cross-file/barrel re-export tracing, `let` / class-field alias flows |
 | **ArkTS (`.ets`) Source Analysis** | `struct` offset-preserving rewrite, direct imported call/constructor attribution, lexical shadow detection, partial syntax recovery | `tests/source-api.test.ts` | ArkUI DSL block analysis, `@ohos.*` / `@kit.*` SDK symbol version checks vs. HarmonyOS 6.0.0+ (API 20+) SDK API levels |
 
 ## 3. Rules, Knowledge & Evaluation Matrix
@@ -29,10 +29,11 @@
 
 ## 4. Priority Engineering Sequence (for `B2`–`B9`)
 
-1. **CommonJS export inventory (`B2`)**: Add bounded static tracking for
-   `module.exports` and `exports.member`, with explicit uncertainty for dynamic
-   names, mutation, reassignment and shadowing. Host globals, `node:*` imports
-   and the version-range ruleset are already implemented.
+1. **CommonJS export inventory (`B2`, static slice implemented)**: Bounded static
+   tracking for `module.exports` and `exports.member` with explicit uncertainty
+   for dynamic names, mutation, reassignment and shadowing is implemented in
+   `packages/core/src/source.ts`. Cross-file/barrel re-export resolution remains
+   explicitly unanalyzed.
 2. **Unified scan-to-classification coverage (`B3`, `B5`)**: Expand the sourced
    HarmonyOS 6.0.0+ API 20 rule set and integration coverage for the frozen
    target profiles; keep conflict precedence and unknown propagation visible.
