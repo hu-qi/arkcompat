@@ -87,17 +87,32 @@ lock-only probe selected all eight intended paths with the same three patterns.
 Exact host differences, artifact hashes and boundaries are recorded in
 [machine-readable evidence](evidence/workspace-sequences-2026-11-11.json).
 
+The bounded segment-pattern slice adds an authored
+[fixture](../fixtures/developer/workspace-character-globs). Its four patterns
+combine a positive character class (`[ab]`), a single-character wildcard (`?`),
+a negated character class (`[!a]`) and a wildcard embedded beside a literal
+(`feature-*`). npm 10.9.9, pnpm 10.34.9 and Yarn 4.0.0 independently selected
+the same eight directories and excluded `c-app`, `service-xy`, `team-a` and
+`other`. Two source scans produced the byte-identical Schema `0.12.0` report
+SHA-256
+`8090ab217787a4293ced6ac99b9851a229abf1d75eb5d88d7179fa6820c5cf87`.
+Source, portable and VSIX-embedded CLIs produced the same bytes. Exact host
+outputs, fixture hashes, artifact provenance and implementation bounds are
+recorded in
+[machine-readable evidence](evidence/workspace-character-globs-2026-11-11.json).
+
 ## Discovery boundary
 
 - `workspaces` may be a string array or an object with a `packages` string
   array. Exact relative directories, `*` for one segment and `**` for zero or
-  more segments are supported. Nested or adjacent comma-list brace groups are
-  expanded before resolution, including alternatives containing `*` or `**`.
-  npm sequence groups use bounded `brace-expansion@5.0.12`; the authored
-  zero-padded numeric, alphabetic-step and descending forms are supported.
-  One authored selection is limited to 64 expanded patterns. `./` is
-  normalized, expanded patterns and paths are deduplicated, and discovery
-  stops at 128 selections.
+  more segments are supported. After nested or adjacent comma-list brace
+  expansion, individual path segments also support `?` (one character), `*`
+  embedded beside literals, positive classes such as `[ab]`, and negated
+  classes such as `[!a]`. npm sequence groups use bounded
+  `brace-expansion@5.0.12`; the authored zero-padded numeric, alphabetic-step
+  and descending forms are supported. One authored selection is limited to 64
+  expanded patterns. `./` is normalized, expanded patterns and paths are
+  deduplicated, and discovery stops at 128 selections.
 - Only non-hidden, non-excluded in-tree directories with regular, size-bounded
   `package.json` files are read. Absolute, escaping, URL, backslash, NUL,
   excluded-directory and unsupported glob syntax is rejected or disclosed.
@@ -110,8 +125,12 @@ Exact host differences, artifact hashes and boundaries are recorded in
   directories containing a `package.json` rather than reporting every ordinary
   descendant as a failed workspace. Shared wildcard traversal stops after
   4,096 directory reads. Empty or malformed brace alternatives, expansions
-  above the 64-pattern cap, extglobs, negation, dot segments and other glob
-  characters embedded in a segment remain outside the supported boundary.
+  above the 64-pattern cap, extglobs, whole-pattern negation, malformed or
+  reversed character classes, dot segments, and other unvalidated syntax remain
+  outside the supported boundary. A segment is capped at 256 characters and 32
+  wildcard/class tokens; rejected syntax is disclosed without serializing the
+  raw pattern. Matching uses a token/character dynamic-programming table,
+  so repeated stars cannot trigger regular-expression backtracking.
 
 The package-manager selection rules remain unchanged. npm workspace discovery
 runs only when the selected lock family is npm or when no npm/pnpm/Yarn lock is

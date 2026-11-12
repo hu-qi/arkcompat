@@ -554,6 +554,54 @@ it("expands bounded comma-list braces in Yarn workspace selections", async () =>
   );
 });
 
+it("matches Yarn segment wildcards, single characters and character classes", async () => {
+  const path = await root(
+    {
+      name: "workspace-root",
+      version: "1.0.0",
+      private: true,
+      workspaces: [
+        "members/[ab]-app",
+        "members/service-?",
+        "members/team-[!a]/member",
+        "members/feature-*",
+      ],
+    },
+    classicLock,
+  );
+  const selected = [
+    "members/a-app",
+    "members/b-app",
+    "members/service-x",
+    "members/service-y",
+    "members/team-b/member",
+    "members/team-c/member",
+    "members/feature-one",
+    "members/feature-two",
+  ];
+  const excluded = [
+    "members/c-app",
+    "members/service-xy",
+    "members/team-a/member",
+    "members/other",
+  ];
+  for (const workspacePath of [...selected, ...excluded]) {
+    await workspace(path, workspacePath, {
+      name: `@fixture/${workspacePath.replaceAll("/", "-")}`,
+      version: "1.0.0",
+    });
+  }
+
+  const report = await scanProject(path, target);
+
+  expect(report.modules?.map((module) => module.path)).toEqual(
+    [...selected].sort(),
+  );
+  expect(report.coverage.limitations.map((item) => item.code)).not.toContain(
+    "yarn-workspace-pattern-unsupported",
+  );
+});
+
 it("expands Yarn-supported simple brace ranges and rejects host-incompatible variants", async () => {
   const path = await root(
     {

@@ -436,6 +436,52 @@ it("supports intermediate globstars with zero or multiple directory segments", a
   );
 });
 
+it("matches bounded segment wildcards, single characters and character classes", async () => {
+  const manifest = {
+    name: "workspace-root",
+    version: "1.0.0",
+    private: true,
+    workspaces: [
+      "modules/[ab]-app",
+      "modules/service-?",
+      "modules/team-[!a]/member",
+      "modules/feature-*",
+    ],
+  };
+  const path = await root(manifest);
+  const selected = [
+    "modules/a-app",
+    "modules/b-app",
+    "modules/service-x",
+    "modules/service-y",
+    "modules/team-b/member",
+    "modules/team-c/member",
+    "modules/feature-one",
+    "modules/feature-two",
+  ];
+  const excluded = [
+    "modules/c-app",
+    "modules/service-xy",
+    "modules/team-a/member",
+    "modules/other",
+  ];
+  for (const workspacePath of [...selected, ...excluded]) {
+    await workspace(path, workspacePath, {
+      name: `@fixture/${workspacePath.replaceAll("/", "-")}`,
+      version: "1.0.0",
+    });
+  }
+
+  const report = await scanProject(path, target);
+
+  expect(report.modules?.map((module) => module.path)).toEqual(
+    [...selected].sort(),
+  );
+  expect(report.coverage.limitations.map((item) => item.code)).not.toContain(
+    "npm-workspace-pattern-unsupported",
+  );
+});
+
 it("expands bounded comma-list braces across workspace alternatives", async () => {
   const manifest = {
     name: "workspace-root",
@@ -538,6 +584,27 @@ it("scans the documented workspace sequence fixture deterministically", async ()
   );
 });
 
+it("scans the documented workspace character-glob fixture deterministically", async () => {
+  const fixture = "fixtures/developer/workspace-character-globs";
+  const report = await scanProject(fixture, target);
+  expect(report).toEqual(await scanProject(fixture, target));
+  expect(report.modules?.map((module) => module.path)).toEqual([
+    "modules/a-app",
+    "modules/b-app",
+    "modules/feature-one",
+    "modules/feature-two",
+    "modules/service-x",
+    "modules/service-y",
+    "modules/team-b/member",
+    "modules/team-c/member",
+  ]);
+  expect(report.findings).toHaveLength(1);
+  expect(report.findings[0]?.status).toBe("unknown");
+  expect(report.coverage.limitations.map((item) => item.code)).not.toContain(
+    "npm-workspace-pattern-unsupported",
+  );
+});
+
 it("fails closed on malformed braces and bounded expansion overflow", async () => {
   const manifest = {
     name: "workspace-root",
@@ -545,6 +612,9 @@ it("fails closed on malformed braces and bounded expansion overflow", async () =
     private: true,
     workspaces: [
       "packages/[ab]",
+      "packages/[ab",
+      "packages/description-????????????????????????????????????????????????",
+      "packages/range-[z-a]",
       "packages/{alpha,}",
       "packages/{x..}",
       "packages/{alpha",
@@ -878,3 +948,16 @@ it("scans the documented npm workspace fixture deterministically", async () => {
     },
   ]);
 });
+
+it("bounds repeated wildcard matching against a long nonmatching directory", async () => {
+  const path = await root({
+    private: true,
+    workspaces: ["members/" + "*a".repeat(25) + "b"],
+  });
+  await workspace(path, "members/" + "a".repeat(200), {
+    name: "@fixture/nonmatching",
+    version: "1.0.0",
+  });
+  const report = await scanProject(path, target);
+  expect(report.modules).toBeUndefined();
+}, 2000);
