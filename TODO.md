@@ -2,7 +2,7 @@
 
 **更新时间：** 2026-11-12
 **目标验收日：** 2026-12-23
-**当前 main 基线：** `a9855161f33f1244ecee48e6a4253b0f474be8ba`（[43210091429](https://github.com/hu-qi/arkcompat/actions/runs/43210091429)）；GitHub 与 AtomGit `main` 已独立读回同一 SHA。流水线最终结论以 Actions 页面为准。
+**当前 main 基线：** `e94adccd6d62d64ebb2442e6821ef6bbf39c7163`（[43210350310](https://github.com/hu-qi/arkcompat/actions/runs/43210350310)）；GitHub 与 AtomGit `main` 已独立读回同一 SHA。流水线最终结论以 Actions 页面为准。
 **最近完整代码回归基线：** `511790bcdac6f19bbc0dc53089336c16aeae9896`（[43202341237](https://github.com/hu-qi/arkcompat/actions/runs/43202341237)；36 个测试文件、575 项测试通过）
 **当前状态：** 8 个开放 Issue、0 个开放 PR、2 个工程 `READY` 工作包、正式验收 0/5、人工签字 0/10
 
@@ -16,6 +16,34 @@
 4. 遇到 S-01–S-10 时，在[验收与发布签字包](docs/ACCEPTANCE-SIGNOFF-PACKAGE.md)记录具名决定；工程侧不得代签。
 5. 从[项目完成计划](docs/PROJECT-COMPLETION-PLAN.md)查看阶段 A–E 的整体顺序和正式证据目录。
 6. 用[项目总控 TODO](docs/PROJECT-MASTER-TODO.md)、[完成行动清单](docs/PROJECT-COMPLETION-ACTIONS.md)和[交付状态](docs/DELIVERY-STATUS.md)复核 Issue 关闭条件与对外口径。
+
+## 0. 当前执行看板
+
+**结论：** 项目正式验收和发布门禁尚未完成，8 个开放 Issue 必须保持开放。当前先完成两个工程 `READY` 工作包，再执行需要具名人员、授权数据和实际运行时的正式门禁。工程 PR、绿色 CI、作者 fixture、本地制品或模型评审都不能替代正式验收。
+
+| 顺序 | 现在要做什么 | 输入 | 具体输出 | 完成证据 | 之后才能做什么 |
+|---:|---|---|---|---|---|
+| A1 | 完成 M5-05 安全负例与资源边界（#7） | 当前 main、现有安全回归、一次性隔离目录 | 路径逃逸、symlink、特殊文件、资源上限、秘密泄漏、报告注入、脚本零执行矩阵 | `tests/security-matrix.test.ts`、`docs/evidence/security-negative-matrix-2026-11-12.json`、更新后的 `docs/SCANNER-SECURITY.md`、PR/main 流水线 | 提交独立安全复核；不能仅凭本项关闭 #7 |
+| A2 | 完成 M5-07 供应链与分发审计（#7/#8） | A1 合并后的 main、冻结 lockfile、生产依赖 | audit JSON、CycloneDX SBOM、第三方通知、许可证清单、制品 SHA-256、缺口处置 | `docs/evidence/supply-chain-audit-2026-11-12.json`、provenance 验证、审查包、PR/main 流水线 | 进入 S-09 法务/安全决定；不能仅凭本项发布 |
+| A3 | 准备 S-01–S-10 签字材料（#1） | A1/A2 结果、现有候选协议、目标矩阵和角色模板 | 每项明确“批准/修订批准/拒绝/延期”，并记录姓名、日期、理由、证据和重审触发条件 | `docs/ACCEPTANCE-SIGNOFF-PACKAGE.md` 中 10 项签字 | 冻结正式分母、目标运行时、holdout 和发布路线 |
+| A4 | 关闭冻结范围内的扫描与知识缺口（#3/#4） | A3 中 S-01、S-03–S-07 已签 | 约定范围内解析缺口回归、reviewed 知识记录、确定性知识导出 | gap 回归、reviewed snapshot、schema/来源/许可/有效期/撤回记录 | 生成 label-blind predictions |
+| A5 | 运行独立 holdout 与运行时矩阵（#7） | A3 的具名角色、授权数据、冻结 manifest；A4 的候选快照 | 四项正式指标、完整 TP/FP/FN 分母、错误分析、API 20+ 实际运行时结果 | 冻结 cases/labels 哈希、预测输出、评分报告、裁定人签字 | 判断是否达到 ≥80%/100%/≥80%/≥80% |
+| A6 | 完成产品闭环与入口 parity（#5/#6） | A3 的 S-02；A4/A5 的稳定快照；获准真实项目 | 真实项目 scan→navigate→query→recommend→export；CLI/VS Code/Cursor/DevEco/Web/MCP/CI 安装、恢复、回滚和卸载 | 干净主机 walkthrough、parity 报告、beta/可用性验收 | 形成 release candidate |
+| A7 | 补齐 Stage 2 CI（#11） | A4–A6 的稳定产品与数据输入 | benchmark、rules/knowledge provenance、跨入口 parity、package/SBOM/checksum、download smoke 门禁 | 每项门禁的故意失败与恢复通过记录；PR/main Actions | 证明发布门禁可以阻断回归 |
+| A8 | 从 accepted SHA 重建并发布（#8） | A5–A7 全部通过；S-09/S-10 已签 | tag/release、CLI tarball、VSIX、DevEco ZIP、Web bundle、source archive、SBOM、notices、checksums | 两次构建比较、clean install、download smoke、验收签字、GitHub/AtomGit 同 SHA 和制品哈希 | 关闭满足原始条件的 Issue，进入维护交接 |
+
+当前第一条执行链固定为：
+
+```sh
+git switch main
+git pull --ff-only origin main
+git switch -c codex/m5-05-security-negative-matrix
+pnpm install --frozen-lockfile --ignore-scripts
+pnpm exec vitest run tests/security-matrix.test.ts
+pnpm check
+```
+
+测试和证据完成后按第 9 节提交、开 PR、等待五项必需检查、正常合并、验证 main，并只同步到 AtomGit。A1 合并后从新的 main 开始 A2，不复用未完成分支的临时结论。
 
 ## 1. 文档职责
 
