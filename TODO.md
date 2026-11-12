@@ -135,9 +135,9 @@ lookup；本地 smoke、绿色 CI 或目录存在都不等于公开分发完成�
 
 - [x] MIT 原创代码许可证及原始验收阈值由项目负责人确认。
 - [x] 扫描、规则接口、知识元数据、报告和多入口基础已实现，已有范围内的本地验证。
-- [x] 本文最近一次核对的主干提交为 `38b725ac85e46c0df848203984e40b858e4143c2`；对应的[主干检查](https://github.com/hu-qi/arkcompat/actions/runs/43182839402)通过五项必需任务。GitHub 与 AtomGit 已读回同一 SHA。
+- [x] 本文最近一次核对的主干提交为 `6d8831452ad69bf57ca54bedfa5782244673f452`；对应的[主干检查](https://github.com/hu-qi/arkcompat/actions/runs/43184796540)通过五项必需任务。GitHub 与 AtomGit 已读回同一 SHA。
 - [x] 最近一次完整工程回归对应的基线为 `f5d878dd180dac6109d283ea81f6e5345d643d06`；PR #79 合并后完整回归为 568 项测试，[PR 检查](https://github.com/hu-qi/arkcompat/actions/runs/43173965081)和[主干检查](https://github.com/hu-qi/arkcompat/actions/runs/43174225771)均通过五项必需任务。
-- [x] `f5d878d` 至当前主干只新增规划文档，没有新增代码实现；`38b725a` 仍通过相同五项 CI，但不能把旧回归测试数说成当前提交刚重新执行的本地结果。
+- [x] `f5d878d` 至当前主干只新增规划文档，没有新增代码实现；`6d88314` 仍通过相同五项 CI，但不能把旧回归测试数说成当前提交刚重新执行的本地结果。
 - [x] 项目负责人确认 AtomGit 即 GitCode：后续只核对 GitHub + AtomGit，不再单列旧 GitCode URL 的凭据或同步任务。
 - [ ] 项目正式验收通过。
 - [ ] 正式版本发布及交接完成。

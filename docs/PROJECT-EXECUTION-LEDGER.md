@@ -2,8 +2,8 @@
 
 **Updated:** 2026-11-12
 **Target acceptance date:** 2026-12-23
-**Verified main baseline:** `38b725ac85e46c0df848203984e40b858e4143c2`
-**Latest verified main run:** [43182839402](https://github.com/hu-qi/arkcompat/actions/runs/43182839402), all five required jobs passed
+**Verified main baseline:** `6d8831452ad69bf57ca54bedfa5782244673f452`
+**Latest verified main run:** [43184796540](https://github.com/hu-qi/arkcompat/actions/runs/43184796540), all five required jobs passed
 **Latest complete code regression baseline:** `f5d878dd180dac6109d283ea81f6e5345d643d06` (568 tests across 35 files)
 **Remote read-back:** GitHub `origin/main` and AtomGit `atomgit-https/main` both resolved to the baseline SHA
 
