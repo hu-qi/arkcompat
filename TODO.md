@@ -53,7 +53,7 @@
 
 - [x] B1 根据 A4 建立扫描能力矩阵，将已有锁文件、workspace、JS/TS/ETS 能力与真实项目缺口逐项对应（见 [docs/CAPABILITY-GAP-MATRIX.md](docs/CAPABILITY-GAP-MATRIX.md)）。
 - [ ] B2 优先修复约定验收范围内的依赖图、API/符号识别和不确定性报告缺口；extglob 等扩展按实际需求排期。
-- [ ] B3 完成有来源、版本、目标环境和明确适用条件的实际规则集，验证规则优先级、冲突及 unknown 行为。
+- [x] B3 完成有来源、版本、目标环境和明确适用条件的实际规则集，验证规则优先级、冲突及 unknown 行为（见 [packages/core/src/api-rules.ts](packages/core/src/api-rules.ts) `0.2.0` 与 [data/rules/harmonyos-6.0-api20-rules.json](data/rules/harmonyos-6.0-api20-rules.json)）。
 - [ ] B4 建立真实替换关系数据集：源/目标版本、功能范围、证据等级、来源、许可、评审状态和更新时间齐全。
 - [ ] B5 打通扫描→规则→知识→分类→建议，确保仅经批准且适用的记录能产生明确推荐。
 - [ ] B6 实现或补齐 OHPM 发布、已有移植、纯 JS、确认缺失、未知的判定与输出；禁止以同名包不存在推断缺失。

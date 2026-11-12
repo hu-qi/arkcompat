@@ -188,7 +188,7 @@ export async function scanProject(
   const limitations: Limitation[] = [
     { code: "compatibility-not-evaluated" },
     { code: "commonjs-exports-not-analyzed" },
-    { code: "global-apis-not-analyzed" },
+    { code: "unlisted-global-apis-not-analyzed" },
     { code: "module-mutations-and-returned-values-not-analyzed" },
     { code: "gitignore-not-applied" },
     { code: "excluded-directories-not-analyzed" },

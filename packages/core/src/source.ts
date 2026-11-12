@@ -14,6 +14,22 @@ interface Binding {
 interface AnalyzeSourceOptions {
   ets?: boolean;
 }
+const trackedHostGlobals = new Set([
+  "window",
+  "document",
+  "navigator",
+  "localStorage",
+  "sessionStorage",
+  "XMLHttpRequest",
+  "fetch",
+  "WebSocket",
+  "history",
+  "location",
+  "process",
+  "Buffer",
+  "global",
+  "globalThis",
+]);
 /**
  * Authored ETS uses `struct` as a declaration keyword. Replace only a line-leading
  * declaration token with a same-length class form so source offsets remain stable.
@@ -348,7 +364,23 @@ export function analyzeSource(
     const value = unwrap(input);
     if (ts.isIdentifier(value)) {
       const symbol = symbolAtLocation(value);
-      if (!symbol) return etsImportAccess(value);
+      if (!symbol || (!bindings.has(symbol) && !symbol.declarations?.length)) {
+        const etsImported = etsImportAccess(value);
+        if (etsImported) return etsImported;
+        if (
+          trackedHostGlobals.has(value.text) &&
+          !isEtsImportShadowed(value, value.text)
+        ) {
+          return {
+            module: "globalThis",
+            path:
+              value.text === "globalThis" || value.text === "global"
+                ? []
+                : [value.text],
+          };
+        }
+        return undefined;
+      }
       const binding = bindings.get(symbol);
       if (binding) return binding;
       let declaration: ts.Node | undefined = symbol.valueDeclaration;
@@ -375,6 +407,12 @@ export function analyzeSource(
       const base = access(declaration.initializer, aliases);
       if (!base || member === undefined) return base;
       return { module: base.module, path: [...base.path, member] };
+    }
+    if (
+      value.kind === ts.SyntaxKind.ThisKeyword ||
+      value.kind === ts.SyntaxKind.SuperKeyword
+    ) {
+      return undefined;
     }
     if (ts.isPropertyAccessExpression(value)) {
       const base = access(value.expression, aliases);
@@ -521,7 +559,7 @@ export function analyzeSource(
       ts.isNewExpression(node)
     ) {
       const binding = access(node.expression);
-      if (binding)
+      if (binding && binding.path.length > 0)
         apiUsages.push({
           module: binding.module,
           path: binding.path,

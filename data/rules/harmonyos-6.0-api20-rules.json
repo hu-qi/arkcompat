@@ -1,0 +1,377 @@
+{
+  "schemaVersion": "0.2.0",
+  "snapshotId": "harmonyos-6.0-api20-public-static-v1",
+  "generatedAt": "2026-11-12T00:00:00Z",
+  "rules": [
+    {
+      "id": "arkts.node-fs-builtin",
+      "selector": {
+        "module": "node:fs",
+        "path": ["*"],
+        "kind": "any",
+        "pathMatch": "module"
+      },
+      "profile": {
+        "releaseRange": ">=6.0.0",
+        "runtime": "arkts",
+        "minApiLevel": 20
+      },
+      "classification": "incompatible",
+      "severity": "critical",
+      "priority": 100,
+      "rationale": "HarmonyOS ArkTS runs on the ArkCompiler/ArkTS runtime rather than Node.js and does not ship the node:fs built-in module.",
+      "recommendedAction": "Replace node:fs file operations with @kit.CoreFileKit (@ohos.file.fs) in ArkTS.",
+      "source": {
+        "url": "https://developer.huawei.com/consumer/en/doc/harmonyos-guides/arkts-overview",
+        "revision": "harmonyos-6.0.0-api20-docs",
+        "title": "ArkTS Overview and CoreFileKit boundary"
+      }
+    },
+    {
+      "id": "arkts.fs-bare-builtin",
+      "selector": {
+        "module": "fs",
+        "path": ["*"],
+        "kind": "any",
+        "pathMatch": "module"
+      },
+      "profile": {
+        "releaseRange": ">=6.0.0",
+        "runtime": "arkts",
+        "minApiLevel": 20
+      },
+      "classification": "incompatible",
+      "severity": "critical",
+      "priority": 100,
+      "rationale": "Bare Node.js 'fs' built-in module is unavailable in the HarmonyOS ArkTS runtime.",
+      "recommendedAction": "Migrate filesystem calls to @kit.CoreFileKit (@ohos.file.fs) or verify an explicit local polyfill.",
+      "source": {
+        "url": "https://developer.huawei.com/consumer/en/doc/harmonyos-guides/arkts-overview",
+        "revision": "harmonyos-6.0.0-api20-docs",
+        "title": "ArkTS runtime module boundary"
+      }
+    },
+    {
+      "id": "arkts.node-fs-promises-builtin",
+      "selector": {
+        "module": "node:fs/promises",
+        "path": ["*"],
+        "kind": "any",
+        "pathMatch": "module"
+      },
+      "profile": {
+        "releaseRange": ">=6.0.0",
+        "runtime": "arkts",
+        "minApiLevel": 20
+      },
+      "classification": "incompatible",
+      "severity": "critical",
+      "priority": 100,
+      "rationale": "Node.js node:fs/promises is unavailable in the HarmonyOS ArkTS runtime.",
+      "recommendedAction": "Use @kit.CoreFileKit (@ohos.file.fs) async APIs for application sandbox files.",
+      "source": {
+        "url": "https://developer.huawei.com/consumer/en/doc/harmonyos-guides/arkts-overview",
+        "revision": "harmonyos-6.0.0-api20-docs"
+      }
+    },
+    {
+      "id": "arkts.node-child-process",
+      "selector": {
+        "module": "node:child_process",
+        "path": ["*"],
+        "kind": "any",
+        "pathMatch": "module"
+      },
+      "profile": {
+        "releaseRange": ">=6.0.0",
+        "runtime": "arkts",
+        "minApiLevel": 20
+      },
+      "classification": "incompatible",
+      "severity": "critical",
+      "priority": 100,
+      "rationale": "Arbitrary child process spawning via node:child_process is unsupported in sandboxed HarmonyOS ArkTS applications.",
+      "recommendedAction": "Remove subprocess spawning or refactor host-side tooling out of the HarmonyOS app bundle.",
+      "source": {
+        "url": "https://nodejs.org/api/child_process.html",
+        "revision": "nodejs-v22-docs"
+      }
+    },
+    {
+      "id": "arkts.child-process-bare",
+      "selector": {
+        "module": "child_process",
+        "path": ["*"],
+        "kind": "any",
+        "pathMatch": "module"
+      },
+      "profile": {
+        "releaseRange": ">=6.0.0",
+        "runtime": "arkts",
+        "minApiLevel": 20
+      },
+      "classification": "incompatible",
+      "severity": "critical",
+      "priority": 100,
+      "rationale": "Bare Node.js child_process module is unsupported in HarmonyOS ArkTS applications.",
+      "recommendedAction": "Remove subprocess spawning or extract desktop/CLI scripts from app runtime code.",
+      "source": {
+        "url": "https://nodejs.org/api/child_process.html",
+        "revision": "nodejs-v22-docs"
+      }
+    },
+    {
+      "id": "arkts.node-http",
+      "selector": {
+        "module": "node:http",
+        "path": ["*"],
+        "kind": "any",
+        "pathMatch": "module"
+      },
+      "profile": {
+        "releaseRange": ">=6.0.0",
+        "runtime": "arkts",
+        "minApiLevel": 20
+      },
+      "classification": "incompatible",
+      "severity": "high",
+      "priority": 100,
+      "rationale": "Node.js node:http server/client built-in is unavailable in HarmonyOS ArkTS.",
+      "recommendedAction": "Use @kit.NetworkKit (@ohos.net.http) with ohos.permission.INTERNET for HTTP requests.",
+      "source": {
+        "url": "https://developer.huawei.com/consumer/en/doc/harmonyos-guides/http-request",
+        "revision": "harmonyos-6.0.0-api20-docs"
+      }
+    },
+    {
+      "id": "arkts.node-net",
+      "selector": {
+        "module": "node:net",
+        "path": ["*"],
+        "kind": "any",
+        "pathMatch": "module"
+      },
+      "profile": {
+        "releaseRange": ">=6.0.0",
+        "runtime": "arkts",
+        "minApiLevel": 20
+      },
+      "classification": "incompatible",
+      "severity": "high",
+      "priority": 100,
+      "rationale": "Node.js node:net TCP/IPC socket module is unavailable in HarmonyOS ArkTS.",
+      "recommendedAction": "Migrate raw TCP/UDP usage to @kit.NetworkKit (@ohos.net.socket) with required network permissions.",
+      "source": {
+        "url": "https://developer.huawei.com/consumer/en/doc/harmonyos-guides/socket-connection",
+        "revision": "harmonyos-6.0.0-api20-docs"
+      }
+    },
+    {
+      "id": "arkts.global-window-dom",
+      "selector": {
+        "module": "globalThis",
+        "path": ["window"],
+        "kind": "any",
+        "pathMatch": "prefix"
+      },
+      "profile": {
+        "releaseRange": ">=6.0.0",
+        "runtime": "arkts",
+        "minApiLevel": 20
+      },
+      "classification": "incompatible",
+      "severity": "high",
+      "priority": 90,
+      "rationale": "Native ArkTS UI runs on ArkUI declarative components rather than a browser DOM window object.",
+      "recommendedAction": "Use ArkUI @kit.ArkUI APIs in ArkTS, or host browser-dependent code inside an ArkWeb Web component.",
+      "source": {
+        "url": "https://developer.huawei.com/consumer/en/doc/harmonyos-guides/arkts-overview",
+        "revision": "harmonyos-6.0.0-api20-docs"
+      }
+    },
+    {
+      "id": "arkts.global-document-dom",
+      "selector": {
+        "module": "globalThis",
+        "path": ["document"],
+        "kind": "any",
+        "pathMatch": "prefix"
+      },
+      "profile": {
+        "releaseRange": ">=6.0.0",
+        "runtime": "arkts",
+        "minApiLevel": 20
+      },
+      "classification": "incompatible",
+      "severity": "high",
+      "priority": 90,
+      "rationale": "Browser DOM document APIs do not exist in the native HarmonyOS ArkTS runtime.",
+      "recommendedAction": "Refactor DOM queries/rendering to ArkUI components and CanvasRenderingContext2D, or execute inside ArkWeb.",
+      "source": {
+        "url": "https://developer.huawei.com/consumer/en/doc/harmonyos-guides/arkts-overview",
+        "revision": "harmonyos-6.0.0-api20-docs"
+      }
+    },
+    {
+      "id": "arkts.global-localstorage",
+      "selector": {
+        "module": "globalThis",
+        "path": ["localStorage"],
+        "kind": "any",
+        "pathMatch": "prefix"
+      },
+      "profile": {
+        "releaseRange": ">=6.0.0",
+        "runtime": "arkts",
+        "minApiLevel": 20
+      },
+      "classification": "incompatible",
+      "severity": "medium",
+      "priority": 90,
+      "rationale": "Web Storage global localStorage is not provided natively in HarmonyOS ArkTS.",
+      "recommendedAction": "Use @kit.ArkData (@ohos.data.preferences or relationalStore) for persistent key-value storage.",
+      "source": {
+        "url": "https://developer.huawei.com/consumer/en/doc/harmonyos-guides/data-persistence-by-preferences",
+        "revision": "harmonyos-6.0.0-api20-docs"
+      }
+    },
+    {
+      "id": "arkts.global-xhr",
+      "selector": {
+        "module": "globalThis",
+        "path": ["XMLHttpRequest"],
+        "kind": "construct",
+        "pathMatch": "exact"
+      },
+      "profile": {
+        "releaseRange": ">=6.0.0",
+        "runtime": "arkts",
+        "minApiLevel": 20
+      },
+      "classification": "incompatible",
+      "severity": "high",
+      "priority": 90,
+      "rationale": "Browser XMLHttpRequest constructor is not available natively in the HarmonyOS ArkTS runtime.",
+      "recommendedAction": "Use @kit.NetworkKit (@ohos.net.http) or Remote Communication Kit with ohos.permission.INTERNET.",
+      "source": {
+        "url": "https://developer.huawei.com/consumer/en/doc/harmonyos-guides/http-request",
+        "revision": "harmonyos-6.0.0-api20-docs"
+      }
+    },
+    {
+      "id": "arkts.global-fetch",
+      "selector": {
+        "module": "globalThis",
+        "path": ["fetch"],
+        "kind": "call",
+        "pathMatch": "exact"
+      },
+      "profile": {
+        "releaseRange": ">=6.0.0",
+        "runtime": "arkts",
+        "minApiLevel": 20
+      },
+      "classification": "conditional",
+      "severity": "medium",
+      "priority": 80,
+      "rationale": "Global Web fetch() is not a standard ArkTS built-in without a polyfill or ArkWeb host and requires network permissions.",
+      "recommendedAction": "Verify whether a verified @ohos.net.http / @kit.RemoteCommunicationKit adapter or ArkWeb container supplies fetch() and declare ohos.permission.INTERNET.",
+      "source": {
+        "url": "https://developer.huawei.com/consumer/en/doc/harmonyos-guides/http-request",
+        "revision": "harmonyos-6.0.0-api20-docs"
+      }
+    },
+    {
+      "id": "arkts.global-process",
+      "selector": {
+        "module": "globalThis",
+        "path": ["process"],
+        "kind": "any",
+        "pathMatch": "prefix"
+      },
+      "profile": {
+        "releaseRange": ">=6.0.0",
+        "runtime": "arkts",
+        "minApiLevel": 20
+      },
+      "classification": "incompatible",
+      "severity": "high",
+      "priority": 90,
+      "rationale": "Node.js global process object methods are unavailable in the HarmonyOS ArkTS runtime.",
+      "recommendedAction": "Replace process lifecycle/env calls with HarmonyOS AbilityContext / @kit.AbilityKit or @kit.BasicServicesKit APIs.",
+      "source": {
+        "url": "https://nodejs.org/api/process.html",
+        "revision": "nodejs-v22-docs"
+      }
+    },
+    {
+      "id": "arkts.global-buffer",
+      "selector": {
+        "module": "globalThis",
+        "path": ["Buffer"],
+        "kind": "any",
+        "pathMatch": "prefix"
+      },
+      "profile": {
+        "releaseRange": ">=6.0.0",
+        "runtime": "arkts",
+        "minApiLevel": 20
+      },
+      "classification": "incompatible",
+      "severity": "medium",
+      "priority": 90,
+      "rationale": "Node.js global Buffer is not provided natively in HarmonyOS ArkTS.",
+      "recommendedAction": "Use standard ECMAScript Uint8Array/ArrayBuffer or @kit.ArkTS util.TextEncoder/TextDecoder.",
+      "source": {
+        "url": "https://developer.huawei.com/consumer/en/doc/harmonyos-guides/arkts-overview",
+        "revision": "harmonyos-6.0.0-api20-docs"
+      }
+    },
+    {
+      "id": "arkweb.global-fetch-permission",
+      "selector": {
+        "module": "globalThis",
+        "path": ["fetch"],
+        "kind": "call",
+        "pathMatch": "exact"
+      },
+      "profile": {
+        "releaseRange": ">=6.0.0",
+        "runtime": "arkweb",
+        "minApiLevel": 20
+      },
+      "classification": "conditional",
+      "severity": "low",
+      "priority": 80,
+      "rationale": "ArkWeb supports Web fetch(), subject to ohos.permission.INTERNET and origin/mixed-content WebView configuration.",
+      "recommendedAction": "Ensure ohos.permission.INTERNET is declared in module.json5 and check CORS/HTTPS settings on WebController.",
+      "source": {
+        "url": "https://developer.huawei.com/consumer/en/doc/harmonyos-guides/web-overview",
+        "revision": "harmonyos-6.0.0-api20-docs"
+      }
+    },
+    {
+      "id": "arkweb.node-fs-builtin",
+      "selector": {
+        "module": "node:fs",
+        "path": ["*"],
+        "kind": "any",
+        "pathMatch": "module"
+      },
+      "profile": {
+        "releaseRange": ">=6.0.0",
+        "runtime": "arkweb",
+        "minApiLevel": 20
+      },
+      "classification": "incompatible",
+      "severity": "critical",
+      "priority": 100,
+      "rationale": "ArkWeb executes browser web pages without Node.js built-in module access such as node:fs.",
+      "recommendedAction": "Move file access to native ArkTS JavaScriptProxy bridge using @kit.CoreFileKit or use Web File/OPFS APIs.",
+      "source": {
+        "url": "https://developer.huawei.com/consumer/en/doc/harmonyos-guides/web-overview",
+        "revision": "harmonyos-6.0.0-api20-docs"
+      }
+    }
+  ]
+}

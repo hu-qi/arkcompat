@@ -531,3 +531,65 @@ it("abstains when duplicate ETS imports make module identity ambiguous", async (
     ],
   });
 });
+
+it("detects unshadowed Web and Node host globals while ignoring shadowed identifiers", async () => {
+  const root = await fixture(
+    [
+      'fetch("https://example.invalid/ping");',
+      'window.open("https://example.invalid");',
+      'document.getElementById("root");',
+      "new XMLHttpRequest();",
+      'globalThis.localStorage.getItem("k");',
+      "process.cwd();",
+      'Buffer.from("abc");',
+      "const win = window; win.scrollTo(0, 0);",
+      'const { setItem } = localStorage; setItem("k", "v");',
+      "function shadowed(fetch: () => void, process: { cwd(): string }) { fetch(); process.cwd(); }",
+      "{ const window = { open() {} }; window.open(); }",
+      "globalThis();",
+      "this.fetch?.();",
+    ].join("\n"),
+  );
+  const report = await scanProject(root, target);
+  expect(
+    report.apiUsages.map((u) => [u.module, u.path, u.kind, u.location.line]),
+  ).toEqual([
+    ["globalThis", ["fetch"], "call", 1],
+    ["globalThis", ["window", "open"], "call", 2],
+    ["globalThis", ["document", "getElementById"], "call", 3],
+    ["globalThis", ["XMLHttpRequest"], "construct", 4],
+    ["globalThis", ["localStorage", "getItem"], "call", 5],
+    ["globalThis", ["process", "cwd"], "call", 6],
+    ["globalThis", ["Buffer", "from"], "call", 7],
+    ["globalThis", ["window", "scrollTo"], "call", 8],
+    ["globalThis", ["localStorage", "setItem"], "call", 9],
+  ]);
+  expect(report.coverage.limitations).toEqual(
+    expect.arrayContaining([{ code: "unlisted-global-apis-not-analyzed" }]),
+  );
+});
+
+it("excludes shadowed globals in .ets files with partial syntax", async () => {
+  const root = await fixture(
+    [
+      "function test(fetch: () => void) {",
+      "  fetch();",
+      "}",
+      "function unshadowed() {",
+      '  fetch("https://example.invalid");',
+      "}",
+      "@Entry",
+      "@Component",
+      "struct Index {",
+      "  build(): void {",
+      "    Column() { Text('ok') }",
+      "  }",
+      "}",
+    ].join("\n"),
+    "main.ets",
+  );
+  const report = await scanProject(root, target);
+  expect(
+    report.apiUsages.map((u) => [u.module, u.path, u.location.line]),
+  ).toEqual([["globalThis", ["fetch"], 5]]);
+});
