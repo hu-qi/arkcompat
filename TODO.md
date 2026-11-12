@@ -2,9 +2,8 @@
 
 **更新时间：** 2026-11-12
 **目标验收日：** 2026-12-23
-**当前 main 基线：** `e94adccd6d62d64ebb2442e6821ef6bbf39c7163`（[43210350310](https://github.com/hu-qi/arkcompat/actions/runs/43210350310)）；GitHub 与 AtomGit `main` 已独立读回同一 SHA。流水线最终结论以 Actions 页面为准。
-**最近完整代码回归基线：** `511790bcdac6f19bbc0dc53089336c16aeae9896`（[43202341237](https://github.com/hu-qi/arkcompat/actions/runs/43202341237)；36 个测试文件、575 项测试通过）
-**当前状态：** 8 个开放 Issue、0 个开放 PR、2 个工程 `READY` 工作包、正式验收 0/5、人工签字 0/10
+**当前 main 基线：** `4503a429e754284d1e3cb8013774ef9f27eb2048`（[43211625225](https://github.com/hu-qi/arkcompat/actions/runs/43211625225)）；GitHub 与 AtomGit `main` 已独立读回同一 SHA。该流水线执行了 36 个测试文件、575 项测试并通过五项必需 job；流水线最终结论以 Actions 页面为准。
+**当前状态：** 8 个开放 Issue、0 个开放 PR、1 个工程 `READY` 工作包、7 个 `GATED` 工作包、正式验收 0/5、人工签字 0/10
 
 本文是 ArkCompat 剩余工作的**唯一执行入口**，也是长期维护文档。每次开始工作先在这里选择一个 `READY` 工作包；`GATED` 项必须先取得具名人工决定或外部输入。工程实现、CI 绿灯、开发者 fixture、本地制品和模型评审都不能替代正式验收。
 
@@ -19,18 +18,32 @@
 
 ## 0. 当前执行看板
 
-**结论：** 项目正式验收和发布门禁尚未完成，8 个开放 Issue 必须保持开放。当前先完成两个工程 `READY` 工作包，再执行需要具名人员、授权数据和实际运行时的正式门禁。工程 PR、绿色 CI、作者 fixture、本地制品或模型评审都不能替代正式验收。
+**结论：** 项目正式验收和发布门禁尚未完成，8 个开放 Issue 必须保持开放。当前先完成 A1 工程 `READY` 工作包，再执行需要具名人员、授权数据和实际运行时的正式门禁。工程 PR、绿色 CI、作者 fixture、本地制品或模型评审都不能替代正式验收。
 
-| 顺序 | 现在要做什么 | 输入 | 具体输出 | 完成证据 | 之后才能做什么 |
-|---:|---|---|---|---|---|
-| A1 | 完成 M5-05 安全负例与资源边界（#7） | 当前 main、现有安全回归、一次性隔离目录 | 路径逃逸、symlink、特殊文件、资源上限、秘密泄漏、报告注入、脚本零执行矩阵 | `tests/security-matrix.test.ts`、`docs/evidence/security-negative-matrix-2026-11-12.json`、更新后的 `docs/SCANNER-SECURITY.md`、PR/main 流水线 | 提交独立安全复核；不能仅凭本项关闭 #7 |
-| A2 | 完成 M5-07 供应链与分发审计（#7/#8） | A1 合并后的 main、冻结 lockfile、生产依赖 | audit JSON、CycloneDX SBOM、第三方通知、许可证清单、制品 SHA-256、缺口处置 | `docs/evidence/supply-chain-audit-2026-11-12.json`、provenance 验证、审查包、PR/main 流水线 | 进入 S-09 法务/安全决定；不能仅凭本项发布 |
-| A3 | 准备 S-01–S-10 签字材料（#1） | A1/A2 结果、现有候选协议、目标矩阵和角色模板 | 每项明确“批准/修订批准/拒绝/延期”，并记录姓名、日期、理由、证据和重审触发条件 | `docs/ACCEPTANCE-SIGNOFF-PACKAGE.md` 中 10 项签字 | 冻结正式分母、目标运行时、holdout 和发布路线 |
-| A4 | 关闭冻结范围内的扫描与知识缺口（#3/#4） | A3 中 S-01、S-03–S-07 已签 | 约定范围内解析缺口回归、reviewed 知识记录、确定性知识导出 | gap 回归、reviewed snapshot、schema/来源/许可/有效期/撤回记录 | 生成 label-blind predictions |
-| A5 | 运行独立 holdout 与运行时矩阵（#7） | A3 的具名角色、授权数据、冻结 manifest；A4 的候选快照 | 四项正式指标、完整 TP/FP/FN 分母、错误分析、API 20+ 实际运行时结果 | 冻结 cases/labels 哈希、预测输出、评分报告、裁定人签字 | 判断是否达到 ≥80%/100%/≥80%/≥80% |
-| A6 | 完成产品闭环与入口 parity（#5/#6） | A3 的 S-02；A4/A5 的稳定快照；获准真实项目 | 真实项目 scan→navigate→query→recommend→export；CLI/VS Code/Cursor/DevEco/Web/MCP/CI 安装、恢复、回滚和卸载 | 干净主机 walkthrough、parity 报告、beta/可用性验收 | 形成 release candidate |
-| A7 | 补齐 Stage 2 CI（#11） | A4–A6 的稳定产品与数据输入 | benchmark、rules/knowledge provenance、跨入口 parity、package/SBOM/checksum、download smoke 门禁 | 每项门禁的故意失败与恢复通过记录；PR/main Actions | 证明发布门禁可以阻断回归 |
-| A8 | 从 accepted SHA 重建并发布（#8） | A5–A7 全部通过；S-09/S-10 已签 | tag/release、CLI tarball、VSIX、DevEco ZIP、Web bundle、source archive、SBOM、notices、checksums | 两次构建比较、clean install、download smoke、验收签字、GitHub/AtomGit 同 SHA 和制品哈希 | 关闭满足原始条件的 Issue，进入维护交接 |
+### 0.1 行动登记规则
+
+下面 A1–A8 是唯一的工作包编号。状态只使用第 2 节定义。责任角色描述“谁应对此负责”，除非该行另行写明姓名，否则**不代表人员已经任命**。Issue 的关闭结论必须以 Issue 原始验收条件、具名签字和不可变 evidence 为准；A 工作包完成不自动等于 Issue 可关闭。
+
+### 0.2 可执行行动台账
+
+| ID / 状态 | 工作与责任角色 | 目标日期 | 输入与前置条件 | 具体交付物 | 下一步命令 / 动作 | 证据落点 | 关闭条件与 Issue 权限 |
+|---|---|---|---|---|---|---|---|
+| **A1 · READY** | M5-05 安全负例与资源边界；Engineering Lead + Security Reviewer | 2026-11-15 | 当前 main、现有安全回归、一次性隔离目录；复核人待具名 | 路径逃逸、绝对路径、`..`、symlink、FIFO/socket、深度/大小/条目上限、超时、秘密泄漏、Markdown/SARIF 注入、脚本零执行矩阵及风险处置 | 从 `4503a42` 建分支；先补负例，再运行 `pnpm exec vitest run tests/security-matrix.test.ts`、聚焦安全套件与 `pnpm check`；隔离主机保存版本和哈希 | `tests/security-matrix.test.ts`；`docs/evidence/security-negative-matrix-2026-11-12.json`；`docs/SCANNER-SECURITY.md`；PR/main run | 工程完成需无未处置高风险、中风险有具名责任和期限；A1 完成后进入独立安全复核，**不能单独关闭 #7** |
+| **A2 · GATED** | M5-07 供应链与分发审计；Engineering Lead + Security Reviewer + Legal/Release Owner | 2026-11-22 | A1 合并后的 main；冻结 lockfile；生产依赖；待具名审查人 | `pnpm audit` 结果、CycloneDX SBOM、第三方通知、许可清单、制品 SHA-256、缺口和处置；覆盖 `@yarnpkg/lockfile@1.1.0` 无独立 LICENSE 文件 | 在全新输出目录执行 `pnpm audit --json`、`pnpm package:cli`、`pnpm verify:runtime-provenance`；逐项核对版本、许可、通知与 BOM，再提交 S-09 审查 | `docs/evidence/supply-chain-audit-2026-11-12.json`；`docs/RUNTIME-PROVENANCE.md`；审查包；PR/main run | 工程证据齐全后进入 S-09；未完成法务/安全处置时 **不能关闭 #7/#8，不能发布** |
+| **A3 · GATED** | 准备并取得 S-01–S-10 人工决定；Project Owner + Final Adjudicator + named independent roles | 2026-11-15 提交审阅；决定不得晚于其阻塞项 | A1/A2 可审材料；现有协议、目标矩阵、角色模板；**具名人员、授权 holdout 和签字尚未提供** | 每项记录“批准/修订批准/拒绝/延期”、姓名/组织、日期、理由、证据、利益冲突、访问边界、重审条件 | 审阅 `docs/ACCEPTANCE-SIGNOFF-PACKAGE.md`；先确认 S-01/S-02/S-03–S-07；在具名角色和许可明确前保持 `GATED` | 签字包、`DECISIONS.md`、`TARGET-MATRIX.md` 和 Issue #1 记录 | 冻结正式分母、运行时、holdout、角色和发布路线；未签字不得由工程侧代填，**不能关闭 #1** |
+| **A4 · GATED** | 冻结范围内扫描与知识缺口；Engineering Lead + Independent Label Provider + Non-author Reviewer | 2026-11-29 | S-01、S-03–S-07 已签；获许可 reviewed 数据和具名评审；当前尚无正式 reviewed 快照 | 范围内依赖/workspace/JS/TS/ArkTS 缺口回归；reviewed 替换记录；确定性知识导出；未知和弃答保持可见 | 按 `CAPABILITY-GAP-MATRIX.md` 逐行处置；每条先写失败 fixture；导出并比较 canonical snapshot SHA | `docs/evidence/acceptance-2026-12/`、knowledge snapshot、gap disposition、PR/main run | 无未归属范围内缺口；reviewed 数据来源/许可/有效期/撤回规则齐全；仍 **不能单独关闭 #3/#4** |
+| **A5 · GATED** | 独立 holdout、正式指标与运行时矩阵；Independent Label Provider + Engineering + Runtime Owner + Final Adjudicator | 2026-12-06 预测冻结；2026-12-13 裁定 | A3 具名角色和冻结 manifest；A4 reviewed snapshot；批准设备/SDK/API 与 holdout 许可；当前均未落实 | label-blind predictions、四项完整 TP/FP/FN 分母、知识库交付证据、API 20+ 实际 runtime 结果、失败与整改记录 | 先冻结 code/rules/knowledge/cases/labels/toolchain/device manifest；工程只读 cases 生成 predictions，标签方与裁定人离线评分 | `docs/evidence/acceptance-2026-12/{dependency-scan,incompatible-api,replacement-mapping,missing-port,runtime}/` 及签名裁定 | 四项阈值和知识库通过、无未处置阻断、独立签字；仅此证据链满足正式指标，**仍不能单独关闭 #7** |
+| **A6 · GATED** | 产品闭环与入口 parity；Engineering Lead + Product Owner + Runtime/Release Owner | 2026-12-13 | S-02 已签；获准真实项目；A4/A5 稳定快照；可用的干净宿主与真实设备 | scan→navigate→query→recommend→export；CLI、VS Code/Cursor、DevEco、Web、MCP、CI 的安装、首跑、取消/损坏输入、恢复、卸载/回滚和 finding parity | 建立 canonical fixture/report；逐入口自动比较 finding ID/status/evidence/location；保留宿主与工具链版本 | `docs/evidence/acceptance-2026-12/parity/`、真实项目 walkthrough、产品签字 | 承诺入口从干净环境通过且延期项有具名批准；工程 smoke 不足，**不能关闭 #5/#6** |
+| **A7 · GATED** | Stage 2 CI 门禁；Engineering Lead + Final Adjudicator | 2026-12-15 | A4–A6 的稳定输入；S-07 数据隔离；最终 required-check 名单 | benchmark、rules/knowledge provenance、跨入口 parity、package/SBOM/checksum、clean-install/download smoke；每项故意失败和恢复证据 | 为每类门禁先提交安全负例，确认 required job 阻断，再撤销探针并验证 main；读回分支保护 | workflow、PR/main run URL、失败/恢复 run、保护 API 输出 | 每类坏输入都被 required check 阻断；只新增 YAML 不算完成，**不能单独关闭 #11** |
+| **A8 · GATED** | accepted SHA 重建、发布与交接；Release Owner + Final Adjudicator + Project Owner | 2026-12-23 | A5–A7 全部通过；S-09/S-10 已签；accepted SHA、签名/校验路线和发布渠道已批准 | tag/release、CLI tarball、VSIX、DevEco ZIP、Web bundle、source archive、SBOM、notices、checksums、download smoke 和回滚记录 | 从 accepted SHA 两次干净构建；安装全部制品；发布后从 GitHub/AtomGit 读回 main/tag SHA 和制品哈希；完成维护交接 | release assets、`SHA256SUMS`、readback JSON、最终验收包、main run | 所有原始 Issue 条件满足或具名延期；验收方可脱离作者机器复现；只有此时关闭可关闭 Issue 并进入维护 |
+
+### 0.3 当前可立即执行与等待外部输入
+
+| 队列 | 现在可以做什么 | 不能做什么 |
+|---|---|---|
+| 工程 `READY` | A1 完成 M5-05 的代码、负例、隔离探针和 PR；A2 可准备 audit/SBOM/通知工具和证据模板 | 不得把作者 fixture、模型评审或本地包当作独立验收；不得激活 Lottie 候选 |
+| 人工 `GATED` | A3 准备签字材料并催请项目负责人、独立评审者、标签方、法务和发布负责人具名确认 | 不得替任何人签字，不得臆造 holdout、设备、SDK 或发布许可 |
+| 解锁后 | A4 关闭范围内缺口，A5 运行正式评分和 runtime，A6 做真实项目与入口 parity，A7 加 Stage 2 CI，A8 从 accepted SHA 发布 | 不得跳过上游门禁，不得因某项 CI 绿灯关闭原始 Issue |
 
 当前第一条执行链固定为：
 
@@ -79,7 +92,7 @@ pnpm check
 | 顺序 | 工作包 | Issue | 当前状态 | 本轮工程交付 | 完成后是否可关闭 Issue |
 |---:|---|---|---|---|---|
 | 1 | M5-05 安全负例与资源边界 | #7 | `READY` | 威胁矩阵、隔离探针、失败样例和处置记录 | 否 |
-| 2 | M5-07 供应链与分发审计 | #7、#8 | `READY` | audit、CycloneDX SBOM、通知、许可证、制品哈希和分发缺口 | 否 |
+| 2 | M5-07 供应链与分发审计 | #7、#8 | `GATED` | audit、CycloneDX SBOM、通知、许可证、制品哈希和分发缺口 | 否 |
 
 ### 3.1 M3-05 · 报告契约与稳定字节（工程完成）
 
