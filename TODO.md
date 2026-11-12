@@ -2,8 +2,8 @@
 
 **更新时间：** 2026-11-12
 **目标验收日：** 2026-12-23
-**最近完整代码回归基线：** `511790bcdac6f19bbc0dc53089336c16aeae9896`（[43202341237](https://github.com/hu-qi/arkcompat/actions/runs/43202341237)）
-**当前工程基线：** `2d4267ddffd467ad897e2a5d94fb653b157bb350`（[43208602712](https://github.com/hu-qi/arkcompat/actions/runs/43208602712)；截至 2026-11-12 文档更新时仍在等待 macOS runner，合并前须复核最终结论）
+**当前 main 基线：** `a9855161f33f1244ecee48e6a4253b0f474be8ba`（[43210091429](https://github.com/hu-qi/arkcompat/actions/runs/43210091429)）；GitHub 与 AtomGit `main` 已独立读回同一 SHA。流水线最终结论以 Actions 页面为准。
+**最近完整代码回归基线：** `511790bcdac6f19bbc0dc53089336c16aeae9896`（[43202341237](https://github.com/hu-qi/arkcompat/actions/runs/43202341237)；36 个测试文件、575 项测试通过）
 **当前状态：** 8 个开放 Issue、0 个开放 PR、2 个工程 `READY` 工作包、正式验收 0/5、人工签字 0/10
 
 本文是 ArkCompat 剩余工作的**唯一执行入口**，也是长期维护文档。每次开始工作先在这里选择一个 `READY` 工作包；`GATED` 项必须先取得具名人工决定或外部输入。工程实现、CI 绿灯、开发者 fixture、本地制品和模型评审都不能替代正式验收。
