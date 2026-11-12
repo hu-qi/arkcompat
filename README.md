@@ -7,13 +7,14 @@
 - **策略**：TypeScript First；确定性规则 + 版本化知识库 + 可选 AI 辅助分析。
 - **目标形态**：CLI / VS Code-Cursor / DevEco Studio / Web / MCP / CI/CD，共享同一扫描引擎。
 - **交付时间**：2026-12-23
-- **当前进度**：5%
+- **当前状态**：工程纵向切片已验证；正式验收 0/5，正式版本尚未发布。
+- **已验证主干**：`1a1ab113355ae4f2ae90ae3fc1021e0f1866ad79`；GitHub 与 AtomGit 读回同一 SHA，[质量流水线](https://github.com/hu-qi/arkcompat/actions/runs/43177608753)五项必需任务通过。
 
-首个验收节点目标 HarmonyOS 6.0.0+，里程碑排期见 [ROADMAP](ROADMAP.md)；进度为按 P0 验收范围与已合入工程产出估算的粗估值。
+首个验收节点目标 HarmonyOS 6.0.0+，里程碑排期见 [ROADMAP](ROADMAP.md)。可执行任务和人工签字门禁见 [TODO](TODO.md)。
 
-已具备：npm、pnpm 和 Yarn 锁文件的部分依赖图、受限 [npm](docs/NPM-WORKSPACES.md)、[pnpm](docs/PNPM-WORKSPACES.md) 与 [Yarn](docs/YARN-WORKSPACES.md) workspace 清单和作用域投影、JS/TS 与部分 ETS 导入/调用清单、JSON/Markdown/SARIF 报告、[本地静态 API 规则评估](docs/LOCAL-API-RULES.md)、[知识库快照导出](docs/KNOWLEDGE-SEMANTICS.md#cli-export)，以及本地 Web、MCP、VS Code 和 CI 入口。Web 与 MCP 可按操作者显式选择的离线快照查询带排除原因和来源的元数据，但不会据此生成替代建议。默认扫描的兼容状态仍为 `unknown`；当前知识库样例为合成数据。真实替代关系、经验证的兼容规则、正式分发和独立验收仍待完成。进度与验证范围见[交付记录](docs/DELIVERY-STATUS.md)。
+已具备：npm、pnpm 和 Yarn 锁文件的部分依赖图、受限 [npm](docs/NPM-WORKSPACES.md)、[pnpm](docs/PNPM-WORKSPACES.md) 与 [Yarn](docs/YARN-WORKSPACES.md) workspace 清单和作用域投影、JS/TS 与部分 ETS 导入/调用清单、JSON/Markdown/SARIF 报告、[本地静态 API 规则评估](docs/LOCAL-API-RULES.md)、[知识库快照导出](docs/KNOWLEDGE-SEMANTICS.md#cli-export)，以及本地 Web、MCP、VS Code 和 CI 入口。Web 与 MCP 可按操作者显式选择的离线快照查询带排除原因和来源的元数据，但不会据此生成替代建议。默认扫描的兼容状态仍为 `unknown`；当前知识库样例为合成数据。真实替代关系、经验证的兼容规则、正式分发和独立验收仍待完成。验证范围与证据见[交付记录](docs/DELIVERY-STATUS.md)。
 
-> 「交付时间」「当前进度」随项目进展更新。进度为沟通用粗估，不代表任何出口门禁通过；代码、数据与结论以 Issue/PR 中的验证证据为准，开发者自建 fixture 不构成真实准确率。
+> 这里的“已验证”只指所列工程任务与 CI 通过，不代表准确率验收、运行时支持或发布批准；开发者 fixture、模型评审和本地制品不构成正式验收。
 
 ## 进度快照
 
