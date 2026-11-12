@@ -2,11 +2,9 @@
 
 **更新时间：** 2026-11-12
 **目标日期：** 2026-12-23
-**本轮文档核对基线：** `c2324e0b31f27fd02570710a9fbfd93af75bda0e`
-**文档核对检查：** [43205307730](https://github.com/hu-qi/arkcompat/actions/runs/43205307730)
-**后续纯文档收尾合并：** `5193c65935c58386c9bf8b7a76b76690d7986c70`（[43205954055](https://github.com/hu-qi/arkcompat/actions/runs/43205954055)）
-**最近工程回归基线：** `511790bcdac6f19bbc0dc53089336c16aeae9896`
-**回归基线检查：** [43202341237](https://github.com/hu-qi/arkcompat/actions/runs/43202341237)
+**当前 main 基线：** `845ed8755d1d86b225b3634c85647aa5de72bb42`
+**main 检查：** [43213853305](https://github.com/hu-qi/arkcompat/actions/runs/43213853305)
+**本地 A1 回归：** 37 个文件、588 项测试通过；M5-05 待 PR/main CI
 **用途：** 把 [#1](https://github.com/hu-qi/arkcompat/issues/1)、
 [#3](https://github.com/hu-qi/arkcompat/issues/3)、
 [#4](https://github.com/hu-qi/arkcompat/issues/4)、
@@ -18,7 +16,7 @@
 可关闭的交付路径。
 
 [根目录 TODO](../TODO.md) 是唯一执行入口。本文是执行与验收计划，不替代
-[TODO](../TODO.md) 的任务勾选、
+[项目完成 TODO](PROJECT-TODO.md) 的任务勾选、
 [项目执行台账](PROJECT-EXECUTION-LEDGER.md)的逐项命令与证据登记、
 [DECISIONS](DECISIONS.md) 的人工决策、[QUALITY-GATES](QUALITY-GATES.md)
 的阈值或 evidence 中的实测结果。工程实现、模型评审、开发者 fixture、

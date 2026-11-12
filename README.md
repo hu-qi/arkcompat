@@ -7,8 +7,8 @@
 - **策略**：TypeScript First；确定性规则 + 版本化知识库 + 可选 AI 辅助分析。
 - **目标形态**：CLI / VS Code-Cursor / DevEco Studio / Web / MCP / CI/CD，共享同一扫描引擎。
 - **交付时间**：2026-12-23
-- **当前状态**：工程纵向切片已验证；正式验收 0/5，正式版本尚未发布。
-- **本文件更新前已验证主干**：`b9542c89e7b504a89b0a6b9a7512e9c18233b350`；GitHub 与 AtomGit 读回同一 SHA，[质量流水线](https://github.com/hu-qi/arkcompat/actions/runs/43199050794)五项必需任务通过。
+- **当前状态**：工程纵向切片持续交付；正式验收 0/5，正式版本尚未发布。
+- **本文件更新前已验证主干**：`845ed8755d1d86b225b3634c85647aa5de72bb42`；GitHub 与 AtomGit 读回同一 SHA，[质量流水线](https://github.com/hu-qi/arkcompat/actions/runs/43213853305)五项必需任务通过。
 
 首个验收节点目标 HarmonyOS 6.0.0+，里程碑排期见 [ROADMAP](ROADMAP.md)。
 **[TODO](TODO.md) 是剩余工作的唯一执行入口**：先选择一个 `READY` 工作包；
@@ -42,7 +42,8 @@ Node 22.13+（22 系列）或 Node 24，pnpm 10.34.9。实现范围、报告语�
 
 ## Project documentation
 
-- **[TODO — 长期唯一执行入口、两个 READY 工作包、人工门禁和完成条件](TODO.md)**
+- **[TODO — 长期唯一执行入口、当前工作队列、人工门禁和完成条件](TODO.md)**
+- [项目完成 TODO — 按 T1–T9 勾选执行顺序、证据和 Issue 关闭条件](docs/PROJECT-TODO.md)
 - [项目执行台账 — 原子任务、命令、证据、责任与 Issue 关闭条件](docs/PROJECT-EXECUTION-LEDGER.md)
 - [验收与发布签字包 — S-01–S-10 人工决定、冻结记录和签字表](docs/ACCEPTANCE-SIGNOFF-PACKAGE.md)
 - [项目总控 TODO — 里程碑和 Issue 总览快照](docs/PROJECT-MASTER-TODO.md)
