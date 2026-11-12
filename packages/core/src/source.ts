@@ -131,6 +131,11 @@ export function analyzeSource(
   const etsImports = new Map<string, Binding>();
   const ambiguousEtsImports = new Set<string>();
   const analyzedImports = new Set<ts.CallExpression>();
+  let cjsExportsReassigned = false;
+  let cjsRootInvalidated = false;
+  let cjsRootBinding: Binding | undefined;
+  const cjsMemberBindings = new Map<string, Binding>();
+  const cjsInvalidatedMembers = new Set<string>();
   function limitation(code: string) {
     if (!codes.has(code)) {
       codes.add(code);
@@ -177,6 +182,89 @@ export function analyzeSource(
     // JS/CommonJS gets a synthesized require symbol without declarations.
     // Any actual declaration (including a parameter) makes loader identity uncertain.
     return !symbolAtLocation(node.expression)?.declarations?.length;
+  }
+  function isUnshadowedCommonJsIdentifier(
+    node: ts.Expression,
+    name: "module" | "exports",
+  ): node is ts.Identifier {
+    if (!ts.isIdentifier(node) || node.text !== name) return false;
+    if (isEtsImportShadowed(node, name)) return false;
+    const declarations = symbolAtLocation(node)?.declarations;
+    return !declarations?.some(
+      (declaration) =>
+        ts.isVariableDeclaration(declaration) ||
+        ts.isParameter(declaration) ||
+        ts.isFunctionDeclaration(declaration) ||
+        ts.isClassDeclaration(declaration) ||
+        ts.isImportClause(declaration) ||
+        ts.isImportSpecifier(declaration) ||
+        ts.isNamespaceImport(declaration) ||
+        ts.isImportEqualsDeclaration(declaration),
+    );
+  }
+  type CommonJsTarget = "module" | { path: string[] };
+  function commonJsTarget(
+    input: ts.Expression,
+    aliases = new Set<ts.Symbol>(),
+  ): CommonJsTarget | undefined {
+    const value = unwrap(input);
+    if (isUnshadowedCommonJsIdentifier(value, "module")) return "module";
+    if (isUnshadowedCommonJsIdentifier(value, "exports"))
+      return cjsExportsReassigned ? undefined : { path: [] };
+    if (ts.isIdentifier(value)) {
+      const symbol = symbolAtLocation(value);
+      if (!symbol) return undefined;
+      const declaration = symbol.valueDeclaration;
+      if (!initializedConst(declaration)) return undefined;
+      if (aliases.has(symbol)) {
+        limitation("module-alias-cycle-not-analyzed");
+        return undefined;
+      }
+      if (aliases.size >= 32) {
+        limitation("module-alias-depth-limit");
+        return undefined;
+      }
+      aliases.add(symbol);
+      return commonJsTarget(declaration.initializer, aliases);
+    }
+    let objectExpression: ts.Expression | undefined;
+    let memberName: string | undefined;
+    if (ts.isPropertyAccessExpression(value)) {
+      objectExpression = value.expression;
+      memberName = value.name.text;
+    } else if (ts.isElementAccessExpression(value)) {
+      objectExpression = value.expression;
+      if (ts.isStringLiteralLike(value.argumentExpression))
+        memberName = publicSpecifier(value.argumentExpression.text);
+    }
+    if (!objectExpression || memberName === undefined) return undefined;
+    const base = commonJsTarget(objectExpression, aliases);
+    if (!base) return undefined;
+    if (base === "module")
+      return memberName === "exports" ? { path: [] } : undefined;
+    return { path: [...base.path, memberName] };
+  }
+  function resolveCommonJsBinding(pathSegments: string[]): Binding | undefined {
+    if (pathSegments.length === 0)
+      return cjsRootInvalidated ? undefined : cjsRootBinding;
+    const [head, ...rest] = pathSegments;
+    if (head === undefined) return undefined;
+    if (!cjsInvalidatedMembers.has(head)) {
+      const memberBinding = cjsMemberBindings.get(head);
+      if (memberBinding)
+        return rest.length === 0
+          ? memberBinding
+          : {
+              module: memberBinding.module,
+              path: [...memberBinding.path, ...rest],
+            };
+    }
+    if (!cjsRootInvalidated && cjsRootBinding)
+      return {
+        module: cjsRootBinding.module,
+        path: [...cjsRootBinding.path, ...pathSegments],
+      };
+    return undefined;
   }
   function awaitedImport(input: ts.Expression): ts.CallExpression | undefined {
     const value = unwrap(input);
@@ -404,6 +492,11 @@ export function analyzeSource(
         return undefined;
       }
       aliases.add(symbol);
+      if (member !== undefined) {
+        const target = commonJsTarget(declaration.initializer);
+        if (target && target !== "module" && target.path.length === 0)
+          return resolveCommonJsBinding([member]);
+      }
       const base = access(declaration.initializer, aliases);
       if (!base || member === undefined) return base;
       return { module: base.module, path: [...base.path, member] };
@@ -414,6 +507,9 @@ export function analyzeSource(
     ) {
       return undefined;
     }
+    const cjsTarget = commonJsTarget(value);
+    if (cjsTarget && cjsTarget !== "module")
+      return resolveCommonJsBinding(cjsTarget.path);
     if (ts.isPropertyAccessExpression(value)) {
       const base = access(value.expression, aliases);
       return base
@@ -527,6 +623,140 @@ export function analyzeSource(
     ts.forEachChild(node, collect);
   }
   collect(source);
+  function bindCjsMember(member: string, binding: Binding) {
+    if (cjsInvalidatedMembers.has(member) || cjsMemberBindings.has(member)) {
+      cjsMemberBindings.delete(member);
+      cjsInvalidatedMembers.add(member);
+      limitation("commonjs-export-mutation-not-analyzed");
+      return;
+    }
+    cjsMemberBindings.set(member, binding);
+  }
+  function invalidateCjsRoot() {
+    cjsRootInvalidated = true;
+    cjsRootBinding = undefined;
+    for (const key of cjsMemberBindings.keys()) cjsInvalidatedMembers.add(key);
+    cjsMemberBindings.clear();
+  }
+  function isCommonJsMutationCall(node: ts.CallExpression): boolean {
+    const callee = unwrap(node.expression);
+    if (!ts.isPropertyAccessExpression(callee)) return false;
+    const receiver = unwrap(callee.expression);
+    if (!ts.isIdentifier(receiver)) return false;
+    if (
+      receiver.text === "Object" &&
+      (callee.name.text === "assign" ||
+        callee.name.text === "defineProperty" ||
+        callee.name.text === "defineProperties")
+    )
+      return true;
+    if (
+      receiver.text === "Reflect" &&
+      (callee.name.text === "set" || callee.name.text === "defineProperty")
+    )
+      return true;
+    return false;
+  }
+  function collectCommonJsExports(node: ts.Node) {
+    if (
+      ts.isBinaryExpression(node) &&
+      node.operatorToken.kind === ts.SyntaxKind.EqualsToken
+    ) {
+      const left = unwrap(node.left);
+      if (isUnshadowedCommonJsIdentifier(left, "exports")) {
+        cjsExportsReassigned = true;
+        invalidateCjsRoot();
+        limitation("commonjs-export-mutation-not-analyzed");
+      } else if (
+        ts.isElementAccessExpression(left) &&
+        !ts.isStringLiteralLike(left.argumentExpression)
+      ) {
+        const base = commonJsTarget(left.expression);
+        if (base && base !== "module" && base.path.length === 0)
+          limitation("commonjs-dynamic-export-not-analyzed");
+      } else {
+        const target = commonJsTarget(left);
+        if (target && target !== "module") {
+          if (target.path.length === 0) {
+            if (cjsRootBinding !== undefined || cjsRootInvalidated) {
+              invalidateCjsRoot();
+              limitation("commonjs-export-mutation-not-analyzed");
+            } else {
+              const rhs = unwrap(node.right);
+              if (ts.isObjectLiteralExpression(rhs)) {
+                for (const prop of rhs.properties) {
+                  if (
+                    ts.isPropertyAssignment(prop) &&
+                    (ts.isIdentifier(prop.name) ||
+                      ts.isStringLiteralLike(prop.name))
+                  ) {
+                    const key = ts.isIdentifier(prop.name)
+                      ? prop.name.text
+                      : publicSpecifier(prop.name.text);
+                    const resolved = access(prop.initializer);
+                    if (resolved) bindCjsMember(key, resolved);
+                  } else if (ts.isShorthandPropertyAssignment(prop)) {
+                    const valueSymbol =
+                      checker.getShorthandAssignmentValueSymbol(prop);
+                    const resolved =
+                      (valueSymbol && bindings.get(valueSymbol)) ??
+                      (valueSymbol &&
+                      initializedConst(valueSymbol.valueDeclaration)
+                        ? access(valueSymbol.valueDeclaration.initializer)
+                        : undefined) ??
+                      (!valueSymbol ||
+                      (!bindings.has(valueSymbol) &&
+                        !valueSymbol.declarations?.length)
+                        ? (etsImportAccess(prop.name) ??
+                          (trackedHostGlobals.has(prop.name.text) &&
+                          !isEtsImportShadowed(prop.name, prop.name.text)
+                            ? { module: "globalThis", path: [prop.name.text] }
+                            : undefined))
+                        : undefined);
+                    if (resolved) bindCjsMember(prop.name.text, resolved);
+                  } else if (
+                    ts.isPropertyAssignment(prop) &&
+                    ts.isComputedPropertyName(prop.name)
+                  ) {
+                    limitation("commonjs-dynamic-export-not-analyzed");
+                  } else {
+                    limitation("commonjs-export-mutation-not-analyzed");
+                  }
+                }
+              } else {
+                const resolved = access(rhs);
+                if (resolved) cjsRootBinding = resolved;
+              }
+            }
+          } else if (target.path.length === 1) {
+            const resolved = access(node.right);
+            if (resolved) bindCjsMember(target.path[0]!, resolved);
+          } else {
+            limitation("commonjs-export-mutation-not-analyzed");
+          }
+        }
+      }
+    } else if (
+      ts.isCallExpression(node) &&
+      isCommonJsMutationCall(node) &&
+      node.arguments.length > 0
+    ) {
+      const target = commonJsTarget(node.arguments[0]!);
+      if (target && target !== "module") {
+        invalidateCjsRoot();
+        limitation("commonjs-export-mutation-not-analyzed");
+      }
+    } else if (
+      ts.isVariableDeclaration(node) &&
+      node.initializer &&
+      !initializedConst(node)
+    ) {
+      const target = commonJsTarget(node.initializer);
+      if (target) limitation("commonjs-export-mutation-not-analyzed");
+    }
+    ts.forEachChild(node, collectCommonJsExports);
+  }
+  collectCommonJsExports(source);
   function visit(node: ts.Node) {
     if (ts.isImportDeclaration(node))
       reference(node, "import", node.moduleSpecifier);
