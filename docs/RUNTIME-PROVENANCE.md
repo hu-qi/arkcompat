@@ -64,6 +64,20 @@ The current rehearsal intentionally exposes one review gap:
 license file in its installed package. Its SBOM component carries
 `arkcompat:notice-gaps=missing-license-file`.
 
+The notices inventory now also records the exact upstream tag as a supplemental
+license source:
+
+- source: `https://raw.githubusercontent.com/yarnpkg/yarn/v1.1.0/LICENSE`
+- tag: `v1.1.0`
+- commit: `ee5d4a153a3fe85145c45c0bb251ffffffcfe210`
+- SHA-256:
+  `ae09761b5d27e237571245437653b483bbb85de3cc64b802e8ef47d03aabec1e`
+
+The SBOM carries this reference in
+`arkcompat:supplemental-license-sources`. The installed-package gap remains
+visible, and the supplemental source is evidence for review, not a legal
+disposition or distribution approval. See [SUPPLY-CHAIN-AUDIT](SUPPLY-CHAIN-AUDIT.md).
+
 ## Verification boundary
 
 The required Linux Node24 CI job packages twice, validates both directories,
@@ -103,3 +117,24 @@ validator result and retained the same BOM/checksum hashes. The VSIX itself was
 `5a2ddc89b4157e4aefd94ca7290c3514fc6dc25586bc6c7fe49865d1a3c962cb`.
 Fresh host installation and public distribution are not claimed here; those
 remain under Issues #6/#8.
+
+## Supply-chain audit · 2026-11-12
+
+The production workspace audit currently inventories 15 production packages,
+and the portable CLI contains 12 third-party packages plus three ArkCompat
+workspace packages. Two clean portable builds each produced 15 SBOM
+components, 16 dependency entries and 1,070 runtime files plus `SHA256SUMS`.
+The two builds matched byte-for-byte:
+
+- `SBOM.cdx.json`:
+  `bbac7f9d73d52604fe2e7393f24973e4d43ecb2db817f4b7cd00f924a273a5d6`
+- `THIRD-PARTY-NOTICES.json`:
+  `2d266f7f844a91a75164d3a5b939074234d06a257c4705bfe58871b73cc373f6`
+- `SHA256SUMS`:
+  `db7e7b62a28e7a576a631de6b3c2f90e4f8f18e686819345ec2869c44b6e6511`
+
+The dated `pnpm audit` snapshot contained 243 resolved dependencies and zero
+reported advisories. This is a dated observation, not permanent vulnerability
+clearance. Full commands, inventories, source hashes, known gaps and review
+boundaries are in [SUPPLY-CHAIN-AUDIT](SUPPLY-CHAIN-AUDIT.md) and its
+[machine-readable evidence](evidence/supply-chain-audit-2026-11-12.json).

@@ -8,7 +8,7 @@
 - **目标形态**：CLI / VS Code-Cursor / DevEco Studio / Web / MCP / CI/CD，共享同一扫描引擎。
 - **交付时间**：2026-12-23
 - **当前状态**：工程纵向切片持续交付；正式验收 0/5，正式版本尚未发布。
-- **当前主干**：`0c94cd1487342081ec1d1109b372a0a37b4d385e`；PR [#109](https://github.com/hu-qi/arkcompat/pull/109) 的五项必需检查通过，[main 质量流水线](https://github.com/hu-qi/arkcompat/actions/runs/43215854339)的 macOS 任务尚在排队。GitHub 与 AtomGit 已读回同一 SHA。
+- **当前主干**：`92cd5a37fc28de964994dc47636a0beeb887fed0`；PR [#109](https://github.com/hu-qi/arkcompat/pull/109) 和文档收口 PR [#110](https://github.com/hu-qi/arkcompat/pull/110) 已合并，[main 质量流水线](https://github.com/hu-qi/arkcompat/actions/runs/43217340260)的五项必需 job 全部成功。GitHub 与 AtomGit 已独立读回同一 SHA。
 
 首个验收节点目标 HarmonyOS 6.0.0+，里程碑排期见 [ROADMAP](ROADMAP.md)。
 **[TODO](TODO.md) 是剩余工作的唯一执行入口**，包含文档索引、A1–A8 工作包、
@@ -21,15 +21,15 @@
 
 ## 进度快照
 
-| 里程碑 | 计划时间 | 状态 |
-|---|---|---|
-| M0 · 章程与可行性 | 2026-11-02 ~ 11-06 | ▶ 进行中（文档基线已完成，DevEco 可行性、旧仓库审计未闭环） |
-| M1 · 确定性扫描 | 2026-11-07 ~ 11-16 | ▶ 部分实现（依赖图 / AST import / CLI 切片已验证，未过出口门禁） |
-| M2 · 知识库与评估 | 2026-11-17 ~ 11-27 | ▶ 部分实现（知识契约、离线查询与 Web/MCP 显式入口已验证，真实数据、独立评估和入库审批未闭环） |
-| M3 · 建议与报告 | 2026-11-28 ~ 12-06 | ▶ 部分实现（三种报告、确定性解释与本地样例已验证，真实规则/知识和 Beta 未闭环） |
-| M4 · 多形态入口 | 2026-12-07 ~ 12-14 | ▶ 部分实现（本地 CLI/IDE/Web/MCP/CI 切线与显式知识快照查询已验证，正式分发和全入口验收未闭环） |
-| M5 · 发布候选 | 2026-12-15 ~ 12-19 | ◻ 未开始 |
-| M6 · 正式验收 | 2026-12-20 ~ 12-23 | ◻ 未开始 |
+| 里程碑            | 计划时间           | 状态                                                                                           |
+| ----------------- | ------------------ | ---------------------------------------------------------------------------------------------- |
+| M0 · 章程与可行性 | 2026-11-02 ~ 11-06 | ▶ 进行中（文档基线已完成，DevEco 可行性、旧仓库审计未闭环）                                    |
+| M1 · 确定性扫描   | 2026-11-07 ~ 11-16 | ▶ 部分实现（依赖图 / AST import / CLI 切片已验证，未过出口门禁）                               |
+| M2 · 知识库与评估 | 2026-11-17 ~ 11-27 | ▶ 部分实现（知识契约、离线查询与 Web/MCP 显式入口已验证，真实数据、独立评估和入库审批未闭环）  |
+| M3 · 建议与报告   | 2026-11-28 ~ 12-06 | ▶ 部分实现（三种报告、确定性解释与本地样例已验证，真实规则/知识和 Beta 未闭环）                |
+| M4 · 多形态入口   | 2026-12-07 ~ 12-14 | ▶ 部分实现（本地 CLI/IDE/Web/MCP/CI 切线与显式知识快照查询已验证，正式分发和全入口验收未闭环） |
+| M5 · 发布候选     | 2026-12-15 ~ 12-19 | ◻ 未开始                                                                                       |
+| M6 · 正式验收     | 2026-12-20 ~ 12-23 | ◻ 未开始                                                                                       |
 
 ## Local development
 
@@ -51,6 +51,7 @@ Node 22.13+（22 系列）或 Node 24，pnpm 10.34.9。实现范围、报告语�
 - [项目完成行动清单 — 按 Issue 查看关闭路线](docs/PROJECT-COMPLETION-ACTIONS.md)
 - [项目完成计划 — A–E 阶段、依赖、排期与证据目录](docs/PROJECT-COMPLETION-PLAN.md)
 - [交付状态 — 工程证据、未完成门禁与发布状态](docs/DELIVERY-STATUS.md)
+- [供应链审计 — 依赖、许可证、SBOM、通知、制品哈希和发布边界](docs/SUPPLY-CHAIN-AUDIT.md)
 - [ROADMAP — milestones, dates, exit gates](ROADMAP.md)
 - [PRD — scope and user journeys](docs/PRD.md)
 - [Architecture — shared engine and adapters](docs/ARCHITECTURE.md)

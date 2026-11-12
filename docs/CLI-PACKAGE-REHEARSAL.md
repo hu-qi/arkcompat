@@ -38,8 +38,11 @@ The build rejects existing output directories, symlinks and special files. It
 omits pnpm install metadata and generated command shims that can contain build
 machine paths. The [runtime provenance](RUNTIME-PROVENANCE.md) document defines
 the schema and inventory limits. The current `@yarnpkg/lockfile@1.1.0` package
-declares BSD-2-Clause but does not include a top-level license file. Resolve and
-review its attribution before distribution.
+declares BSD-2-Clause but does not include a top-level license file. The
+notices inventory records the exact upstream `v1.1.0` license URL, commit and
+SHA-256 as a supplemental source while retaining the missing-file gap. Resolve
+and review that evidence under S-09 before distribution; see the
+[supply-chain audit](SUPPLY-CHAIN-AUDIT.md).
 
 ## Install and offline smoke
 
@@ -96,15 +99,15 @@ checksum mismatch is a failed installation.
 
 ## Failure behavior and recovery
 
-| Scenario | Expected behavior | Recovery |
-|---|---|---|
-| Corrupt file in a candidate release | `verify:runtime-provenance` exits `1` and names the checksum mismatch | Leave `current` on the verified release; quarantine and rebuild the candidate |
-| Missing or malformed scan input | CLI exits `1`, writes a diagnostic to stderr, and does not return a partial success | Correct the path or input, then rerun |
-| Input or traversal limit | CLI exits `1` with the limit diagnostic | Reduce or isolate the input; do not treat the failed scan as an empty project |
-| Destination already exists | `package:cli` exits `1` before overwriting it | Choose a new release directory |
-| Read-only installation directory | Installation or upgrade fails; verified files are unchanged | Restore write permission for the intended parent or choose another installation root |
-| Interrupted upgrade | `current` still points to the previous release | Verify both releases and repeat the atomic switch |
-| Interrupted uninstall | Remove only the known `current` link and selected release directories | Keep the parent directory and unrelated user files |
+| Scenario                            | Expected behavior                                                                   | Recovery                                                                             |
+| ----------------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| Corrupt file in a candidate release | `verify:runtime-provenance` exits `1` and names the checksum mismatch               | Leave `current` on the verified release; quarantine and rebuild the candidate        |
+| Missing or malformed scan input     | CLI exits `1`, writes a diagnostic to stderr, and does not return a partial success | Correct the path or input, then rerun                                                |
+| Input or traversal limit            | CLI exits `1` with the limit diagnostic                                             | Reduce or isolate the input; do not treat the failed scan as an empty project        |
+| Destination already exists          | `package:cli` exits `1` before overwriting it                                       | Choose a new release directory                                                       |
+| Read-only installation directory    | Installation or upgrade fails; verified files are unchanged                         | Restore write permission for the intended parent or choose another installation root |
+| Interrupted upgrade                 | `current` still points to the previous release                                      | Verify both releases and repeat the atomic switch                                    |
+| Interrupted uninstall               | Remove only the known `current` link and selected release directories               | Keep the parent directory and unrelated user files                                   |
 
 Success is exit `0`. CLI errors and provenance failures use exit `1`. Consumers
 must require exit `0` before parsing a report. Error messages for filesystem
