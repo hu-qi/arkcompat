@@ -7,6 +7,7 @@
   "exports": {
     ".": "./dist/index.js",
     "./api-rules.schema.json": "./api-rules.schema.json",
+    "./assessment-report.schema.json": "./assessment-report.schema.json",
     "./finding-explanation.schema.json": "./finding-explanation.schema.json",
     "./knowledge.schema.json": "./knowledge.schema.json",
     "./scan-report.schema.json": "./scan-report.schema.json"

@@ -1,6 +1,7 @@
-import type { ScanReport } from "@arkcompat/contracts";
+import type { AssessmentReport, ScanReport } from "@arkcompat/contracts";
 
 export type ReportFormat = "json" | "markdown" | "sarif";
+export type AssessmentReportFormat = "json" | "markdown";
 
 function markdown(value: string): string {
   const entities: Record<string, string> = {
@@ -146,4 +147,87 @@ export function formatReport(
     );
   }
   throw new Error("Unsupported report format");
+}
+
+/** Pure adapters for advisory assessment reports; no source, network or filesystem reads. */
+export function formatAssessmentReport(
+  report: AssessmentReport,
+  format: AssessmentReportFormat = "json",
+): string {
+  if (format === "json") return JSON.stringify(report, null, 2);
+  if (format === "markdown") {
+    const rulesDesc =
+      report.snapshots.rules === "none"
+        ? "none"
+        : `${report.snapshots.rules.id} (${report.snapshots.rules.sha256.slice(0, 12)})`;
+    const knowledgeDesc =
+      report.snapshots.knowledge === "none"
+        ? "none"
+        : `${report.snapshots.knowledge.id} (${report.snapshots.knowledge.sha256.slice(0, 12)}, asOf ${report.snapshots.knowledge.asOf})`;
+    const lines = [
+      "# ArkCompat assessment report",
+      "",
+      `Target: ${markdown(report.target.os)} ${markdown(report.target.release)} / ${markdown(report.target.runtime)} / API ${report.target.apiLevel ?? "unspecified"}`,
+      `Scanner: ${markdown(report.scannerVersion)}; schema: ${markdown(report.schemaVersion)}; rules: ${markdown(rulesDesc)}; knowledge: ${markdown(knowledgeDesc)}`,
+      "",
+      "## Dependency assessments",
+      "",
+    ];
+    if (!report.dependencies.length) {
+      lines.push("No declared dependencies found.");
+    } else {
+      lines.push(
+        "| Module | Package | Version | Availability | Classification | Substitute | Limitations | Location | Recommended action |",
+        "|---|---|---|---|---|---|---|---|---|",
+      );
+      for (const dep of report.dependencies) {
+        const sub = dep.replacement
+          ? `${dep.replacement.registry}:${dep.replacement.name} (${dep.replacement.versionRange}, ${dep.replacement.relation})`
+          : "-";
+        const limits = dep.replacement
+          ? dep.replacement.excludedFeatures.join(", ") || "none"
+          : dep.excludedRecordReasons
+              .map((r) => `${r.id}: ${r.reasons.join("/")}`)
+              .join("; ") || "-";
+        const loc = dep.location
+          ? `${dep.location.path}:${dep.location.line}:${dep.location.column}`
+          : "-";
+        lines.push(
+          `| ${[dep.modulePath, dep.name, dep.resolvedVersion ?? dep.specifier, dep.availability, dep.classification, sub, limits, loc, dep.recommendedAction].map(markdown).join(" | ")} |`,
+        );
+      }
+    }
+    lines.push("", "## API assessments", "");
+    if (!report.apiAssessments.length) {
+      lines.push("No API usages observed.");
+    } else {
+      lines.push(
+        "| Location | Module | Path | Status | Rule / Reason | Source | Recommended action |",
+        "|---|---|---|---|---|---|---|",
+      );
+      for (const api of report.apiAssessments) {
+        const loc = `${api.location.path}:${api.location.line}:${api.location.column}`;
+        const ruleOrReason = api.ruleId ?? api.reason ?? "-";
+        const src = api.source
+          ? `${api.source.revision} (${api.source.url})`
+          : "-";
+        lines.push(
+          `| ${[loc, api.module, api.path.join("."), api.status, ruleOrReason, src, api.recommendedAction].map(markdown).join(" | ")} |`,
+        );
+      }
+    }
+    lines.push("", "## Limitations", "");
+    if (!report.limitations.length) {
+      lines.push("None reported.");
+    } else {
+      lines.push("| Code | Path |", "|---|---|");
+      for (const limitation of report.limitations) {
+        lines.push(
+          `| ${markdown(limitation.code)} | ${markdown(limitation.path ?? "(project)")} |`,
+        );
+      }
+    }
+    return lines.join("\n");
+  }
+  throw new Error("Unsupported assessment report format");
 }

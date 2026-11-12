@@ -10,13 +10,43 @@ pnpm build
 pnpm evaluate fixtures/developer/evaluation/labels.json fixtures/developer/evaluation/predictions.json /absolute/path/to/a-new-evidence-directory
 ```
 
-The3synthetic binary cases have3unknown predictions,2positive misses,0coverage,0recall,0accuracy and **null precision**. They are authored regression data, not independent labels or outputs from a live compatibility engine. The scanner remains inventory-only; the root declaration adapter below does not generate compatibility labels. No current accuracy/SDK/acceptance target is claimed.
+The 3 synthetic binary cases have 3 unknown predictions, 2 positive misses,
+0 coverage, 0 recall, 0 accuracy and **null precision**. They are authored
+regression data, not independent labels or outputs from a live compatibility
+engine. No current accuracy, SDK or acceptance target is claimed.
 
 Each input is strict version0.1.0 JSON, capped at2MiB UTF-8 and10000units. The [label fixture](../fixtures/developer/evaluation/labels.json) and [prediction fixture](../fixtures/developer/evaluation/predictions.json) show the complete shape. IDs must be unique and dataset IDs must agree. Predictions with unlabeled IDs are rejected, so the labeled universe cannot be silently expanded or reduced. Missing predictions count as unknown and remain in the denominator. Invalid extra fields/statuses, malformed JSON and non-UTF-8 input files fail; diagnostics do not reflect local paths or input payloads.
 
 Labels carry a dataset ID, origin (`developer-fixture` or `external-unverified`), declared source/license/author/SDK/target context and a list of exact unit IDs, categories and expected positive/negative labels. Predictions carry the same dataset ID, recorded scanner/rule/knowledge versions and positive/negative/unknown judgments. These strings are **declared metadata**, not authenticated evidence. An external file cannot declare itself independently accepted through this schema.
 
-## Generate root dependency predictions without labels
+Formal label bundles should also pin `binding` to the independently frozen
+case and scanner/rule/knowledge digests. The binding has the same strict shape
+as the prediction binding. When present, `evaluate()` requires every field to
+match the prediction binding exactly and rejects the comparison before
+counting if a case, scan report, rules snapshot or knowledge snapshot differs.
+The field is optional so the authored developer-count fixtures continue to
+exercise generic counting, but a formal acceptance run that omits the
+label-side binding remains unadjudicated.
+
+## Generate label-blind predictions
+
+The package exposes five scopes. Each command reads only case inputs and the
+explicit scan, rule or knowledge snapshot; expected outcomes, labels and
+adjudicator notes are rejected by strict schemas.
+
+| Scope | Command | Bound input |
+|---|---|---|
+| Root dependency presence | `predict-dependencies <project> <cases.json>` | Case SHA-256 + scan-report SHA-256 |
+| Full dependency graph | `predict-dependency-graph <project> <cases.json>` | Case SHA-256 + scan-report SHA-256 |
+| Incompatible API | `predict-apis <project> <cases.json> <rules.json>` | Case + scan-report + rules SHA-256 |
+| Replacement mapping | `predict-replacements <cases.json> <snapshot.json> <as-of-utc>` | Case + canonical knowledge SHA-256 |
+| Missing port | `predict-missing-ports <cases.json> <snapshot.json> <as-of-utc>` | Case + canonical knowledge SHA-256 |
+
+The evaluator rejects a label category that does not match the prediction
+binding scope. Missing or duplicate cases and unknown sites remain visible;
+an unknown on a positive label counts as a false negative.
+
+### Root dependency example
 
 The following example uses an authored [case manifest](../fixtures/developer/dependency-evaluation/cases.json) that contains only case IDs, a target profile, and exact dependency section/name selectors. Generate predictions before supplying the separate [labels](../fixtures/developer/dependency-evaluation/labels.json):
 
@@ -29,7 +59,7 @@ pnpm evaluate fixtures/developer/dependency-evaluation/labels.json "$out/predict
 
 The canonical scanner runs on the explicitly supplied project. One result is emitted for each unique case: `positive` means that exact root declaration was found in the specified section, and `negative` means the exact tuple was absent from a successful scan. If scanning fails, there is no prediction output. Duplicate IDs/selectors, fields carrying expected outcomes and malformed cases are rejected. This scope does not test version resolution, transitive dependencies, compatibility, substitutes or missing ports.
 
-The prediction file contains the exact case-manifest hash and the canonical scanner JSON hash, plus scanner and snapshot identifiers. It omits package names and paths from the predictions themselves. These digests let an evaluator reproduce the inputs; the score command records them and does not authenticate them. It accepts bound results only against `root-dependency` labels. The developer fixture reports one true positive and two true negatives, including an absent package and a package in the wrong section. These are regression counts, not measured independent accuracy or a proposed acceptance denominator.
+The prediction file contains the exact case-manifest hash and the canonical scanner JSON hash, plus scanner and snapshot identifiers. It omits package names and paths from the predictions themselves. These digests let an evaluator reproduce the inputs; the score command records them and does not authenticate them. It accepts bound results only against `root-dependency` labels, and rejects a label-side binding that differs in any frozen input digest. The developer fixture reports one true positive and two true negatives, including an absent package and a package in the wrong section. These are regression counts, not measured independent accuracy or a proposed acceptance denominator.
 
 ## Counts and denominators
 
@@ -60,6 +90,10 @@ Inputs/artifacts can contain sensitive or blind labels. Keep them under evaluato
 
 Tests cover mixed errors, category/full denominators, all unknown/missing/empty data, duplicates/extra IDs, false approval fields, explicit external-unverified origin, exact hashes, output no-overwrite, deterministic bundles, symlink/size/UTF-8 failures and the actual built CLI. Evaluation source joins core/knowledge in the existing per-file coverage floors; it is not an independent benchmark denominator.
 
-Rollback by reverting this scoped optional harness/CLI PR. No scan/knowledge schema migration or platform claim changes. Transitive dependency and compatibility prediction adapters, adjudicated rubric, independently labeled holdout, snapshot/SDK verification, release evidence and real acceptance remain open in #7/#8, with data/rules prerequisites in #3/#4.
+Rollback by reverting this scoped optional harness/CLI change. No
+scan/knowledge schema migration or platform claim changes. The five adapters
+are implemented, while the adjudicated rubric, independently labeled holdout,
+snapshot/SDK verification, release evidence and real acceptance remain open in
+#7/#8, with data/rules prerequisites in #3/#4.
 
 The Linux Node24 quality job also regenerates and verifies the committed **developer-only** example before retaining its explicitly named non-acceptance artifact for14days. This is a checksum/CLI regression gate. It does not load an external or hidden dataset, evaluate scanner accuracy or approve the proposed acceptance formula.

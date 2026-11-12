@@ -218,3 +218,81 @@ export interface KnowledgeRecord {
     | { state: "reviewed"; reviewer: string; reviewedAt: string };
   validUntil: string;
 }
+
+/** Advisory assessment report binding scan inventory, static rules, and reviewed knowledge. */
+export interface DependencyAssessment {
+  modulePath: string;
+  name: string;
+  section: DependencySection;
+  specifier: string;
+  resolvedVersion: string | null;
+  availability:
+    "ohpm-release" | "gitcode-port" | "pure-js" | "missing-port" | "unknown";
+  classification:
+    "recommended-substitute" | "pure-js-usable" | "missing-port" | "unknown";
+  replacement: {
+    mappingId: string;
+    registry: "ohpm" | "gitcode" | "npm";
+    name: string;
+    versionRange: string;
+    relation: "full" | "partial";
+    includedFeatures: string[];
+    excludedFeatures: string[];
+    reviewer: string;
+    reviewedAt: string;
+    provenanceUrls: string[];
+  } | null;
+  excludedRecordReasons: { id: string; reasons: string[] }[];
+  location: SourceLocation | null;
+  recommendedAction: string;
+}
+
+export interface ApiAssessment {
+  location: SourceLocation;
+  module: string;
+  path: string[];
+  kind: "call" | "construct";
+  optional: boolean;
+  status: "incompatible" | "conditional" | "potential-risk" | "unknown";
+  reason?:
+    | "missing-api-level"
+    | "no-exact-rule"
+    | "ambiguous-rule"
+    | "no-rules-snapshot";
+  ruleId?: string;
+  severity?: "critical" | "high" | "medium" | "low";
+  rationale?: string;
+  recommendedAction: string;
+  source?: { url: string; revision: string; title?: string };
+}
+
+export interface AssessmentReport {
+  schemaVersion: "0.1.0";
+  scannerVersion: "0.0.0";
+  target: TargetProfile;
+  snapshots: {
+    rules: { id: string; sha256: string } | "none";
+    knowledge: { id: string; sha256: string; asOf: string } | "none";
+  };
+  dependencies: DependencyAssessment[];
+  apiAssessments: ApiAssessment[];
+  summary: {
+    dependencies: {
+      total: number;
+      ohpmRelease: number;
+      gitcodePort: number;
+      pureJs: number;
+      missingPort: number;
+      unknown: number;
+      recommendedSubstitutes: number;
+    };
+    apis: {
+      total: number;
+      incompatible: number;
+      conditional: number;
+      potentialRisk: number;
+      unknown: number;
+    };
+  };
+  limitations: Limitation[];
+}

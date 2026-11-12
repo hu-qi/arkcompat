@@ -5,12 +5,16 @@ import { open, mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import {
   evaluate,
+  predictDependencyGraph,
+  predictIncompatibleApis,
+  predictMissingPorts,
+  predictReplacements,
   predictRootDependencies,
   sha256,
 } from "@arkcompat/evaluation";
 
 const usage =
-  "Usage: arkcompat-evaluate <labels.json> <predictions.json> <new-output-directory>\n       arkcompat-evaluate predict-dependencies <project> <cases.json>";
+  "Usage: arkcompat-evaluate <labels.json> <predictions.json> <new-output-directory>\n       arkcompat-evaluate predict-dependencies <project> <cases.json>\n       arkcompat-evaluate predict-dependency-graph <project> <cases.json>\n       arkcompat-evaluate predict-apis <project> <cases.json> <rules.json>\n       arkcompat-evaluate predict-replacements <cases.json> <snapshot.json> <as-of-utc>\n       arkcompat-evaluate predict-missing-ports <cases.json> <snapshot.json> <as-of-utc>";
 async function read(path: string) {
   const file = await open(
     path,
@@ -55,6 +59,84 @@ try {
     console.log(
       JSON.stringify(
         await predictRootDependencies(project, await read(cases)),
+        null,
+        2,
+      ),
+    );
+  } else if (args[0] === "predict-dependency-graph") {
+    const [, project, cases] = args;
+    if (
+      args.length !== 3 ||
+      !project ||
+      !cases ||
+      project.startsWith("--") ||
+      cases.startsWith("--")
+    )
+      throw new Error();
+    console.log(
+      JSON.stringify(
+        await predictDependencyGraph(project, await read(cases)),
+        null,
+        2,
+      ),
+    );
+  } else if (args[0] === "predict-apis") {
+    const [, project, cases, rules] = args;
+    if (
+      args.length !== 4 ||
+      !project ||
+      !cases ||
+      !rules ||
+      project.startsWith("--") ||
+      cases.startsWith("--") ||
+      rules.startsWith("--")
+    )
+      throw new Error();
+    console.log(
+      JSON.stringify(
+        await predictIncompatibleApis(
+          project,
+          await read(cases),
+          await read(rules),
+        ),
+        null,
+        2,
+      ),
+    );
+  } else if (args[0] === "predict-replacements") {
+    const [, cases, snapshot, asOf] = args;
+    if (
+      args.length !== 4 ||
+      !cases ||
+      !snapshot ||
+      !asOf ||
+      cases.startsWith("--") ||
+      snapshot.startsWith("--") ||
+      asOf.startsWith("--")
+    )
+      throw new Error();
+    console.log(
+      JSON.stringify(
+        predictReplacements(await read(cases), await read(snapshot), asOf),
+        null,
+        2,
+      ),
+    );
+  } else if (args[0] === "predict-missing-ports") {
+    const [, cases, snapshot, asOf] = args;
+    if (
+      args.length !== 4 ||
+      !cases ||
+      !snapshot ||
+      !asOf ||
+      cases.startsWith("--") ||
+      snapshot.startsWith("--") ||
+      asOf.startsWith("--")
+    )
+      throw new Error();
+    console.log(
+      JSON.stringify(
+        predictMissingPorts(await read(cases), await read(snapshot), asOf),
         null,
         2,
       ),
