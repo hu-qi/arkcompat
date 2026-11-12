@@ -2,16 +2,15 @@
 
 **更新日期：** 2026-11-12
 **计划验收日期：** 2026-12-23
-**当前 main 基线：** `3649d86fa3d449224008fee460df3d951d3d309a`
-（M5-07 文档收口 PR [#112](https://github.com/hu-qi/arkcompat/pull/112) 已合并；
-[main 流水线](https://github.com/hu-qi/arkcompat/actions/runs/43225772028)
+**当前 main 基线：** `3fb1f588b8e4223a11a34cc0f7462358d9944df8`
+（项目执行入口 PR [#113](https://github.com/hu-qi/arkcompat/pull/113) 已合并；
+[main 流水线](https://github.com/hu-qi/arkcompat/actions/runs/43230414666)
 五项必需 job 全部成功）
 
 **当前工程状态：** A1 为 `DONE`（当前 37 个测试文件、589 项测试，M5-05
 安全矩阵 13/13）；A2 供应链审计工程切片为 `DONE`，S-09 待签；
-`READY-DOC-01` 与 `READY-ENG-01` 可执行；`TODO.md` 是长期唯一执行入口。
+`READY-ENG-01` 可执行；`TODO.md` 是长期唯一执行入口。
 **当前状态：** 工程基础持续交付；正式验收 0/5；正式版本未发布；开放 Issue
-[#1](https://github.com/hu-qi/arkcompat/issues/1)、
 [#3](https://github.com/hu-qi/arkcompat/issues/3)、
 [#4](https://github.com/hu-qi/arkcompat/issues/4)、
 [#5](https://github.com/hu-qi/arkcompat/issues/5)、
@@ -51,7 +50,7 @@
 
 项目只有在以下条件同时满足时才算完成：
 
-- 8 个开放 Issue 的原始完成条件均已满足，或由项目负责人明确批准延期并记录
+- 7 个开放 Issue 的原始完成条件均已满足，或由项目负责人明确批准延期并记录
   风险、责任人和新日期；
 - 四项正式指标使用有许可的独立留出集、冻结规则和完整分母完成裁定：
   依赖扫描正确率不低于 80%，有把握的替代识别正确率 100%，HarmonyOS
@@ -87,13 +86,13 @@
 
 | Issue                                                           | 目标                                                  | 已有基础                                                                            | 仍未完成                                                                | 下一项可执行动作                              | 正式关闭条件                                                                       |
 | --------------------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | --------------------------------------------- | ---------------------------------------------------------------------------------- |
-| [#1](https://github.com/hu-qi/arkcompat/issues/1) M0 范围与口径 | 冻结目标、入口、评分、角色和数据治理                  | 验收协议、目标矩阵、决策候选稿                                                      | S-01–S-07 未签；裁定人、holdout 许可未落实                              | 完成签字包并组织一次样例评分                  | 决策记录包含具名负责人、日期、依据和重访条件                                       |
+| [#1](https://github.com/hu-qi/arkcompat/issues/1) M0 范围与口径 | 冻结目标、入口、评分、角色和数据治理                  | 验收协议、目标矩阵、决策候选稿；**2026-11-12 已关闭为 `COMPLETED`**                | 历史记录保留；未签决定由后续 Issue 跟踪                                 | 无需重开；在相关后续 Issue 记录决定              | 仅以历史关闭记录为准；不能用关闭状态代替签字                                       |
 | [#3](https://github.com/hu-qi/arkcompat/issues/3) M1 扫描       | 确定性依赖图、源码 inventory、规则和 CLI              | npm/pnpm/Yarn/OHPM 多种锁文件、workspace、JS/TS/ETS inventory、确定性报告、安全边界 | 约定范围内解析缺口、真实项目负例、独立扫描评测                          | M1-02 范围签字后执行 M1-03–M1-05、M1-07–M1-09 | 范围缺口均有实现或显式 unknown；重复扫描字节稳定；不执行生命周期脚本；独立标签完成 |
 | [#4](https://github.com/hu-qi/arkcompat/issues/4) M2 知识库     | 五类移植判定、版本化知识、独立基准                    | schema、离线导入/查询/导出、五类 adapter、公开来源候选                              | reviewed 数据、许可 holdout、正式指标、Lottie 人工决定                  | 整理待评审数据队列与导出验收样例              | 无 false-confident mapping；完整分母和弃答率公开；知识快照可复现                   |
 | [#5](https://github.com/hu-qi/arkcompat/issues/5) M3 报告与 CLI | 可追溯建议、JSON/Markdown/SARIF、CLI beta             | 报告适配器、assessment、稳定字节与跨入口语义、portable CLI、生命周期回归            | 真实项目端到端演练、独立干净主机、公开 beta                             | 获准项目                                      | 真实项目完成 scan→定位→查询→导出；独立环境可安装、恢复和卸载                       |
 | [#6](https://github.com/hu-qi/arkcompat/issues/6) M4 多入口     | 已承诺入口可安装并语义一致                            | CLI、VSIX、DevEco、Web、MCP、CI 局部 smoke                                          | 公开分发、完整 parity、恢复/卸载/回滚、受支持宿主矩阵                   | 冻结入口范围后建立 canonical parity fixture   | 每个承诺入口都能安装、运行、恢复和卸载，finding 语义一致                           |
 | [#7](https://github.com/hu-qi/arkcompat/issues/7) M5 验收与安全 | 正式指标、运行时、安全、性能与验收包                  | 回归、评测骨架、API 20 局部运行时、安全边界                                         | 独立 holdout、冻结运行时矩阵、完整安全/性能/许可审查、最终裁定          | M5-05 与 M5-07                                | 四项指标达标；目标运行时通过；无阻断缺陷；裁定人签署验收包                         |
-| [#8](https://github.com/hu-qi/arkcompat/issues/8) M6 发布       | 可复现安装、指标、制品与交接                          | 可重建 CLI/VSIX、SBOM/通知/哈希机制                                                 | 验收签字、签名/信任、tag/release、下载 smoke、双远端同步                | 完成 #1–#7 后冻结 release candidate           | 验收方能在干净环境复现；GitHub 与 AtomGit 的代码和制品一致                         |
+| [#8](https://github.com/hu-qi/arkcompat/issues/8) M6 发布       | 可复现安装、指标、制品与交接                          | 可重建 CLI/VSIX、SBOM/通知/哈希机制                                                 | 验收签字、签名/信任、tag/release、下载 smoke、双远端同步                | 完成 #3–#7 与 #11 适用门禁后冻结 candidate    | 验收方能在干净环境复现；GitHub 与 AtomGit 的代码和制品一致                         |
 | [#11](https://github.com/hu-qi/arkcompat/issues/11) CI          | 合并门禁覆盖代码、评测、provenance、parity 和 release | 5 个必需 CI job、分支保护、Stage 0/1                                                | Stage 2 的 benchmark、provenance、shipped-surface parity、release smoke | 在依赖产物冻结后新增门禁和失败拦截探针        | 坏代码、坏数据、入口不一致和坏制品都能被必需检查阻断                               |
 
 ## 4. 当前工程队列
@@ -116,8 +115,8 @@
 **工程完成：** 包脚本执行数为 0；资源上限和错误行为有回归测试。独立安全复核
 仍作为正式验收门禁保留，不能用本地回归替代。
 
-R-02 至 R-04 已完成工程切片。当前 READY 队列是 `READY-DOC-01`
-（文档一致性）和 `READY-ENG-01`（Issue #3 的受限 CommonJS 导出盘点）。
+R-02 至 R-04 已完成工程切片。当前 READY 队列是 `READY-ENG-01`
+（Issue #3 的受限 CommonJS 导出盘点）。
 
 ### R-01 · M3-04：CLI beta 安装、升级、离线与恢复（工程切片已完成）
 
@@ -308,5 +307,5 @@ AtomGit main SHA read-back:
 4. GitHub 与 AtomGit 的代码、tag 和制品哈希一致；
 5. 外部验收方能够从公开制品独立复现；
 6. 维护责任和后续数据更新/撤回流程已交接；
-7. 8 个开放 Issue 已满足关闭条件，或存在负责人签署的正式延期；
+7. 7 个开放 Issue 已满足关闭条件，或存在负责人签署的正式延期；
 8. 最终 main 质量流水线通过，长期 `TODO.md` 与所有证据、发布和维护状态一致。

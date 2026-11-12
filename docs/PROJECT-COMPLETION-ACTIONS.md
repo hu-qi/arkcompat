@@ -2,10 +2,9 @@
 
 **更新日期：** 2026-11-12
 **目标验收日：** 2026-12-23
-**当前 main 基线：** `3649d86fa3d449224008fee460df3d951d3d309a`（M5-07 文档收口 PR [#112](https://github.com/hu-qi/arkcompat/pull/112) 已合并；[PR 43225392959](https://github.com/hu-qi/arkcompat/actions/runs/43225392959) 与 [main 43225772028](https://github.com/hu-qi/arkcompat/actions/runs/43225772028) 五项必需 job 通过）
-**当前工程状态：** A1/A2 工程切片为 `DONE`；两项 `READY` 工作包可执行；37 个文件、589 项测试通过；正式验收、S-09 和发布授权仍待完成
+**当前 main 基线：** `3fb1f588b8e4223a11a34cc0f7462358d9944df8`（项目执行入口 PR [#113](https://github.com/hu-qi/arkcompat/pull/113) 已合并；[PR 43230088222](https://github.com/hu-qi/arkcompat/actions/runs/43230088222) 与 [main 43230414666](https://github.com/hu-qi/arkcompat/actions/runs/43230414666) 五项必需 job 通过）
+**当前工程状态：** A1/A2 工程切片为 `DONE`；`READY-ENG-01` 可执行；37 个文件、589 项测试通过；正式验收、S-09 和发布授权仍待完成
 **当前结论：** 工程持续交付；正式验收 0/5；正式版本未发布；开放 Issue
-[#1](https://github.com/hu-qi/arkcompat/issues/1)、
 [#3](https://github.com/hu-qi/arkcompat/issues/3)、
 [#4](https://github.com/hu-qi/arkcompat/issues/4)、
 [#5](https://github.com/hu-qi/arkcompat/issues/5)、
@@ -34,7 +33,7 @@ Issue 评论、验收签字和不可变 evidence 为准。
 
 | 项目             | 数量 | 说明                                                           |
 | ---------------- | ---: | -------------------------------------------------------------- |
-| 开放 Issue       |    8 | #1、#3、#4、#5、#6、#7、#8、#11                                |
+| 开放 Issue       |    7 | #3、#4、#5、#6、#7、#8、#11                                    |
 | 开放 PR          |    0 | 当前无待合并 PR                                                |
 | 工程工作包       |    2 | M5-05 `DONE`；M5-07 工程切片 `DONE`，S-09 待签                |
 | 正式验收通过指标 |  0/5 | 四项指标加可交付知识库                                         |
@@ -57,10 +56,8 @@ M3-04 CLI 生命周期工程切片已完成，证据见
 损坏候选拒绝、原子升级、回滚和卸载；独立干净主机、真实项目 walkthrough、公开
 beta、签名与产品验收仍由 Issue #5 跟踪。
 
-当前可立即执行的两项为：
+当前可立即执行的一项为：
 
-- `READY-DOC-01`：把长期 TODO 和各状态视图统一到当前 SHA、CI 结论和
-  `0/5` / `0/10` 口径，并修正能力矩阵中的重复待办；
 - `READY-ENG-01`：在 Issue #3 下增加受限 CommonJS 导出静态盘点，只记录
   `module.exports` / `exports.member` 的静态声明，不执行源码，不声称运行时
   导出存在或鸿蒙兼容。
@@ -81,19 +78,16 @@ beta、签名与产品验收仍由 Issue #5 跟踪。
 
 ### Issue #1 · 冻结产品边界、验收口径与技术基线
 
-**已有：** MIT、原始阈值、验收协议候选、目标矩阵候选、入口候选、决策记录。
+**状态：** 已于 2026-11-12 关闭为 `COMPLETED`。该 Issue 作为 M0 历史记录
+保留；MIT、原始阈值、验收协议候选、目标矩阵候选、入口候选和决策记录仍是
+后续工作的依据，但不计入当前开放 Issue 或当前执行队列。
 
-**下一步：**
+尚未完成的 S-01–S-10 决定继续由 #3–#8、#11 在对应验收、运行时、分发和
+发布门禁中跟踪。工程侧不得把历史关闭状态解释为这些决定已经签署。
 
-1. 项目负责人和最终裁定人一次性审阅 S-01–S-07；
-2. 为每项记录 approve、amend、reject 或 defer，并写日期、依据和重访条件；
-3. 冻结目标 profile、评分单位、部分替换/弃答规则、五类缺失移植 taxonomy、
-   独立角色和 holdout 访问边界；
-4. 用一个已脱敏、已获许可的样例完成试评分，确认无需临时解释公式；
-5. 更新 `DECISIONS.md`、`TARGET-MATRIX.md` 和签字包，提交 PR 与 Issue 证据。
-
-**关闭证据：** 有具名决策人的签字记录、冻结 profile、评分样例、数据许可和
-访问边界。不能用工程默认值代替签字。
+**历史关闭证据：** [Issue #1](https://github.com/hu-qi/arkcompat/issues/1)
+的 `CLOSED / COMPLETED` 状态和 2026-11-12 关闭时间。后续签字仍以
+[验收与发布签字包](ACCEPTANCE-SIGNOFF-PACKAGE.md)为准。
 
 ### Issue #3 · TypeScript 扫描核心 + CLI 纵向闭环
 
@@ -209,7 +203,7 @@ disk-install 和导航、Web/MCP/CI 的本地验证。
 
 **下一步：**
 
-1. 在 #1–#7 完成后冻结 accepted SHA；
+1. 在 #3–#7 完成、且 #11 的适用 Stage 2 门禁完成后冻结 accepted SHA；
 2. 从该 SHA 重建全部制品、SBOM、通知和 SHA-256 manifest；
 3. 按 S-09 完成法律/商标/许可/分发处置，按 S-10 完成签名或校验和路线；
 4. 在干净环境安装每个承诺制品并重跑 walkthrough 与 smoke；
@@ -227,12 +221,12 @@ tag 和托管制品一致；最终签字、下载/安装 smoke 和交接完整�
 
 | ID   | 需要决定                                       | 当前工程建议                                                                          | 解锁        |
 | ---- | ---------------------------------------------- | ------------------------------------------------------------------------------------- | ----------- |
-| S-01 | HarmonyOS/API/SDK/设备/构建/实际 runtime 矩阵  | API 20 ArkTS/ArkWeb 手机为首版；更高 API 只有实际 runtime 证据后加入；RN/非手机延期   | #1/#3/#6/#7 |
-| S-02 | v1 入口与延期项                                | CLI、VS Code/Cursor、DevEco disk-install、本地 Web、MCP、CI；Remote AI 延期           | #1/#5/#6/#8 |
-| S-03 | 四项指标单位、公式、分母                       | 精确依赖边 F1；替代 precision；API recall；缺失移植 recall                            | #1/#4/#7    |
-| S-04 | 部分替换、弃答、零推荐和置信规则               | 部分替换必须列 included/excluded；confident 分母零误报；零推荐不算达标                | #1/#4/#7    |
-| S-05 | 五类缺失移植 taxonomy 与否定证据               | `ohpm-release`、`gitcode-port`、`pure-js`、`missing-port`、`unknown`                  | #1/#3/#4/#7 |
-| S-06 | 标签提供者、非作者评审、最终裁定人、争议人     | 披露利益冲突与访问边界                                                                | #1/#4/#7    |
+| S-01 | HarmonyOS/API/SDK/设备/构建/实际 runtime 矩阵  | API 20 ArkTS/ArkWeb 手机为首版；更高 API 只有实际 runtime 证据后加入；RN/非手机延期   | #3/#6/#7    |
+| S-02 | v1 入口与延期项                                | CLI、VS Code/Cursor、DevEco disk-install、本地 Web、MCP、CI；Remote AI 延期           | #5/#6/#8    |
+| S-03 | 四项指标单位、公式、分母                       | 精确依赖边 F1；替代 precision；API recall；缺失移植 recall                            | #4/#7       |
+| S-04 | 部分替换、弃答、零推荐和置信规则               | 部分替换必须列 included/excluded；confident 分母零误报；零推荐不算达标                | #4/#7       |
+| S-05 | 五类缺失移植 taxonomy 与否定证据               | `ohpm-release`、`gitcode-port`、`pure-js`、`missing-port`、`unknown`                  | #3/#4/#7    |
+| S-06 | 标签提供者、非作者评审、最终裁定人、争议人     | 披露利益冲突与访问边界                                                                | #4/#7       |
 | S-07 | holdout 来源、许可、哈希冻结、盲访问和失败保留 | 标签不进公开日志；不删除失败；不静默改分母                                            | #4/#7/#11   |
 | S-08 | Lottie 候选处置                                | 保持本地、未激活，先补 API 20 runtime、签名 Release/AOT 真机、压力/泄漏和复杂动画证据 | #4/#7       |
 | S-09 | 商标、外部数据、第三方通知和分发               | 审计并处置 `@yarnpkg/lockfile@1.1.0` 无独立 LICENSE 文件等缺口                        | #6/#7/#8    |
