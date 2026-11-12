@@ -2,8 +2,8 @@
 
 Issues #1, #3, #4, #5, #6, #7, #8 and #11 remain open. Issues #2 and #9 are
 closed. The verified main commit is
-`e7ff62d6453197db3fadb7e69604e7a7578bf483` on GitHub and AtomGit; its
-[quality run](https://github.com/hu-qi/arkcompat/actions/runs/43179729177)
+`bca754f6e057c0e252b2377f751335b7bee1b433` on GitHub and AtomGit; its
+[quality run](https://github.com/hu-qi/arkcompat/actions/runs/43180811776)
 passed all five required jobs. The latest complete code regression remains
 `f5d878d` with 568 tests across 35 files. All original thresholds, target
 surfaces and human decision boundaries remain those in [PRD](PRD.md),
