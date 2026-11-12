@@ -2,9 +2,9 @@
 
 **Status:** Ready for owner and independent adjudicator review.
 **Prepared:** 2026-11-12.
-**Current documentation baseline:** `3fb1f588b8e4223a11a34cc0f7462358d9944df8`.
-**Current documentation checks:** [PR 43230088222](https://github.com/hu-qi/arkcompat/actions/runs/43230088222)
-and [main 43230414666](https://github.com/hu-qi/arkcompat/actions/runs/43230414666),
+**Current documentation baseline:** `4537668c11e834969518fad2c9c67fed9929a0e0`.
+**Current documentation checks:** [PR 43232823593](https://github.com/hu-qi/arkcompat/actions/runs/43232823593)
+and [main 43233201954](https://github.com/hu-qi/arkcompat/actions/runs/43233201954),
 all five required jobs passed.
 **Engineering regression baseline:** `511790bcdac6f19bbc0dc53089336c16aeae9896`.
 **Purpose:** Turn the remaining human decisions into one reviewable record that
@@ -24,7 +24,7 @@ in [ACCEPTANCE-PROTOCOL](ACCEPTANCE-PROTOCOL.md),
 | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
 | License for original code     | MIT, confirmed by project requester                                                                                                             |
 | Minimum target                | HarmonyOS 6.0.0 / API 20 and later                                                                                                              |
-| Documentation baseline        | `3fb1f588b8e4223a11a34cc0f7462358d9944df8`; [PR checks](https://github.com/hu-qi/arkcompat/actions/runs/43230088222) and [main checks](https://github.com/hu-qi/arkcompat/actions/runs/43230414666) passed all five required jobs |
+| Documentation baseline        | `4537668c11e834969518fad2c9c67fed9929a0e0`; [PR checks](https://github.com/hu-qi/arkcompat/actions/runs/43232823593) and [main checks](https://github.com/hu-qi/arkcompat/actions/runs/43233201954) passed all five required jobs |
 | Execution entry               | [TODO](../TODO.md) is the permanent single execution entry and is not deleted after release                                                     |
 | Engineering regression commit | `511790bcdac6f19bbc0dc53089336c16aeae9896`                                                                                                      |
 | Regression-baseline checks    | [43202341237](https://github.com/hu-qi/arkcompat/actions/runs/43202341237), all five required jobs passed                                       |

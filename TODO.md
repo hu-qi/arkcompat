@@ -2,8 +2,8 @@
 
 **更新时间：** 2026-11-12
 **目标验收日：** 2026-12-23
-**当前 main 基线：** `3fb1f588b8e4223a11a34cc0f7462358d9944df8`；项目执行入口 PR [#113](https://github.com/hu-qi/arkcompat/pull/113) 已合并，[PR 流水线 43230088222](https://github.com/hu-qi/arkcompat/actions/runs/43230088222) 与 [main 流水线 43230414666](https://github.com/hu-qi/arkcompat/actions/runs/43230414666) 的五项必需 job 全部成功。
-**当前远端：** GitHub `origin/main` 为上述 SHA；AtomGit 即 GitCode，`atomgit-https/main` 在本轮同步前为 `92cd5a37fc28de964994c47636a0beeb887fed0`。远端状态以本文第 10 节的最新读回为准。
+**当前 main 基线：** `4537668c11e834969518fad2c9c67fed9929a0e0`；状态收口 PR [#114](https://github.com/hu-qi/arkcompat/pull/114) 已合并，[PR 流水线 43232823593](https://github.com/hu-qi/arkcompat/actions/runs/43232823593) 与 [main 流水线 43233201954](https://github.com/hu-qi/arkcompat/actions/runs/43233201954) 的五项必需 job 全部成功。
+**当前远端：** GitHub `origin/main` 与 AtomGit（即 GitCode）`atomgit-https/main` 均已独立读回上述 SHA。
 **当前状态：** 7 个开放 Issue（#3、#4、#5、#6、#7、#8、#11）、0 个开放 PR、A1/A2 工程切片 `DONE`；A3–A8 为 `GATED`，`READY-ENG-01` 可执行。Issue #1 已于 2026-11-12 结项；正式验收 0/5、人工决定 0/10。
 
 本文是 ArkCompat 剩余工作的**唯一执行入口**，也是长期维护文档。每次开始工作先在这里选择一个 `READY` 工作包；`GATED` 项必须先取得具名人工决定或外部输入。工程实现、CI 绿灯、开发者 fixture、本地制品和模型评审都不能替代正式验收。

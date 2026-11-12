@@ -2,11 +2,11 @@
 
 **Updated:** 2026-11-12
 **Target acceptance date:** 2026-12-23
-**Current baseline:** `3fb1f588b8e4223a11a34cc0f7462358d9944df8`
-**Current PR checks:** [43230088222](https://github.com/hu-qi/arkcompat/actions/runs/43230088222), all five required jobs passed
-**Current main checks:** [43230414666](https://github.com/hu-qi/arkcompat/actions/runs/43230414666), all five required jobs passed
+**Current baseline:** `4537668c11e834969518fad2c9c67fed9929a0e0`
+**Current PR checks:** [43232823593](https://github.com/hu-qi/arkcompat/actions/runs/43232823593), all five required jobs passed
+**Current main checks:** [43233201954](https://github.com/hu-qi/arkcompat/actions/runs/43233201954), all five required jobs passed
 **Current suite:** 37 test files and 589 tests passed, including 13 M5-05 security-matrix tests
-**Current remote read-back:** GitHub `origin/main` resolved to `3fb1f588b8e4223a11a34cc0f7462358d9944df8`; AtomGit (GitCode) was last read at `92cd5a37fc28de964994c47636a0beeb887fed0` before synchronization and must be updated to the final accepted SHA.
+**Current remote read-back:** GitHub `origin/main` and AtomGit (GitCode) `main` both resolved to `4537668c11e834969518fad2c9c67fed9929a0e0`.
 **Documentation review baseline:** `c2324e0b31f27fd02570710a9fbfd93af75bda0e`
 **Documentation review run:** [43205307730](https://github.com/hu-qi/arkcompat/actions/runs/43205307730), all five required jobs passed
 **Documentation closeout merge:** `5193c65935c58386c9bf8b7a76b76690d7986c70`; [43205954055](https://github.com/hu-qi/arkcompat/actions/runs/43205954055), all five required jobs passed

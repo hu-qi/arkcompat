@@ -2,11 +2,11 @@
 
 Issues #3, #4, #5, #6, #7, #8 and #11 remain open. Issues #1, #2 and #9 are
 closed; #1 is retained as the completed M0 history. The current main baseline is
-`3fb1f588b8e4223a11a34cc0f7462358d9944df8`; the project execution-entry
-[PR #113](https://github.com/hu-qi/arkcompat/pull/113) was merged after
-[PR run 43230088222](https://github.com/hu-qi/arkcompat/actions/runs/43230088222)
+`4537668c11e834969518fad2c9c67fed9929a0e0`; the status-reconciliation
+[PR #114](https://github.com/hu-qi/arkcompat/pull/114) was merged after
+[PR run 43232823593](https://github.com/hu-qi/arkcompat/actions/runs/43232823593)
 passed, and
-[main run 43230414666](https://github.com/hu-qi/arkcompat/actions/runs/43230414666)
+[main run 43233201954](https://github.com/hu-qi/arkcompat/actions/runs/43233201954)
 passed all five required jobs.
 The latest full gate passed 37 test files and 589 tests. A1 is complete as an
 engineering slice. A2 supply-chain audit evidence is complete and merged as an

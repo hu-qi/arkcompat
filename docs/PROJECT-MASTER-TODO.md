@@ -2,9 +2,9 @@
 
 **更新日期：** 2026-11-12
 **计划验收日期：** 2026-12-23
-**当前 main 基线：** `3fb1f588b8e4223a11a34cc0f7462358d9944df8`
-（项目执行入口 PR [#113](https://github.com/hu-qi/arkcompat/pull/113) 已合并；
-[main 流水线](https://github.com/hu-qi/arkcompat/actions/runs/43230414666)
+**当前 main 基线：** `4537668c11e834969518fad2c9c67fed9929a0e0`
+（状态收口 PR [#114](https://github.com/hu-qi/arkcompat/pull/114) 已合并；
+[main 流水线](https://github.com/hu-qi/arkcompat/actions/runs/43233201954)
 五项必需 job 全部成功）
 
 **当前工程状态：** A1 为 `DONE`（当前 37 个测试文件、589 项测试，M5-05
