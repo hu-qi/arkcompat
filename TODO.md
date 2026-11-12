@@ -2,11 +2,8 @@
 
 **更新时间：** 2026-11-12
 **目标验收日：** 2026-12-23
-**本轮文档核对基线：** `c2324e0b31f27fd02570710a9fbfd93af75bda0e`
-**文档核对流水线：** [43205307730](https://github.com/hu-qi/arkcompat/actions/runs/43205307730)，五项必需 job 全部通过
-**后续纯文档收尾合并：** `5193c65935c58386c9bf8b7a76b76690d7986c70`（[43205954055](https://github.com/hu-qi/arkcompat/actions/runs/43205954055)）
 **最近完整代码回归基线：** `511790bcdac6f19bbc0dc53089336c16aeae9896`（[43202341237](https://github.com/hu-qi/arkcompat/actions/runs/43202341237)）
-**当前工程基线：** `75e2af597bebac3240752f688d27cc66478436d4`
+**当前工程基线：** `2d4267ddffd467ad897e2a5d94fb653b157bb350`（[43208602712](https://github.com/hu-qi/arkcompat/actions/runs/43208602712)；截至 2026-11-12 文档更新时仍在等待 macOS runner，合并前须复核最终结论）
 **当前状态：** 8 个开放 Issue、0 个开放 PR、2 个工程 `READY` 工作包、正式验收 0/5、人工签字 0/10
 
 本文是 ArkCompat 剩余工作的**唯一执行入口**，也是长期维护文档。每次开始工作先在这里选择一个 `READY` 工作包；`GATED` 项必须先取得具名人工决定或外部输入。工程实现、CI 绿灯、开发者 fixture、本地制品和模型评审都不能替代正式验收。
@@ -14,22 +11,23 @@
 需要直接执行的文档顺序是：
 
 1. 从本文第 3 节领取一个 `READY` 工作包，并复制其中的 Issue、命令、证据路径和完成判据。
-2. 到[项目执行台账](docs/PROJECT-EXECUTION-LEDGER.md)查看该工作包的依赖、责任角色和上游/下游任务。
-3. 遇到 S-01–S-10 时，在[验收与发布签字包](docs/ACCEPTANCE-SIGNOFF-PACKAGE.md)记录具名决定；工程侧不得代签。
-4. 从[项目完成计划](docs/PROJECT-COMPLETION-PLAN.md)查看阶段 A–E 的整体顺序和正式证据目录。
-5. 用[项目总控 TODO](docs/PROJECT-MASTER-TODO.md)、[完成行动清单](docs/PROJECT-COMPLETION-ACTIONS.md)和[交付状态](docs/DELIVERY-STATUS.md)复核 Issue 关闭条件与对外口径。
+2. 查看本文第 4 节的总交付勾选表和第 6 节的一周执行表，确认该项的上游输入和下游门禁。
+3. 到[项目执行台账](docs/PROJECT-EXECUTION-LEDGER.md)查看该工作包的依赖、责任角色和上游/下游任务。
+4. 遇到 S-01–S-10 时，在[验收与发布签字包](docs/ACCEPTANCE-SIGNOFF-PACKAGE.md)记录具名决定；工程侧不得代签。
+5. 从[项目完成计划](docs/PROJECT-COMPLETION-PLAN.md)查看阶段 A–E 的整体顺序和正式证据目录。
+6. 用[项目总控 TODO](docs/PROJECT-MASTER-TODO.md)、[完成行动清单](docs/PROJECT-COMPLETION-ACTIONS.md)和[交付状态](docs/DELIVERY-STATUS.md)复核 Issue 关闭条件与对外口径。
 
 ## 1. 文档职责
 
-| 文档 | 唯一职责 |
-|---|---|
-| 本文 | 选择下一项工作、查看当前状态和执行顺序 |
-| [项目执行台账](docs/PROJECT-EXECUTION-LEDGER.md) | 原子任务、依赖、命令、制品、证据、责任角色和关闭条件 |
-| [验收与发布签字包](docs/ACCEPTANCE-SIGNOFF-PACKAGE.md) | S-01–S-10 人工决定、冻结记录、正式结果和最终签字 |
-| [项目总控 TODO](docs/PROJECT-MASTER-TODO.md) | 里程碑、Issue 和完成定义的全局快照 |
-| [项目完成行动清单](docs/PROJECT-COMPLETION-ACTIONS.md) | 按 Issue 查看关闭路线 |
-| [项目完成计划](docs/PROJECT-COMPLETION-PLAN.md) | A–E 阶段、依赖、排期和证据目录 |
-| [交付状态](docs/DELIVERY-STATUS.md) | 对外说明已验证工程、未完成门禁和发布状态 |
+| 文档 | 唯一职责 | 负责人 / 维护者 |
+|---|---|---|
+| 本文 | 选择下一项工作、查看总清单、依赖顺序、周计划、Issue 关闭条件和执行流程 | 工程执行者维护事实；项目负责人确认范围与签字状态 |
+| [项目执行台账](docs/PROJECT-EXECUTION-LEDGER.md) | 原子任务、依赖、命令、制品、证据、责任角色和关闭条件 | 工程执行者维护；各证据责任角色复核 |
+| [验收与发布签字包](docs/ACCEPTANCE-SIGNOFF-PACKAGE.md) | S-01–S-10 人工决定、冻结记录、正式结果和最终签字 | 项目负责人、独立评审者和最终裁定人签署 |
+| [项目总控 TODO](docs/PROJECT-MASTER-TODO.md) | 里程碑、Issue 和完成定义的全局快照 | 工程执行者维护，项目负责人确认 |
+| [项目完成行动清单](docs/PROJECT-COMPLETION-ACTIONS.md) | 按 Issue 查看关闭路线 | 工程执行者维护；项目负责人确认关闭 |
+| [项目完成计划](docs/PROJECT-COMPLETION-PLAN.md) | A–E 阶段、依赖、排期和证据目录 | 工程执行者与项目负责人共同维护 |
+| [交付状态](docs/DELIVERY-STATUS.md) | 对外说明已验证工程、未完成门禁和发布状态 | 工程执行者起草；发布负责人确认 |
 
 状态冲突时，以已合并的 Issue 评论、具名人工签字和不可变 evidence 为准，并在下一次文档 PR 中同步修正。文档中的提交与流水线编号是已经发生的历史核对基线；不要为了追随每次纯文档合并而改写它们。`TODO.md` 不因项目进入发布阶段而删除；它承担长期的项目状态与后续维护入口。
 
@@ -138,7 +136,94 @@
 8. **已知限制：** 漏洞数据随时间变化；工程审计不能替代法务、商标、签名/信任链和正式分发审批；本地包不是公开 release。
 9. **是否可关闭 Issue：** **否。** #7 仍需正式验收；#8 仍需 accepted SHA、签名/发布授权、tag/release、下载 smoke 和双远端读回。
 
-## 4. 人工门禁
+## 4. 总交付勾选表
+
+这张表把“工程能做完的事”和“必须由负责人、独立评审或验收方完成的事”分开。只有全部适用项完成，项目才进入正式发布。
+
+### 4.1 剩余工程
+
+- [ ] **M5-05 安全负例与资源边界（#7）**：完成路径逃逸、绝对路径、`..`、symlink、FIFO/设备文件、损坏/超大/深层输入、CPU/内存/时间、secret 泄漏、报告注入和包脚本零执行矩阵；无未处置高风险，中风险有具名责任人和期限。
+- [ ] **M5-07 供应链与分发审计（#7/#8）**：冻结依赖后生成 audit、CycloneDX SBOM、第三方通知、许可证清单、制品 SHA-256；处置 `@yarnpkg/lockfile@1.1.0` 通知缺口；形成法务/安全审查包。
+- [ ] **Stage 2 CI（#11）**：在正式输入具备后加入 benchmark、rules/knowledge provenance、跨入口 parity、release package/SBOM/checksum 和 download smoke 门禁；每个新门禁保留一次故意失败与恢复通过证据。
+- [ ] **扫描与知识缺口（#3/#4）**：按已冻结 S-01 范围关闭 in-scope 依赖图、workspace、JS/TS/ArkTS 符号和 unknown 传播缺口；扩充仅含公开可核验来源的 reviewed 知识；确保零 confident recommendation 不被计作 100%。
+- [ ] **报告与产品切片（#5）**：完成真实获准项目 walkthrough、CLI beta 安装/升级/离线/损坏输入/恢复/卸载、公开样例和 benchmark 指南。
+- [ ] **多入口闭环（#6）**：冻结 v1 入口；完成 CLI、VS Code/Cursor、DevEco、Web、MCP、CI 的安装、运行、取消、错误恢复、卸载/回滚、知识查询和跨入口 finding parity。
+- [ ] **发布制品演练（#8）**：从候选 SHA 可重复生成 CLI tarball、VSIX、DevEco ZIP、Web bundle、source archive、SBOM、notices 和校验清单；两轮构建比较，记录所有不可复现项。
+- [ ] **文档与交接（#1/#5/#6/#8）**：同步 quick start、支持矩阵、限制、升级/卸载、回滚、知识刷新/撤回、维护责任和发布说明。
+
+### 4.2 人工决策
+
+- [ ] **S-01** 冻结 HarmonyOS/SDK/API/设备/构建/实际运行时矩阵；API 20 编译目标不得冒充 API 20 运行证据。
+- [ ] **S-02** 冻结 v1 入口、延期项、DevEco/编辑器分发路线和 Remote AI 默认关闭。
+- [ ] **S-03** 冻结四类指标单位、公式、分母和置信区间口径。
+- [ ] **S-04** 冻结部分替换、弃答、零推荐及“有把握”的非空覆盖规则。
+- [ ] **S-05** 冻结五类 missing-port taxonomy 与否定证据要求。
+- [ ] **S-06** 具名指定标签提供者、非作者评审者、最终裁定人和争议处理人。
+- [ ] **S-07** 批准 holdout 来源、许可、哈希冻结、盲访问、失败保留和更正流程。
+- [ ] **S-08** 对 Lottie 候选作出拒绝、继续搁置或限定入库决定；此前保持本地、未激活、未提交。
+- [ ] **S-09** 完成商标、外部数据、第三方通知、许可、安全和分发处置。
+- [ ] **S-10** 批准 accepted SHA、tag、签名/校验、发布渠道、回滚负责人和最终验收包。
+
+### 4.3 独立评测
+
+- [ ] 冻结 code、rules、knowledge、cases、labels、工具链、SDK、设备和 profile 的 SHA-256 manifest。
+- [ ] 由独立标签提供者交付有许可、完整且隐藏的 holdout；工程侧不读取标签生成预测。
+- [ ] 依赖扫描正确率 **≥80%**，输出完整 TP/FP/FN、分母和错误分析。
+- [ ] 有把握的替代库识别正确率 **100%**，覆盖非空，零 false confident recommendation。
+- [ ] HarmonyOS 6.0.0+/API 20+ 不兼容 API 识别率 **≥80%**，按 profile/category 拆分。
+- [ ] 缺失鸿蒙移植识别率 **≥80%**，给出五类混淆矩阵与日期化否定证据。
+- [ ] 交付可查询、可导出、带 schema、来源、许可、评审状态、有效期和撤回规则的替换关系知识库。
+- [ ] 独立裁定人签字确认结果、失败样本、限制和任何 waiver。
+
+### 4.4 产品与运行时验收
+
+- [ ] S-01 中每个 profile 在对应实际 runtime 完成 signed Release/AOT 或批准的等价构建验证；失败环境明确记录。
+- [ ] CLI、VS Code/Cursor、DevEco、Web、MCP、CI 的承诺入口在干净环境安装并完成同一 canonical fixture。
+- [ ] 跨入口 finding ID、status、证据、位置、目标 profile、规则/知识快照和 next action 语义一致。
+- [ ] 真实获准项目完成 scan → finding → navigate → replacement query → recommendation → export。
+- [ ] 产品负责人完成 beta/可用性验收，批准已知限制和延期项。
+
+### 4.5 发布与交接
+
+- [ ] 安全、性能、漏洞、SBOM、通知、许可和商标审查无未处置阻断。
+- [ ] 从 accepted SHA 重建全部制品；clean install、download smoke、校验、卸载/回滚通过。
+- [ ] 创建正式 tag/release；发布说明列出支持 profile、限制、延期入口和维护责任。
+- [ ] GitHub `main`/tag 与 AtomGit（即 GitCode）读回相同代码 SHA；托管制品哈希一致。
+- [ ] 验收方能脱离作者本机复现评分与核心流程；知识刷新、撤回、升级、回滚和争议处理已交接。
+- [ ] 所有应关闭 Issue 已关闭，最终 main 流水线与文档状态一致。
+
+## 5. 依赖与执行顺序
+
+| 顺序 | 阶段 | 前置条件 | 明确输出 | 门禁 |
+|---:|---|---|---|---|
+| 1 | 工程安全与供应链收口 | 当前 main；现有安全回归和 provenance 工具 | M5-05/M5-07 证据、风险登记、审查包 | 无未处置高风险/许可阻断 |
+| 2 | 范围与评分冻结 | S-01–S-07 签字包 | profile、入口、公式、角色、holdout 治理 | 人工签字 |
+| 3 | 扫描与知识闭环 | S-01/S-03–S-05；in-scope gap 清单 | gap 回归、reviewed 知识快照、确定性导出 | 工程回归通过 |
+| 4 | 独立 holdout 评分 | S-06/S-07；冻结 manifest；reviewed 知识 | 四项正式指标、完整分母、失败保留 | 达到 80%/100%/≥80%/≥80% |
+| 5 | 运行时与安全验收 | S-01；批准设备/构建；M5-05/M5-07 | runtime、安全、性能、许可、漏洞记录 | 独立复核通过 |
+| 6 | 产品与入口验收 | S-02；真实项目；知识快照 | walkthrough、安装/恢复/卸载、parity | 产品负责人接受 |
+| 7 | Stage 2 CI | 阶段 3–6 的稳定输入 | benchmark/provenance/parity/release 门禁 | 故意失败与恢复通过 |
+| 8 | 发布候选冻结 | S-09；全部工程与正式指标 | accepted SHA、重建制品、验收包 | 法务/安全无阻断 |
+| 9 | 最终签字与发布 | S-10；阶段 8 | tag/release、下载 smoke、交接 | 验收方签字 |
+| 10 | 双远端收口 | 发布 SHA | GitHub 与 AtomGit 同 SHA/哈希读回 | 远程读回一致 |
+
+硬依赖：S-01–S-05 未冻结时，不能生成正式分母；S-06–S-07 未批准时，不能把模型评审、作者标签或公开 fixture 当成独立结果；S-08 未决定时，Lottie 不进入知识库；S-09 未完成时，不发布制品；S-10 未签署时，不创建正式 tag/release。
+
+## 6. 一周执行计划（至 2026-12-23）
+
+| 周次 | 日期 | 工程动作 | 人工/外部动作 | 周结束证据与门禁 |
+|---|---|---|---|---|
+| W1 | 11/12–11/15 | 合并本文；验证最新 main；完成 M5-05；启动 M5-07 | 负责人逐项填写 S-01–S-07，明确最晚反馈日期 | TODO/CI 基线；安全矩阵；供应链初稿；签字状态 |
+| W2 | 11/16–11/22 | 完成 M5-07；按冻结范围关闭 #3 扫描缺口；补齐 reviewed 知识工具 | S-01–S-05 冻结；S-06/S-07 具名；S-08 决定是否继续搁置 | 扫描/知识回归；reviewed snapshot；合法 holdout 计划 |
+| W3 | 11/23–11/29 | 交付可导出知识库；完成真实项目与多入口 walkthrough；实现 Stage 2 benchmark/provenance/parity 门禁 | 标签提供者冻结 cases/labels；产品负责人参加 walkthrough | #4/#5/#6 工程包；holdout hashes；CI 负例 |
+| W4 | 11/30–12/06 | 生成 label-blind predictions；整改首次失败；补齐 CLI beta 发布文档 | 独立评审和裁定人开始评分 | 四项指标首次完整结果；缺陷登记；beta 包 |
+| W5 | 12/07–12/13 | 修复正式评测缺陷；完成 runtime/performance/security 矩阵；实现 release CI 门禁 | 运行时负责人提供设备/构建；法务/安全审查 M5-07 | 阈值复核；运行时矩阵；无未处置高风险 |
+| W6 | 12/14–12/20 | 从候选 SHA 双次重建制品；完成 clean install、rollback、parity 和 release rehearsal | S-09 处置；验收方复核验收包 | 完整 release candidate、哈希、验收预签 |
+| W7 | 12/21–12/23 | 冻结 accepted SHA；发布；下载 smoke；同步 AtomGit 并读回 | S-10 签署；最终验收 | tag/release；GitHub/AtomGit 同 SHA；Issue 关闭与交接 |
+
+若人工输入逾期，对应行保持 `GATED`，不得用工程默认值填成“已验收”。每周只把已有可复核证据的条目勾选。
+
+## 7. 人工门禁
 
 以下决定集中在[验收与发布签字包](docs/ACCEPTANCE-SIGNOFF-PACKAGE.md#2-decision-register)。工程侧只能准备证据和建议，不能自行代签。
 
@@ -157,20 +242,22 @@
 
 Lottie 候选保持本地、未激活、未提交：`/Users/huqi/Documents/Codex/2026-11-10/arkcompat-private-review/lottie-canvas-candidate.json`，SHA-256 `cfdea420d8d96d3ed49602a4354c8ed08dd042e15503792862cac5617f85caee`。没有项目负责人的明确批准，不得导入知识库或产生 confident mapping。
 
-## 5. Issue 关闭矩阵
+## 8. Issue 关闭矩阵
 
-| Issue | 当前工程状态 | 仍未满足的关闭条件 |
-|---|---|---|
-| [#1](https://github.com/hu-qi/arkcompat/issues/1) | 验收协议、目标矩阵、决策候选稿已具备 | S-01–S-07 具名签字、独立角色、holdout 许可、样例评分和最终裁定 |
-| [#3](https://github.com/hu-qi/arkcompat/issues/3) | 多格式依赖图、workspace、JS/TS/ETS inventory、规则、确定性与安全边界已具备 | 约定范围缺口闭环；依赖扫描 ≥80%；不兼容 API ≥80%；独立标签和裁定 |
-| [#4](https://github.com/hu-qi/arkcompat/issues/4) | schema、五类判定、离线导入/查询/导出、五类 blind adapter 已具备 | reviewed 知识库；confident replacement 100% 且 coverage 非空；missing-port ≥80%；Lottie 决定 |
-| [#5](https://github.com/hu-qi/arkcompat/issues/5) | 三种报告、assessment、M3-05 稳定字节与跨入口语义、portable CLI 生命周期切片已具备 | 获准真实项目 walkthrough；独立干净主机；公开 beta；产品验收 |
-| [#6](https://github.com/hu-qi/arkcompat/issues/6) | CLI/VSIX/DevEco/Web/MCP/CI 已有局部 smoke | 冻结入口范围；公开分发；完整 parity；安装、恢复、卸载/回滚和宿主矩阵 |
-| [#7](https://github.com/hu-qi/arkcompat/issues/7) | 回归、评测骨架、API 20 局部运行时、安全边界已具备 | M5-05；M5-07；正式指标；运行时矩阵；性能/许可/安全审查；最终签字 |
-| [#8](https://github.com/hu-qi/arkcompat/issues/8) | CLI/VSIX、SBOM/通知/哈希机制可重建 | accepted SHA；tag/release；签名或校验；下载 smoke；GitHub/AtomGit 同 SHA 读回和交接 |
-| [#11](https://github.com/hu-qi/arkcompat/issues/11) | 五项必需 CI 和分支保护已完成 | benchmark、provenance、surface parity、release smoke 门禁及故意失败/恢复证据 |
+| Issue | 工程完成 | 人工门禁 | 正式证据 | 可关闭 |
+|---|---|---|---|---|
+| [#1](https://github.com/hu-qi/arkcompat/issues/1) | 候选协议、目标矩阵和签字包已具备 | S-01–S-07 具名签署 | 冻结 profile、公式、角色和访问边界 | 否 |
+| [#3](https://github.com/hu-qi/arkcompat/issues/3) | 多格式扫描、workspace、静态 inventory、确定性和安全边界已具备 | S-01/S-03/S-05/S-06/S-07 | 依赖扫描 ≥80%；不兼容 API ≥80%；独立标签与裁定 | 否 |
+| [#4](https://github.com/hu-qi/arkcompat/issues/4) | schema、五类判定、离线查询/导出、blind adapters 已具备 | S-03–S-08；reviewed 数据批准 | confident replacement 100% 且覆盖非空；missing-port ≥80%；可导出知识库 | 否 |
+| [#5](https://github.com/hu-qi/arkcompat/issues/5) | 报告、assessment、稳定字节和 CLI 生命周期切片已具备 | S-02；真实项目授权；产品验收 | 完整 walkthrough；独立干净主机；公开 beta | 否 |
+| [#6](https://github.com/hu-qi/arkcompat/issues/6) | CLI/VSIX/DevEco/Web/MCP/CI 局部 smoke 已具备 | S-02/S-09；分发授权 | 完整 parity；安装/恢复/卸载/回滚；宿主矩阵 | 否 |
+| [#7](https://github.com/hu-qi/arkcompat/issues/7) | 回归、评测骨架、API 20 局部运行时、安全边界已具备 | S-01–S-10 | M5-05/M5-07；四项正式指标；runtime/performance/security；最终裁定 | 否 |
+| [#8](https://github.com/hu-qi/arkcompat/issues/8) | CLI/VSIX、SBOM/通知/哈希机制可重建 | S-09/S-10 | accepted SHA；tag/release；签名或校验；下载 smoke；GitHub/AtomGit 同 SHA | 否 |
+| [#11](https://github.com/hu-qi/arkcompat/issues/11) | 五项必需 CI 和分支保护已完成 | S-07 及正式输入 | benchmark、provenance、parity、release smoke；故意失败/恢复证据 | 否 |
 
-## 6. 每次交付的固定流程
+“可关闭”为“否”表示原始 Issue 完成条件仍未全部满足。工程 PR 合并只能把对应行从 `READY` 推进到工程 `DONE`；人工签字和独立证据完成后才改为“是”。
+
+## 9. 每次交付的固定流程
 
 ```sh
 pnpm install --frozen-lockfile --ignore-scripts
@@ -182,7 +269,7 @@ git push -u origin <branch>
 gh pr create --fill
 gh pr checks --watch
 gh pr merge --merge
-gh run watch <merged-main-run-id> --exit-status
+gh run view <merged-main-run-id> --json status,conclusion,jobs
 git push atomgit-https main
 git ls-remote origin refs/heads/main
 git ls-remote atomgit-https refs/heads/main
@@ -190,7 +277,7 @@ git ls-remote atomgit-https refs/heads/main
 
 提交前必须确认：变更只属于一个 tracked Issue；测试先行且负例保留；没有 `--no-verify`；没有用 fixture、本地包或绿色 CI 冒充正式验收；Issue 评论包含基线 SHA、PR/main run、命令、输入/输出哈希、完整分母和限制。
 
-## 7. 项目完成定义
+## 10. 项目完成定义
 
 项目只有同时满足以下条件才可标记完成：
 
@@ -200,6 +287,6 @@ git ls-remote atomgit-https refs/heads/main
 - 所有承诺入口可安装、运行、恢复、卸载/回滚，并对 canonical fixture 产生语义一致的 finding；
 - 运行时、安全、性能、漏洞、SBOM、通知、许可和制品验证无未处置阻断；
 - 从 accepted SHA 重建制品，在干净环境通过下载、校验和安装 smoke；
-- GitHub 与 AtomGit 的 main/tag 指向同一代码 SHA，托管制品哈希一致；
+- GitHub 与 AtomGit 的 main/tag 指向同一代码 SHA，托管制品哈希一致；AtomGit 与 GitCode 是同一同步目标，只维护一个权威读回，不声称两次独立同步；
 - 验收方不依赖作者本机即可复现，维护责任、刷新周期、撤回流程和升级/卸载已交接；
 - 所有应关闭 Issue 已关闭，最终 main 流水线通过，长期 `TODO.md` 与证据状态一致。
