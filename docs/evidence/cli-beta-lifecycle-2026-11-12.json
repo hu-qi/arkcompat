@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "1",
+  "issue": 5,
+  "task": "M3-04",
+  "assessment": "authored-local-lifecycle-regression",
+  "scope": "Portable CLI install, offline execution, candidate corruption rejection, atomic upgrade, rollback and uninstall on an isolated macOS host. This is engineering evidence, not public beta publication or formal Issue #5 acceptance.",
+  "sourceCommit": "ff8674edbaa5e6b2c1a21a397a06aeaa09970e5f",
+  "host": {
+    "platform": "macOS 27.2.1 arm64",
+    "kernel": "Darwin 27.2.0",
+    "node": "22.23.4",
+    "pnpm": "10.34.9"
+  },
+  "sourceHashes": {
+    "tests/cli-package.test.ts": "6fe0b5b7ea07a95232f5eb8df59db94b377c892599781ab0698441ca209a6985",
+    "scripts/package-cli.mjs": "681fd4cfef11aed18477a5fd3c528be4656a7cc18cd5d11920842953a23d9481",
+    "scripts/validate-runtime-provenance.mjs": "acde6577202d6ebeaea9afcc66f58595ccd761427c8f3b931b73689a09c00d93",
+    "pnpm-lock.yaml": "762e9ad023f8e521a9ea3a9d8da6b7b998773a5c9a4c098079f93ddc16f1baa9"
+  },
+  "commands": [
+    "pnpm format",
+    "pnpm build",
+    "pnpm vitest run tests/cli-package.test.ts"
+  ],
+  "test": {
+    "file": "tests/cli-package.test.ts",
+    "name": "rehearses verified upgrade, rollback, offline execution and uninstall",
+    "focusedRun": {
+      "testFiles": 1,
+      "tests": 3,
+      "status": "passed"
+    }
+  },
+  "probes": [
+    {
+      "name": "offline install execution",
+      "expected": "The stable current link runs a scan with unusable proxy endpoints and no dependency installation.",
+      "observed": "passed; exit 0 and the unscoped dependency remained unknown"
+    },
+    {
+      "name": "candidate integrity rejection",
+      "expected": "A modified candidate fails provenance before the current link changes.",
+      "observed": "passed; exit 1 with a dist/index.js checksum mismatch and current still pointed to first"
+    },
+    {
+      "name": "atomic upgrade and rollback",
+      "expected": "Verified release switching and rollback use a staged link rename and continue to scan successfully.",
+      "observed": "passed"
+    },
+    {
+      "name": "uninstall",
+      "expected": "Removing current and release directories leaves the installation parent intact.",
+      "observed": "passed"
+    }
+  ],
+  "exitCodes": {
+    "success": 0,
+    "cliOrProvenanceFailure": 1
+  },
+  "limitations": [
+    "The test is authored lifecycle regression evidence and does not establish public beta acceptance.",
+    "The test uses an isolated local macOS directory and does not replace a clean independent-host rehearsal.",
+    "A real authorized project walkthrough and product-owner acceptance remain required before Issue #5 can close.",
+    "Registry or marketplace publication, signing, distribution authorization and rollback by a release owner remain gated."
+  ]
+}

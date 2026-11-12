@@ -46,12 +46,11 @@
 
 | 顺序 | 工作包 | 关联 Issue | 本轮交付 | 完成判定 |
 |---:|---|---|---|---|
-| 1 | M3-04：CLI beta 生命周期 | #5 | 干净打包、安装/升级/离线/故障恢复/卸载文档与演练记录 | 新主机可按文档完成全部步骤，失败码和回滚可复现 |
-| 2 | M3-05：报告契约与稳定字节 | #5 | JSON/Markdown/SARIF 校验、CLI/Web 语义对照、重复导出哈希 | schema 有效；相同输入稳定；展示层差异有测试和说明 |
-| 3 | M5-05：安全负例与资源边界 | #7 | 威胁矩阵、隔离主机探针、失败样例和处置记录 | 无未处置高风险；中风险有负责人、期限和决定 |
-| 4 | M5-07：供应链与分发审计 | #7/#8 | audit、CycloneDX SBOM、第三方通知、许可证与 SHA-256 | 阻断项为零，或存在具名风险接受记录 |
+| 1 | M3-05：报告契约与稳定字节 | #5 | JSON/Markdown/SARIF 校验、CLI/Web 语义对照、重复导出哈希 | schema 有效；相同输入稳定；展示层差异有测试和说明 |
+| 2 | M5-05：安全负例与资源边界 | #7 | 威胁矩阵、隔离主机探针、失败样例和处置记录 | 无未处置高风险；中风险有负责人、期限和决定 |
+| 3 | M5-07：供应链与分发审计 | #7/#8 | audit、CycloneDX SBOM、第三方通知、许可证与 SHA-256 | 阻断项为零，或存在具名风险接受记录 |
 
-#### M3-04 · CLI beta 生命周期
+#### M3-04 · CLI beta 生命周期（工程证据已完成）
 
 **范围：** portable CLI 的安装、升级、离线运行、损坏输入、资源限制、退出码、
 卸载、回滚和恢复。公开 registry 发布、签名和最终分发授权不在本工作包内。
@@ -61,14 +60,21 @@ run_dir=$(mktemp -d)
 pnpm package:cli "$run_dir/arkcompat"
 pnpm verify:runtime-provenance "$run_dir/arkcompat"
 node "$run_dir/arkcompat/dist/index.js" --help
-node "$run_dir/arkcompat/dist/index.js" scan fixtures/developer/source-api \
+project_root=$(mktemp -d)
+printf '{"dependencies":{"sample":"^1.0.0"}}\n' > "$project_root/package.json"
+node "$run_dir/arkcompat/dist/index.js" scan "$project_root" \
   --runtime arkts --release 6.0.0 --api-level 20
 ```
 
 在第二个干净目录重复安装和扫描；分别制造损坏的 lockfile、缺失输入、只读目录
 和超限输入，记录退出码、stderr、恢复动作及回滚结果。证据写入
 `docs/evidence/cli-beta-lifecycle-<date>.json` 和对应 Issue 评论，文档更新
-[CLI 安装演练](docs/CLI-PACKAGE-REHEARSAL.md)。本项完成不关闭 #5。
+[CLI 安装演练](docs/CLI-PACKAGE-REHEARSAL.md)。
+
+本工程切片已由 `tests/cli-package.test.ts` 的生命周期回归和
+[机器可读证据](docs/evidence/cli-beta-lifecycle-2026-11-12.json)验证。该证据覆盖
+离线扫描、候选包损坏拒绝、原子升级、回滚和卸载；独立干净主机、真实项目
+walkthrough、公开 beta、签名和产品验收仍未完成，因此不关闭 #5。
 
 #### M3-05 · 报告契约与稳定字节
 
@@ -143,7 +149,7 @@ S-09 签字前不得宣称法务或分发审批完成。
 | M1-03 | `GATED` | M1-02 | 为依赖图与 workspace 优先缺口补失败样例和实现 | `pnpm check`；新增 fixture 与确定性报告 | 测试名、fixture SHA-256、报告 SHA-256 | 工程 | 每项保留缺口均有回归和明确支持/unknown |
 | M1-04 | `GATED` | M1-02 | 为 JS/TS/ArkTS 符号缺口补失败样例和实现 | `pnpm check`；ArkTS API 20 扫描 | source inventory 正反例、报告哈希 | 工程 | 相同输入字节稳定，未支持语法可见 |
 | M1-06 | `DONE` | 无 | 验证不执行包脚本及恶意/损坏输入边界 | `pnpm check`；隔离目录控制探针 | [安全边界证据](docs/SCANNER-SECURITY.md)、负例测试 | 工程 + 安全复核 | 无脚本执行，超限输入显式失败 |
-| M3-04 | `READY` | 无 | 完成 CLI beta 安装、升级、卸载、离线和错误恢复文档 | `pnpm package:cli <新目录>`；`pnpm verify:runtime-provenance <目录>` | [CLI 安装演练](docs/CLI-PACKAGE-REHEARSAL.md)、干净解压日志 | 工程 | 干净环境可安装，故障码与恢复路径可复现 |
+| M3-04 | `DONE` | 无 | 完成 CLI beta 安装、升级、卸载、离线和错误恢复文档 | `pnpm package:cli <新目录>`；`pnpm verify:runtime-provenance <目录>` | [CLI 安装演练](docs/CLI-PACKAGE-REHEARSAL.md)、[生命周期证据](docs/evidence/cli-beta-lifecycle-2026-11-12.json) | 工程 | 本地回归已覆盖生命周期与恢复；独立干净主机、公开 beta 和产品验收仍由 #5 跟踪 |
 | M3-05 | `READY` | M3-01 | 校验 JSON/Markdown/SARIF 与 CLI/Web 的 schema 和稳定字节 | `pnpm check`；重复导出 | schema 结果、报告哈希 | 工程 | 稳定字段一致，展示差异有说明 |
 | M4-02 | `GATED` | S-02 v1 入口签字 | 建立唯一 canonical parity fixture 与预期报告 | 扫描一次后经各入口运行 | 输入 SHA、预期报告 SHA | 工程 | 预期报告稳定且含位置和证据 |
 | M4-03 | `GATED` | M4-02 | 自动比较 CLI/VSIX/DevEco/Web/MCP/CI 的 finding | 各入口命令；生成 `parity-report.json` | 宿主版本与 finding diff | 工程 | 已承诺入口语义一致或差异有解释 |
@@ -167,7 +173,7 @@ S-09 签字前不得宣称法务或分发审批完成。
 | finding 和 recommendation 可追溯到位置、目标 profile、规则/知识版本、证据、限制与下一步 | 报告契约与确定性解释已实现 | 同一输入经 CLI/Web/IDE 产出的 schema/语义对照 | M3-01、M3-05 |
 | 错误和 unknown 必须显式出现 | 已有返回契约与测试 | 损坏输入、未知规则、无 reviewed 知识、无替换候选的负例 | M3-04、M3-05 |
 | 一个真实项目完成端到端流程 | 未完成 | `scan → inspect finding → navigate source → query replacement → recommendation → export` 的命令、输入/输出 SHA 与日志 | M3-02、M3-03 |
-| CLI beta 可复现安装和恢复 | 本地便携包已验证，公开 beta 未发布 | 干净安装、升级、离线、损坏包、权限/磁盘失败、卸载和回滚日志；公开渠道与批准 | M3-04、M3-08 |
+| CLI beta 可复现安装和恢复 | 生命周期回归已验证安装、离线、损坏拒绝、升级、回滚和卸载；公开 beta 未发布 | 独立干净主机与权限/磁盘失败日志；公开渠道与批准 | M3-04、M3-08 |
 | 可复现样例和 benchmark 说明 | 部分 | 固定样例、期望报告、完整命令、环境与性能采集字段 | M3-04、M3-08 |
 | 可选 AI 不改写确定性结论 | 工程边界已定义，v1 范围待确认 | 默认关闭；若启用，同意、发送预览、脱敏、撤回、审计和模型不可覆盖规则/unknown | M3-09 |
 
@@ -208,6 +214,7 @@ lookup；本地 smoke、绿色 CI 或目录存在都不等于公开分发完成�
 - [x] 本文更新前核对的主干提交为 `1a12274d82e7eba69341e508a9e1de0340cca0f1`；对应的[主干检查](https://github.com/hu-qi/arkcompat/actions/runs/43194123302)通过五项必需任务。GitHub 与 AtomGit 已读回同一 SHA。
 - [x] 最近一次完整工程回归对应 PR [#92](https://github.com/hu-qi/arkcompat/pull/92)；[PR 检查](https://github.com/hu-qi/arkcompat/actions/runs/43190613521)和合并后[主干检查](https://github.com/hu-qi/arkcompat/actions/runs/43190877999)均通过五项必需任务。本地 `pnpm check` 为 35 个测试文件、573 项测试。随后 PR [#93](https://github.com/hu-qi/arkcompat/pull/93)将本清单整理为执行入口，PR [#94](https://github.com/hu-qi/arkcompat/pull/94)删除已完成的临时实施计划；两者均为文档变更，不改变上述代码回归基线。
 - [x] M1-06 已证明包脚本零执行、FIFO 跳过、32 MiB 聚合上限、64 层深度上限及损坏 lockfile 的安全失败；证据见 [扫描安全边界](docs/SCANNER-SECURITY.md)和[机器可读记录](docs/evidence/scanner-security-2026-11-12.json)。这只完成工程切片，不关闭 Issue #3。
+- [x] M3-04 已完成 portable CLI 生命周期的本地工程演练：独立扫描项目、离线运行、损坏候选拒绝、原子升级、回滚和卸载均有回归及机器可读证据。证据见 [CLI 安装演练](docs/CLI-PACKAGE-REHEARSAL.md)和[生命周期记录](docs/evidence/cli-beta-lifecycle-2026-11-12.json)。这不等于公开 beta 或正式验收。
 - [x] 项目负责人确认 AtomGit 即 GitCode：后续只核对 GitHub + AtomGit，不再单列旧 GitCode URL 的凭据或同步任务。
 - [ ] 项目正式验收通过。
 - [ ] 正式版本发布及交接完成。
@@ -223,7 +230,7 @@ lookup；本地 smoke、绿色 CI 或目录存在都不等于公开分发完成�
 | [#1](https://github.com/hu-qi/arkcompat/issues/1) | 验收协议、目标矩阵和决策候选稿已具备 | A5/A8 尚未签字；标签提供者、复核者、最终裁定人和样本许可未落实 | 单页签字包、DECISIONS 最终记录、冻结 profile |
 | [#3](https://github.com/hu-qi/arkcompat/issues/3) | 依赖图、源码 inventory、规则和确定性 CLI 已实现 | B2 约定范围仍有解析缺口；独立扫描评测未执行 | 缺口闭环清单、真实项目负例、独立扫描混淆矩阵 |
 | [#4](https://github.com/hu-qi/arkcompat/issues/4) | 五类判定、五类 blind adapter、候选 provenance 和知识导出已实现 | reviewed 数据、许可 holdout、正式指标、Lottie 人工决定未完成 | 可导出 reviewed 快照、完整 TP/FP/FN、错误分析与裁定 |
-| [#5](https://github.com/hu-qi/arkcompat/issues/5) | JSON/Markdown assessment 和建议闭环已实现 | 真实项目 walkthrough、CLI beta 安装/升级/恢复文档未完成 | 端到端演练记录、报告哈希、干净环境安装日志 |
+| [#5](https://github.com/hu-qi/arkcompat/issues/5) | JSON/Markdown assessment、建议闭环和 CLI 生命周期工程演练已实现 | 真实项目 walkthrough、独立干净主机、报告稳定性、产品验收和公开 beta 未完成 | 端到端演练记录、报告哈希、独立主机日志和发布授权 |
 | [#6](https://github.com/hu-qi/arkcompat/issues/6) | CLI、VSIX、DevEco、Web、MCP、CI 已有本地 smoke | 公开分发、全部宿主、卸载/回滚和跨入口 parity 未完成 | 每入口支持矩阵、宿主日志、finding parity 报告 |
 | [#7](https://github.com/hu-qi/arkcompat/issues/7) | 回归、评测骨架、API 20 局部运行时与安全边界已具备 | 独立 holdout、冻结目标矩阵、安全/性能/许可审查和最终裁定未完成 | 完整验收包、性能/安全报告、裁定人签字 |
 | [#8](https://github.com/hu-qi/arkcompat/issues/8) | 可重建 CLI/VSIX、SBOM、通知和校验和机制已具备 | 正式制品、签名/分发授权、tag/release、双远端读回和交接未完成 | release 下载 smoke、制品哈希、GitHub/AtomGit 读回、交接单 |
@@ -339,7 +346,7 @@ lookup；本地 smoke、绿色 CI 或目录存在都不等于公开分发完成�
 
 ## 下一批优先行动
 
-1. 按“当前工程执行队列”完成 M3-04、M3-05、M5-05 和 M5-07，
+1. 按“当前工程执行队列”完成 M3-05、M5-05 和 M5-07，
    每项单独提交证据并更新对应 Issue。
 2. 提交 [验收与发布签字包](docs/ACCEPTANCE-SIGNOFF-PACKAGE.md) 的
    S-01–S-07，确定目标 profile、入口范围、评分、数据许可和独立裁定人。

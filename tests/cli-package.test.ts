@@ -1,12 +1,17 @@
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import {
+  cp,
+  lstat,
   mkdir,
   mkdtemp,
   readFile,
   readdir,
+  readlink,
   rename,
   rm,
+  symlink,
+  unlink,
   writeFile,
 } from "node:fs/promises";
 import { tmpdir } from "node:os";
@@ -249,3 +254,112 @@ it("does not overwrite an existing output directory", async () => {
     await rm(parent, { recursive: true, force: true });
   }
 });
+
+it("rehearses verified upgrade, rollback, offline execution and uninstall", async () => {
+  const parent = await mkdtemp(join(tmpdir(), "arkcompat-cli-lifecycle-"));
+  const releases = join(parent, "releases");
+  const first = join(releases, "first");
+  const second = join(releases, "second");
+  const current = join(parent, "current");
+  const project = join(parent, "project");
+  try {
+    await mkdir(releases, { recursive: true });
+    await mkdir(project);
+    await writeFile(
+      join(project, "package.json"),
+      JSON.stringify({ dependencies: { sample: "^1.0.0" } }),
+    );
+
+    const build = spawnSync(process.execPath, [pack, first], {
+      encoding: "utf8",
+      timeout: 30_000,
+    });
+    expect(build.status, build.stderr).toBe(0);
+    await cp(first, second, { recursive: true, verbatimSymlinks: true });
+
+    await symlink(join("releases", "first"), current, "dir");
+    const runCurrent = () =>
+      spawnSync(
+        process.execPath,
+        [
+          join(current, "dist", "index.js"),
+          "scan",
+          project,
+          "--runtime",
+          "arkts",
+          "--release",
+          "6.0.0",
+          "--api-level",
+          "20",
+        ],
+        {
+          cwd: parent,
+          encoding: "utf8",
+          env: {
+            ...process.env,
+            ALL_PROXY: "http://127.0.0.1:9",
+            HTTP_PROXY: "http://127.0.0.1:9",
+            HTTPS_PROXY: "http://127.0.0.1:9",
+            NODE_PATH: "",
+            NO_PROXY: "",
+          },
+        },
+      );
+
+    const initial = runCurrent();
+    expect(initial.status, initial.stderr).toBe(0);
+    expect(JSON.parse(initial.stdout)).toMatchObject({
+      dependencies: [
+        {
+          name: "sample",
+          specifier: "^1.0.0",
+          status: "unknown",
+        },
+      ],
+    });
+
+    const verify = (runtime: string) =>
+      spawnSync(
+        process.execPath,
+        ["scripts/validate-runtime-provenance.mjs", runtime],
+        { encoding: "utf8" },
+      );
+    expect(verify(first).status).toBe(0);
+    expect(verify(second).status).toBe(0);
+
+    await writeFile(
+      join(second, "dist", "index.js"),
+      `${await readFile(join(second, "dist", "index.js"), "utf8")}\n`,
+    );
+    const corrupt = verify(second);
+    expect(corrupt.status).toBe(1);
+    expect(corrupt.stderr).toContain("Checksum mismatch for dist/index.js");
+    expect(await readlink(current)).toBe(join("releases", "first"));
+    expect(runCurrent().status).toBe(0);
+
+    await rm(second, { recursive: true, force: true });
+    await cp(first, second, { recursive: true, verbatimSymlinks: true });
+    expect(verify(second).status).toBe(0);
+
+    const switchTo = async (target: string) => {
+      const next = `${current}.next`;
+      await unlink(next).catch(() => undefined);
+      await symlink(join("releases", target), next, "dir");
+      await rename(next, current);
+    };
+    await switchTo("second");
+    expect(await readlink(current)).toBe(join("releases", "second"));
+    expect(runCurrent().status).toBe(0);
+
+    await switchTo("first");
+    expect(await readlink(current)).toBe(join("releases", "first"));
+    expect(runCurrent().status).toBe(0);
+
+    await unlink(current);
+    await rm(releases, { recursive: true, force: true });
+    await expect(lstat(current)).rejects.toMatchObject({ code: "ENOENT" });
+    expect((await lstat(parent)).isDirectory()).toBe(true);
+  } finally {
+    await rm(parent, { recursive: true, force: true });
+  }
+}, 45_000);
