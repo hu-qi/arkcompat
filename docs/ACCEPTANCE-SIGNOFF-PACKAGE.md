@@ -2,7 +2,7 @@
 
 **Status:** Ready for owner and independent adjudicator review.
 **Prepared:** 2026-11-12.
-**Main commit verified when this package was updated:** `c4a6af282c4a6025d187daee4cbe1a0237c9971f`.
+**Main commit verified when this package was updated:** `a2c5245692389c09387aa66a740f41eeb1424fc9`.
 **Engineering regression baseline:** `6e35d03c3d0aebf46558143853502eba6aabfba1`.
 **Purpose:** Turn the remaining human decisions into one reviewable record that
 unlocks the formal evaluation and release sequence.
@@ -21,10 +21,10 @@ in [ACCEPTANCE-PROTOCOL](ACCEPTANCE-PROTOCOL.md),
 |---|---|
 | License for original code | MIT, confirmed by project requester |
 | Minimum target | HarmonyOS 6.0.0 / API 20 and later |
-| Main commit verified when this package was updated | `c4a6af282c4a6025d187daee4cbe1a0237c9971f` on GitHub and AtomGit; [main checks](https://github.com/hu-qi/arkcompat/actions/runs/43188712825) passed all five required jobs |
-| Latest merged engineering PR | [#90](https://github.com/hu-qi/arkcompat/pull/90) |
-| Engineering PR checks | [43188453171](https://github.com/hu-qi/arkcompat/actions/runs/43188453171), all five required jobs passed |
-| Engineering main checks | [43188712825](https://github.com/hu-qi/arkcompat/actions/runs/43188712825), all five required jobs passed |
+| Main commit verified when this package was updated | `a2c5245692389c09387aa66a740f41eeb1424fc9` on GitHub and AtomGit; [main checks](https://github.com/hu-qi/arkcompat/actions/runs/43190111535) passed all five required jobs |
+| Latest merged engineering PR | [#91](https://github.com/hu-qi/arkcompat/pull/91) |
+| Engineering PR checks | [43189843509](https://github.com/hu-qi/arkcompat/actions/runs/43189843509), all five required jobs passed |
+| Engineering main checks | [43190111535](https://github.com/hu-qi/arkcompat/actions/runs/43190111535), all five required jobs passed |
 | Engineering regression commit | `6e35d03c3d0aebf46558143853502eba6aabfba1` |
 | Regression suite | 573 tests across 35 files at `6e35d03` |
 | Core coverage | statements 94.82%, branches 92.62%, functions 98.11%, lines 96.74% |
