@@ -2,9 +2,10 @@
 
 **Updated:** 2026-11-12
 **Target acceptance date:** 2026-12-23
-**Verified main baseline before this document update:** `22ecfb78638be6aa90a58703a436ad6300576eb6`
-**Latest verified main run before this document update:** [43190877999](https://github.com/hu-qi/arkcompat/actions/runs/43190877999), all five required jobs passed
+**Verified main baseline before this document update:** `1a12274d82e7eba69341e508a9e1de0340cca0f1`
+**Latest verified main run before this document update:** [43194123302](https://github.com/hu-qi/arkcompat/actions/runs/43194123302), all five required jobs passed
 **Latest complete code regression baseline:** `6e35d03c3d0aebf46558143853502eba6aabfba1` (573 tests across 35 files)
+**Latest execution-document changes:** PR [#93](https://github.com/hu-qi/arkcompat/pull/93) made [TODO](../TODO.md) the single actionable entry; PR [#94](https://github.com/hu-qi/arkcompat/pull/94) removed the completed temporary implementation plan. Both passed all five required jobs.
 **Remote read-back:** GitHub `origin/main` and AtomGit `atomgit-https/main` both resolved to the baseline SHA
 
 This is the working ledger for completing the eight open Issues:

@@ -205,8 +205,8 @@ lookup；本地 smoke、绿色 CI 或目录存在都不等于公开分发完成�
 
 - [x] MIT 原创代码许可证及原始验收阈值由项目负责人确认。
 - [x] 扫描、规则接口、知识元数据、报告和多入口基础已实现，已有范围内的本地验证。
-- [x] 本文更新前核对的主干提交为 `22ecfb78638be6aa90a58703a436ad6300576eb6`；对应的[主干检查](https://github.com/hu-qi/arkcompat/actions/runs/43190877999)通过五项必需任务。GitHub 与 AtomGit 已读回同一 SHA。
-- [x] 最近一次完整工程回归对应 PR [#92](https://github.com/hu-qi/arkcompat/pull/92)；[PR 检查](https://github.com/hu-qi/arkcompat/actions/runs/43190613521)和合并后[主干检查](https://github.com/hu-qi/arkcompat/actions/runs/43190877999)均通过五项必需任务。本地 `pnpm check` 为 35 个测试文件、573 项测试。
+- [x] 本文更新前核对的主干提交为 `1a12274d82e7eba69341e508a9e1de0340cca0f1`；对应的[主干检查](https://github.com/hu-qi/arkcompat/actions/runs/43194123302)通过五项必需任务。GitHub 与 AtomGit 已读回同一 SHA。
+- [x] 最近一次完整工程回归对应 PR [#92](https://github.com/hu-qi/arkcompat/pull/92)；[PR 检查](https://github.com/hu-qi/arkcompat/actions/runs/43190613521)和合并后[主干检查](https://github.com/hu-qi/arkcompat/actions/runs/43190877999)均通过五项必需任务。本地 `pnpm check` 为 35 个测试文件、573 项测试。随后 PR [#93](https://github.com/hu-qi/arkcompat/pull/93)将本清单整理为执行入口，PR [#94](https://github.com/hu-qi/arkcompat/pull/94)删除已完成的临时实施计划；两者均为文档变更，不改变上述代码回归基线。
 - [x] M1-06 已证明包脚本零执行、FIFO 跳过、32 MiB 聚合上限、64 层深度上限及损坏 lockfile 的安全失败；证据见 [扫描安全边界](docs/SCANNER-SECURITY.md)和[机器可读记录](docs/evidence/scanner-security-2026-11-12.json)。这只完成工程切片，不关闭 Issue #3。
 - [x] 项目负责人确认 AtomGit 即 GitCode：后续只核对 GitHub + AtomGit，不再单列旧 GitCode URL 的凭据或同步任务。
 - [ ] 项目正式验收通过。
