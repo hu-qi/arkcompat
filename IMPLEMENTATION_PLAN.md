@@ -1,25 +1,17 @@
-# M3-05 report stability implementation plan
-
-## Stage 1: Add cross-surface regression
-**Goal**: Bind canonical scan and assessment reports to their schemas and prove stable bytes across JSON, Markdown, SARIF, CLI and Web parsing.
-**Success Criteria**: Repeated renderings are byte-identical; stable semantic fields agree; malformed report fields remain rejected.
-**Tests**: New `tests/report-stability.test.ts` plus the existing report and web-viewer suites.
+## Stage 1: Establish the current baseline
+**Goal**: Confirm the latest main commit, open Issue set, and CI state.
+**Success Criteria**: Record the authoritative SHA and distinguish engineering from acceptance status.
+**Tests**: Compare the archive with GitHub metadata and inspect the main quality run.
 **Status**: Complete
 
-## Stage 2: Produce retained evidence
-**Goal**: Record hashes, schema validation and surface comparisons in a machine-readable evidence artifact.
-**Success Criteria**: Evidence names input, toolchain, commands, output hashes and known limits without claiming formal accuracy.
-**Tests**: Evidence JSON parses and its hashes match regenerated outputs.
+## Stage 2: Complete the master execution document
+**Goal**: Extend `TODO.md` with checkboxes, dependencies, dates, Issue closure fields, and ownership.
+**Success Criteria**: Every remaining engineering, human, evaluation, product, and release activity has a concrete close condition.
+**Tests**: Review links, ordering, status wording, and the AtomGit/GitCode boundary.
 **Status**: Complete
 
-## Stage 3: Update the report contract documentation
-**Goal**: Document canonical JSON semantics and Markdown/SARIF projections with the new evidence.
-**Success Criteria**: Documentation integrity passes and links resolve.
-**Tests**: `pnpm check` and `git diff --check`.
-**Status**: Complete
-
-## Stage 4: Merge and synchronize
-**Goal**: Deliver M3-05 through a tracked Issue #5 pull request, verify main and synchronize AtomGit.
-**Success Criteria**: All five required checks pass, the PR is merged, main passes, both remote main refs resolve to the merged SHA, and Issue #5 records the evidence and remaining gates.
-**Tests**: GitHub PR/main runs and remote ref read-back.
+## Stage 3: Validate and deliver
+**Goal**: Run documentation integrity and the full quality suite, then merge through the normal PR process.
+**Success Criteria**: Required checks pass and the permanent execution entry is updated without claiming unearned acceptance.
+**Tests**: `node scripts/validate-docs.mjs`, `pnpm check`, and `git diff --check`.
 **Status**: In Progress
