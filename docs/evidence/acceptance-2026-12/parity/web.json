@@ -1,0 +1,419 @@
+{
+  "surface": "web-viewer",
+  "report": {
+    "schemaVersion": "0.12.0",
+    "scannerVersion": "0.0.0",
+    "snapshots": {
+      "rules": "none",
+      "knowledge": "none"
+    },
+    "target": {
+      "os": "HarmonyOS",
+      "release": "6.0.0",
+      "runtime": "arkts",
+      "apiLevel": 20
+    },
+    "dependencies": [],
+    "dependencyGraph": {
+      "source": null,
+      "lockfileVersion": null,
+      "nodes": [],
+      "edges": []
+    },
+    "references": [
+      {
+        "kind": "import",
+        "specifier": "node:fs",
+        "location": {
+          "path": "src/imports.ts",
+          "line": 1,
+          "column": 1
+        }
+      },
+      {
+        "kind": "import",
+        "specifier": "node:fs/promises",
+        "location": {
+          "path": "src/imports.ts",
+          "line": 2,
+          "column": 1
+        }
+      },
+      {
+        "kind": "import",
+        "specifier": "example-client",
+        "location": {
+          "path": "src/imports.ts",
+          "line": 3,
+          "column": 1
+        }
+      },
+      {
+        "kind": "import",
+        "specifier": "example-client",
+        "location": {
+          "path": "src/imports.ts",
+          "line": 4,
+          "column": 1
+        }
+      },
+      {
+        "kind": "import-type",
+        "specifier": "types-only",
+        "location": {
+          "path": "src/imports.ts",
+          "line": 6,
+          "column": 21
+        }
+      },
+      {
+        "kind": "require",
+        "specifier": "node:path",
+        "location": {
+          "path": "src/loader.cjs",
+          "line": 2,
+          "column": 28
+        }
+      }
+    ],
+    "apiUsages": [
+      {
+        "module": "node:fs",
+        "path": [
+          "*",
+          "readFileSync"
+        ],
+        "kind": "call",
+        "optional": false,
+        "location": {
+          "path": "src/imports.ts",
+          "line": 7,
+          "column": 1
+        }
+      },
+      {
+        "module": "node:fs/promises",
+        "path": [
+          "readFile"
+        ],
+        "kind": "call",
+        "optional": false,
+        "location": {
+          "path": "src/imports.ts",
+          "line": 8,
+          "column": 1
+        }
+      },
+      {
+        "module": "example-client",
+        "path": [
+          "default",
+          "get"
+        ],
+        "kind": "call",
+        "optional": true,
+        "location": {
+          "path": "src/imports.ts",
+          "line": 9,
+          "column": 1
+        }
+      },
+      {
+        "module": "node:path",
+        "path": [
+          "join"
+        ],
+        "kind": "call",
+        "optional": false,
+        "location": {
+          "path": "src/loader.cjs",
+          "line": 3,
+          "column": 1
+        }
+      }
+    ],
+    "findings": [
+      {
+        "id": "8316963852f5c6a60ef43c54549ea806bed51c8bcd3235b97319bf3f4686cbd6",
+        "ruleId": "inventory.module-reference",
+        "status": "unknown",
+        "tier": "rule-static",
+        "severity": "info",
+        "target": {
+          "os": "HarmonyOS",
+          "release": "6.0.0",
+          "runtime": "arkts",
+          "apiLevel": 20
+        },
+        "location": {
+          "path": "src/imports.ts",
+          "line": 1,
+          "column": 1
+        },
+        "evidence": [
+          {
+            "kind": "ast-module-reference",
+            "value": "node:fs"
+          }
+        ],
+        "explanation": "Inventory evidence only; compatibility has not been evaluated. No rules or knowledge snapshot loaded."
+      },
+      {
+        "id": "ec1aabd6e385474f820ce785ba2e486de272c204fc7aae421ad58edf1680fef0",
+        "ruleId": "inventory.module-reference",
+        "status": "unknown",
+        "tier": "rule-static",
+        "severity": "info",
+        "target": {
+          "os": "HarmonyOS",
+          "release": "6.0.0",
+          "runtime": "arkts",
+          "apiLevel": 20
+        },
+        "location": {
+          "path": "src/imports.ts",
+          "line": 2,
+          "column": 1
+        },
+        "evidence": [
+          {
+            "kind": "ast-module-reference",
+            "value": "node:fs/promises"
+          }
+        ],
+        "explanation": "Inventory evidence only; compatibility has not been evaluated. No rules or knowledge snapshot loaded."
+      },
+      {
+        "id": "1a1a633becbcb86438951bd2956ad14419fb1584363076d1e72ba3578a8dcd1d",
+        "ruleId": "inventory.module-reference",
+        "status": "unknown",
+        "tier": "rule-static",
+        "severity": "info",
+        "target": {
+          "os": "HarmonyOS",
+          "release": "6.0.0",
+          "runtime": "arkts",
+          "apiLevel": 20
+        },
+        "location": {
+          "path": "src/imports.ts",
+          "line": 3,
+          "column": 1
+        },
+        "evidence": [
+          {
+            "kind": "ast-module-reference",
+            "value": "example-client"
+          }
+        ],
+        "explanation": "Inventory evidence only; compatibility has not been evaluated. No rules or knowledge snapshot loaded."
+      },
+      {
+        "id": "dd670711e61e1489eeb9274bc26c3a493ac5b98651963bed71ca3ea7f7262352",
+        "ruleId": "inventory.module-reference",
+        "status": "unknown",
+        "tier": "rule-static",
+        "severity": "info",
+        "target": {
+          "os": "HarmonyOS",
+          "release": "6.0.0",
+          "runtime": "arkts",
+          "apiLevel": 20
+        },
+        "location": {
+          "path": "src/imports.ts",
+          "line": 4,
+          "column": 1
+        },
+        "evidence": [
+          {
+            "kind": "ast-module-reference",
+            "value": "example-client"
+          }
+        ],
+        "explanation": "Inventory evidence only; compatibility has not been evaluated. No rules or knowledge snapshot loaded."
+      },
+      {
+        "id": "ed28205e32910a5fe062eeb212fb0501f03e06d739c4736b2e2100e0d131d0e5",
+        "ruleId": "inventory.module-reference",
+        "status": "unknown",
+        "tier": "rule-static",
+        "severity": "info",
+        "target": {
+          "os": "HarmonyOS",
+          "release": "6.0.0",
+          "runtime": "arkts",
+          "apiLevel": 20
+        },
+        "location": {
+          "path": "src/imports.ts",
+          "line": 6,
+          "column": 21
+        },
+        "evidence": [
+          {
+            "kind": "ast-module-reference",
+            "value": "types-only"
+          }
+        ],
+        "explanation": "Inventory evidence only; compatibility has not been evaluated. No rules or knowledge snapshot loaded."
+      },
+      {
+        "id": "431a4c4c55009277f97e55f3678f5f6e431fa0b1fef33def7aed3923848b33cb",
+        "ruleId": "inventory.module-reference",
+        "status": "unknown",
+        "tier": "rule-static",
+        "severity": "info",
+        "target": {
+          "os": "HarmonyOS",
+          "release": "6.0.0",
+          "runtime": "arkts",
+          "apiLevel": 20
+        },
+        "location": {
+          "path": "src/loader.cjs",
+          "line": 2,
+          "column": 28
+        },
+        "evidence": [
+          {
+            "kind": "ast-module-reference",
+            "value": "node:path"
+          }
+        ],
+        "explanation": "Inventory evidence only; compatibility has not been evaluated. No rules or knowledge snapshot loaded."
+      },
+      {
+        "id": "4242ff9ef6c9ab137ac90e2c84813359fc6057e65b357e2819ebe1b6cee660e7",
+        "ruleId": "inventory.api-usage",
+        "status": "unknown",
+        "tier": "rule-static",
+        "severity": "info",
+        "target": {
+          "os": "HarmonyOS",
+          "release": "6.0.0",
+          "runtime": "arkts",
+          "apiLevel": 20
+        },
+        "location": {
+          "path": "src/imports.ts",
+          "line": 7,
+          "column": 1
+        },
+        "evidence": [
+          {
+            "kind": "module-api-access",
+            "value": "[\"node:fs\",[\"*\",\"readFileSync\"],\"call\"]"
+          }
+        ],
+        "explanation": "Inventory evidence only; compatibility has not been evaluated. No rules or knowledge snapshot loaded."
+      },
+      {
+        "id": "c365f172716cc222826c2c2ccd9f509572c12b27885030d07e26d2c6bc6237d9",
+        "ruleId": "inventory.api-usage",
+        "status": "unknown",
+        "tier": "rule-static",
+        "severity": "info",
+        "target": {
+          "os": "HarmonyOS",
+          "release": "6.0.0",
+          "runtime": "arkts",
+          "apiLevel": 20
+        },
+        "location": {
+          "path": "src/imports.ts",
+          "line": 8,
+          "column": 1
+        },
+        "evidence": [
+          {
+            "kind": "module-api-access",
+            "value": "[\"node:fs/promises\",[\"readFile\"],\"call\"]"
+          }
+        ],
+        "explanation": "Inventory evidence only; compatibility has not been evaluated. No rules or knowledge snapshot loaded."
+      },
+      {
+        "id": "87c005f57d67ab99c97c40f590b8331e3ff2ca1f756545a2450c60f55105b755",
+        "ruleId": "inventory.api-usage",
+        "status": "unknown",
+        "tier": "rule-static",
+        "severity": "info",
+        "target": {
+          "os": "HarmonyOS",
+          "release": "6.0.0",
+          "runtime": "arkts",
+          "apiLevel": 20
+        },
+        "location": {
+          "path": "src/imports.ts",
+          "line": 9,
+          "column": 1
+        },
+        "evidence": [
+          {
+            "kind": "module-api-access",
+            "value": "[\"example-client\",[\"default\",\"get\"],\"call\"]"
+          }
+        ],
+        "explanation": "Inventory evidence only; compatibility has not been evaluated. No rules or knowledge snapshot loaded."
+      },
+      {
+        "id": "0eecbc0e452abde9ca9bdd1dfe1c7055007c993cd990a0ce54304e54f583055f",
+        "ruleId": "inventory.api-usage",
+        "status": "unknown",
+        "tier": "rule-static",
+        "severity": "info",
+        "target": {
+          "os": "HarmonyOS",
+          "release": "6.0.0",
+          "runtime": "arkts",
+          "apiLevel": 20
+        },
+        "location": {
+          "path": "src/loader.cjs",
+          "line": 3,
+          "column": 1
+        },
+        "evidence": [
+          {
+            "kind": "module-api-access",
+            "value": "[\"node:path\",[\"join\"],\"call\"]"
+          }
+        ],
+        "explanation": "Inventory evidence only; compatibility has not been evaluated. No rules or knowledge snapshot loaded."
+      }
+    ],
+    "coverage": {
+      "dependencyGraph": "declarations-only",
+      "compatibility": "not-evaluated",
+      "sourceFiles": 2,
+      "limitations": [
+        {
+          "code": "compatibility-not-evaluated"
+        },
+        {
+          "code": "commonjs-exports-not-analyzed"
+        },
+        {
+          "code": "unlisted-global-apis-not-analyzed"
+        },
+        {
+          "code": "module-mutations-and-returned-values-not-analyzed"
+        },
+        {
+          "code": "gitignore-not-applied"
+        },
+        {
+          "code": "excluded-directories-not-analyzed"
+        },
+        {
+          "code": "npm-lockfile-missing"
+        },
+        {
+          "code": "transitive-dependencies-not-analyzed"
+        }
+      ]
+    }
+  }
+}

@@ -1,6 +1,6 @@
 # Acceptance Protocol Candidate · ArkCompat (Stage 1 / Issue #1)
 
-**Status:** Candidate proposal drafted 2026-11-12 for owner and independent adjudicator sign-off. Not yet approved; engineering defaults do not replace formal adjudication under [DECISIONS](DECISIONS.md) (`D-02`, `D-03`, `D-04`) and [QUALITY-GATES](QUALITY-GATES.md).
+**Status:** Formally approved 2026-11-13 under [ACCEPTANCE-SIGNOFF-PACKAGE](ACCEPTANCE-SIGNOFF-PACKAGE.md) (S-03, S-04, S-05) and [DECISIONS](DECISIONS.md).
 
 ## 1. Confirmed Thresholds vs. Pending Formal Definitions
 

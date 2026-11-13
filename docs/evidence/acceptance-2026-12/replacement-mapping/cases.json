@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "0.1.0",
+  "datasetId": "acceptance-replacement-mapping",
+  "target": {
+    "os": "HarmonyOS",
+    "release": "6.0.0",
+    "runtime": "arkts",
+    "apiLevel": 20
+  },
+  "cases": [
+    {
+      "id": "axios-ohpm-ok",
+      "package": "axios",
+      "version": "1.21.1",
+      "targetRegistry": "ohpm",
+      "targetName": "@ohos/axios"
+    },
+    {
+      "id": "axios-excluded-gap",
+      "package": "axios",
+      "version": "1.21.1",
+      "requiredFeatures": [
+        "node-http-agent-sockets"
+      ],
+      "targetRegistry": "ohpm",
+      "targetName": "@ohos/axios"
+    },
+    {
+      "id": "axios-wrong-target",
+      "package": "axios",
+      "version": "1.21.1",
+      "targetRegistry": "ohpm",
+      "targetName": "@ohos/other"
+    },
+    {
+      "id": "sharp-missing",
+      "package": "sharp",
+      "version": "0.35.5",
+      "targetRegistry": "ohpm",
+      "targetName": "@ohos/sharp"
+    },
+    {
+      "id": "dayjs-pure",
+      "package": "dayjs",
+      "version": "1.11.23",
+      "targetRegistry": "ohpm",
+      "targetName": "dayjs"
+    },
+    {
+      "id": "zod-unknown",
+      "package": "zod",
+      "version": "4.6.7",
+      "targetRegistry": "ohpm",
+      "targetName": "@ohos/zod"
+    }
+  ]
+}

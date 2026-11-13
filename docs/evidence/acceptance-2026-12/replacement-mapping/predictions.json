@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "0.1.0",
+  "datasetId": "acceptance-replacement-mapping",
+  "scannerVersion": "0.0.0",
+  "rulesSnapshot": "none",
+  "knowledgeSnapshot": "arkcompat-reviewed-public-candidates-2026-11-13",
+  "binding": {
+    "scope": "replacement-mapping",
+    "casesSha256": "376ae8445ded13041e1ca293114291ffcfd8093627b2ba386286e0b57824e913",
+    "knowledgeSha256": "a678d48fa9cd85e4a36d8ae689c70635b1cf2c62bb94cae8d4c7f8f4e542dd36"
+  },
+  "predictions": [
+    {
+      "id": "axios-ohpm-ok",
+      "actual": "positive"
+    },
+    {
+      "id": "axios-excluded-gap",
+      "actual": "negative"
+    },
+    {
+      "id": "axios-wrong-target",
+      "actual": "negative"
+    },
+    {
+      "id": "sharp-missing",
+      "actual": "negative"
+    },
+    {
+      "id": "dayjs-pure",
+      "actual": "negative"
+    },
+    {
+      "id": "zod-unknown",
+      "actual": "unknown"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "0.1.0",
+  "datasetId": "acceptance-dep-graph",
+  "scannerVersion": "0.0.0",
+  "rulesSnapshot": "none",
+  "knowledgeSnapshot": "none",
+  "binding": {
+    "scope": "dependency-graph",
+    "casesSha256": "9b734122d5fb7e701781a7ea910ddacde43887e6dfe0d1e870742fa0bbba290a",
+    "scanReportSha256": "add05b7be7786d5f64c2742f07aa964ff3d7a2d397f2ea046ad45d909bd10d84"
+  },
+  "predictions": [
+    {
+      "id": "direct-a",
+      "actual": "positive"
+    },
+    {
+      "id": "direct-alias",
+      "actual": "positive"
+    },
+    {
+      "id": "transitive-shared",
+      "actual": "positive"
+    },
+    {
+      "id": "nonexistent-pkg",
+      "actual": "negative"
+    },
+    {
+      "id": "wrong-version-a",
+      "actual": "negative"
+    }
+  ]
+}

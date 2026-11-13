@@ -16,7 +16,7 @@
 [#11](https://github.com/hu-qi/arkcompat/issues/11) 收束为可执行、可取证、
 可关闭的交付路径。
 
-[根目录 TODO](../TODO.md) 是唯一执行入口。本文是执行与验收计划，不替代
+[项目总控 TODO](PROJECT-MASTER-TODO.md) 是总控执行入口。本文是执行与验收计划，不替代
 [项目完成 TODO](PROJECT-TODO.md) 的任务勾选、
 [项目执行台账](PROJECT-EXECUTION-LEDGER.md)的逐项命令与证据登记、
 [DECISIONS](DECISIONS.md) 的人工决策、[QUALITY-GATES](QUALITY-GATES.md)

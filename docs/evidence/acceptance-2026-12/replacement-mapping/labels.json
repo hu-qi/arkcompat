@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "0.1.0",
+  "datasetId": "acceptance-replacement-mapping",
+  "origin": "developer-fixture",
+  "provenance": {
+    "source": "audited-holdout",
+    "license": "MIT",
+    "labelAuthor": "Claude Code",
+    "sdk": "HarmonyOS 6.0.0 (API 20)",
+    "target": "6.0.0"
+  },
+  "binding": {
+    "scope": "replacement-mapping",
+    "casesSha256": "376ae8445ded13041e1ca293114291ffcfd8093627b2ba386286e0b57824e913",
+    "knowledgeSha256": "a678d48fa9cd85e4a36d8ae689c70635b1cf2c62bb94cae8d4c7f8f4e542dd36"
+  },
+  "cases": [
+    {
+      "id": "axios-ohpm-ok",
+      "category": "replacement-mapping",
+      "expected": "positive"
+    },
+    {
+      "id": "axios-excluded-gap",
+      "category": "replacement-mapping",
+      "expected": "negative"
+    },
+    {
+      "id": "axios-wrong-target",
+      "category": "replacement-mapping",
+      "expected": "negative"
+    },
+    {
+      "id": "sharp-missing",
+      "category": "replacement-mapping",
+      "expected": "negative"
+    },
+    {
+      "id": "dayjs-pure",
+      "category": "replacement-mapping",
+      "expected": "negative"
+    },
+    {
+      "id": "zod-unknown",
+      "category": "replacement-mapping",
+      "expected": "negative"
+    }
+  ]
+}

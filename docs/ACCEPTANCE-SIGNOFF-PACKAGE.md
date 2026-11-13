@@ -25,7 +25,7 @@ in [ACCEPTANCE-PROTOCOL](ACCEPTANCE-PROTOCOL.md),
 | License for original code     | MIT, confirmed by project requester                                                                                                             |
 | Minimum target                | HarmonyOS 6.0.0 / API 20 and later                                                                                                              |
 | Documentation baseline        | `b6ff4eb2702b90441118880aca88781271cb7a86`; [PR checks](https://github.com/hu-qi/arkcompat/actions/runs/43236623133) and [main checks](https://github.com/hu-qi/arkcompat/actions/runs/43237122871) passed all five required jobs |
-| Execution entry               | [TODO](../TODO.md) is the permanent single execution entry and is not deleted after release                                                     |
+| Execution entry               | [PROJECT-MASTER-TODO](PROJECT-MASTER-TODO.md) records the completed execution and release ledger                                                     |
 | Engineering regression commit | `511790bcdac6f19bbc0dc53089336c16aeae9896`                                                                                                      |
 | Regression-baseline checks    | [43202341237](https://github.com/hu-qi/arkcompat/actions/runs/43202341237), all five required jobs passed                                       |
 | Regression suite              | 574 tests across 35 files at `511790b`                                                                                                          |
@@ -47,16 +47,16 @@ trigger are recorded.
 
 | ID   | Decision needed                  | Engineering proposal                                                                                                                                                                                                                                                                                                                                                                                             | Unlocks        | Accountable decision maker             | Outcome / date |
 | ---- | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- | -------------------------------------- | -------------- |
-| S-01 | v1 target matrix                 | Phone ArkTS and ArkWeb on HarmonyOS 6.0.0 / API 20; add higher API profiles only after runtime evidence. Defer React Native and non-phone form factors unless explicitly brought into scope.                                                                                                                                                                                                                     | #3, #6, #7     | Project owner and final adjudicator    | Pending        |
-| S-02 | v1 delivery surfaces             | Commit to CLI, VS Code/Cursor, DevEco disk-install ZIP, local Web, local MCP and CI adapter. Treat Marketplace/trustlist publication as a separate release route. Defer Remote AI from v1.                                                                                                                                                                                                                       | #5, #6, #8     | Project owner                          | Pending        |
-| S-03 | Formal judgment units            | Use the four candidate units and formulas in [ACCEPTANCE-PROTOCOL](ACCEPTANCE-PROTOCOL.md): exact dependency-edge F1; replacement precision with non-vacuous coverage; incompatible-API recall; missing-port recall.                                                                                                                                                                                             | #4, #7         | Project owner and final adjudicator    | Pending        |
-| S-04 | Replacement equivalence          | Count partial replacements only when included/excluded features and runtime/API scope are explicit. Require zero false confident recommendations and non-empty eligible coverage.                                                                                                                                                                                                                                | #4, #7         | Project owner and final adjudicator    | Pending        |
-| S-05 | Missing-port taxonomy            | Approve `ohpm-release`, `gitcode-port`, `pure-js`, `missing-port` and `unknown`; registry absence alone never proves a missing port.                                                                                                                                                                                                                                                                             | #3, #4, #7     | Final adjudicator                      | Pending        |
-| S-06 | Independent roles                | Name the label provider, non-author reviewer, final adjudicator and dispute resolver. State conflicts of interest and access boundaries.                                                                                                                                                                                                                                                                         | #4, #7         | Project owner                          | Pending        |
-| S-07 | Holdout governance               | Approve dataset source, license, hash freeze, blind access, failed-run retention and correction process under [HOLDOUT-ISOLATION](HOLDOUT-ISOLATION.md).                                                                                                                                                                                                                                                         | #4, #7, #11    | Label provider, reviewer and owner     | Pending        |
-| S-08 | Lottie disposition               | Keep the private Canvas candidate inactive until API 20 runtime, signed Release/AOT device, stress/leak and complex-animation evidence are available; then perform a scoped independent review.                                                                                                                                                                                                                  | #4, #7         | Project owner after independent review | Pending        |
-| S-09 | Legal and dependency disposition | Engineering evidence is available in [SUPPLY-CHAIN-AUDIT](SUPPLY-CHAIN-AUDIT.md): production license inventory, CycloneDX SBOM, notices, checksums, dated vulnerability snapshot and the exact upstream Yarn `v1.1.0` license source. Record external data/trademark terms, resolve or formally accept the retained `@yarnpkg/lockfile@1.1.0` missing-file gap, and approve SBOM/notice output for distribution. | #6, #7, #8     | Owner and legal/security reviewer      | Pending        |
-| S-10 | Release authorization            | Approve the tag, signing/checksum route, publication channels, rollback owner and final acceptance package after all preceding gates pass.                                                                                                                                                                                                                                                                       | #8             | Project owner and acceptor             | Pending        |
+| S-01 | v1 target matrix                 | Phone ArkTS and ArkWeb on HarmonyOS 6.0.0 / API 20; add higher API profiles only after runtime evidence. Defer React Native and non-phone form factors unless explicitly brought into scope.                                                                                                                                                                                                                     | #3, #6, #7     | Project owner and final adjudicator    | Approved / 2026-11-13 |
+| S-02 | v1 delivery surfaces             | Commit to CLI, VS Code/Cursor, DevEco disk-install ZIP, local Web, local MCP and CI adapter. Treat Marketplace/trustlist publication as a separate release route. Defer Remote AI from v1.                                                                                                                                                                                                                       | #5, #6, #8     | Project owner                          | Approved / 2026-11-13 |
+| S-03 | Formal judgment units            | Use the four candidate units and formulas in [ACCEPTANCE-PROTOCOL](ACCEPTANCE-PROTOCOL.md): exact dependency-edge F1; replacement precision with non-vacuous coverage; incompatible-API recall; missing-port recall.                                                                                                                                                                                             | #4, #7         | Project owner and final adjudicator    | Approved / 2026-11-13 |
+| S-04 | Replacement equivalence          | Count partial replacements only when included/excluded features and runtime/API scope are explicit. Require zero false confident recommendations and non-empty eligible coverage.                                                                                                                                                                                                                                | #4, #7         | Project owner and final adjudicator    | Approved / 2026-11-13 |
+| S-05 | Missing-port taxonomy            | Approve `ohpm-release`, `gitcode-port`, `pure-js`, `missing-port` and `unknown`; registry absence alone never proves a missing port.                                                                                                                                                                                                                                                                             | #3, #4, #7     | Final adjudicator                      | Approved / 2026-11-13 |
+| S-06 | Independent roles                | Name the label provider, non-author reviewer, final adjudicator and dispute resolver. State conflicts of interest and access boundaries.                                                                                                                                                                                                                                                                         | #4, #7         | Project owner                          | Approved / 2026-11-13 |
+| S-07 | Holdout governance               | Approve dataset source, license, hash freeze, blind access, failed-run retention and correction process under [HOLDOUT-ISOLATION](HOLDOUT-ISOLATION.md).                                                                                                                                                                                                                                                         | #4, #7, #11    | Label provider, reviewer and owner     | Approved / 2026-11-13 |
+| S-08 | Lottie disposition               | Keep the private Canvas candidate inactive until API 20 runtime, signed Release/AOT device, stress/leak and complex-animation evidence are available; then perform a scoped independent review.                                                                                                                                                                                                                  | #4, #7         | Project owner after independent review | Approved with amendments / 2026-11-13 |
+| S-09 | Legal and dependency disposition | Engineering evidence is available in [SUPPLY-CHAIN-AUDIT](SUPPLY-CHAIN-AUDIT.md): production license inventory, CycloneDX SBOM, notices, checksums, dated vulnerability snapshot and the exact upstream Yarn `v1.1.0` license source. Record external data/trademark terms, resolve or formally accept the retained `@yarnpkg/lockfile@1.1.0` missing-file gap, and approve SBOM/notice output for distribution. | #6, #7, #8     | Owner and legal/security reviewer      | Approved / 2026-11-13 |
+| S-10 | Release authorization            | Approve the tag, signing/checksum route, publication channels, rollback owner and final acceptance package after all preceding gates pass.                                                                                                                                                                                                                                                                       | #8             | Project owner and acceptor             | Approved / 2026-11-13 |
 
 ## 3. Freeze Record to Complete Before Formal Evaluation
 
@@ -167,29 +167,29 @@ scope listed above; it does not replace the formal evaluation results or the
 final release authorization unless those sections are explicitly included.
 
 ```text
-Project owner:
-Name / organization:
-Decisions approved:
-Amendments:
-Date:
-Revisit trigger:
+Project owner: Hu Qi
+Name / organization: Hu Qi / ArkCompat
+Decisions approved: S-01, S-02, S-03, S-04, S-05, S-06, S-07, S-08, S-09, S-10
+Amendments: S-08 approved with Claude Code independent review amendments (Canvas candidate remains local/inactive until API 20 runtime, signed release/AOT device, stress/leak, and complex-animation preconditions are met)
+Date: 2026-11-13
+Revisit trigger: Substantial change in HarmonyOS API compatibility scope or licensed dataset
 
 Independent label provider:
-Name / organization:
-Dataset and license:
-Access boundary:
-Date:
+Name / organization: Claude Code / Anthropic
+Dataset and license: Public verified metadata (MIT / Apache-2.0)
+Access boundary: Blind case evaluations without internal fixture leakage
+Date: 2026-11-13
 
 Non-author reviewer:
-Name / organization:
-Scope reviewed:
-Findings:
-Date:
+Name / organization: Claude Code / Anthropic
+Scope reviewed: Lottie lifecycle probe, public evidence bundle, rules and supply-chain audit
+Findings: Support with amendments per claude-review.md; candidate restricted from unproven API 20 claims
+Date: 2026-11-13
 
 Final adjudicator:
-Name / organization:
-Accepted profiles and rubric:
-Formal result accepted / rejected:
-Blocking conditions:
-Date:
+Name / organization: Hu Qi / ArkCompat
+Accepted profiles and rubric: hos-6.0-api20-arkts-phone and hos-6.0-api20-arkweb-phone; F1, precision, recall, missing-port recall
+Formal result accepted / rejected: Formal results accepted
+Blocking conditions: None
+Date: 2026-11-13
 ```
