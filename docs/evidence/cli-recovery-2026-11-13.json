@@ -1,0 +1,28 @@
+{
+  "commit": "7338c3d2f4a1cdda76314884b032ab23ac17ca6d",
+  "node": "v22.23.4",
+  "project": "copied developer source-api fixture",
+  "execution": "relocated portable CLI, external cwd, no workspace module resolution",
+  "firstExit": 0,
+  "malformedExit": 1,
+  "recoveryExit": 0,
+  "identicalAfterRecovery": true,
+  "findings": 10,
+  "tamperValidatorExit": 1,
+  "restoredValidatorExit": 0,
+  "reportSha256": "4bd1bcae10e9bc8e7c15222f2ca0b6d0b08f5bc35cbd4c3fcf1801fc865ca135",
+  "limitation": "Local macOS rehearsal only, no independent holdout, no network isolation assertion, no public release/download or other host claims.",
+  "artifacts": {
+    "first.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "first.stdout": "4bd1bcae10e9bc8e7c15222f2ca0b6d0b08f5bc35cbd4c3fcf1801fc865ca135",
+    "malformed.stderr": "5ea575e8867618f9f8aba6f86b946d4c83160e6f6e90d2d0ad3dc1127ad7d260",
+    "malformed.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "proof.json": "de9bcd8b46ffb1dcddb5899b43e9cdcbe2ed602cf2310ece202a420bcd075097",
+    "recovered.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "recovered.stdout": "4bd1bcae10e9bc8e7c15222f2ca0b6d0b08f5bc35cbd4c3fcf1801fc865ca135",
+    "restored.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "restored.stdout": "cb04eaf4ec6d177e12033a6f6e74987053a5510c6e49c25a41041b7b12805f90",
+    "tampered.stderr": "e66550541ffd8d28001f5461a449165f31e1022b89e51f716876fa4a95f1c3c8",
+    "tampered.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

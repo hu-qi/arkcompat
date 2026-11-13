@@ -23,3 +23,7 @@ A read-only Claude Code review of correction commit `5d3efa0` was requested thro
 ## Fresh scoped integration observation
 
 An actual MCP stdio client negotiated tools, invoked `compat.scan` on `fixtures/developer/source-api` with API 20/ArkTS target, and invoked `compat.explain` for the first returned finding. Full parsed report equality with the independently executed CLI and finding equality both passed (10 findings). [Recorded proof and raw response hashes](evidence/mcp-cli-correction-parity-2026-11-13.json) bind this observation to code/toolchain. Raw responses are retained locally in the build evidence collection. This is developer-fixture MCP/CLI integration evidence only; it does not close the six-surface, runtime, independent holdout or release gates.
+
+## Fresh portable CLI recovery observation
+
+The packaged CLI was relocated to a directory containing spaces and executed from outside the source workspace on a copied fixture. First scan succeeded (10 findings); malformed manifest failed with exit 1; restoring the input returned a byte-identical report. Tampering with shipped code failed provenance validation; restoring the bytes passed. [Exit states and artifact hashes](evidence/cli-recovery-2026-11-13.json) record the observed scope. This local rehearsal is not public download, independent accuracy or cross-platform acceptance.
