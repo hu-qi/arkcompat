@@ -56,7 +56,7 @@ function packageCli() {
     pnpm(["exec", "tsc", "-b", "apps/cli/tsconfig.json"]);
     temporary = mkdtempSync(join(tmpdir(), "arkcompat-cli-deploy-"));
     const stage = join(temporary, "runtime");
-    pnpm([
+    const deployArgs = [
       "--filter",
       "@arkcompat/cli",
       "--prod",
@@ -64,10 +64,15 @@ function packageCli() {
       "--config.inject-workspace-packages=true",
       "--config.node-linker=hoisted",
       "--config.package-import-method=copy",
-      "--offline",
       "--ignore-scripts",
       stage,
-    ]);
+    ];
+    try {
+      pnpm([...deployArgs.slice(0, 6), "--offline", ...deployArgs.slice(6)]);
+    } catch {
+      rmSync(stage, { recursive: true, force: true });
+      pnpm(deployArgs);
+    }
 
     // Generated install metadata and command shims can contain build-host paths.
     const dependencies = join(stage, "node_modules");

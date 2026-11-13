@@ -11,8 +11,8 @@
     "build": "tsc -b && pnpm --filter @arkcompat/web build",
     "typecheck": "tsc -b && tsc -p tests/tsconfig.json && tsc -p apps/web/tsconfig.json",
     "lint": "eslint .",
-    "format": "prettier --write \"{packages,apps,tests}/**/*.{ts,cts,json}\" \"*.{json,yaml,mjs}\" .github/workflows/quality.yml \"apps/web/*.{mjs,html,css}\" \".github/actions/*/*.{mjs,yml}\" \"spikes/**/*.{mjs,ts,json}\" \"scripts/{package-cli,package-deveco,package-vscode,runtime-notices,runtime-sbom,validate-runtime-provenance}.mjs\"",
-    "format:check": "prettier --check \"{packages,apps,tests}/**/*.{ts,cts,json}\" \"*.{json,yaml,mjs}\" .github/workflows/quality.yml \"apps/web/*.{mjs,html,css}\" \".github/actions/*/*.{mjs,yml}\" \"spikes/**/*.{mjs,ts,json}\" \"scripts/{package-cli,package-deveco,package-vscode,runtime-notices,runtime-sbom,validate-runtime-provenance}.mjs\"",
+    "format": "prettier --write \"{packages,apps,tests}/**/*.{ts,cts,json}\" \"*.{json,yaml,mjs}\" .github/workflows/quality.yml \"apps/web/*.{mjs,html,css}\" \".github/actions/*/*.{mjs,yml}\" \"spikes/**/*.{mjs,ts,json}\" \"scripts/{package-cli,package-deveco,package-release,package-vscode,runtime-notices,runtime-sbom,validate-runtime-provenance}.mjs\"",
+    "format:check": "prettier --check \"{packages,apps,tests}/**/*.{ts,cts,json}\" \"*.{json,yaml,mjs}\" .github/workflows/quality.yml \"apps/web/*.{mjs,html,css}\" \".github/actions/*/*.{mjs,yml}\" \"spikes/**/*.{mjs,ts,json}\" \"scripts/{package-cli,package-deveco,package-release,package-vscode,runtime-notices,runtime-sbom,validate-runtime-provenance}.mjs\"",
     "test": "pnpm build && vitest run --coverage",
     "scan": "node apps/cli/dist/index.js scan",
     "explain": "node apps/cli/dist/index.js explain",
@@ -21,6 +21,7 @@
     "evaluate": "node apps/evaluate/dist/index.js",
     "package:cli": "node scripts/package-cli.mjs",
     "package:deveco": "node scripts/package-deveco.mjs",
+    "package:release": "node scripts/package-release.mjs",
     "package:vscode": "node scripts/package-vscode.mjs",
     "verify:runtime-provenance": "node scripts/validate-runtime-provenance.mjs"
   },
