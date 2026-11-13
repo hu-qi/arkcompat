@@ -1,7 +1,7 @@
 # ArkCompat 项目完成 TODO
 
 **更新时间：** 2026-11-12
-**执行入口：** [项目总控 TODO](PROJECT-MASTER-TODO.md)
+**执行入口：** [根目录 TODO](../TODO.md)
 **当前 main：** `b6ff4eb2702b90441118880aca88781271cb7a86`
 **当前状态：** 7 个开放 Issue（#3、#4、#5、#6、#7、#8、#11）、0 个开放
 PR；A1/A2 与 `READY-ENG-01` 工程切片 `DONE`（37 个文件、593 项测试），A3–A8 全部 `GATED`；正式验收 0/5；人工
@@ -165,7 +165,7 @@ Issue #1 已于 2026-11-12 关闭为 `COMPLETED`，作为 M0 历史记录保留�
 - [ ] 创建 tag/release，推送 GitHub 与 AtomGit 的 main/tag。
 - [ ] 从两个平台读回相同代码 SHA，并核对托管制品哈希。
 - [ ] 更新 ROADMAP、DELIVERY-STATUS、DECISIONS、支持矩阵和维护交接。
-- [ ] 关闭所有满足原始条件的 Issue，保留长期 `TODO.md`。
+- [ ] 关闭所有满足原始条件的 Issue，核验全部完成后删除根目录 `TODO.md` 并更新引用。
 
 完成定义：验收方无需作者本机即可复现；发布、下载、回滚和维护责任均完成。
 

@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "1",
+  "scope": "public correction evidence review only; tools disabled; no independent execution or accuracy adjudication",
+  "reviewedCommit": "7894e59262ec95ba6be60b14c920cf17c792a0bf",
+  "client": "Claude Code 2.1.323",
+  "requestedModel": "opus",
+  "actualModels": [
+    "workbuddy/deepseek-v4.1-flash[1m]"
+  ],
+  "modelRoutingMatchedRequest": false,
+  "isError": false,
+  "durationMs": 78306,
+  "verdict": "request-changes",
+  "inputSha256": "af4107608e8d531f81ac4d8a77d02bf266826b58a5e5ffecfcc1b5a6ae1e2178",
+  "resultSha256": "5100fe6d9360736a4175eeb7cca19757dc94714fb421693d7acd81f5bc7f7a53",
+  "reportSha256": "370fd90417183557aeff3ec62b20750c8cd280471ab7f3a9b45e4c7e78c0c023",
+  "failedAttempt": {
+    "exit": 1,
+    "error": "ECONNREFUSED",
+    "modelUsage": {},
+    "cause": "stale inherited loopback gateway"
+  },
+  "limitations": [
+    "Model differs from requested Opus; advisory tool review only.",
+    "Review could not inspect omitted deletions or execute checks.",
+    "Not a Hu Qi or Anthropic signature; no benchmark or release approval."
+  ],
+  "followup": {
+    "actualModels": [
+      "workbuddy/deepseek-v4.1-flash[1m]"
+    ],
+    "isError": false,
+    "verdict": "request-changes",
+    "inputSha256": "c7f2142b6fa4be8b762387f0deaf8b9b54b6fda7e20d5815a25488664d31c391",
+    "resultSha256": "3043b7cdc0e0e946b34b9d24d9d1d22fdc26581a21ab33a6375d71b9deab614a",
+    "disposition": "Documented findings addressed in working tree; no approval claimed."
+  }
+}

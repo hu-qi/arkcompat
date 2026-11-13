@@ -1,0 +1,26 @@
+{
+  "commit": "f3920974d7967a2e18d9a68bc51c29562b916e07",
+  "node": "v22.23.4",
+  "platform": "darwin",
+  "arch": "arm64",
+  "transport": "actual MCP stdio client/server",
+  "project": "fixtures/developer/source-api",
+  "target": {
+    "os": "HarmonyOS",
+    "release": "6.0.0",
+    "runtime": "arkts",
+    "apiLevel": 20
+  },
+  "findings": 10,
+  "completeReportParity": true,
+  "explainParity": true,
+  "cliSha256": "4bd1bcae10e9bc8e7c15222f2ca0b6d0b08f5bc35cbd4c3fcf1801fc865ca135",
+  "limitation": "Developer fixture integration evidence only; no independent accuracy, GUI host, runtime or release acceptance.",
+  "artifacts": {
+    "cli.json": "4bd1bcae10e9bc8e7c15222f2ca0b6d0b08f5bc35cbd4c3fcf1801fc865ca135",
+    "explain-response.json": "454e67123a60771391e052f25202b0026d8c1e6280724132357d4f3292b543c6",
+    "mcp-response.json": "8cdf764bb48305d2310d5330eaf415e9996ccf54242b768040a151b093820dfb",
+    "proof.json": "dcdb3926ec5c9fc70d871504fa5cd80e34191e2fda26dda3945a1baffbd32df0",
+    "tools.json": "075f1c94cbf012c8c38d140ff992d1198657b0e5be09f0d531d5c037e206e429"
+  }
+}

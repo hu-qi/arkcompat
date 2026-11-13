@@ -19,7 +19,7 @@ A3–A8 全部为 `GATED`；`TODO.md` 是长期唯一执行入口。
 [#8](https://github.com/hu-qi/arkcompat/issues/8)、
 [#11](https://github.com/hu-qi/arkcompat/issues/11)。
 
-[项目总控 TODO](PROJECT-MASTER-TODO.md) 是唯一执行入口。这份文档是项目级总览快照，回答：
+[根目录 TODO](../TODO.md) 是唯一执行入口。这份文档是项目级总览快照，回答：
 
 1. 现在还剩什么；
 2. 哪些能由工程直接完成，哪些必须由负责人或独立裁定人签字；
@@ -30,19 +30,19 @@ A3–A8 全部为 `GATED`；`TODO.md` 是长期唯一执行入口。
 [项目执行台账](PROJECT-EXECUTION-LEDGER.md)，阶段与依赖见
 [项目完成计划](PROJECT-COMPLETION-PLAN.md)，人工决策表见
 [验收与发布签字包](ACCEPTANCE-SIGNOFF-PACKAGE.md)，当前勾选状态见
-[项目总控 TODO](PROJECT-MASTER-TODO.md)。这些文档分工不同，状态不一致时以最新证据和签字记录为准。
+[TODO](../TODO.md)。这些文档分工不同，状态不一致时以最新证据和签字记录为准。
 
 文档使用顺序：
 
 | 需要完成的事情                              | 打开文档                                          |
 | ------------------------------------------- | ------------------------------------------------- |
 | 查看逐项可勾选完成计划                      | [项目完成 TODO](PROJECT-TODO.md)                  |
-| 选择下一项任务并复制执行命令                | **[项目总控 TODO](PROJECT-MASTER-TODO.md)**                     |
+| 选择下一项任务并复制执行命令                | **[根目录 TODO](../TODO.md)**                     |
 | 查看整体依赖、Issue 总表和当前工作队列      | 本文                                              |
 | 按剩余 Issue 直接领取任务并核对正式关闭证据 | [项目完成行动清单](PROJECT-COMPLETION-ACTIONS.md) |
 | 领取今天的工作并查看原子任务、命令和证据    | [项目执行台账](PROJECT-EXECUTION-LEDGER.md)       |
 | 填写阶段期、依赖和发布路径                  | [项目完成计划](PROJECT-COMPLETION-PLAN.md)        |
-| 推进当前工程任务，核对逐项勾选状态          | [项目总控 TODO](PROJECT-MASTER-TODO.md)                |
+| 推进当前工程任务，核对逐项勾选状态          | [TODO](../TODO.md)（唯一执行入口）                |
 | 做人工决策、入口验收和最终签字              | [验收与发布签字包](ACCEPTANCE-SIGNOFF-PACKAGE.md) |
 | 对外说明“已验证到哪一步”                    | [交付状态](DELIVERY-STATUS.md)                    |
 
@@ -65,7 +65,7 @@ A3–A8 全部为 `GATED`；`TODO.md` 是长期唯一执行入口。
 - GitHub 与 AtomGit 的 `main` 和正式 tag 指向同一代码 SHA，托管制品哈希一致；
 - 最终验收人能够不依赖作者本机复现结果；
 - 维护责任、数据刷新周期、撤回流程、升级/卸载和故障恢复已交接；
-- 所有应关闭的 Issue 已关闭，长期 `TODO.md` 与最终证据、发布和维护状态一致。
+- 所有应关闭的 Issue 已关闭，完成核验后删除根目录 `TODO.md`，维护文档与最终证据、发布状态一致。
 
 ## 2. 执行顺序
 
@@ -255,7 +255,7 @@ LICENSE 文件、第三方条款、商标、安全和分发路线仍须由 S-09 
 - [ ] 推送 GitHub 与 AtomGit 的 `main` 和 tag，分别读回 SHA；
 - [ ] 从两个渠道下载制品并核对哈希，执行安装 smoke；
 - [ ] 更新 ROADMAP、DELIVERY-STATUS、DECISIONS、Issue 状态和维护交接；
-- [ ] 关闭所有已完成 Issue，复核零遗漏后把长期 `TODO.md` 更新为最终维护状态。
+- [ ] 关闭所有已完成 Issue，复核零遗漏后删除根目录 `TODO.md` 并迁移维护记录。
 
 发布门禁与 Issue #8 的完整映射见
 [项目执行台账](PROJECT-EXECUTION-LEDGER.md)。
