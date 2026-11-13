@@ -1,7 +1,7 @@
 # ArkCompat 项目完成 TODO
 
 **更新时间：** 2026-11-12
-**执行入口：** [根目录 TODO](../TODO.md)
+**执行入口：** [项目总控 TODO](PROJECT-MASTER-TODO.md)
 **当前 main：** `b6ff4eb2702b90441118880aca88781271cb7a86`
 **当前状态：** 7 个开放 Issue（#3、#4、#5、#6、#7、#8、#11）、0 个开放
 PR；A1/A2 与 `READY-ENG-01` 工程切片 `DONE`（37 个文件、593 项测试），A3–A8 全部 `GATED`；正式验收 0/5；人工

@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "0.1.0",
+  "acceptance": "not-adjudicated",
+  "independence": "unverified",
+  "files": {
+    "cases.json": "9b734122d5fb7e701781a7ea910ddacde43887e6dfe0d1e870742fa0bbba290a",
+    "labels.json": "85533d6ad988c9ac50d18a78824487e7a0710309745f3c4a4403d04ba138535b",
+    "predictions.json": "6686d3c4033c5018b9d94c5f0e593501368a988c962df2b6531a32e2f0273fa4",
+    "results.json": "fc8adae5488a7167a25d424f5f78dc3df5948d8afa6949d54d99ee97c3b65c5c"
+  }
+}

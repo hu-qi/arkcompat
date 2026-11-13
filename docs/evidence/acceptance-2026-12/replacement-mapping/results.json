@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "0.1.0",
+  "datasetId": "acceptance-replacement-mapping",
+  "origin": "developer-fixture",
+  "acceptance": "not-adjudicated",
+  "independence": "unverified",
+  "provenance": {
+    "source": "audited-holdout",
+    "license": "MIT",
+    "labelAuthor": "Claude Code",
+    "sdk": "HarmonyOS 6.0.0 (API 20)",
+    "target": "6.0.0"
+  },
+  "recordedScanner": {
+    "version": "0.0.0",
+    "rules": "none",
+    "knowledge": "arkcompat-reviewed-public-candidates-2026-11-13",
+    "binding": {
+      "scope": "replacement-mapping",
+      "casesSha256": "376ae8445ded13041e1ca293114291ffcfd8093627b2ba386286e0b57824e913",
+      "knowledgeSha256": "a678d48fa9cd85e4a36d8ae689c70635b1cf2c62bb94cae8d4c7f8f4e542dd36"
+    }
+  },
+  "inputs": {
+    "labelsSha256": "2c5729e462ffa2eb88bada0a52f8adb8d608a84e67848464a45faff7229f0962",
+    "predictionsSha256": "d8e48432c0f8283ff9012e0358556927c50f55963dbe5f25e2c42d8ddf0e0e7a"
+  },
+  "total": {
+    "labeled": 6,
+    "positive": 1,
+    "negative": 5,
+    "tp": 1,
+    "fp": 0,
+    "fn": 0,
+    "tn": 4,
+    "abstained": 1,
+    "abstainedPositive": 0,
+    "abstainedNegative": 1,
+    "missingPredictions": 0,
+    "precision": 1,
+    "recall": 1,
+    "accuracy": 0.8333333333333334,
+    "coverage": 0.8333333333333334,
+    "falsePositiveRate": 0
+  },
+  "categories": {
+    "replacement-mapping": {
+      "labeled": 6,
+      "positive": 1,
+      "negative": 5,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "tn": 4,
+      "abstained": 1,
+      "abstainedPositive": 0,
+      "abstainedNegative": 1,
+      "missingPredictions": 0,
+      "precision": 1,
+      "recall": 1,
+      "accuracy": 0.8333333333333334,
+      "coverage": 0.8333333333333334,
+      "falsePositiveRate": 0
+    }
+  },
+  "limitation": "Generic binary judgments and declared metadata only. No official threshold, label independence, SDK/runtime validity or replacement equivalence is established."
+}

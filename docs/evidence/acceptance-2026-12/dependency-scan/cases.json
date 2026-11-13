@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "0.1.0",
+  "datasetId": "acceptance-dep-graph",
+  "target": {
+    "os": "HarmonyOS",
+    "release": "6.0.0",
+    "runtime": "arkts",
+    "apiLevel": 20
+  },
+  "cases": [
+    {
+      "id": "direct-a",
+      "modulePath": ".",
+      "kind": "direct",
+      "section": "dependencies",
+      "name": "a",
+      "resolvedVersion": "1.0.0"
+    },
+    {
+      "id": "direct-alias",
+      "modulePath": ".",
+      "kind": "direct",
+      "section": "dependencies",
+      "name": "alias",
+      "resolvedVersion": "2.1.0"
+    },
+    {
+      "id": "transitive-shared",
+      "kind": "transitive",
+      "name": "shared",
+      "resolvedVersion": "1.2.0"
+    },
+    {
+      "id": "nonexistent-pkg",
+      "kind": "direct",
+      "name": "nonexistent-pkg"
+    },
+    {
+      "id": "wrong-version-a",
+      "kind": "direct",
+      "name": "a",
+      "resolvedVersion": "9.9.9"
+    }
+  ]
+}

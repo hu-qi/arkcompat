@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "0.1.0",
+  "datasetId": "acceptance-missing-port",
+  "target": {
+    "os": "HarmonyOS",
+    "release": "6.0.0",
+    "runtime": "arkts",
+    "apiLevel": 20
+  },
+  "cases": [
+    {
+      "id": "sharp",
+      "package": "sharp",
+      "version": "0.35.5"
+    },
+    {
+      "id": "axios",
+      "package": "axios",
+      "version": "1.21.1"
+    },
+    {
+      "id": "iabtcf",
+      "package": "@iabtechlabtcf/core",
+      "version": "1.5.6"
+    },
+    {
+      "id": "dayjs",
+      "package": "dayjs",
+      "version": "1.11.23"
+    },
+    {
+      "id": "zod",
+      "package": "zod",
+      "version": "4.6.7"
+    },
+    {
+      "id": "crypto-js",
+      "package": "crypto-js",
+      "version": "4.2.0"
+    }
+  ]
+}

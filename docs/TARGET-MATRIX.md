@@ -1,6 +1,6 @@
 # Target & Surface Delivery Matrix · ArkCompat (Stage 1 / Issue #1)
 
-**Status:** Candidate matrix drafted 2026-11-12 for owner sign-off under [DECISIONS](DECISIONS.md) (`D-01`, `D-05`, `D-09`). HarmonyOS **6.0.0 / API 20** is the confirmed minimum engineering floor; rows marked `Pending` are **not** claimed supported.
+**Status:** Formally approved 2026-11-13 under [ACCEPTANCE-SIGNOFF-PACKAGE](ACCEPTANCE-SIGNOFF-PACKAGE.md) (S-01, S-02). HarmonyOS **6.0.0 / API 20** is the confirmed minimum engineering floor; rows marked `Pending / Deferred` are deferred from v1.
 
 ## 1. Target Runtime & HarmonyOS Matrix (A4)
 

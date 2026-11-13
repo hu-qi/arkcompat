@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "0.1.0",
+  "datasetId": "acceptance-missing-port",
+  "scannerVersion": "0.0.0",
+  "rulesSnapshot": "none",
+  "knowledgeSnapshot": "arkcompat-reviewed-public-candidates-2026-11-13",
+  "binding": {
+    "scope": "missing-port",
+    "casesSha256": "68282827adee026776ca4e681fe8fc86f5e3d2fc05fccd357a1a09c945fa1bd6",
+    "knowledgeSha256": "a678d48fa9cd85e4a36d8ae689c70635b1cf2c62bb94cae8d4c7f8f4e542dd36"
+  },
+  "predictions": [
+    {
+      "id": "sharp",
+      "actual": "positive"
+    },
+    {
+      "id": "axios",
+      "actual": "negative"
+    },
+    {
+      "id": "iabtcf",
+      "actual": "negative"
+    },
+    {
+      "id": "dayjs",
+      "actual": "negative"
+    },
+    {
+      "id": "zod",
+      "actual": "unknown"
+    },
+    {
+      "id": "crypto-js",
+      "actual": "negative"
+    }
+  ]
+}
