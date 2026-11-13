@@ -8,7 +8,7 @@ import {
   utimesSync,
   writeFileSync,
 } from "node:fs";
-import { join, relative, resolve } from "node:path";
+import { basename, dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const usage =
@@ -68,7 +68,8 @@ function build(application, output, prestage) {
     throw new Error("Expected exact DevEco Studio 26.0.0.865 build.");
   run("/usr/bin/codesign", ["--verify", "--strict", app]);
 
-  const out = resolve(output);
+  const requested = resolve(output);
+  const out = join(realpathSync(dirname(requested)), basename(requested));
   for (const path of [out, app, root, process.execPath])
     if (/[\s"']/.test(path))
       throw new Error(
