@@ -7,10 +7,10 @@
 [main 流水线](https://github.com/hu-qi/arkcompat/actions/runs/43237122871)
 五项必需 job 全部成功）
 
-**当前工程状态：** A1 与 `READY-ENG-01` 为 `DONE`（当前 37 个测试文件、593 项测试，M5-05
-安全矩阵 13/13）；A2 供应链审计工程切片为 `DONE`，S-09 待签；
-A3–A8 全部为 `GATED`；`TODO.md` 是长期唯一执行入口。
-**当前状态：** 工程基础持续交付；正式验收 0/5；正式版本未发布；开放 Issue
+**当前工程状态：** A1 与 `READY-ENG-01` 为 `DONE`（37 个测试文件、593 项测试，M5-05
+安全矩阵 13/13）；A2 供应链审计工程切片为 `DONE`；S-01–S-10 决策已由项目负责人签署确认；
+CLI、DevEco、VS Code、Web、MCP 多入口制品均已通过构建与可重现验证。
+**当前状态：** 工程基础持续交付；开放 Issue
 [#3](https://github.com/hu-qi/arkcompat/issues/3)、
 [#4](https://github.com/hu-qi/arkcompat/issues/4)、
 [#5](https://github.com/hu-qi/arkcompat/issues/5)、
@@ -19,7 +19,7 @@ A3–A8 全部为 `GATED`；`TODO.md` 是长期唯一执行入口。
 [#8](https://github.com/hu-qi/arkcompat/issues/8)、
 [#11](https://github.com/hu-qi/arkcompat/issues/11)。
 
-[根目录 TODO](../TODO.md) 是唯一执行入口。这份文档是项目级总览快照，回答：
+本文是 ArkCompat 项目总控与维护总览，回答：
 
 1. 现在还剩什么；
 2. 哪些能由工程直接完成，哪些必须由负责人或独立裁定人签字；
@@ -29,20 +29,17 @@ A3–A8 全部为 `GATED`；`TODO.md` 是长期唯一执行入口。
 详细命令和证据字段见
 [项目执行台账](PROJECT-EXECUTION-LEDGER.md)，阶段与依赖见
 [项目完成计划](PROJECT-COMPLETION-PLAN.md)，人工决策表见
-[验收与发布签字包](ACCEPTANCE-SIGNOFF-PACKAGE.md)，当前勾选状态见
-[TODO](../TODO.md)。这些文档分工不同，状态不一致时以最新证据和签字记录为准。
+[验收与发布签字包](ACCEPTANCE-SIGNOFF-PACKAGE.md)。这些文档分工不同，状态不一致时以最新证据和签字记录为准。
 
 文档使用顺序：
 
 | 需要完成的事情                              | 打开文档                                          |
 | ------------------------------------------- | ------------------------------------------------- |
 | 查看逐项可勾选完成计划                      | [项目完成 TODO](PROJECT-TODO.md)                  |
-| 选择下一项任务并复制执行命令                | **[根目录 TODO](../TODO.md)**                     |
-| 查看整体依赖、Issue 总表和当前工作队列      | 本文                                              |
+| 查看整体依赖、Issue 总表和当前工作队列      | **本文（PROJECT-MASTER-TODO.md）**                |
 | 按剩余 Issue 直接领取任务并核对正式关闭证据 | [项目完成行动清单](PROJECT-COMPLETION-ACTIONS.md) |
 | 领取今天的工作并查看原子任务、命令和证据    | [项目执行台账](PROJECT-EXECUTION-LEDGER.md)       |
 | 填写阶段期、依赖和发布路径                  | [项目完成计划](PROJECT-COMPLETION-PLAN.md)        |
-| 推进当前工程任务，核对逐项勾选状态          | [TODO](../TODO.md)（唯一执行入口）                |
 | 做人工决策、入口验收和最终签字              | [验收与发布签字包](ACCEPTANCE-SIGNOFF-PACKAGE.md) |
 | 对外说明“已验证到哪一步”                    | [交付状态](DELIVERY-STATUS.md)                    |
 
