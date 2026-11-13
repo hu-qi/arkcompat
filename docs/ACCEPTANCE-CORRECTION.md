@@ -19,3 +19,7 @@ TODO.md is restored as the execution entry until its requirements are actually c
 ## Independent review dispatch attempt
 
 A read-only Claude Code review of correction commit `5d3efa0` was requested through Orca orchestration. The CLI rejected worker creation with exit 1: `no_active_sender_terminal`, because the Codex session lacks `ORCA_TERMINAL_HANDLE`. No dispatch ID or reviewer result was produced. Do not treat this attempt as an independent review or substitute another terminal's identity. Resume dispatch from an authenticated Orca coordinator session; retain the actual reviewer/model metadata and full review output. PR #120 remains awaiting review.
+
+## Fresh scoped integration observation
+
+An actual MCP stdio client negotiated tools, invoked `compat.scan` on `fixtures/developer/source-api` with API 20/ArkTS target, and invoked `compat.explain` for the first returned finding. Full parsed report equality with the independently executed CLI and finding equality both passed (10 findings). [Recorded proof and raw response hashes](evidence/mcp-cli-correction-parity-2026-11-13.json) bind this observation to code/toolchain. Raw responses are retained locally in the build evidence collection. This is developer-fixture MCP/CLI integration evidence only; it does not close the six-surface, runtime, independent holdout or release gates.
