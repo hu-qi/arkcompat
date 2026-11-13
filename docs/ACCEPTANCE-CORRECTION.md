@@ -15,3 +15,7 @@ PR #119 (`326c561`) was merged with passing engineering CI, but its completion c
 Issues #3–#8 and #11 require reopening because their closing comments relied on the above insufficient evidence. Earlier engineering tests and package rehearsals remain valid only within their recorded scope. PR #119 remains available in Git history for audit; its generated acceptance files and script are removed from the active tree to prevent reuse as formal evidence.
 
 TODO.md is restored as the execution entry until its requirements are actually complete. The user's requested final deletion remains the end step, after verified completion. No acceptance percentage is inferred from green CI or small authored examples.
+
+## Independent review dispatch attempt
+
+A read-only Claude Code review of correction commit `5d3efa0` was requested through Orca orchestration. The CLI rejected worker creation with exit 1: `no_active_sender_terminal`, because the Codex session lacks `ORCA_TERMINAL_HANDLE`. No dispatch ID or reviewer result was produced. Do not treat this attempt as an independent review or substitute another terminal's identity. Resume dispatch from an authenticated Orca coordinator session; retain the actual reviewer/model metadata and full review output. PR #120 remains awaiting review.
