@@ -71,7 +71,7 @@ named.
 
 ## Pending owner/adjudicator sign-off bundle (A5 / A8 · 2026-11-12)
 
-All engineering candidate proposals for Stage 1 are now ready for a single sign-off pass before freezing Milestone M0 (Issue [#1](https://github.com/hu-qi/arkcompat/issues/1)):
+All engineering candidate proposals for Stage 1 are now ready for a single sign-off pass for downstream formal acceptance; M0 Issue [#1](https://github.com/hu-qi/arkcompat/issues/1) already closed on 2026-11-12:
 
 1. **Scoring & partial substitution (`D-02`, `D-03`, `D-04`)**: Approve or amend [ACCEPTANCE-PROTOCOL](ACCEPTANCE-PROTOCOL.md) (F1/precision/recall formulas, non-vacuous coverage floor for `100%`, partial-equivalence rules, and 5-way missing-port criteria).
 2. **Target runtime & v1 surface scope (`D-01`, `D-05`, `D-09`)**: Approve or amend [TARGET-MATRIX](TARGET-MATRIX.md) (whether `react-native`, non-phone devices, and Optional Remote AI are deferred past 2026-12-23, and whether DevEco 2026-12-23 delivery uses `--disk-install` vs. public marketplace/trustlist).

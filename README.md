@@ -9,7 +9,7 @@
 - **交付时间**：2026-12-23
 - **当前进度**：交付工作包完成率 **25%（2/8）**；正式验收完成率 **0%（0/5）**；正式版本尚未发布。
 - **进度核对日期**：2026-11-13；以下完成状态以已合并工程证据和 GitHub Actions 为准。
-- **当前主干**：`a89c9b6112c4acb3950aaad627764e8e71ff39de`；进度基线文档 PR [#117](https://github.com/hu-qi/arkcompat/pull/117) 已合并，[PR 质量流水线](https://github.com/hu-qi/arkcompat/actions/runs/43238598893)和 [main 质量流水线](https://github.com/hu-qi/arkcompat/actions/runs/43238983671)的五项必需 job 全部成功。受限 CommonJS 静态导出盘点已随 PR [#116](https://github.com/hu-qi/arkcompat/pull/116) 合并；当前开放 Issue 为 #3、#4、#5、#6、#7、#8、#11。
+- **当前主干**：`326c5610a6f296fcbc23603dd44f08d61b83bb4b`（PR #119）；该提交的正式验收声明已撤回，修正见 [PR #120](https://github.com/hu-qi/arkcompat/pull/120)。#3–#8 与 #11 已重新打开。PR #116/#117 为历史工程验证记录。
 
 首个验收节点目标 HarmonyOS 6.0.0+，里程碑排期见 [ROADMAP](ROADMAP.md)。
 **[TODO](TODO.md) 是剩余工作的唯一执行入口**，包含文档索引、A1–A8 工作包、
@@ -48,7 +48,7 @@ Node 22.13+（22 系列）或 Node 24，pnpm 10.34.9。实现范围、报告语�
 
 ## Project documentation
 
-- **[TODO — 长期唯一执行入口、当前工作队列、人工门禁和完成条件](TODO.md)**
+- **[TODO — 完成前唯一执行入口、当前工作队列、人工门禁和完成条件](TODO.md)**
 - [项目完成 TODO — 按 T1–T9 勾选执行顺序、证据和 Issue 关闭条件](docs/PROJECT-TODO.md)
 - [项目执行台账 — 原子任务、命令、证据、责任与 Issue 关闭条件](docs/PROJECT-EXECUTION-LEDGER.md)
 - [验收与发布签字包 — S-01–S-10 人工决定、冻结记录和签字表](docs/ACCEPTANCE-SIGNOFF-PACKAGE.md)

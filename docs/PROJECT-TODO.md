@@ -165,7 +165,7 @@ Issue #1 已于 2026-11-12 关闭为 `COMPLETED`，作为 M0 历史记录保留�
 - [ ] 创建 tag/release，推送 GitHub 与 AtomGit 的 main/tag。
 - [ ] 从两个平台读回相同代码 SHA，并核对托管制品哈希。
 - [ ] 更新 ROADMAP、DELIVERY-STATUS、DECISIONS、支持矩阵和维护交接。
-- [ ] 关闭所有满足原始条件的 Issue，保留长期 `TODO.md`。
+- [ ] 关闭所有满足原始条件的 Issue，核验全部完成后删除根目录 `TODO.md` 并更新引用。
 
 完成定义：验收方无需作者本机即可复现；发布、下载、回滚和维护责任均完成。
 

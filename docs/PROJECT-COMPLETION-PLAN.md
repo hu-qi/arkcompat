@@ -44,7 +44,7 @@ CI 绿灯和正式验收分别记录，不能互相替代。
 6. 从已验收 SHA 生成正式 tag/release 和交付制品，GitHub 与 AtomGit
    （即 GitCode）读回相同代码 SHA 及相同制品哈希。
 7. 验收包、快速开始、支持矩阵、限制、升级/卸载、回滚和维护交接均完成，
-   最终签字后关闭所有应关闭的 issue，并保留 `TODO.md` 作为长期维护入口。
+   最终签字后关闭所有应关闭的 issue，核验全部完成后删除 `TODO.md` 并迁移维护入口。
 
 ## 2. 当前基线与缺口
 
@@ -243,7 +243,7 @@ ArkTS/ArkWeb 设备/模拟器、SDK、签名和构建模式上复现。记录失
 7. 更新 ROADMAP、DELIVERY-STATUS、DECISIONS 和 issue 状态；记录维护人、
    数据刷新周期、撤销流程和下一评审日期。
 8. 最终复核所有 issue/PR，确保没有遗漏的阻断项；关闭应关闭的 issue，
-   并把长期 `TODO.md`、README 链接和 docs validator 更新为最终维护状态。
+   并在核验全部完成后删除根目录 `TODO.md`，更新 README 链接和 docs validator。
 
 **完成判据：** #8 的 E1–E10 全部有证据；正式 release 可下载可安装；
 双远端 SHA/制品一致；验收方独立复现；交接完成。
@@ -317,7 +317,7 @@ docs/evidence/
    评测/parity 门禁。
 4. 获得独立标签和目标设备后执行 D1–D4；记录失败、修复和独立复核。
 5. 完成 S-09/S-10 后按 E1–E10 发布，最终关闭所有应关闭 issue，并把长期
-   `TODO.md` 更新为最终维护状态；不要删除该执行入口。
+   核验全部任务完成后删除 `TODO.md`，更新 README 引用与 docs validator。
 
 本计划的任何日期、候选 profile 或候选记录都不能被解释为已批准；
 只有在对应签字和证据完成后才更新为“完成”。

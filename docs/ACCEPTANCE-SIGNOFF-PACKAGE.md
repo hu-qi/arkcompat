@@ -25,7 +25,7 @@ in [ACCEPTANCE-PROTOCOL](ACCEPTANCE-PROTOCOL.md),
 | License for original code     | MIT, confirmed by project requester                                                                                                             |
 | Minimum target                | HarmonyOS 6.0.0 / API 20 and later                                                                                                              |
 | Documentation baseline        | `b6ff4eb2702b90441118880aca88781271cb7a86`; [PR checks](https://github.com/hu-qi/arkcompat/actions/runs/43236623133) and [main checks](https://github.com/hu-qi/arkcompat/actions/runs/43237122871) passed all five required jobs |
-| Execution entry               | [TODO](../TODO.md) is the permanent single execution entry and is not deleted after release                                                     |
+| Execution entry               | [TODO](../TODO.md) is the execution entry until all requirements are verified complete; then delete it and migrate maintenance records                                                     |
 | Engineering regression commit | `511790bcdac6f19bbc0dc53089336c16aeae9896`                                                                                                      |
 | Regression-baseline checks    | [43202341237](https://github.com/hu-qi/arkcompat/actions/runs/43202341237), all five required jobs passed                                       |
 | Regression suite              | 574 tests across 35 files at `511790b`                                                                                                          |

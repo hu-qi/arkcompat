@@ -65,7 +65,7 @@ A3–A8 全部为 `GATED`；`TODO.md` 是长期唯一执行入口。
 - GitHub 与 AtomGit 的 `main` 和正式 tag 指向同一代码 SHA，托管制品哈希一致；
 - 最终验收人能够不依赖作者本机复现结果；
 - 维护责任、数据刷新周期、撤回流程、升级/卸载和故障恢复已交接；
-- 所有应关闭的 Issue 已关闭，长期 `TODO.md` 与最终证据、发布和维护状态一致。
+- 所有应关闭的 Issue 已关闭，完成核验后删除根目录 `TODO.md`，维护文档与最终证据、发布状态一致。
 
 ## 2. 执行顺序
 
@@ -255,7 +255,7 @@ LICENSE 文件、第三方条款、商标、安全和分发路线仍须由 S-09 
 - [ ] 推送 GitHub 与 AtomGit 的 `main` 和 tag，分别读回 SHA；
 - [ ] 从两个渠道下载制品并核对哈希，执行安装 smoke；
 - [ ] 更新 ROADMAP、DELIVERY-STATUS、DECISIONS、Issue 状态和维护交接；
-- [ ] 关闭所有已完成 Issue，复核零遗漏后把长期 `TODO.md` 更新为最终维护状态。
+- [ ] 关闭所有已完成 Issue，复核零遗漏后删除根目录 `TODO.md` 并迁移维护记录。
 
 发布门禁与 Issue #8 的完整映射见
 [项目执行台账](PROJECT-EXECUTION-LEDGER.md)。

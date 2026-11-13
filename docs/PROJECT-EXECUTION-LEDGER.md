@@ -12,7 +12,7 @@
 **Documentation closeout merge:** `5193c65935c58386c9bf8b7a76b76690d7986c70`; [43205954055](https://github.com/hu-qi/arkcompat/actions/runs/43205954055), all five required jobs passed
 **Latest complete code regression baseline:** `511790bcdac6f19bbc0dc53089336c16aeae9896` (574 tests across 35 files)
 **Regression-baseline run:** [43202341237](https://github.com/hu-qi/arkcompat/actions/runs/43202341237), all five required jobs passed
-**Execution entry:** [TODO](../TODO.md) is the permanent single execution entry and remains the maintenance entry after release.
+**Execution entry:** [TODO](../TODO.md) is the execution entry until verified completion; then delete it and use PROJECT-MASTER-TODO.md for maintenance.
 **Documentation closeout read-back:** Historical PR #112 closeout resolved GitHub `origin/main` to `3649d86fa3d449224008fee460df3d951d3d309a`. PR #113 later advanced it to `3fb1f588b8e4223a11a34cc0f7462358d9944df8`; AtomGit synchronization is recorded by the next delivery PR/Issue evidence.
 
 This is the working ledger for completing the seven open Issues:

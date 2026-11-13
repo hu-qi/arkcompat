@@ -1,10 +1,10 @@
 # ArkCompat 项目执行 TODO
 
-**更新时间：** 2026-11-12
+**更新时间：** 2026-11-13
 **目标验收日：** 2026-12-23
-**当前 main 基线：** `b6ff4eb2702b90441118880aca88781271cb7a86`；`READY-ENG-01` PR [#116](https://github.com/hu-qi/arkcompat/pull/116) 已合并，[PR 流水线 43236623133](https://github.com/hu-qi/arkcompat/actions/runs/43236623133) 与 [main 流水线 43237122871](https://github.com/hu-qi/arkcompat/actions/runs/43237122871) 的五项必需 job 全部成功。
-**当前远端：** GitHub `origin/main` 与 AtomGit（即 GitCode）`atomgit-https/main` 均已独立读回上述 SHA。
-**当前状态：** 7 个开放 Issue（#3、#4、#5、#6、#7、#8、#11）、0 个开放 PR、A1/A2 与 `READY-ENG-01` 工程切片 `DONE`（37 个测试文件、593 项测试）；A3–A8 全部为 `GATED`。Issue #1 已于 2026-11-12 结项；正式验收 0/5、人工决定 0/10。
+**当前 main 基线：** `326c5610a6f296fcbc23603dd44f08d61b83bb4b`（PR #119）；该提交的正式验收声明已被证据审计否定，纠正待 PR [#120](https://github.com/hu-qi/arkcompat/pull/120) 合并。PR #116/#117 与其运行编号为历史工程基线，不代表当前验收结论。
+**远端核对：** GitHub 与 AtomGit main 在 PR #119 同步时均为上述 SHA；修正分支 `7894e59` 也已双端读回一致，尚未合并到 main。
+**当前状态：** 7 个开放 Issue（#3、#4、#5、#6、#7、#8、#11，2026-11-13 已重新打开）；1 个开放 PR（#120）。A1/A2 工程证据保留；正式验收仍未完成。用户全部授权继续有效，但独立标签、实测结果和最终签字不能由工程侧生成。详见 [纠正记录](docs/ACCEPTANCE-CORRECTION.md)。
 
 本文是 ArkCompat 剩余工作的**唯一执行入口**，也是长期维护文档。每次开始工作先在这里选择一个 `READY` 工作包；`GATED` 项必须先取得具名人工决定或外部输入。工程实现、CI 绿灯、开发者 fixture、本地制品和模型评审都不能替代正式验收。
 
@@ -77,7 +77,7 @@ S-09 仍须决定 `@yarnpkg/lockfile@1.1.0` 的通知缺口、第三方条款、
 | [项目完成计划](docs/PROJECT-COMPLETION-PLAN.md)        | A–E 阶段、依赖、排期和证据目录                                         | 工程执行者与项目负责人共同维护                   |
 | [交付状态](docs/DELIVERY-STATUS.md)                    | 对外说明已验证工程、未完成门禁和发布状态                               | 工程执行者起草；发布负责人确认                   |
 
-状态冲突时，以已合并的 Issue 评论、具名人工签字和不可变 evidence 为准，并在下一次文档 PR 中同步修正。文档中的提交与流水线编号是已经发生的历史核对基线；不要为了追随每次纯文档合并而改写它们。`TODO.md` 不因项目进入发布阶段而删除；它承担长期的项目状态与后续维护入口。
+状态冲突时，以已合并的 Issue 评论、具名人工签字和不可变 evidence 为准，并在下一次文档 PR 中同步修正。文档中的提交与流水线编号是已经发生的历史核对基线；不要为了追随每次纯文档合并而改写它们。依用户明确目标，`TODO.md` 在全部任务和验收门禁实证完成后删除；维护记录迁入 `docs/PROJECT-MASTER-TODO.md`，同时更新链接和文档校验器。
 
 ## 2. 状态口径
 
@@ -303,7 +303,7 @@ Lottie 候选保持本地、未激活、未提交：`/Users/huqi/Documents/Codex
 | [#4](https://github.com/hu-qi/arkcompat/issues/4)   | schema、五类判定、离线查询/导出、blind adapters 已具备        | S-03–S-08；reviewed 数据批准 | confident replacement 100% 且覆盖非空；missing-port ≥80%；可导出知识库   | 否     |
 | [#5](https://github.com/hu-qi/arkcompat/issues/5)   | 报告、assessment、稳定字节和 CLI 生命周期切片已具备           | S-02；真实项目授权；产品验收 | 完整 walkthrough；独立干净主机；公开 beta                                | 否     |
 | [#6](https://github.com/hu-qi/arkcompat/issues/6)   | CLI/VSIX/DevEco/Web/MCP/CI 局部 smoke 已具备                  | S-02/S-09；分发授权          | 完整 parity；安装/恢复/卸载/回滚；宿主矩阵                               | 否     |
-| [#7](https://github.com/hu-qi/arkcompat/issues/7)   | 回归、评测骨架、API 20 局部运行时、安全边界已具备             | S-01–S-10                    | M5-05/M5-07；四项正式指标；runtime/performance/security；最终裁定        | 否     |
+| [#7](https://github.com/hu-qi/arkcompat/issues/7)   | 回归、评测骨架、早期 API20 模拟器调用日志与 API20-target/API26-runtime 生命周期局部观测（不等于完整运行时矩阵）、安全边界已具备             | S-01–S-10                    | M5-05/M5-07；四项正式指标；runtime/performance/security；最终裁定        | 否     |
 | [#8](https://github.com/hu-qi/arkcompat/issues/8)   | CLI/VSIX、SBOM/通知/哈希机制可重建                            | S-09/S-10                    | accepted SHA；tag/release；签名或校验；下载 smoke；GitHub/AtomGit 同 SHA | 否     |
 | [#11](https://github.com/hu-qi/arkcompat/issues/11) | 五项必需 CI 和分支保护已完成                                  | S-07 及正式输入              | benchmark、provenance、parity、release smoke；故意失败/恢复证据          | 否     |
 
@@ -343,4 +343,4 @@ git ls-remote atomgit-https refs/heads/main
 - 从 accepted SHA 重建制品，在干净环境通过下载、校验和安装 smoke；
 - GitHub 与 AtomGit 的 main/tag 指向同一代码 SHA，托管制品哈希一致；AtomGit 与 GitCode 是同一同步目标，只维护一个权威读回，不声称两次独立同步；
 - 验收方不依赖作者本机即可复现，维护责任、刷新周期、撤回流程和升级/卸载已交接；
-- 所有应关闭 Issue 已关闭，最终 main 流水线通过，长期 `TODO.md` 与证据状态一致。
+- 所有应关闭 Issue 已关闭，最终 main 流水线通过，完成核验后删除根目录 `TODO.md` 并修复引用。
