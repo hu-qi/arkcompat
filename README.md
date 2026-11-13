@@ -8,16 +8,19 @@
 - **目标形态**：CLI / VS Code-Cursor / DevEco Studio / Web / MCP / CI/CD，共享同一扫描引擎。
 - **交付时间**：2026-12-23
 - **当前状态**：工程纵向切片持续交付；正式验收 0/5，正式版本尚未发布。
-- **当前主干**：`b6ff4eb2702b90441118880aca88781271cb7a86`；`READY-ENG-01`（受限 CommonJS 静态导出盘点）PR [#116](https://github.com/hu-qi/arkcompat/pull/116) 已合并。[PR 质量流水线](https://github.com/hu-qi/arkcompat/actions/runs/43236623133)和 [main 质量流水线](https://github.com/hu-qi/arkcompat/actions/runs/43237122871)的五项必需 job 全部成功。当前开放 Issue 为 #3、#4、#5、#6、#7、#8、#11；GitHub 与 AtomGit（即 GitCode）的 `main` 已独立读回该 SHA。
+- **进度核对日期**：2026-11-13；以下完成状态以已合并工程证据和 GitHub Actions 为准。
+- **当前主干**：`a89c9b6112c4acb3950aaad627764e8e71ff39de`；进度基线文档 PR [#117](https://github.com/hu-qi/arkcompat/pull/117) 已合并，[PR 质量流水线](https://github.com/hu-qi/arkcompat/actions/runs/43238598893)和 [main 质量流水线](https://github.com/hu-qi/arkcompat/actions/runs/43238983671)的五项必需 job 全部成功。受限 CommonJS 静态导出盘点已随 PR [#116](https://github.com/hu-qi/arkcompat/pull/116) 合并；当前开放 Issue 为 #3、#4、#5、#6、#7、#8、#11。
 
 首个验收节点目标 HarmonyOS 6.0.0+，里程碑排期见 [ROADMAP](ROADMAP.md)。
 **[TODO](TODO.md) 是剩余工作的唯一执行入口**，包含文档索引、A1–A8 工作包、
-逐项命令、证据路径和 Issue 关闭条件；先选择一个 `READY` 工作包，`GATED`
-项必须先在签字包中完成人工决定。
+逐项命令、证据路径和 Issue 关闭条件。A1/A2 与 `READY-ENG-01` 工程切片已完成；
+后续工作依次为范围与签字复核、扫描/知识缺口闭环、独立评测、真实项目与入口验收、Stage 2 CI 和发布。
 
-已具备：npm、pnpm 和 Yarn 锁文件的部分依赖图、受限 [npm](docs/NPM-WORKSPACES.md)、[pnpm](docs/PNPM-WORKSPACES.md) 与 [Yarn](docs/YARN-WORKSPACES.md) workspace 清单和作用域投影、JS/TS 与部分 ETS 导入/调用清单、JSON/Markdown/SARIF 报告、[本地静态 API 规则评估](docs/LOCAL-API-RULES.md)、[知识库快照导出](docs/KNOWLEDGE-SEMANTICS.md#cli-export)，以及本地 Web、MCP、VS Code 和 CI 入口。Web 与 MCP 可按操作者显式选择的离线快照查询带排除原因和来源的元数据，但不会据此生成替代建议。默认扫描的兼容状态仍为 `unknown`；当前知识库样例为合成数据。真实替代关系、经验证的兼容规则、正式分发和独立验收仍待完成。验证范围与证据见[交付记录](docs/DELIVERY-STATUS.md)。
+已具备：npm、pnpm 和 Yarn 锁文件的部分依赖图、受限 [npm](docs/NPM-WORKSPACES.md)、[pnpm](docs/PNPM-WORKSPACES.md) 与 [Yarn](docs/YARN-WORKSPACES.md) workspace 清单和作用域投影、JS/TS 与部分 ETS 导入/调用清单、JSON/Markdown/SARIF 报告、[本地静态 API 规则评估](docs/LOCAL-API-RULES.md)、[知识库快照导出](docs/KNOWLEDGE-SEMANTICS.md#cli-export)，以及本地 Web、MCP、VS Code、DevEco 和 CI 入口。DevEco 已在 26.0.0.865（macOS arm64）完成本地磁盘安装、加载、报告一致性和编辑器导航验证，公开分发、签名与更新路线仍需落实。Web 与 MCP 可按操作者显式选择的离线快照查询带排除原因和来源的元数据，但不会据此生成替代建议。默认扫描的兼容状态仍为 `unknown`；默认知识库样例为合成数据，公开来源候选快照尚不构成已验证替代关系。真实替代关系、经验证的兼容规则、正式分发和独立验收仍待完成。验证范围与证据见[交付记录](docs/DELIVERY-STATUS.md)。
 
 > 这里的“已验证”只指所列工程任务与 CI 通过，不代表准确率验收、运行时支持或发布批准；开发者 fixture、模型评审和本地制品不构成正式验收。
+
+工作区另有 2026-11-13 的签字、reviewed 知识快照和评测材料变更，尚未提交并完成证据复核；不计入本页已完成项。当前评测生成脚本使用 `fixtures/developer` 样本，结果只能作为工程回归，不能据此认定独立验收通过或批准发布。
 
 ## 进度快照
 
@@ -28,8 +31,8 @@
 | M2 · 知识库与评估 | 2026-11-17 ~ 11-27 | ▶ 部分实现（知识契约、离线查询与 Web/MCP 显式入口已验证，真实数据、独立评估和入库审批未闭环）  |
 | M3 · 建议与报告   | 2026-11-28 ~ 12-06 | ▶ 部分实现（三种报告、确定性解释与本地样例已验证，真实规则/知识和 Beta 未闭环）                |
 | M4 · 多形态入口   | 2026-12-07 ~ 12-14 | ▶ 部分实现（本地 CLI/IDE/Web/MCP/CI 切线与显式知识快照查询已验证，正式分发和全入口验收未闭环） |
-| M5 · 发布候选     | 2026-12-15 ~ 12-19 | ◻ 未开始                                                                                       |
-| M6 · 正式验收     | 2026-12-20 ~ 12-23 | ◻ 未开始                                                                                       |
+| M5 · 发布候选     | 2026-12-15 ~ 12-19 | ▶ 工程准备已开展（安全边界、供应链审计、SBOM/通知/哈希已交付；独立评测、运行时/性能与最终裁定待完成） |
+| M6 · 正式验收     | 2026-12-20 ~ 12-23 | ◻ 未通过（正式验收 0/5；accepted SHA、发布制品、下载验证和最终签字尚未闭环） |
 
 ## Local development
 
