@@ -13,7 +13,7 @@
 [#8](https://github.com/hu-qi/arkcompat/issues/8)、
 [#11](https://github.com/hu-qi/arkcompat/issues/11)。
 
-[项目总控 TODO](PROJECT-MASTER-TODO.md) 是总控执行入口；本文是按 Issue 检查剩余工作的
+[根目录 TODO](../TODO.md) 是唯一执行入口；本文是按 Issue 检查剩余工作的
 工作视图。项目级依赖与完成定义见
 [项目总控 TODO](PROJECT-MASTER-TODO.md)，逐任务命令和证据字段见
 [项目执行台账](PROJECT-EXECUTION-LEDGER.md)，人工决策表见

@@ -69,12 +69,17 @@ does not approve a target matrix, scoring rubric, mapping import or independent
 acceptance. D-01–D-04 remain open until the owners and required profiles are
 named.
 
-## Resolved owner/adjudicator sign-off bundle (S-01 to S-10 · 2026-11-13)
+## Pending owner/adjudicator sign-off bundle (A5 / A8 · 2026-11-12)
 
-All Stage 1 candidate proposals were fully authorized and resolved on 2026-11-13:
+All engineering candidate proposals for Stage 1 are now ready for a single sign-off pass before freezing Milestone M0 (Issue [#1](https://github.com/hu-qi/arkcompat/issues/1)):
 
-1. **Scoring & partial substitution (`D-02`, `D-03`, `D-04` / S-03, S-04, S-05)**: Approved [ACCEPTANCE-PROTOCOL](ACCEPTANCE-PROTOCOL.md) (exact dependency-edge F1, 100% precision over confident replacements with non-vacuous coverage, >=80% incompatible-API recall, and 5-way missing-port taxonomy).
-2. **Target runtime & v1 surface scope (`D-01`, `D-05`, `D-09` / S-01, S-02)**: Approved [TARGET-MATRIX](TARGET-MATRIX.md) (`hos-6.0-api20-arkts-phone` and `hos-6.0-api20-arkweb-phone`; `react-native` and non-phone form factors deferred; CLI, VS Code/Cursor VSIX, DevEco disk-install ZIP, local Web, local MCP, and CI adapter approved for v1; Remote AI deferred).
-3. **Independent adjudication & roles (`S-06`, S-07)**: Project owner: Hu Qi; Independent reviewer / label provider: Claude Code; Final adjudicator: Hu Qi. Holdout isolation policy under [HOLDOUT-ISOLATION](HOLDOUT-ISOLATION.md) approved.
-4. **Lottie candidate disposition (`D-06` / S-08)**: Approved with amendments per Claude Code independent review (`claude-review.md`). The candidate `@ohos/lottie@2.0.0` remains local/inactive in production databases until API 20 runtime rerun, signed release/AOT device, 100-cycle stress/leak, and complex-animation matrix evidence are completed.
-5. **Legal & release authorization (`S-09`, S-10)**: `@yarnpkg/lockfile@1.1.0` upstream notice accepted; release authorization approved for v0.1.0 tag, package generation, checksums, and AtomGit synchronization.
+1. **Scoring & partial substitution (`D-02`, `D-03`, `D-04`)**: Approve or amend [ACCEPTANCE-PROTOCOL](ACCEPTANCE-PROTOCOL.md) (F1/precision/recall formulas, non-vacuous coverage floor for `100%`, partial-equivalence rules, and 5-way missing-port criteria).
+2. **Target runtime & v1 surface scope (`D-01`, `D-05`, `D-09`)**: Approve or amend [TARGET-MATRIX](TARGET-MATRIX.md) (whether `react-native`, non-phone devices, and Optional Remote AI are deferred past 2026-12-23, and whether DevEco 2026-12-23 delivery uses `--disk-install` vs. public marketplace/trustlist).
+3. **Independent adjudication & blind labels (`A5`)**: Name the independent label provider, non-author reviewer, and final acceptance adjudicator, along with dataset licenses and access boundaries.
+4. **Lottie candidate disposition (`D-06` / L5)**: Decide whether to keep `@ohos/lottie@2.0.0` local/inactive until API 20 runtime rerun + real-device/stress prerequisites are satisfied, or schedule those tests in an approved environment.
+
+## Owner authorization and evidence correction · 2026-11-13
+
+The owner explicitly authorized continuation of all remaining work in the delivery conversation. This authorizes implementation, review preparation, test execution, normal PR/merge and eventual publication once the required gates pass. It does not establish measured results, supply independent labels, grant third-party rights or constitute a signature by Claude Code/Anthropic. Proposed scope and scoring can proceed under this authorization; final result acceptance remains evidence-dependent.
+
+The generated sign-offs and reviewed snapshot in PR #119 have been withdrawn. See [ACCEPTANCE-CORRECTION](ACCEPTANCE-CORRECTION.md). Lottie remains local and inactive under the existing scoped review boundary.
