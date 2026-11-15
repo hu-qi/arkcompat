@@ -19,8 +19,8 @@
     "fixtures/developer/source-api/src/imports.ts": "ff65581b74fd88a410b481d18e25dd09fb9b6de1514cf16f5f736694c8e9e7ce",
     "fixtures/developer/source-api/src/loader.cjs": "a67140da0241386b963db836995437d9baaf75d8cbf0a3410013dd4424b08f96",
     "data/knowledge/curated-provenance-snapshot.json": "71618d138a13785dfb2c05643f3d8da6c9e72b85b1d666f031ea3aa20de2bc99",
-    "packages/contracts/scan-report.schema.json": "d2f7679748d76a0fef60d04a6dc3e7455486f1f6aa35a94479ef1caa50cc3964",
-    "packages/contracts/assessment-report.schema.json": "151e075d09a755252f8b6d4ef6480452c899b8ef81367fdddf46e5cfc511d6a8"
+    "packages/contracts/scan-report.schema.json": "7c56bb38aaecd2d382665d2ced0f58290c0327e82d826754e5dce04b76a8ff85",
+    "packages/contracts/assessment-report.schema.json": "38a39846d61c88250dc73133d28e9b3ec79b182384f5b4c76e0d2616143c489e"
   },
   "commands": [
     "pnpm format",

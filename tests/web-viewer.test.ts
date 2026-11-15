@@ -21,6 +21,24 @@ it("accepts the canonical report without changing identity, status or evidence",
   });
   expect(parseReport(JSON.stringify(report))).toEqual(report);
 });
+it("accepts reports produced by a different release of the same schema", async () => {
+  const report = await scanProject("fixtures/developer/source-api", {
+    os: "HarmonyOS",
+    release: "6.0.0",
+    runtime: "arkts",
+  });
+  Reflect.set(report, "scannerVersion", "0.0.0");
+  expect(parseReport(JSON.stringify(report))).toEqual(report);
+});
+it("rejects a non-semver producer version", async () => {
+  const report = await scanProject("fixtures/developer/source-api", {
+    os: "HarmonyOS",
+    release: "6.0.0",
+    runtime: "arkts",
+  });
+  Reflect.set(report, "scannerVersion", "latest");
+  expect(() => parseReport(JSON.stringify(report))).toThrow(/schema 0.12.0/);
+});
 it.each(["not JSON", "null", "{}", '{"schemaVersion":"99.0.0"}'])(
   "rejects malformed/version-mismatched imports: %s",
   (text) => {

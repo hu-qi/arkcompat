@@ -61,7 +61,8 @@ export const ARKCOMPAT_VERSION = "0.1.0" as const;
 
 export interface ScanReport {
   schemaVersion: "0.12.0";
-  scannerVersion: typeof ARKCOMPAT_VERSION;
+  /** Producer release; any semantic version is readable by consumers. */
+  scannerVersion: string;
   snapshots: { rules: "none"; knowledge: "none" };
   target: TargetProfile;
   dependencies: DeclaredDependency[];
@@ -274,7 +275,8 @@ export interface ApiAssessment {
 
 export interface AssessmentReport {
   schemaVersion: "0.1.0";
-  scannerVersion: typeof ARKCOMPAT_VERSION;
+  /** Producer release; any semantic version is readable by consumers. */
+  scannerVersion: string;
   target: TargetProfile;
   snapshots: {
     rules: { id: string; sha256: string } | "none";

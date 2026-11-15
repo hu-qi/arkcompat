@@ -15,7 +15,10 @@
   ],
   "properties": {
     "schemaVersion": { "const": "0.1.0" },
-    "scannerVersion": { "const": "0.1.0" },
+    "scannerVersion": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
     "target": {
       "type": "object",
       "additionalProperties": false,

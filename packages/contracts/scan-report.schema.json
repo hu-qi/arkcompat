@@ -8,7 +8,8 @@
       "const": "0.12.0"
     },
     "scannerVersion": {
-      "const": "0.1.0"
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
     },
     "snapshots": {
       "type": "object",
