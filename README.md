@@ -7,9 +7,9 @@
 - **策略**：TypeScript First；确定性规则 + 版本化知识库 + 可选 AI 辅助分析。
 - **目标形态**：CLI / VS Code-Cursor / DevEco Studio / Web / MCP / CI/CD，共享同一扫描引擎。
 - **交付时间**：2026-12-23
-- **当前进度**：交付工作包完成率 **25%（2/8）**；正式验收完成率 **0%（0/5）**；正式版本尚未发布。
-- **进度核对日期**：2026-11-13；以下完成状态以已合并工程证据和 GitHub Actions 为准。
-- **当前主干**：`326c5610a6f296fcbc23603dd44f08d61b83bb4b`（PR #119）；该提交的正式验收声明已撤回，修正见 [PR #120](https://github.com/hu-qi/arkcompat/pull/120)。#3–#8 与 #11 已重新打开。PR #116/#117 为历史工程验证记录。
+- **当前进度**：交付工作包完成率 **25%（2/8）**；正式验收完成率 **0%（0/5）**。工程预览 **v0.1.0 已于 2026-11-13 发布**，但发布制品存在已确认的 P1 缺陷（Web 制品无法独立启动、制品版本仍为 0.0.0、归档不可重现、发布说明有三处不准确）；修复候选位于 `codex/v0.1.0-release-verification`，尚未发布。详见[发布验证](docs/RELEASE-0.1.0-VERIFICATION.md)与[后续事项](docs/RELEASE-0.1.0-FOLLOWUPS.md)。
+- **进度核对日期**：2026-11-15；以下完成状态以已合并工程证据和 GitHub Actions 为准。
+- **当前主干**：`f64d4f33ad188f8fec4b38095e897a3747e3f933`（v0.1.0 标签指向的发布提交，[CI run 43411412558](https://github.com/hu-qi/arkcompat/actions/runs/43411412558) 五项必需 job 通过）。发布后缺陷的修复候选为 `d8070307c783b9a321df444e70477b2c62e14e9b`，仅本地验证，尚无分支 CI 或独立评审。PR #116/#117/#119 为历史记录。
 
 首个验收节点目标 HarmonyOS 6.0.0+，里程碑排期见 [ROADMAP](ROADMAP.md)。
 **[项目总控 TODO](docs/PROJECT-MASTER-TODO.md) 是项目总控与维护总览**，包含文档索引、
@@ -44,10 +44,12 @@ pnpm check
 pnpm --silent scan fixtures/developer/inventory --runtime arkts --release 6.0.0
 ```
 
-Node 22.13+（22 系列）或 Node 24，pnpm 10.34.9。实现范围、报告语义与限制见 [扫描原型说明](docs/SCANNER-SLICE.md)。
+Node 22.13+（22 系列）或 Node 24，pnpm 10.34.9。便携 CLI 和 VSIX **不内嵌 Node**，目标机器必须提供上述 Node；DevEco 插件使用 IDE 自带运行时。实现范围、报告语义与限制见 [扫描原型说明](docs/SCANNER-SLICE.md)。
 
 ## Project documentation
 
+- [v0.1.0 发布验证 — 制品、重建、功能、安全、性能与入口结果](docs/RELEASE-0.1.0-VERIFICATION.md)
+- [v0.1.0 后续事项 — 本轮工程、后续工程与外部验收](docs/RELEASE-0.1.0-FOLLOWUPS.md)
 - [项目总控 TODO — 里程碑和 Issue 总览快照](docs/PROJECT-MASTER-TODO.md)
 - [项目完成 TODO — 按 T1–T9 勾选执行顺序、证据和 Issue 关闭条件](docs/PROJECT-TODO.md)
 - [项目执行台账 — 原子任务、命令、证据、责任与 Issue 关闭条件](docs/PROJECT-EXECUTION-LEDGER.md)

@@ -10,9 +10,11 @@ all five required jobs passed.
 **Purpose:** Turn the remaining human decisions into one reviewable record that
 unlocks the formal evaluation and release sequence.
 
-This package does not approve a candidate, declare an accuracy result, close an
-Issue or authorize publication. The engineering defaults remain proposals until
-the named decision maker signs the corresponding section. Detailed rules remain
+This package does not approve an accuracy result or close an Issue. Its S-01–S-10
+records were completed on 2026-11-13, including S-10 publication authorization;
+v0.1.0 was published the same day. That authorization is not formal acceptance:
+release verification subsequently found P1 engineering defects, and formal
+acceptance remains 0/5. Detailed rules remain
 in [ACCEPTANCE-PROTOCOL](ACCEPTANCE-PROTOCOL.md),
 [TARGET-MATRIX](TARGET-MATRIX.md),
 [HOLDOUT-ISOLATION](HOLDOUT-ISOLATION.md), [DECISIONS](DECISIONS.md) and

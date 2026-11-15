@@ -1,0 +1,796 @@
+{
+  "schemaVersion": "1",
+  "task": "arkcompat-v0.1.0-engineering-verification",
+  "generatedAt": "2026-11-15T05:02:47Z",
+  "scope": "Independent local engineering verification of the published ArkCompat v0.1.0 release assets, repair of P0/P1 engineering defects on codex/v0.1.0-release-verification, and reconciliation of release-facing documentation.",
+  "exclusions": [
+    "Huawei acceptance, adjudication or endorsement is not included.",
+    "Formal accuracy against independently labeled holdout data is not established.",
+    "No replacement knowledge record was promoted; candidates remain inactive.",
+    "No remote release asset, tag, release body, remote Issue or PR was modified.",
+    "No third-party signature or external security attestation is claimed.",
+    "Cursor and the DevEco Studio host UI were not exercised in this round; prior DevEco evidence is referenced, not re-labeled as this round's evidence."
+  ],
+  "publishedRelease": {
+    "tag": "v0.1.0",
+    "tagObject": "e1f74039d52bff7d43dcae2ced6874214adf5768",
+    "commit": "f64d4f33ad188f8fec4b38095e897a3747e3f933",
+    "commitDate": "2026-11-13T18:44:24+08:00",
+    "publishedAt": "2026-11-13T10:48:13Z",
+    "url": "https://github.com/hu-qi/arkcompat/releases/tag/v0.1.0",
+    "draft": false,
+    "prerelease": false,
+    "author": "hu-qi",
+    "assets": [
+      {
+        "name": "SBOM.cdx.json",
+        "bytes": 15107,
+        "sha256": "bbac7f9d73d52604fe2e7393f24973e4d43ecb2db817f4b7cd00f924a273a5d6"
+      },
+      {
+        "name": "THIRD-PARTY-NOTICES.json",
+        "bytes": 5619,
+        "sha256": "2d266f7f844a91a75164d3a5b939074234d06a257c4705bfe58871b73cc373f6"
+      },
+      {
+        "name": "arkcompat-cli-portable.tar.gz",
+        "bytes": 5253346,
+        "sha256": "b4c3b1d1bc7c226c54dacdc49fd1a7ece11791072953e5409b1fd94bce954bbb"
+      },
+      {
+        "name": "arkcompat-deveco.zip",
+        "bytes": 5619982,
+        "sha256": "f7966557b8b425831d0a945e5da775d04fd22f393adbf9b54e57434ffdfe8e4e"
+      },
+      {
+        "name": "arkcompat-source.tar.gz",
+        "bytes": 460300,
+        "sha256": "9d1e0c198e4eb412da2172975394b590c9de75175ec7e408201eeeed3703d079"
+      },
+      {
+        "name": "arkcompat-vscode.vsix",
+        "bytes": 5620641,
+        "sha256": "083f5f41fc940917c2984a2d28af1322b2f85f1fc4e9a65d9f8b3fc9bbe1da7d"
+      },
+      {
+        "name": "arkcompat-web.tar.gz",
+        "bytes": 38898,
+        "sha256": "a26dab62c291ecc8aee31779142171ac64d8e1fb9b65606e91a9545c5323984f"
+      },
+      {
+        "name": "SHA256SUMS",
+        "bytes": 619,
+        "sha256": "d000dbc6f77c10f6cff3e741b36630eeb6d7a032e1b7116f2c118bdbb7aff884"
+      }
+    ],
+    "verification": {
+      "githubApiDigestsMatched": "8/8",
+      "sha256sumsEntriesVerified": "7/7",
+      "assetCount": 8
+    }
+  },
+  "fixCandidate": {
+    "branch": "codex/v0.1.0-release-verification",
+    "head": "d8070307c783b9a321df444e70477b2c62e14e9b",
+    "baseCommit": "f64d4f33ad188f8fec4b38095e897a3747e3f933",
+    "commits": [
+      "a52898c fix(release): align artifact identity and make packaging reproducible (#5, #8, #11)",
+      "a433b71 fix(release): normalize VSIX entry order for byte-stable packaging (#8)",
+      "d807030 fix(contracts): accept any semver scanner version on report import (#5, #6)"
+    ],
+    "worktreeClean": true,
+    "pushed": false,
+    "ciRunOnBranch": "NOT-RUN",
+    "artifacts": [
+      {
+        "name": "SBOM.cdx.json",
+        "bytes": 15107,
+        "sha256": "1e97b08665343d691390d4ba378dfe6f9e5b90f8d7b91259e2e05886bb35cb48"
+      },
+      {
+        "name": "THIRD-PARTY-NOTICES.json",
+        "bytes": 5619,
+        "sha256": "2d266f7f844a91a75164d3a5b939074234d06a257c4705bfe58871b73cc373f6"
+      },
+      {
+        "name": "arkcompat-cli-portable.tar.gz",
+        "bytes": 5088015,
+        "sha256": "ff5fa601fdcaedc2c36622ac664ef9388d1035e2562dd335d4e23f84dbf9d705"
+      },
+      {
+        "name": "arkcompat-deveco.zip",
+        "bytes": 5620577,
+        "sha256": "901dec7ee7551400486fb755b7a6d75dd98c3a9cc19e3bbe405d2a8ae4356e8e"
+      },
+      {
+        "name": "arkcompat-source.tar.gz",
+        "bytes": 465593,
+        "sha256": "511d672f029b904476a09d5a18f178c67a085d8a952baf94769f1c72d44c0b28"
+      },
+      {
+        "name": "arkcompat-vscode.vsix",
+        "bytes": 5621235,
+        "sha256": "a31345b0b0ebba7a1a69f69870bfd035eb0449e16132c83cd7ef3d96eb1ccdec"
+      },
+      {
+        "name": "arkcompat-web.tar.gz",
+        "bytes": 173022,
+        "sha256": "feefed566621db3ca479c440acf4a4e63cfa6fd1bd3f092a64115226140b861e"
+      },
+      {
+        "name": "SHA256SUMS",
+        "bytes": 619,
+        "sha256": "659270e3784e21cb3ab19ca5dd902298feaa8432f72ecff98a575436acdcd061"
+      }
+    ]
+  },
+  "environment": {
+    "platform": "macOS 27.2.1 arm64 (Darwin 27.2.0)",
+    "node": "22.23.4",
+    "pnpm": "10.34.9",
+    "git": "2.51.0",
+    "vsCodeCli": "1.146.0",
+    "vsCodeCommit": "69047191fc427f2f92828279aae1d90d8eeda7ab",
+    "cursor": "not installed",
+    "devecoStudio": "26.0.0.865 present; host UI not exercised this round",
+    "vsce": "4.1.0",
+    "ajv": "8.20.0",
+    "typescript": "5.9.3",
+    "vitest": "5.1.0"
+  },
+  "inputHashes": {
+    "pnpm-lock.yaml": "762e9ad023f8e521a9ea3a9d8da6b7b998773a5c9a4c098079f93ddc16f1baa9",
+    "packages/contracts/scan-report.schema.json": "7c56bb38aaecd2d382665d2ced0f58290c0327e82d826754e5dce04b76a8ff85",
+    "packages/contracts/assessment-report.schema.json": "38a39846d61c88250dc73133d28e9b3ec79b182384f5b4c76e0d2616143c489e",
+    "data/knowledge/curated-provenance-snapshot.json": "71618d138a13785dfb2c05643f3d8da6c9e72b85b1d666f031ea3aa20de2bc99"
+  },
+  "commands": [
+    {
+      "command": "pnpm install --frozen-lockfile --ignore-scripts",
+      "exitCode": 0,
+      "log": "logs/pnpm-install-frozen-lockfile.log"
+    },
+    {
+      "command": "pnpm check",
+      "exitCode": 0,
+      "log": "logs/pnpm-check.log",
+      "summary": "39 test files, 598 tests, docs integrity 62 files; coverage statements 94.55%, branches 91.8%, functions 98.18%, lines 96.4%"
+    },
+    {
+      "command": "pnpm audit --json",
+      "exitCode": 0,
+      "log": "logs/pnpm-audit.json",
+      "summary": "243 total dependencies; 0 info/low/moderate/high/critical advisories"
+    },
+    {
+      "command": "npx vitest run tests/security-matrix.test.ts",
+      "exitCode": 0,
+      "summary": "13/13 security negative tests passed"
+    },
+    {
+      "command": "npx vitest run 9 lockfile/workspace test files",
+      "exitCode": 0,
+      "summary": "212/212 tests passed"
+    },
+    {
+      "command": "npx vitest run 7 rules/knowledge/source test files",
+      "exitCode": 0,
+      "summary": "133/133 tests passed"
+    },
+    {
+      "command": "node <work>/mcp-client.mjs",
+      "exitCode": 0,
+      "log": "logs/mcp-stdio-client.json",
+      "summary": "Real MCP SDK stdio client: 3 read-only tools, 10 findings, explain identity/evidence match, no-grant denied, knowledge unknown"
+    },
+    {
+      "command": "CLI lifecycle on rebuilt artifact",
+      "exitCode": 0,
+      "log": "logs/cli-lifecycle.log",
+      "summary": "version/help/offline scan/explain exit 0; invalid target, missing path and corrupt manifest exit 1; provenance intact exit 0 and tamper exit 1; rollback target exit 0; uninstall exit 0"
+    },
+    {
+      "command": "node .github/actions/arkcompat-scan/run.mjs",
+      "exitCode": 0,
+      "summary": "10 findings, target API 20, report path emitted; traversal escape exit 1"
+    },
+    {
+      "command": "original arkcompat-web server.mjs",
+      "exitCode": 1,
+      "log": "logs/original-web-startup-failure.err",
+      "summary": "ERR_MODULE_NOT_FOUND @arkcompat/knowledge"
+    },
+    {
+      "command": "rebuilt arkcompat-web server.mjs",
+      "exitCode": 0,
+      "summary": "HTTP 200 index with restrictive CSP; knowledge status unknown; traversal 404; POST 405"
+    },
+    {
+      "command": "node scripts/package-release.mjs (twice)",
+      "exitCode": 0,
+      "summary": "8/8 artifacts byte-identical across rebuild9 and rebuild10; source tar equals git archive HEAD"
+    }
+  ],
+  "artifactChecks": {
+    "safeUnpack": {
+      "files": {
+        "arkcompat-cli-portable.tar.gz": 1201,
+        "arkcompat-web.tar.gz": 9,
+        "arkcompat-source.tar.gz": 439,
+        "arkcompat-deveco.zip": 1072,
+        "arkcompat-vscode.vsix": 1078
+      },
+      "symlinksOrHardlinks": 0,
+      "unsafePathEntries": 0,
+      "setuidOrSetgidEntries": 0,
+      "worldWritableFilesAfterExtraction": 0,
+      "embeddedNodeExecutables": 0
+    },
+    "internalChecksums": "1070/1070 portable CLI files verified with SHA256SUMS",
+    "sbom": "CycloneDX 1.5, 15 components, version 0.1.0 in fixed candidate",
+    "notices": "12 production runtime packages, assessment=file-inventory-only; original release body's '243 dependencies' claim does not describe this file's 12-package runtime scope",
+    "originalVersions": {
+      "cli": "0.0.0",
+      "vsix": "0.0.0",
+      "web": "0.0.0",
+      "embeddedRuntime": "0.0.0",
+      "scannerReports": "0.0.0",
+      "devecoPluginDescriptor": "0.1.0",
+      "releaseTag": "0.1.0"
+    },
+    "fixedVersions": {
+      "cli": "0.1.0",
+      "vsix": "0.1.0",
+      "web": "0.1.0",
+      "embeddedRuntime": "0.1.0",
+      "scannerReports": "0.1.0",
+      "devecoPluginDescriptor": "0.1.0",
+      "mcpServer": "0.1.0",
+      "sbomMetadata": "0.1.0"
+    },
+    "bundledRuntime": {
+      "thirdPartyRuntimePackages": 12,
+      "internalPackages": 3,
+      "sbomComponents": 15,
+      "noticesPackages": 12,
+      "namesAndVersionsMatchBundledTree": true
+    }
+  },
+  "rebuildDeterminism": {
+    "buildsCompared": 2,
+    "artifactsByteIdentical": "8/8",
+    "archiveNormalization": "sorted tar entries, fixed mtimes, uid/gid 0, ustar, gzip -n -9; sorted ZIP entries with fixed DOS timestamps",
+    "sourceArchiveMatchesGitArchiveHead": true,
+    "sourceArchiveSha256": "511d672f029b904476a09d5a18f178c67a085d8a952baf94769f1c72d44c0b28"
+  },
+  "fixtureMatrix": {
+    "fixtureDirectories": 22,
+    "projectFixturesWithIdenticalReports": 18,
+    "nonProjectDirectoriesFailingIdentically": 4,
+    "nonProjectDirectories": [
+      "api-rules",
+      "dependency-evaluation",
+      "evaluation",
+      "knowledge"
+    ],
+    "skipped": 0
+  },
+  "realProjects": [
+    {
+      "name": "express",
+      "repo": "https://github.com/expressjs/express.git",
+      "commit": "43fca52d28a422c8be48fd489cbd4f2d6152bab6",
+      "sourceFiles": 142,
+      "dependencies": 44,
+      "findings": 639,
+      "statuses": [
+        "unknown"
+      ],
+      "scriptsExecuted": false
+    },
+    {
+      "name": "changesets",
+      "repo": "https://github.com/changesets/changesets.git",
+      "commit": "9a035ec36045aeb6141dd0bbac9ab9e3c69ac0bc",
+      "sourceFiles": 160,
+      "dependencies": 23,
+      "findings": 5147,
+      "statuses": [
+        "unknown"
+      ],
+      "scriptsExecuted": false
+    },
+    {
+      "name": "openharmony/applications_app_samples",
+      "repo": "https://github.com/openharmony/applications_app_samples.git",
+      "commit": "a826ab0e75fe51d028c1c5af58188e908736b53b",
+      "sourceFiles": 23,
+      "dependencies": 3,
+      "findings": 172,
+      "statuses": [
+        "unknown"
+      ],
+      "scriptsExecuted": false
+    }
+  ],
+  "performance": [
+    {
+      "input": "developer fixture",
+      "seconds": 0.54,
+      "maxRssBytes": 124174336,
+      "findings": 10
+    },
+    {
+      "input": "express",
+      "seconds": 0.64,
+      "maxRssBytes": 213516288,
+      "findings": 639
+    },
+    {
+      "input": "changesets",
+      "seconds": 0.83,
+      "maxRssBytes": 276856832,
+      "findings": 5147
+    },
+    {
+      "input": "OHPM sample",
+      "seconds": 0.31,
+      "maxRssBytes": 144392192,
+      "findings": 172
+    }
+  ],
+  "entrypoints": [
+    {
+      "name": "CLI",
+      "status": "PASS",
+      "evidence": "logs/cli-lifecycle.log; rebuilt portable artifact, offline scan, explain, knowledge export, errors, corruption, rollback, uninstall"
+    },
+    {
+      "name": "VS Code",
+      "status": "PASS",
+      "limits": "Host observation on VS Code 1.146.0: extension 0.1.0 installed, scan reported 10 items, navigation opened imports.ts; no machine-readable ID-level parity log retained this round"
+    },
+    {
+      "name": "Cursor",
+      "status": "NOT-RUN",
+      "reason": "Cursor is not installed on this host; prior 2026-11-12 Cursor 3.29.15 evidence exists but is not re-labeled as this round"
+    },
+    {
+      "name": "DevEco Studio",
+      "status": "NOT-RUN",
+      "reason": "Release ZIP structure and embedded CLI 0.1.0 verified; host install/scan/jump/uninstall not exercised this round. Prior 2026-11-11 host evidence exists for an earlier package."
+    },
+    {
+      "name": "Web",
+      "status": "PASS",
+      "evidence": "Original artifact FAIL; rebuilt artifact serves UI, CSP, unknown knowledge status, 404 traversal, 405 POST; browser import rendered 10 rows for 0.0.0 and 0.1.0 reports"
+    },
+    {
+      "name": "MCP",
+      "status": "PASS",
+      "evidence": "logs/mcp-stdio-client.json"
+    },
+    {
+      "name": "CI action",
+      "status": "PASS",
+      "evidence": "Local real subprocess run: 10 findings, API 20, report emitted, traversal rejected"
+    }
+  ],
+  "crossSurfaceParity": {
+    "status": "NOT-RUN",
+    "verified": "CLI, real MCP client and CI action produced the same canonical 10 findings for the source-api fixture; Web imported both 0.0.0 and 0.1.0 reports and rendered 10 rows; VS Code host reported 10 items",
+    "notVerified": "Six-way finding ID/status/location/rule-knowledge version equality on one retained machine-readable artifact, and Cursor/DevEco host parity this round"
+  },
+  "remoteRefs": {
+    "github": {
+      "main": "f64d4f33ad188f8fec4b38095e897a3747e3f933",
+      "tagObject": "e1f74039d52bff7d43dcae2ced6874214adf5768",
+      "status": "PASS"
+    },
+    "atomgit": {
+      "main": "f64d4f33ad188f8fec4b38095e897a3747e3f933",
+      "tagObject": "e1f74039d52bff7d43dcae2ced6874214adf5768",
+      "status": "PASS",
+      "artifacts": "NOT-RUN: refs matched; AtomGit release asset publication/digests not checked this round"
+    },
+    "gitcode": {
+      "status": "BLOCKED",
+      "reason": "git ls-remote requires credentials on this host; no read-back performed"
+    },
+    "githubActionsOnReleaseCommit": {
+      "runId": 43411412558,
+      "conclusion": "success",
+      "jobs": {
+        "docsIntegrity": "success",
+        "actionlint": "success",
+        "ubuntuNode22": "success",
+        "ubuntuNode24": "success",
+        "macos15Node24": "success"
+      }
+    }
+  },
+  "results": [
+    {
+      "id": "A-01",
+      "item": "Git tag, release commit and release metadata integrity",
+      "status": "PASS",
+      "denominator": "1 tag / 1 commit / 8 assets",
+      "evidence": "tag object e1f74039 -> commit f64d4f33; release published 2026-11-13"
+    },
+    {
+      "id": "A-02",
+      "item": "Downloaded asset digests match GitHub API",
+      "status": "PASS",
+      "denominator": "8/8 assets"
+    },
+    {
+      "id": "A-03",
+      "item": "SHA256SUMS verification",
+      "status": "PASS",
+      "denominator": "7/7 listed artifacts"
+    },
+    {
+      "id": "A-04",
+      "item": "Safe unpack (traversal, links, special permissions)",
+      "status": "PASS",
+      "denominator": "5 archives / 3799 entries",
+      "evidence": "0 symlinks/hardlinks, 0 unsafe paths, 0 setuid/setgid, 0 world-writable"
+    },
+    {
+      "id": "A-05",
+      "item": "Artifact identity traceable to v0.1.0",
+      "status": "FAIL",
+      "denominator": "8/8 published assets inspected",
+      "evidence": "CLI/VSIX/Web/MCP/reports and DevEco embedded runtime report 0.0.0; fixed candidate 0.1.0"
+    },
+    {
+      "id": "A-06",
+      "item": "Embedded runtime claim and Node prerequisite",
+      "status": "FAIL",
+      "denominator": "CLI, VSIX, DevEco",
+      "evidence": "No embedded Node executable; CLI/VSIX need an operator-provided Node 22.13+/24; release notes do not state this clearly"
+    },
+    {
+      "id": "A-07",
+      "item": "SBOM and third-party notices match bundled dependencies",
+      "status": "FAIL",
+      "denominator": "15 SBOM components / 12 runtime notices / release-note 243 claim",
+      "evidence": "File contents are internally consistent; the release body's 243-dependency claim overstates the 12-package runtime notices scope"
+    },
+    {
+      "id": "A-08",
+      "item": "Published Web artifact starts standalone",
+      "status": "FAIL",
+      "denominator": "1/1 published web asset",
+      "evidence": "ERR_MODULE_NOT_FOUND @arkcompat/knowledge"
+    },
+    {
+      "id": "A-09",
+      "item": "Rebuilt Web artifact starts standalone",
+      "status": "PASS",
+      "denominator": "1/1 rebuilt asset",
+      "evidence": "HTTP 200, CSP, knowledge unknown, 404 traversal, 405 POST"
+    },
+    {
+      "id": "A-10",
+      "item": "Two clean rebuilds produce identical bytes",
+      "status": "PASS",
+      "denominator": "8/8 artifacts",
+      "evidence": "rebuild9 == rebuild10; source tar == git archive HEAD"
+    },
+    {
+      "id": "A-11",
+      "item": "Source archive provenance",
+      "status": "PASS",
+      "denominator": "1/1",
+      "evidence": "SHA-256 511d672f... equals git archive HEAD piped through gzip -n -9"
+    },
+    {
+      "id": "B-01",
+      "item": "Frozen-lockfile install with scripts disabled",
+      "status": "PASS",
+      "denominator": "10 workspace projects"
+    },
+    {
+      "id": "B-02",
+      "item": "Full project gate",
+      "status": "PASS",
+      "denominator": "format/lint/typecheck/39 test files/598 tests/docs 62",
+      "evidence": "logs/pnpm-check.log"
+    },
+    {
+      "id": "B-03",
+      "item": "Lockfile and workspace matrix tests",
+      "status": "PASS",
+      "denominator": "212 tests"
+    },
+    {
+      "id": "B-04",
+      "item": "Scanner fixture parity",
+      "status": "PASS",
+      "denominator": "22 directories; 18 identical reports, 4 identical expected failures, 0 skipped"
+    },
+    {
+      "id": "B-05",
+      "item": "Rules, stale/candidate/partial/unknown and source boundaries",
+      "status": "PASS",
+      "denominator": "133 tests",
+      "evidence": "Rules remain version/profile scoped; candidates excluded; Lottie inactive"
+    },
+    {
+      "id": "B-06",
+      "item": "Report schemas, escaping, deterministic bytes and recovery",
+      "status": "PASS",
+      "denominator": "5 canonical renderings (scan JSON/Markdown/SARIF, assessment JSON/Markdown)"
+    },
+    {
+      "id": "B-07",
+      "item": "Real fixed-commit projects: scan, explain, knowledge query, export",
+      "status": "PASS",
+      "denominator": "3/3 projects; all findings unknown",
+      "evidence": "express 639, changesets 5147, OHPM sample 172; no project scripts executed"
+    },
+    {
+      "id": "B-08",
+      "item": "Security negative matrix",
+      "status": "PASS",
+      "denominator": "13/13 tests"
+    },
+    {
+      "id": "B-09",
+      "item": "Performance baseline",
+      "status": "PASS",
+      "denominator": "4 inputs",
+      "evidence": "0.31-0.83 s, 124-277 MiB max RSS; no approved budget exists"
+    },
+    {
+      "id": "B-10",
+      "item": "Dependency vulnerability audit",
+      "status": "PASS",
+      "denominator": "243 dependencies"
+    },
+    {
+      "id": "C-01",
+      "item": "CLI lifecycle on rebuilt artifact",
+      "status": "PASS",
+      "denominator": "12 steps",
+      "evidence": "logs/cli-lifecycle.log"
+    },
+    {
+      "id": "C-02",
+      "item": "VS Code host install/activate/scan/jump/uninstall",
+      "status": "PASS",
+      "denominator": "1 host",
+      "limits": "Count-level observation; no retained ID-level parity log"
+    },
+    {
+      "id": "C-03",
+      "item": "Cursor host",
+      "status": "NOT-RUN",
+      "denominator": "1 host",
+      "reason": "Application absent"
+    },
+    {
+      "id": "C-04",
+      "item": "DevEco host install/scan/jump/uninstall",
+      "status": "NOT-RUN",
+      "denominator": "1 host",
+      "reason": "Package identity verified; host UI not exercised this round"
+    },
+    {
+      "id": "C-05",
+      "item": "Web viewer import/render/recovery",
+      "status": "PASS",
+      "denominator": "2 report producer versions (0.0.0, 0.1.0), 10 rows"
+    },
+    {
+      "id": "C-06",
+      "item": "MCP real stdio client and access boundary",
+      "status": "PASS",
+      "denominator": "3 tools / 4 calls",
+      "evidence": "logs/mcp-stdio-client.json"
+    },
+    {
+      "id": "C-07",
+      "item": "CI action real subprocess",
+      "status": "PASS",
+      "denominator": "2 cases (valid, escaped path)",
+      "evidence": "10 findings; escape rejected"
+    },
+    {
+      "id": "C-08",
+      "item": "Six-surface semantic parity",
+      "status": "NOT-RUN",
+      "denominator": "CLI/MCP/CI/Web/VS Code observed; Cursor/DevEco missing",
+      "evidence": "No single retained six-way ID/location/version comparison",
+      "reason": "Full six-way finding ID/status/location/rule-knowledge version/evidence comparison was not performed; individual available surfaces passed."
+    },
+    {
+      "id": "D-01",
+      "item": "Published v0.1.0 release engineering verdict",
+      "status": "FAIL",
+      "denominator": "4 P1 defects confirmed",
+      "evidence": "F-01..F-04"
+    },
+    {
+      "id": "D-02",
+      "item": "Fix candidate local engineering verdict",
+      "status": "PASS",
+      "denominator": "all local gates",
+      "limits": "Branch not pushed; no CI run; no independent review"
+    },
+    {
+      "id": "E-01",
+      "item": "Documentation/release/Issue reconciliation",
+      "status": "PASS",
+      "denominator": "README, ROADMAP, DELIVERY-STATUS, PROJECT-MASTER-TODO, PROJECT-COMPLETION-ACTIONS, DECISIONS, LOCAL-MCP/VIEWER/EVALUATION/KNOWLEDGE"
+    },
+    {
+      "id": "E-02",
+      "item": "Huawei evaluation and formal accuracy",
+      "status": "DEFERRED",
+      "denominator": "0/5 acceptance metrics",
+      "reason": "Excluded from this round; requires independent labels/adjudication"
+    },
+    {
+      "id": "E-03",
+      "item": "Independent acceptance and sign-off",
+      "status": "DEFERRED",
+      "denominator": "0 independent reviewers",
+      "reason": "Same-model new session or self-review is not independent acceptance"
+    },
+    {
+      "id": "C-09",
+      "item": "GitCode main/tag read-back",
+      "status": "BLOCKED",
+      "denominator": "1 remote",
+      "reason": "git ls-remote requires credentials on this host; GitHub and AtomGit matched"
+    }
+  ],
+  "defects": [
+    {
+      "id": "F-01",
+      "priority": "P1",
+      "title": "Published artifacts are not traceable to the v0.1.0 release identity",
+      "observed": "CLI, VSIX, Web package, MCP server, SBOM, scanner reports and the DevEco embedded runtime identify as 0.0.0; the tag and DevEco plugin descriptor say 0.1.0. arkcompat --version printed usage and exited 1.",
+      "reproduction": "Run the published CLI --version or inspect package.json/SBOM/VSIX/server metadata; scan any project and read scannerVersion.",
+      "rootCause": "No shared release-version constant; workspace versions and scannerVersion stayed at 0.0.0 while the tag was created as v0.1.0.",
+      "fix": "Added ARKCOMPAT_VERSION=0.1.0 in @arkcompat/contracts; bumped all workspace/app versions; added --version/-v/version; wired scanner, assessment, MCP server, SBOM and VSIX.",
+      "fixCommit": "a52898c",
+      "verification": "Fixed CLI/SBOM/VSIX/DevEco embedded runtime/scanner report/MCP all report 0.1.0; CLI version exit 0.",
+      "residual": "Published v0.1.0 assets remain 0.0.0 because release assets must not be modified; a new release is required."
+    },
+    {
+      "id": "F-02",
+      "priority": "P1",
+      "title": "Published Web artifact cannot start outside the workspace",
+      "observed": "node server.mjs exits 1 with ERR_MODULE_NOT_FOUND @arkcompat/knowledge.",
+      "reproduction": "Extract arkcompat-web.tar.gz into an empty directory and run the packaged server with Node.",
+      "rootCause": "The server entry imported the workspace package by bare specifier; no production node_modules was packaged.",
+      "fix": "Build dist/server.bundle.mjs with esbuild, copy it as server.mjs, copy knowledge.schema.json, add bundled-consumer schema fallback and a package-level test.",
+      "fixCommit": "a52898c",
+      "verification": "Rebuilt standalone artifact serves / and /api/knowledge/status; web-package test passes.",
+      "residual": "Published web asset remains broken; new release required."
+    },
+    {
+      "id": "F-03",
+      "priority": "P1",
+      "title": "Release archives were not byte-reproducible",
+      "observed": "Two clean builds produced different bytes for CLI, Web and VSIX despite identical content; source tar was generated from a dirty worktree.",
+      "reproduction": "Run package:release twice into separate directories and compare SHA-256.",
+      "rootCause": "Tar/gzip recorded mtimes and filesystem order; vsce emitted ZIP entries in filesystem order with generated timestamps; packaging allowed a dirty worktree.",
+      "fix": "Deterministic tar (sorted entries, fixed mtimes/ownership, gzip -n -9), sorted ZIP rewrite with fixed DOS timestamps, clean-worktree guard.",
+      "fixCommit": "a52898c, a433b71",
+      "verification": "rebuild9 and rebuild10 identical for 8/8 artifacts; source tar equals git archive HEAD.",
+      "residual": "Determinism is verified on this macOS/Node/pnpm/tar/gzip toolchain only; cross-OS reproduction remains untested."
+    },
+    {
+      "id": "F-04",
+      "priority": "P1",
+      "title": "Fixed Web viewer rejected reports from the published release",
+      "observed": "After the version bump, the schema const 0.1.0 rejected the published release's 0.0.0 reports although schemaVersion was still 0.12.0.",
+      "reproduction": "Import a canonical 0.12.0 report with scannerVersion 0.0.0 into the fixed Web viewer.",
+      "rootCause": "scannerVersion was modeled as a release constant rather than a producer semver string.",
+      "fix": "Schema pattern accepts any x.y.z; TS type is string; acceptance test added for a different release; non-semver still rejected.",
+      "fixCommit": "d807030",
+      "verification": "Browser import rendered 10 rows for both 0.0.0 and 0.1.0 reports; 'latest' rejected.",
+      "residual": "Cross-release compatibility is limited to the same report schemaVersion; historical schema migrations remain rejected."
+    }
+  ],
+  "releaseMetadataDefects": [
+    {
+      "id": "M-01",
+      "priority": "P1",
+      "title": "Release body calls the DevEco plugin an official Huawei plugin",
+      "observed": "The release body says 华为官方 DevEco Studio IDE 插件; the repository states this is an independent community project, not official or certified by Huawei.",
+      "action": "Correct the wording in the next release; do not edit the published release without owner approval."
+    },
+    {
+      "id": "M-02",
+      "priority": "P1",
+      "title": "Release body overstates third-party notices coverage",
+      "observed": "The body says THIRD-PARTY-NOTICES.json contains 243 dependencies; the file inventories 12 production runtime packages and says file-inventory-only.",
+      "action": "Clarify runtime-notice scope versus the 243-dependency audit in the next release."
+    },
+    {
+      "id": "M-03",
+      "priority": "P1",
+      "title": "Release body omits the external Node prerequisite",
+      "observed": "CLI and VSIX contain no Node executable and require an operator-provided Node 22.13+/24; the body describes the CLI as 内嵌运行时.",
+      "action": "Document the Node prerequisite explicitly in the next release and README."
+    }
+  ],
+  "limitations": [
+    "Engineering verification only; it does not establish accuracy, runtime compatibility, SDK support or acceptance.",
+    "The published release was not modified. Fix verification applies to branch commits a52898c/a433b71/d807030, not to downloaded v0.1.0 assets.",
+    "No CI run exists for the fix branch; GitHub Actions remains authoritative after a reviewed push/PR.",
+    "VS Code evidence is a host observation without a retained machine-readable finding-ID comparison; Cursor and DevEco host UI are NOT-RUN this round.",
+    "Performance numbers are one local run per input, not a benchmark; no budget is approved.",
+    "The released knowledge snapshot contains 6 candidate records and 0 reviewed records; no confident substitute is produced.",
+    "GitCode remote read-back is BLOCKED by missing credentials; GitHub and AtomGit refs matched.",
+    "AtomGit main and tag refs matched GitHub, but AtomGit release asset publication and hashes were not compared this round."
+  ],
+  "logs": {
+    "cli-lifecycle.log": {
+      "bytes": 4895,
+      "sha256": "27dd63c473c0e8fd8ee1934dd7c187430a44b757c57ffdb0e5fd0d00f6a39152"
+    },
+    "fix-candidate-SHA256SUMS.txt": {
+      "bytes": 619,
+      "sha256": "659270e3784e21cb3ab19ca5dd902298feaa8432f72ecff98a575436acdcd061"
+    },
+    "knowledge-export.json": {
+      "bytes": 8120,
+      "sha256": "bc7b2249df65b913404ac234e66b321d8c8c8a5fedd34248d3fd06f998a640fe"
+    },
+    "mcp-stdio-client.json": {
+      "bytes": 902,
+      "sha256": "ab22273ec2fd9217c5f57402273ca9d92008c79e0a59a121bf97b9628980b84f"
+    },
+    "original-SHA256SUMS.txt": {
+      "bytes": 619,
+      "sha256": "d000dbc6f77c10f6cff3e741b36630eeb6d7a032e1b7116f2c118bdbb7aff884"
+    },
+    "original-release-body.md": {
+      "bytes": 2256,
+      "sha256": "cd82f70f15d7c893294a2fedbaf9cfe1adf18409dd998522df4af4ab2fa8832e"
+    },
+    "original-web-startup-failure.err": {
+      "bytes": 887,
+      "sha256": "0eaa015e266e70b8816dbef1d723cc4f6744209d4559bfa6e779b6c416c0f758"
+    },
+    "pnpm-audit.json": {
+      "bytes": 310,
+      "sha256": "26425fcdfb8124a428596c64cd2b54a97b96162cb34f28b92a108989e16d52b8"
+    },
+    "pnpm-check.log": {
+      "bytes": 4705,
+      "sha256": "c08461dc5f5322b5012798855bd631b3c3c15a2d4f51a5952bd31d930eee03aa"
+    },
+    "pnpm-install-frozen-lockfile.log": {
+      "bytes": 138,
+      "sha256": "ad530d5e633bd971146423bf2d5a2e88065ce671cb5694d7e67b1847e39e4ff7"
+    },
+    "web-final.headers": {
+      "bytes": 427,
+      "sha256": "dc378a55b26e55a4ec1351b44272df52cfa40986efc0f90e7f8d93d391ab01f1"
+    },
+    "web-question-status.json": {
+      "bytes": 119,
+      "sha256": "aee970ba3999226707dd8c5970521196a3c8de8d598592c36eb01bf343a7202b"
+    },
+    "web-viewer.png": {
+      "bytes": 292318,
+      "sha256": "ff373d5cc881bf0e1779ea5d1003c19780d4f04fa071d984242581b2a0cbc2d3"
+    }
+  },
+  "realProjectTotals": {
+    "projects": 3,
+    "sourceFiles": 325,
+    "dependencies": 70,
+    "findings": 5958,
+    "skippedScans": 0,
+    "allFindingsUnknown": true
+  },
+  "logsSanitized": "Absolute repository/home/work paths were replaced with <repo>, <home> and <work>; no credentials or unrelated private data are retained."
+}

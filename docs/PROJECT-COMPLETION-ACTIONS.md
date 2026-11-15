@@ -1,10 +1,10 @@
 # ArkCompat 剩余事项行动清单
 
-**更新日期：** 2026-11-12
+**更新日期：** 2026-11-15
 **目标验收日：** 2026-12-23
-**当前 main 基线：** `b6ff4eb2702b90441118880aca88781271cb7a86`（`READY-ENG-01` PR [#116](https://github.com/hu-qi/arkcompat/pull/116) 已合并；[PR 43236623133](https://github.com/hu-qi/arkcompat/actions/runs/43236623133) 与 [main 43237122871](https://github.com/hu-qi/arkcompat/actions/runs/43237122871) 五项必需 job 通过）
-**当前工程状态：** A1/A2 与 `READY-ENG-01` 工程切片为 `DONE`；37 个文件、593 项测试通过；剩余 A3–A8 全部为 `GATED`，正式验收、S-09 和发布授权仍待完成
-**当前结论：** 工程持续交付；正式验收 0/5；正式版本未发布；开放 Issue
+**当前 main 基线：** `f64d4f33ad188f8fec4b38095e897a3747e3f933`（v0.1.0 发布提交；[CI run 43411412558](https://github.com/hu-qi/arkcompat/actions/runs/43411412558) 五项必需 job 通过）
+**当前工程状态：** A1/A2 与 `READY-ENG-01` 工程切片为 `DONE`；发布提交 37 个文件、593 项测试；修复候选 `d807030` 39 个文件、598 项测试，但未推送、无分支 CI。剩余 A3–A8 为 `GATED`，正式验收、S-09 和后续发布仍待完成
+**当前结论：** v0.1.0 工程预览已发布但制品存在 P1 缺陷，修复候选未发布；正式验收 0/5；开放 Issue
 [#3](https://github.com/hu-qi/arkcompat/issues/3)、
 [#4](https://github.com/hu-qi/arkcompat/issues/4)、
 [#5](https://github.com/hu-qi/arkcompat/issues/5)、
@@ -37,7 +37,7 @@ Issue 评论、验收签字和不可变 evidence 为准。
 | 开放 PR          |    0 | 当前无待合并 PR                                                |
 | 工程工作包       |    2 | M5-05 `DONE`；M5-07 工程切片 `DONE`，S-09 待签                |
 | 正式验收通过指标 |  0/5 | 四项指标加可交付知识库                                         |
-| 已签字人工决策   | 0/10 | S-01–S-10 均未签；MIT 和原始阈值已另行确认，但不能替代这些决定 |
+| 已记录人工决策   | 10/10 | S-01–S-10 均于 2026-11-13 记录批准/授权（见[签字包](ACCEPTANCE-SIGNOFF-PACKAGE.md)）；这不等于正式验收结果 |
 
 ## 2. 唯一的工程执行队列
 

@@ -24,6 +24,8 @@ One TypeScript-first, evidence-based compatibility analysis engine serving **CLI
 
 **Critical path**: trustworthy reference data → deterministic classification → independent benchmark → consistent multi-entry integration → delivery verification.
 
+**Release status · 2026-11-15:** an engineering preview `v0.1.0` was published on 2026-11-13 at `f64d4f33ad188f8fec4b38095e897a3747e3f933`. It does **not** satisfy the M5 or M6 exit gates: the published Web artifact cannot start, binaries and reports identify as 0.0.0, archives are not byte-reproducible, and the release notes contain three material misstatements. A local fix candidate exists at `d807030` but is unreleased and has no CI run. Formal acceptance remains **0/5**. See [release verification](docs/RELEASE-0.1.0-VERIFICATION.md).
+
 ## Engineering progress · 2026-11-05
 
 The [delivery register](docs/DELIVERY-STATUS.md) tracks every current Issue's verified implementation, next engineering action and closure boundary. Legacy audit #9 is closed with a no-import decision; reports and knowledge metadata are engineering increments, while runtime/acceptance/DevEco/license decisions and remaining product work stay explicit. This does not mark any milestone exit gate complete.

@@ -66,8 +66,9 @@ developer observations answer different questions:
 
 The amended observation does not establish API 20 runtime behavior. It also
 does not approve a target matrix, scoring rubric, mapping import or independent
-acceptance. D-01–D-04 remain open until the owners and required profiles are
-named.
+acceptance. At the time of that observation D-01–D-04 were open; the table now
+records their 2026-11-13 confirmation, which still does not establish any
+measured result or runtime support.
 
 ## Pending owner/adjudicator sign-off bundle (A5 / A8 · 2026-11-12)
 
@@ -83,3 +84,19 @@ All engineering candidate proposals for Stage 1 are now ready for a single sign-
 The owner explicitly authorized continuation of all remaining work in the delivery conversation. This authorizes implementation, review preparation, test execution, normal PR/merge and eventual publication once the required gates pass. It does not establish measured results, supply independent labels, grant third-party rights or constitute a signature by Claude Code/Anthropic. Proposed scope and scoring can proceed under this authorization; final result acceptance remains evidence-dependent.
 
 The generated sign-offs and reviewed snapshot in PR #119 have been withdrawn. See [ACCEPTANCE-CORRECTION](ACCEPTANCE-CORRECTION.md). Lottie remains local and inactive under the existing scoped review boundary.
+
+## v0.1.0 release status · 2026-11-15
+
+S-10 authorized publication of v0.1.0, and the release was published on
+2026-11-13 at `f64d4f3`. Publication authorization is not acceptance: this
+round reproduced four P1 engineering defects in the published assets and three
+release-note misstatements. The defects are fixed only on the unreleased
+`codex/v0.1.0-release-verification` branch (`a52898c`, `a433b71`, `d807030`).
+
+The published tag and assets are treated as **immutable evidence** and were not
+rewritten. A replacement patch release, corrected release notes, CI validation
+of the fix branch, independent clean-host reproduction and any signing route
+need a new owner decision. No confirmed decision above is reopened by this
+record, and none of them establishes accuracy, Huawei acceptance or formal
+completion. See [release verification](RELEASE-0.1.0-VERIFICATION.md) and
+[follow-ups](RELEASE-0.1.0-FOLLOWUPS.md).
