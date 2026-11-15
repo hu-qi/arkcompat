@@ -22,6 +22,77 @@ function sha256File(path) {
   return createHash("sha256").update(readFileSync(path)).digest("hex");
 }
 
+/**
+ * Write a normalized tar.gz: fixed mtimes/ownership, sorted entry order and a
+ * gzip header without a timestamp. Two runs over identical content must
+ * produce identical bytes on the same toolchain.
+ */
+function writeDeterministicTar(directory, outFile) {
+  execFileSync("find", [
+    directory,
+    "-type",
+    "f",
+    "-exec",
+    "touch",
+    "-t",
+    "198001010000",
+    "{}",
+    "+",
+  ]);
+  execFileSync("find", [
+    directory,
+    "-type",
+    "d",
+    "-exec",
+    "touch",
+    "-t",
+    "198001010000",
+    "{}",
+    "+",
+  ]);
+  const entries = execFileSync("find", [".", "-mindepth", "1", "-print"], {
+    cwd: directory,
+    encoding: "utf8",
+    maxBuffer: 32 * 1024 * 1024,
+  })
+    .split("\n")
+    .filter(Boolean)
+    .map((entry) => entry.replace(/^\.\//, ""))
+    .sort();
+  const tar = execFileSync(
+    "tar",
+    [
+      "--format",
+      "ustar",
+      "--no-recursion",
+      "--uid",
+      "0",
+      "--gid",
+      "0",
+      "--uname",
+      "root",
+      "--gname",
+      "root",
+      "-cf",
+      "-",
+      "-T",
+      "-",
+    ],
+    {
+      cwd: directory,
+      input: entries.join("\n") + "\n",
+      maxBuffer: 256 * 1024 * 1024,
+    },
+  );
+  writeFileSync(
+    outFile,
+    execFileSync("gzip", ["-n", "-9"], {
+      input: tar,
+      maxBuffer: 256 * 1024 * 1024,
+    }),
+  );
+}
+
 function ensureVsce() {
   if (process.env.VSCE_PATH && existsSync(process.env.VSCE_PATH)) {
     return process.env.VSCE_PATH;
@@ -57,6 +128,16 @@ function packageRelease() {
   const outDir = join(realpathSync(dirname(requested)), basename(requested));
   if (existsSync(outDir)) {
     throw new Error(`Output directory already exists: ${outDir}`);
+  }
+  if (
+    execFileSync("git", ["status", "--porcelain"], {
+      cwd: root,
+      encoding: "utf8",
+    }).trim()
+  ) {
+    throw new Error(
+      "Release packaging requires a clean worktree so the source archive matches the built artifacts.",
+    );
   }
   mkdirSync(outDir, { recursive: true, mode: 0o755 });
 
@@ -101,9 +182,7 @@ function packageRelease() {
       },
     );
     const cliTar = join(outDir, "arkcompat-cli-portable.tar.gz");
-    execFileSync("tar", ["-czf", cliTar, "-C", cliDeploy, "."], {
-      stdio: "inherit",
-    });
+    writeDeterministicTar(cliDeploy, cliTar);
     // Copy SBOM and notices to release root as standalone review artifacts
     copyFileSync(
       join(cliDeploy, "SBOM.cdx.json"),
@@ -177,15 +256,23 @@ function packageRelease() {
     mkdirSync(webDir, { recursive: true });
     const webApp = join(root, "apps/web");
     execFileSync("cp", ["-R", join(webApp, "dist"), webDir]);
-    for (const f of ["server.mjs", "package.json", "README.md"]) {
+    // Ship the bundled server entry: it includes the optional knowledge store
+    // and works without the pnpm workspace.
+    copyFileSync(
+      join(webApp, "dist/server.bundle.mjs"),
+      join(webDir, "server.mjs"),
+    );
+    copyFileSync(
+      join(webApp, "dist/knowledge.schema.json"),
+      join(webDir, "knowledge.schema.json"),
+    );
+    for (const f of ["package.json", "README.md"]) {
       if (existsSync(join(webApp, f)))
         copyFileSync(join(webApp, f), join(webDir, f));
     }
     copyFileSync(join(root, "LICENSE"), join(webDir, "LICENSE"));
     const webTar = join(outDir, "arkcompat-web.tar.gz");
-    execFileSync("tar", ["-czf", webTar, "-C", webStage, "arkcompat-web"], {
-      stdio: "inherit",
-    });
+    writeDeterministicTar(webStage, webTar);
     console.log(`    Generated: ${webTar}`);
   } finally {
     rmSync(webStage, { recursive: true, force: true });

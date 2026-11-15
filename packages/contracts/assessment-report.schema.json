@@ -15,7 +15,7 @@
   ],
   "properties": {
     "schemaVersion": { "const": "0.1.0" },
-    "scannerVersion": { "const": "0.0.0" },
+    "scannerVersion": { "const": "0.1.0" },
     "target": {
       "type": "object",
       "additionalProperties": false,

@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { Ajv } from "ajv";
+import { ARKCOMPAT_VERSION } from "@arkcompat/contracts";
 import type { DependencySection, TargetProfile } from "@arkcompat/contracts";
 import {
   exportKnowledge,
@@ -755,7 +756,7 @@ export function predictReplacements(
   return {
     schemaVersion: "0.1.0",
     datasetId: manifest.datasetId,
-    scannerVersion: "0.0.0",
+    scannerVersion: ARKCOMPAT_VERSION,
     rulesSnapshot: "none",
     knowledgeSnapshot: snapshot.snapshotId,
     binding: {
@@ -815,7 +816,7 @@ export function predictMissingPorts(
   return {
     schemaVersion: "0.1.0",
     datasetId: manifest.datasetId,
-    scannerVersion: "0.0.0",
+    scannerVersion: ARKCOMPAT_VERSION,
     rulesSnapshot: "none",
     knowledgeSnapshot: snapshot.snapshotId,
     binding: {

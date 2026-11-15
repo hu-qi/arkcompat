@@ -53,9 +53,15 @@ export interface Limitation {
   code: string;
   path?: string;
 }
+/**
+ * Release identity of the ArkCompat engine that produced a report.
+ * Keep this in sync with the workspace package versions and the release tag.
+ */
+export const ARKCOMPAT_VERSION = "0.1.0" as const;
+
 export interface ScanReport {
   schemaVersion: "0.12.0";
-  scannerVersion: "0.0.0";
+  scannerVersion: typeof ARKCOMPAT_VERSION;
   snapshots: { rules: "none"; knowledge: "none" };
   target: TargetProfile;
   dependencies: DeclaredDependency[];
@@ -268,7 +274,7 @@ export interface ApiAssessment {
 
 export interface AssessmentReport {
   schemaVersion: "0.1.0";
-  scannerVersion: "0.0.0";
+  scannerVersion: typeof ARKCOMPAT_VERSION;
   target: TargetProfile;
   snapshots: {
     rules: { id: string; sha256: string } | "none";

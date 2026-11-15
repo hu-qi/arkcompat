@@ -31,9 +31,25 @@ await build({
   outfile: join(dist, "app.js"),
   sourcemap: false,
 });
+// The release artifact must run without the workspace: bundle the optional
+// knowledge-store dependency into a single self-contained server entry.
+await build({
+  entryPoints: [join(root, "server.mjs")],
+  bundle: true,
+  format: "esm",
+  platform: "node",
+  target: "node22",
+  outfile: join(dist, "server.bundle.mjs"),
+  sourcemap: false,
+});
 await Promise.all(
   ["index.html", "styles.css"].map((file) =>
     copyFile(join(root, file), join(dist, file)),
   ),
+);
+// The bundled server resolves its knowledge schema next to the entry point.
+await copyFile(
+  new URL("../../packages/contracts/knowledge.schema.json", import.meta.url),
+  join(dist, "knowledge.schema.json"),
 );
 console.log("Local report viewer built (schema 0.12.0, no runtime eval)");

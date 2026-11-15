@@ -40,7 +40,7 @@ function predictions() {
   return {
     schemaVersion: "0.1.0",
     datasetId: "developer-fixture",
-    scannerVersion: "0.0.0",
+    scannerVersion: "0.1.0",
     rulesSnapshot: "none",
     knowledgeSnapshot: "none",
     predictions: [

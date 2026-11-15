@@ -32,6 +32,7 @@ import {
   parseDependencyGraph,
   graphCoverage,
 } from "./lockfiles.js";
+import { ARKCOMPAT_VERSION } from "@arkcompat/contracts";
 import type {
   Finding,
   Limitation,
@@ -522,7 +523,7 @@ export async function scanProject(
     );
   return {
     schemaVersion: "0.12.0",
-    scannerVersion: "0.0.0",
+    scannerVersion: ARKCOMPAT_VERSION,
     snapshots: { rules: "none", knowledge: "none" },
     target,
     dependencies: declared,

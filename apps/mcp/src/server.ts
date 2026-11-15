@@ -1,4 +1,5 @@
 import { McpServer } from "@modelcontextprotocol/server";
+import { ARKCOMPAT_VERSION } from "@arkcompat/contracts";
 import type { CallToolResult } from "@modelcontextprotocol/server";
 import type { KnowledgeStore } from "@arkcompat/knowledge";
 import * as z from "zod/v4";
@@ -36,7 +37,10 @@ export function createServer(
   scanner: WorkspaceScanner,
   knowledge?: KnowledgeStore,
 ) {
-  const server = new McpServer({ name: "arkcompat", version: "0.0.0" });
+  const server = new McpServer({
+    name: "arkcompat",
+    version: ARKCOMPAT_VERSION,
+  });
   server.registerTool(
     "compat.scan",
     {
