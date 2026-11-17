@@ -279,22 +279,25 @@ function parseArguments(argv) {
   const [directory, ...flags] = argv;
   if (!directory)
     throw new Error(
-      "Usage: node scripts/verify-release.mjs <directory> [--deveco-expected=yes|no] [--smoke]",
+      "Usage: node scripts/verify-release.mjs <directory> [--deveco-expected=yes|no] [--smoke] [--compare=<second-directory>]",
     );
   let devecoExpected =
     process.platform === "darwin" && process.arch === "arm64";
   let smoke = false;
+  let compare;
   for (const flag of flags) {
     if (flag === "--smoke") smoke = true;
     else if (flag === "--deveco-expected=yes") devecoExpected = true;
     else if (flag === "--deveco-expected=no") devecoExpected = false;
+    else if (flag.startsWith("--compare="))
+      compare = resolve(flag.slice("--compare=".length));
     else throw new Error(`Unknown argument: ${flag}`);
   }
-  return { directory: resolve(directory), devecoExpected, smoke };
+  return { directory: resolve(directory), devecoExpected, smoke, compare };
 }
 
 async function verify() {
-  const { directory, devecoExpected, smoke } = parseArguments(
+  const { directory, devecoExpected, smoke, compare } = parseArguments(
     process.argv.slice(2),
   );
   const expected = Object.keys(artifactSet).filter(
@@ -378,6 +381,18 @@ async function verify() {
   } finally {
     for (const destination of temporary)
       rmSync(destination, { recursive: true, force: true });
+  }
+
+  if (compare) {
+    const left = readdirSync(directory).sort();
+    const right = readdirSync(compare).sort();
+    if (JSON.stringify(left) !== JSON.stringify(right))
+      throw new Error("Repeated packaging produced a different artifact set.");
+    for (const name of left) {
+      if (sha256File(join(directory, name)) !== sha256File(join(compare, name)))
+        throw new Error(`Repeated packaging is not byte-identical: ${name}`);
+    }
+    summary.checks.reproducible = { files: left.length, identical: true };
   }
 
   console.log(JSON.stringify(summary, null, 2));

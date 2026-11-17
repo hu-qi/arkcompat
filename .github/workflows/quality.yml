@@ -182,8 +182,7 @@ jobs:
           # unexpected ZIP fails verification instead of being ignored.
           pnpm package:release "$RUNNER_TEMP/release-a"
           pnpm package:release "$RUNNER_TEMP/release-b"
-          diff -r "$RUNNER_TEMP/release-a" "$RUNNER_TEMP/release-b"
-          node scripts/verify-release.mjs "$RUNNER_TEMP/release-a" --deveco-expected=no --smoke > "$RUNNER_TEMP/verify-a.json"
+          node scripts/verify-release.mjs "$RUNNER_TEMP/release-a" --deveco-expected=no --smoke --compare="$RUNNER_TEMP/release-b" > "$RUNNER_TEMP/verify-a.json"
           node scripts/verify-release.mjs "$RUNNER_TEMP/release-b" --deveco-expected=no --smoke > "$RUNNER_TEMP/verify-b.json"
       - name: Record toolchain and artifact hashes
         shell: bash
