@@ -14,83 +14,15 @@ import {
 import { tmpdir } from "node:os";
 import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { gzipSync } from "node:zlib";
+
+import { writeDeterministicTar } from "./deterministic-tar.mjs";
 
 const root = realpathSync(fileURLToPath(new URL("..", import.meta.url)));
 const [target, ...extra] = process.argv.slice(2);
 
 function sha256File(path) {
   return createHash("sha256").update(readFileSync(path)).digest("hex");
-}
-
-/**
- * Write a normalized tar.gz: fixed mtimes/ownership, sorted entry order and a
- * gzip header without a timestamp. Two runs over identical content must
- * produce identical bytes on the same toolchain.
- */
-function writeDeterministicTar(directory, outFile) {
-  execFileSync("find", [
-    directory,
-    "-type",
-    "f",
-    "-exec",
-    "touch",
-    "-t",
-    "198001010000",
-    "{}",
-    "+",
-  ]);
-  execFileSync("find", [
-    directory,
-    "-type",
-    "d",
-    "-exec",
-    "touch",
-    "-t",
-    "198001010000",
-    "{}",
-    "+",
-  ]);
-  const entries = execFileSync("find", [".", "-mindepth", "1", "-print"], {
-    cwd: directory,
-    encoding: "utf8",
-    maxBuffer: 32 * 1024 * 1024,
-  })
-    .split("\n")
-    .filter(Boolean)
-    .map((entry) => entry.replace(/^\.\//, ""))
-    .sort();
-  const tar = execFileSync(
-    "tar",
-    [
-      "--format",
-      "ustar",
-      "--no-recursion",
-      "--uid",
-      "0",
-      "--gid",
-      "0",
-      "--uname",
-      "root",
-      "--gname",
-      "root",
-      "-cf",
-      "-",
-      "-T",
-      "-",
-    ],
-    {
-      cwd: directory,
-      input: entries.join("\n") + "\n",
-      maxBuffer: 256 * 1024 * 1024,
-    },
-  );
-  writeFileSync(
-    outFile,
-    execFileSync("gzip", ["-n", "-9"], {
-      input: tar,
-      maxBuffer: 256 * 1024 * 1024,
-    }),
-  );
 }
 
 function ensureVsce() {
@@ -151,11 +83,9 @@ function packageRelease() {
     ["archive", "--format=tar", "--prefix=arkcompat/", "HEAD"],
     { cwd: root, maxBuffer: 32 * 1024 * 1024 },
   );
-  const gzipOut = execFileSync("gzip", ["-n", "-9"], {
-    input: gitArchive,
-    maxBuffer: 32 * 1024 * 1024,
-  });
-  writeFileSync(sourceTar, gzipOut);
+  // Node's zlib writes a gzip header with a zero timestamp and a fixed OS
+  // byte, so the source archive does not depend on the host gzip build.
+  writeFileSync(sourceTar, gzipSync(gitArchive, { level: 9 }));
   console.log(`    Generated: ${sourceTar}`);
 
   // 2. Portable CLI runtime package
