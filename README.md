@@ -44,7 +44,7 @@ pnpm check
 pnpm --silent scan fixtures/developer/inventory --runtime arkts --release 6.0.0
 ```
 
-Node 22.13+（22 系列）或 Node 24，pnpm 10.34.9。便携 CLI 和 VSIX **不内嵌 Node**，目标机器必须提供上述 Node；DevEco 插件使用 IDE 自带运行时。实现范围、报告语义与限制见 [扫描原型说明](docs/SCANNER-SLICE.md)。
+Node 22.13+（22 系列）或 Node 24，pnpm 10.34.9。便携 CLI 和 VSIX **不内嵌 Node 可执行文件**（仅打包 JavaScript 依赖），目标机器必须提供上述 Node；DevEco 插件也不携带 Node，它用 IDE 自带的 `tools/node/bin/node` 执行随插件打包的 JavaScript CLI。实现范围、报告语义与限制见 [扫描原型说明](docs/SCANNER-SLICE.md)。
 
 ## Project documentation
 

@@ -18,7 +18,7 @@ export function readFirstAvailableSchema(candidates: readonly URL[]): string {
       if (code !== "ENOENT") {
         const path = fileURLToPath(candidate);
         throw new Error(
-          `Knowledge schema could not be read at ${path} (${code ?? "unknown"}): ${(error as Error).message}`,
+          `Knowledge schema could not be read at ${path} (${code}): ${(error as Error).message}`,
           { cause: error },
         );
       }

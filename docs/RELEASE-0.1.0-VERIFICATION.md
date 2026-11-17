@@ -2,9 +2,9 @@
 
 **Verification target:** published GitHub release [`v0.1.0`](https://github.com/hu-qi/arkcompat/releases/tag/v0.1.0), tag object `e1f74039d52bff7d43dcae2ced6874214adf5768`, commit `f64d4f33ad188f8fec4b38095e897a3747e3f933`.
 
-**Published release verdict:** **FAIL** — four P1 engineering defects were reproduced against the downloaded assets. The published release assets were **not modified** in this round.
+**Published release verdict:** **FAIL** — three P1 engineering defects (F-01–F-03) were reproduced against the downloaded assets. The published release assets were **not modified** in this round. F-04 is a **candidate regression**, not a published-release defect: it was introduced by the identity fix in the candidate branch and fixed before this round closed (see §9).
 
-**Fix candidate verdict:** **PASS locally** on branch `codex/v0.1.0-release-verification` at `d8070307c783b9a321df444e70477b2c62e14e9b`. The branch is not pushed, has no CI run and has no independent review, so this is not a release verdict.
+**Fix candidate verdict:** **PASS locally** on branch `codex/v0.1.0-release-verification` at `d8070307c783b9a321df444e70477b2c62e14e9b`. The branch was not pushed at the time of this record, had no CI run and had no independent review, so this is not a release verdict. Later branch commits and CI evidence are recorded separately in [RELEASE-0.1.0-CI-CLOSURE](RELEASE-0.1.0-CI-CLOSURE.md); this section keeps the 2026-11-15 observation.
 
 **Formal acceptance:** **NOT ESTABLISHED**. Huawei evaluation, independent holdout labels, formal accuracy scoring and final acceptance are outside this round and are not replaced by fixtures, self-review or generated signatures.
 
@@ -94,7 +94,7 @@ This is the release-blocking **F-01** defect: users cannot reliably tie a downlo
 - `SBOM.cdx.json` is CycloneDX 1.5 with **15** components in the fixed candidate: 3 internal ArkCompat packages plus 12 third-party runtime packages.
 - `THIRD-PARTY-NOTICES.json` is `assessment: file-inventory-only` with the same **12** third-party runtime packages and one retained `@yarnpkg/lockfile@1.1.0` `missing-license-file` gap with a supplemental upstream source. The 12 package names/versions match the bundled runtime tree.
 - The published release body says the notices file contains **243** dependencies. That describes the repository audit inventory, not this 12-package runtime notices file. **M-02**.
-- CLI and VSIX contain **no Node executable**. They require an operator-provided Node 22.13+/24; the release body's “内嵌运行时” wording is misleading. **M-03**.
+- CLI and VSIX contain **no Node executable**. Their JavaScript dependencies are bundled, but running them requires an operator-provided Node 22.13+/24; the release body's “内嵌运行时” wording is misleading. **M-03**. The DevEco plugin also ships no Node binary: `lib/runtime/` is the same JavaScript CLI tree, executed with the IDE's own `tools/node/bin/node`.
 - The published release body calls the DevEco plugin a Huawei official plugin. The repository correctly states that this is an independent community project. **M-01**.
 
 ## 4. Rebuild and determinism
@@ -176,17 +176,22 @@ These are single local observations, not a benchmark; **no performance budget ha
 
 ## 9. Defects and disposition
 
-| ID | Priority | Defect | Fix commit | Status |
+The first table records defects reproduced against the **downloaded v0.1.0 assets**. The second records a regression found in the **fix candidate**; it must not be counted as a published-release defect.
+
+| ID | Priority | Published-release defect | Fix commit | Status |
 | --- | --- | --- | --- | --- |
 | F-01 | P1 | Published binaries/reports identify as 0.0.0; no `--version` | `a52898c` | Fixed locally; new release required |
 | F-02 | P1 | Published Web artifact cannot start (`@arkcompat/knowledge` missing) | `a52898c` | Fixed locally; new release required |
 | F-03 | P1 | Release archives not byte-reproducible; dirty-worktree source archive | `a52898c`, `a433b71` | Fixed locally; cross-OS untested |
-| F-04 | P1 | Fixed Web viewer rejected published 0.0.0 reports | `d807030` | Fixed locally; same-schema only |
+
+| ID | Priority | Candidate-only regression | Introduced / fixed | Status |
+| --- | --- | --- | --- | --- |
+| F-04 | P1 | The identity-fixed Web viewer rejected published 0.0.0 reports | Introduced in `a52898c`; fixed in `d807030` | Fixed in candidate; same-schema only |
 | M-01 | P1 | Release body says “official Huawei” DevEco plugin | — | Published text not modified; correct next release |
 | M-02 | P1 | Release body claims 243 dependencies in the 12-package runtime notices | — | Published text not modified; correct next release |
 | M-03 | P1 | Release body omits external Node 22.13+/24 prerequisite | — | Published text not modified; correct next release |
 
-No P0 defect (credential leak, arbitrary execution, escape, false high-confidence recommendation) was found. The four fixed defects are P1 because they make the shipped artifact unusable, non-traceable or non-reproducible.
+No P0 defect (credential leak, arbitrary execution, escape, false high-confidence recommendation) was found. F-01–F-03 are P1 because they make the shipped artifact unusable, non-traceable or non-reproducible. F-04 is a P1 candidate regression: it would have made the identity-fixed viewer reject already-published reports, and it was fixed on the candidate branch rather than in the published assets.
 
 ## 10. Verdict and boundaries
 

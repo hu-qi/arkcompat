@@ -145,3 +145,68 @@ jobs:
           path: ${{ runner.temp }}/arkcompat-developer-evaluation/
           if-no-files-found: error
           retention-days: 14
+
+  release-package:
+    name: release-package (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Set up Node
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "24"
+      - name: Install pinned pnpm
+        run: npm install --global pnpm@10.34.9 --ignore-scripts
+      - name: Install pinned VS Code Extension Manager
+        shell: bash
+        run: |
+          npm install --prefix "$RUNNER_TEMP/arkcompat-tools" --ignore-scripts \
+            --no-audit --no-fund --save-exact @vscode/vsce@4.1.0
+          echo "VSCE_PATH=$RUNNER_TEMP/arkcompat-tools/node_modules/.bin/vsce" >> "$GITHUB_ENV"
+      - name: Install workspace dependencies
+        run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Package the release twice from the same clean SHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          # DevEco Studio is not installed on hosted runners. The expected
+          # artifact set explicitly excludes arkcompat-deveco.zip; an
+          # unexpected ZIP fails verification instead of being ignored.
+          pnpm package:release "$RUNNER_TEMP/release-a"
+          pnpm package:release "$RUNNER_TEMP/release-b"
+          diff -r "$RUNNER_TEMP/release-a" "$RUNNER_TEMP/release-b"
+          node scripts/verify-release.mjs "$RUNNER_TEMP/release-a" --deveco-expected=no --smoke > "$RUNNER_TEMP/verify-a.json"
+          node scripts/verify-release.mjs "$RUNNER_TEMP/release-b" --deveco-expected=no --smoke > "$RUNNER_TEMP/verify-b.json"
+      - name: Record toolchain and artifact hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          evidence="$RUNNER_TEMP/release-evidence"
+          mkdir -p "$evidence"
+          cp "$RUNNER_TEMP/release-a/SHA256SUMS" "$evidence/SHA256SUMS"
+          cp "$RUNNER_TEMP/verify-a.json" "$RUNNER_TEMP/verify-b.json" "$evidence/"
+          {
+            echo "runner=${{ matrix.os }}"
+            echo "node=$(node --version)"
+            echo "pnpm=$(pnpm --version)"
+            echo "vsce=$("$VSCE_PATH" --version)"
+            echo "deveco=absent-hosted-runner"
+          } > "$evidence/toolchain.txt"
+      - name: Retain release packaging rehearsal, not a release
+        if: ${{ always() }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: release-packaging-rehearsal-not-release-${{ matrix.os }}
+          path: |
+            ${{ runner.temp }}/release-a/
+            ${{ runner.temp }}/release-evidence/
+          if-no-files-found: error
+          retention-days: 14

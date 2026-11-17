@@ -15,10 +15,20 @@ import { fileURLToPath } from "node:url";
 const root = fileURLToPath(new URL("..", import.meta.url));
 
 const artifactSet = {
-  "arkcompat-cli-portable.tar.gz": { kind: "tar", top: "cli" },
+  "arkcompat-cli-portable.tar.gz": {
+    kind: "tar",
+    contains: ["package.json", "dist/index.js", "node_modules"],
+  },
   "arkcompat-source.tar.gz": { kind: "tar", top: "arkcompat" },
-  "arkcompat-vscode.vsix": { kind: "zip", top: "extension" },
-  "arkcompat-web.tar.gz": { kind: "tar", top: "arkcompat-web" },
+  "arkcompat-vscode.vsix": {
+    kind: "zip",
+    contains: ["extension/package.json", "extension/dist/extension.cjs"],
+  },
+  "arkcompat-web.tar.gz": {
+    kind: "tar",
+    top: "arkcompat-web",
+    contains: ["arkcompat-web/server.mjs", "arkcompat-web/dist/app.js"],
+  },
   "arkcompat-deveco.zip": { kind: "zip" },
   "SBOM.cdx.json": { kind: "file" },
   "THIRD-PARTY-NOTICES.json": { kind: "file" },
@@ -80,7 +90,10 @@ function inspectTar(path, label, expectedTop) {
         `${label} contains setuid/setgid/sticky or open permissions.`,
       );
   }
-  return names.length;
+  return {
+    count: names.length,
+    names: names.map((name) => name.replace(/\/$/, "")),
+  };
 }
 
 function inspectZip(path, label, expectedTop) {
@@ -104,7 +117,10 @@ function inspectZip(path, label, expectedTop) {
         `${label} contains setuid/setgid/sticky or open permissions.`,
       );
   }
-  return names.length;
+  return {
+    count: names.length,
+    names: names.map((name) => name.replace(/\/$/, "")),
+  };
 }
 
 function walk(directory, label) {
@@ -181,7 +197,7 @@ function verifyInternalChecksums(directory) {
 }
 
 function cliSmoke(directory) {
-  const cli = join(directory, "cli");
+  const cli = directory;
   const manifest = JSON.parse(readFileSync(join(cli, "package.json"), "utf8"));
   const version = run(process.execPath, [
     join(cli, "dist/index.js"),
@@ -324,10 +340,14 @@ async function verify() {
       };
       if (spec.kind === "tar" || spec.kind === "zip") {
         const label = name;
-        const entries =
+        const listing =
           spec.kind === "tar"
             ? inspectTar(path, label, spec.top)
             : inspectZip(path, label, spec.top);
+        const entries = listing.count;
+        for (const required of spec.contains ?? [])
+          if (!listing.names.includes(required))
+            throw new Error(`${label} is missing ${required}.`);
         const extracted = extract(path, spec.kind, label);
         temporary.push(extracted.destination);
         summary.checks.extractedFiles[name] = {
@@ -335,7 +355,7 @@ async function verify() {
           files: extracted.files,
         };
         if (name === "arkcompat-cli-portable.tar.gz") {
-          const cli = join(extracted.destination, "cli");
+          const cli = extracted.destination;
           summary.checks.internalCliChecksums = verifyInternalChecksums(cli);
           if (
             sha256File(join(cli, "SBOM.cdx.json")) !==
