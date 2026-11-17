@@ -124,6 +124,7 @@ jobs:
         if: ${{ matrix.os == 'ubuntu-24.04' && matrix.node == '24' }}
         env:
           ARKCOMPAT_ACTION_REPORT: ${{ steps.inventory-action.outputs.report-path }}
+          ARKCOMPAT_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           out="$RUNNER_TEMP/arkcompat-action-parity"
           mkdir -p "$out"
@@ -131,8 +132,8 @@ jobs:
           cp "$RUNNER_TEMP/arkcompat-action-expected.json" "$out/cli-report.json"
           action_sha=$(sha256sum "$out/action-report.json" | cut -d' ' -f1)
           cli_sha=$(sha256sum "$out/cli-report.json" | cut -d' ' -f1)
-          printf '{\n  "commit": "%s",\n  "workflowRun": "%s/%s/actions/runs/%s",\n  "fixture": "fixtures/developer/yarn-berry-graph",\n  "target": { "os": "HarmonyOS", "release": "6.0.0", "runtime": "arkts", "apiLevel": 20 },\n  "actionReportSha256": "%s",\n  "cliReportSha256": "%s",\n  "byteIdentical": true\n}\n' \
-            "$GITHUB_SHA" "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID" "$action_sha" "$cli_sha" \
+          printf '{\n  "checkedOutCommit": "%s",\n  "headSha": "%s",\n  "ref": "%s",\n  "workflowRun": "%s/%s/actions/runs/%s",\n  "fixture": "fixtures/developer/yarn-berry-graph",\n  "target": { "os": "HarmonyOS", "release": "6.0.0", "runtime": "arkts", "apiLevel": 20 },\n  "actionReportSha256": "%s",\n  "cliReportSha256": "%s",\n  "byteIdentical": true\n}\n' \
+            "$GITHUB_SHA" "$ARKCOMPAT_HEAD_SHA" "$GITHUB_REF" "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID" "$action_sha" "$cli_sha" \
             > "$out/binding.json"
       - name: Retain action and CLI parity reports
         if: ${{ matrix.os == 'ubuntu-24.04' && matrix.node == '24' }}
