@@ -60,7 +60,7 @@ browser import of the CLI report.
 | MCP (real stdio client, `--allow-report-access`) | PASS               |        4 | all `unknown` | same                                  | `raw/mcp-report.json`; `compat.scan` with `project: "."`                                                     |
 | DevEco host (native disk install)                | PASS               |        4 | all `unknown` | same                                  | `raw/plugin-report-candidate.json`; byte-identical to CLI                                                    |
 | Web viewer (local import, no upload)             | PASS               |        4 | all `unknown` | same                                  | `raw/web-readback.json`; target line reads “Scanner 0.1.0 · Schema 0.12.0”                                   |
-| CI action (downloaded artifact)                  | PASS               |        4 | all `unknown` | same                                  | Run 44060570791 at head `408bf14`; `raw/ci-action-report.json`, `raw/ci-binding.json`; byte-identical to CLI |
+| CI action (downloaded artifact)                  | PASS               |        4 | all `unknown` | same                                  | Run 44061136377 at head `1211c68`; `raw/ci-action-report.json`, `raw/ci-binding.json`; byte-identical to CLI |
 | VS Code host                                     | NOT-RUN this round |        — | —             | —                                     | 2026-11-15 record exists; not re-labeled                                                                     |
 | Cursor host                                      | NOT-RUN            |        — | —             | —                                     | Not installed on this host                                                                                   |
 
@@ -72,8 +72,8 @@ MCP and DevEco).
 
 A pull-request run checks out a merge commit, which GitHub also reports as `GITHUB_SHA`;
 the binding therefore records `checkedOutCommit` and `headSha` separately. The downloaded
-artifact is bound to head `408bf14ccef134e3448ff689f2326b5f24ad37d5`, run
-[44060570791](https://github.com/hu-qi/arkcompat/actions/runs/44060570791).
+artifact is bound to head `1211c68b3516a6ce6a16d17c828cfcf53851a215`, run
+[44061136377](https://github.com/hu-qi/arkcompat/actions/runs/44061136377).
 
 ## Boundaries
 

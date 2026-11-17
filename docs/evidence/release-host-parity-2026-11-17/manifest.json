@@ -87,10 +87,26 @@
       "448859e8040785a45f0d330a41c376636406295feafc3b753c89af2ad2bc4faa"
     ],
     "locations": [
-      { "path": "package.json", "line": 5, "column": 21 },
-      { "path": "package.json", "line": 5, "column": 32 },
-      { "path": "package.json", "line": 5, "column": 63 },
-      { "path": "package.json", "line": 6, "column": 25 }
+      {
+        "path": "package.json",
+        "line": 5,
+        "column": 21
+      },
+      {
+        "path": "package.json",
+        "line": 5,
+        "column": 32
+      },
+      {
+        "path": "package.json",
+        "line": 5,
+        "column": 63
+      },
+      {
+        "path": "package.json",
+        "line": 6,
+        "column": 25
+      }
     ],
     "observation": {
       "path": "raw/deveco-action-observation.json",
@@ -161,19 +177,24 @@
       },
       "ciAction": {
         "status": "PASS",
-        "workflowRun": "https://github.com/hu-qi/arkcompat/actions/runs/44060570791",
-        "headSha": "408bf14ccef134e3448ff689f2326b5f24ad37d5",
-        "checkedOutCommit": "2ccb1d26d62d767596d8ef709352ab9efa6d3c7d",
+        "workflowRun": "https://github.com/hu-qi/arkcompat/actions/runs/44061136377",
+        "headSha": "1211c68b3516a6ce6a16d17c828cfcf53851a215",
+        "checkedOutCommit": "1593d3c99414f1fabae9224a7e3e4d24a4ef4f49",
         "ref": "refs/pull/123/merge",
         "artifact": "arkcompat-action-parity",
         "report": "raw/ci-action-report.json",
         "sha256": "3774d9d0814a5926eedf81746b98622bd7378acaae428ecbb0e48f348eb5b6df",
         "binding": "raw/ci-binding.json",
-        "bindingSha256": "abea423fdfc00f26a93c222a289c3dc8c86276c232eae3b7bf5bb5f7ce3bc55c",
+        "bindingSha256": "329da76ecc154cada2bb27715ba88330833b971550e4342a1a3ef209932c770c",
         "note": "Downloaded from the run above; byte-identical to the CLI report and to the local DevEco/CLI captures. GITHUB_SHA on pull_request runs is the merge commit, so the binding records headSha separately."
       },
-      "vscode": { "status": "NOT-RUN this round" },
-      "cursor": { "status": "NOT-RUN", "note": "not installed on this host" }
+      "vscode": {
+        "status": "NOT-RUN this round"
+      },
+      "cursor": {
+        "status": "NOT-RUN",
+        "note": "not installed on this host"
+      }
     },
     "allCanonicalFieldsEqual": true,
     "summary": "raw/parity-summary.json",
@@ -203,7 +224,7 @@
     },
     {
       "path": "raw/ci-binding.json",
-      "sha256": "abea423fdfc00f26a93c222a289c3dc8c86276c232eae3b7bf5bb5f7ce3bc55c"
+      "sha256": "329da76ecc154cada2bb27715ba88330833b971550e4342a1a3ef209932c770c"
     },
     {
       "path": "raw/parity-summary.json",
