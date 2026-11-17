@@ -32,6 +32,11 @@ Items in this section are actionable in the repository. Items A-01 to A-04 are t
 
 | Item | Evidence |
 | --- | --- |
+| GNU-only tar flags removed; archives written in Node | `7845c5c`; `tests/release-packaging.test.ts`; GNU tar 1.35 reproduction in the [CI closure manifest](evidence/release-0.1.0-ci-closure-2026-11-17/manifest.json) |
+| Schema fallback only on `ENOENT` | `7845c5c`; `tests/knowledge-schema.test.ts` |
+| Portable release artifact verifier | `d0a6cd5`, `18f9c57`; `scripts/verify-release.mjs`, local tamper/missing checks |
+| Linux/macOS release-packaging CI gate | `c2d1e74`, `18f9c57`; `.github/workflows/quality.yml` `release-package` job |
+| F-04 attribution, Node prerequisite wording, D-05/D-08 boundary | `c2d1e74`; [RELEASE-0.1.0-CI-CLOSURE](RELEASE-0.1.0-CI-CLOSURE.md) |
 | Release identity constant and `--version` | `a52898c`; CLI/SBOM/VSIX/MCP/reports report 0.1.0 |
 | Standalone Web bundle and schema | `a52898c`; standalone server smoke passes |
 | Deterministic tar/ZIP and clean-worktree guard | `a52898c`, `a433b71`; 8/8 byte-identical rebuilds |

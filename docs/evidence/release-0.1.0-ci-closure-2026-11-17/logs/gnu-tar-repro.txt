@@ -1,0 +1,8 @@
+$ gtar --version | head -1
+tar (GNU tar) 1.35
+
+$ rm -rf /tmp/arkcompat-gnutar-repro && mkdir -p /tmp/arkcompat-gnutar-repro/a && echo hi > /tmp/arkcompat-gnutar-repro/a/f
+$ cd /tmp/arkcompat-gnutar-repro && printf 'a\na/f\n' | gtar --format ustar --no-recursion --uid 0 --gid 0 --uname root --gname root -cf /tmp/arkcompat-gnutar-repro.tar -T -
+gtar: unrecognized option '--uid'
+Try 'gtar --help' or 'gtar --usage' for more information.
+exit=64
