@@ -57,7 +57,7 @@ The `release-package` job:
 
 **Within-runner** reproducibility (identical bytes from two builds on the same runner) is required. **Cross-runner** equality is not required and is not claimed: Linux and macOS may legitimately produce different archive bytes. Cross-runner parity is functional (same expected set, passing verifier, same version and non-empty scan, Web HTTP 200). The job records per-runner hashes instead of asserting cross-OS identity.
 
-First run: [Actions run 44041429819](https://github.com/hu-qi/arkcompat/actions/runs/44041429819) on head `16900c8` completed **success** for all seven jobs, including both release-package runners. Per-runner hashes are in the manifest. Comparing the two downloaded artifacts showed identical uncompressed CLI/Web tar payloads (all 27,677,184 CLI tar bytes), identical extracted CLI file sets/contents/modes and an identical VSIX; only the gzip-compressed tar bytes differ, consistent with different Linux/macOS zlib builds. That is reported as functional cross-runner parity, not byte identity.
+Runs [44041429819](https://github.com/hu-qi/arkcompat/actions/runs/44041429819) on head `16900c8` and [44041870052](https://github.com/hu-qi/arkcompat/actions/runs/44041870052) on head `fe947dc` both completed **success** for all seven jobs, including both release-package runners. Per-runner hashes are in the manifest. Comparing the two downloaded artifacts showed identical uncompressed CLI/Web tar payloads (all 27,677,184 CLI tar bytes), identical extracted CLI file sets/contents/modes and an identical VSIX; only the gzip-compressed tar bytes differ, consistent with different Linux/macOS zlib builds. That is reported as functional cross-runner parity, not byte identity.
 
 ## 5. Corrections to earlier evidence
 

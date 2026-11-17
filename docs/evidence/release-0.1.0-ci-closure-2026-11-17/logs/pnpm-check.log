@@ -1,36 +1,36 @@
 
-> arkcompat@0.1.0 check /Users/huqi/Develop/opensource/nutpi/arkcompat
+> arkcompat@0.1.0 check <repo>
 > pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && node scripts/validate-docs.mjs
 
 
-> arkcompat@0.1.0 format:check /Users/huqi/Develop/opensource/nutpi/arkcompat
+> arkcompat@0.1.0 format:check <repo>
 > prettier --check "{packages,apps,tests}/**/*.{ts,cts,json}" "*.{json,yaml,mjs}" .github/workflows/quality.yml "apps/web/*.{mjs,html,css}" ".github/actions/*/*.{mjs,yml}" "spikes/**/*.{mjs,ts,json}" "scripts/{deterministic-tar,package-cli,package-deveco,package-release,package-vscode,runtime-notices,runtime-sbom,validate-runtime-provenance,verify-release}.mjs"
 
 Checking formatting...
 All matched files use Prettier code style!
 
-> arkcompat@0.1.0 lint /Users/huqi/Develop/opensource/nutpi/arkcompat
+> arkcompat@0.1.0 lint <repo>
 > eslint .
 
 
-> arkcompat@0.1.0 typecheck /Users/huqi/Develop/opensource/nutpi/arkcompat
+> arkcompat@0.1.0 typecheck <repo>
 > tsc -b && tsc -p tests/tsconfig.json && tsc -p apps/web/tsconfig.json
 
 
-> arkcompat@0.1.0 test /Users/huqi/Develop/opensource/nutpi/arkcompat
+> arkcompat@0.1.0 test <repo>
 > pnpm build && vitest run --coverage
 
 
-> arkcompat@0.1.0 build /Users/huqi/Develop/opensource/nutpi/arkcompat
+> arkcompat@0.1.0 build <repo>
 > tsc -b && pnpm --filter @arkcompat/web build
 
 
-> @arkcompat/web@0.1.0 build /Users/huqi/Develop/opensource/nutpi/arkcompat/apps/web
+> @arkcompat/web@0.1.0 build <repo>/apps/web
 > node build.mjs
 
 Local report viewer built (schema 0.12.0, no runtime eval)
 
- RUN  v5.1.0 /Users/huqi/Develop/opensource/nutpi/arkcompat
+ RUN  v5.1.0 <repo>
       Coverage enabled with istanbul
 
 Usage: arkcompat scan <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] [--timeout-ms <milliseconds>] [--format <json|markdown|sarif>]

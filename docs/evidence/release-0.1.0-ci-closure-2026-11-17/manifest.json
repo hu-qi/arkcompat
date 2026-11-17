@@ -161,7 +161,7 @@
     },
     "log": {
       "path": "logs/pnpm-check.log",
-      "sha256": "5d6002ab46bcb2345bcd196063118174de27a9a55e5779ce82ecb7a753b1500b"
+      "sha256": "4173f3be3f41c21b9bc8868356f8632902e8e559f743b1c46efe7d85934c10e1"
     },
     "actionlint": {
       "result": "PASS",
@@ -251,7 +251,24 @@
       "explanation": "Linux and macOS runner images link different zlib builds, so identical uncompressed ustar payloads compress to different gzip bytes. Cross-runner parity is functional, not byte identity.",
       "verificationMethod": "Downloaded both CI artifacts, gunzipped the CLI and Web archives and compared all 27,677,184 CLI tar bytes plus the Web tar bytes; extracted CLI trees had identical file sets, contents and modes."
     },
-    "note": "Run 44041429819 passed on head 16900c8. Later commits in this PR are documentation/evidence only; they change source-archive bytes but not the built CLI/VSIX/Web/DevEco inputs."
+    "note": "Runs 44041429819 (head 16900c8) and 44041870052 (head fe947dc) both passed all seven jobs. The commit that records this table is documentation/evidence only and is not self-referential.",
+    "reruns": [
+      {
+        "runId": 44041870052,
+        "runUrl": "https://github.com/hu-qi/arkcompat/actions/runs/44041870052",
+        "headSha": "fe947dc2afe6361a0e5196ff90ca9cfd72411271",
+        "status": "SUCCESS",
+        "jobs": {
+          "docs-integrity": "success",
+          "actionlint": "success",
+          "workspace (ubuntu-24.04, Node 22)": "success",
+          "workspace (ubuntu-24.04, Node 24)": "success",
+          "workspace (macos-15, Node 24)": "success",
+          "release-package (ubuntu-24.04)": "success",
+          "release-package (macos-15)": "success"
+        }
+      }
+    ]
   },
   "limitations": [
     "Local packaging evidence is bound to commit 18f9c57. Later documentation/evidence commits change only the source-archive bytes; built CLI/VSIX/Web/DevEco inputs are unchanged, and CI re-proves reproducibility at the pushed head.",
@@ -263,7 +280,7 @@
   ],
   "logs": {
     "logs/gnu-tar-repro.txt": "b24d13c3209cf68617871341f0034f699028bc6bfe0d6366a0bb1eb71ef7ba15",
-    "logs/pnpm-check.log": "5d6002ab46bcb2345bcd196063118174de27a9a55e5779ce82ecb7a753b1500b",
+    "logs/pnpm-check.log": "4173f3be3f41c21b9bc8868356f8632902e8e559f743b1c46efe7d85934c10e1",
     "logs/verify-release.json": "e06f6697af0ca2dd3aecb9b04a0c460b75fedd31a6149b8f61222b527dd32147"
   }
 }
