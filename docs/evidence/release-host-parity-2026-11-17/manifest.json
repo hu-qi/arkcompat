@@ -1,0 +1,255 @@
+{
+  "record": "release-host-parity-2026-11-17",
+  "kind": "host-observation",
+  "generatedAt": "2026-11-17",
+  "subject": {
+    "repository": "hu-qi/arkcompat",
+    "branch": "codex/v0.1.0-release-verification",
+    "commit": "23b85894c94d6181d74c418ddd76991939cbf755",
+    "candidateZip": "/tmp/arkcompat-host-2026-11-17/deveco-build/arkcompat-deveco.zip",
+    "candidateZipSha256": "8bb373417c58eda2dbf231c89225240110ba8ef65e764b8e47e2e7094d71926a",
+    "candidateJarSha256": "aa756854498b764b57c4cb245b5b9ad7e70f10649df24c4be696205d886699a4",
+    "candidateEmbeddedRuntimeVersion": "0.1.0",
+    "publishedV010Zip": "/Users/huqi/Develop/opensource/nutpi/arkcompat-release-v0.1.0/arkcompat-deveco.zip",
+    "publishedV010ZipSha256": "f7966557b8b425831d0a945e5da775d04fd22f393adbf9b54e57434ffdfe8e4e",
+    "publishedV010JarSha256": "aa756854498b764b57c4cb245b5b9ad7e70f10649df24c4be696205d886699a4",
+    "publishedV010EmbeddedRuntimeVersion": "0.0.0"
+  },
+  "host": {
+    "os": "macOS 27.2.1 arm64 (Darwin 27.2.0)",
+    "devecoStudio": {
+      "path": "/Applications/DevEco-Studio.app",
+      "version": "26.0.0.865",
+      "buildNumber": "DS-261.23567.138.36.2600865",
+      "productCode": "DS",
+      "bundledNode": "v24.14.1"
+    },
+    "operatorToolchain": {
+      "node": "v22.23.4",
+      "pnpm": "10.34.9"
+    },
+    "isolatedProfile": {
+      "method": "_JAVA_OPTIONS with -Didea.config.path/-Didea.system.path/-Didea.plugins.path/-Didea.log.path and -Darkcompat.deveco.report-root/-Darkcompat.deveco.observation-root",
+      "profileRoot": "/tmp/arkcompat-host-2026-11-17/deveco-build",
+      "processSupervisor": "launchctl submit -l arkcompat-deveco-test",
+      "userProfilesTouched": false,
+      "agreementsShown": false,
+      "agreementsAccepted": false
+    }
+  },
+  "install": {
+    "route": "Settings > Plugins > Installed > gear > Install Plugin from Disk",
+    "firstObservedInstall": {
+      "note": "The first install ran before the archive source was visibly bound. The installed runtime reported version 0.0.0, which matches the published v0.1.0 DevEco ZIP and not the candidate ZIP (0.1.0). The chooser reopened later at /Users/huqi/Develop/opensource/nutpi/arkcompat-release-v0.1.0 with the published ZIP highlighted, which is consistent with the earlier selection. Treat this run as a published-ZIP host observation, not as candidate evidence.",
+      "embeddedRuntimeVersionObserved": "0.0.0",
+      "scanReport": "raw/plugin-report-published-zip-observed.json",
+      "scanReportSha256": "add05b7be7786d5f64c2742f07aa964ff3d7a2d397f2ea046ad45d909bd10d84"
+    },
+    "candidateInstall": {
+      "archiveSelected": "/tmp/arkcompat-host-2026-11-17/deveco-build/arkcompat-deveco.zip",
+      "archiveSha256": "8bb373417c58eda2dbf231c89225240110ba8ef65e764b8e47e2e7094d71926a",
+      "thirdPartyNotice": "Shown: 'The following plugins aren't coming from Huawei: ArkCompat (ArkCompat contributors)'; accepted as the install confirmation for this repository's own plugin.",
+      "restart": "IDE restart requested from the Plugins page; DevEco restarted itself and reopened the isolated project.",
+      "installedRuntimeVersionAfterRestart": "0.1.0",
+      "installedPluginPath": "/tmp/arkcompat-host-2026-11-17/deveco-build/plugins/arkcompat",
+      "logEvidence": [
+        "2026-11-17 17:16:15,623 [1144194] INFO - #c.i.i.p.DynamicPlugins - Plugin org.arkcompat.deveco loaded without restart in 11 ms",
+        "Plugins page after candidate install: 'User-installed (1 of 1 enabled)', ArkCompat 0.1.0 ArkCompat contributors"
+      ]
+    }
+  },
+  "scan": {
+    "entryPoint": "Tools > ArkCompat: Scan Current Project",
+    "project": "/tmp/arkcompat-host-2026-11-17/host-project (copy of fixtures/developer/yarn-berry-graph)",
+    "inputHashes": {
+      "package.json": "2fbd936045680855948aba2ffdcb716fc1c428cfd8c1b9d044f5ac126862c9ce",
+      "yarn.lock": "e03e4ce066449d7ca874f55ba886456759f98d987367ca26920a23d8fa8523db"
+    },
+    "frozenTarget": {
+      "os": "HarmonyOS",
+      "release": "6.0.0",
+      "runtime": "arkts",
+      "apiLevel": 20
+    },
+    "pluginReport": "raw/plugin-report-candidate.json",
+    "pluginReportSha256": "3774d9d0814a5926eedf81746b98622bd7378acaae428ecbb0e48f348eb5b6df",
+    "cliReport": "raw/cli-report.json",
+    "cliReportSha256": "3774d9d0814a5926eedf81746b98622bd7378acaae428ecbb0e48f348eb5b6df",
+    "byteComparison": "cmp exit 0 (byte-identical)",
+    "cliCommand": "node apps/cli/dist/index.js scan /tmp/arkcompat-host-2026-11-17/host-project --runtime arkts --release 6.0.0 --api-level 20",
+    "cliExitCode": 0,
+    "findings": 4,
+    "statuses": ["unknown", "unknown", "unknown", "unknown"],
+    "findingIds": [
+      "300633cfbe7f4efa7c580a2d672b93b92a4b8723f89c38b82b3161439d1a376c",
+      "f146dbb8101e5c091721e713e33aebfd9405a7ec032bf36c2f7b086112db7263",
+      "1584318d3ee07eaa61a26f37bb051e0af58d980024374bd555a58c458a5bb13d",
+      "448859e8040785a45f0d330a41c376636406295feafc3b753c89af2ad2bc4faa"
+    ],
+    "locations": [
+      { "path": "package.json", "line": 5, "column": 21 },
+      { "path": "package.json", "line": 5, "column": 32 },
+      { "path": "package.json", "line": 5, "column": 63 },
+      { "path": "package.json", "line": 6, "column": 25 }
+    ],
+    "observation": {
+      "path": "raw/deveco-action-observation.json",
+      "sha256": "b0635691bd860b220f47bf1081fb93c3d090713fef1f4212f46ae7774a647f97"
+    }
+  },
+  "navigation": {
+    "action": "Notification 'Open first finding'",
+    "openedFile": "/tmp/arkcompat-host-2026-11-17/host-project/package.json",
+    "editorStatusBar": "5:21",
+    "line": 5,
+    "column": 21,
+    "matchesObservation": true,
+    "screenshot": "screens/06-caret-first-finding.jpg"
+  },
+  "recoverableError": {
+    "trigger": "Temporarily renamed package.json and yarn.lock in the isolated project copy, then re-ran the action.",
+    "notification": "ArkCompat - No package.json, oh-package.json5 or lockfile was found in the current project.",
+    "screenshot": "screens/07-recoverable-input-error.jpg",
+    "recovery": "Restored both files; SHA-256 values matched the originals; re-ran the action successfully.",
+    "recoveryReportSha256": "3774d9d0814a5926eedf81746b98622bd7378acaae428ecbb0e48f348eb5b6df",
+    "recoveryByteComparison": "cmp exit 0 against raw/cli-report.json"
+  },
+  "uninstallAndCleanup": {
+    "uiUninstall": "NOT AVAILABLE in this DevEco build's Plugins detail pane: the pane exposed Disable and a version label; the gear menu exposed no Uninstall item and coordinate attempts did not open the row context menu. No uninstall was claimed from the UI.",
+    "removal": "Isolated IDE terminated (SIGTERM after launchctl remove), then the task-owned plugin directory and isolated profile were deleted.",
+    "removedPaths": [
+      "/tmp/arkcompat-host-2026-11-17/deveco-build/plugins/arkcompat",
+      "/tmp/arkcompat-host-2026-11-17/deveco-build/config",
+      "/tmp/arkcompat-host-2026-11-17/deveco-build/system",
+      "/tmp/arkcompat-host-2026-11-17/deveco-build/log",
+      "/tmp/arkcompat-host-2026-11-17/deveco-build/plugins"
+    ],
+    "processesLeft": 0,
+    "userProfilesUntouched": true
+  },
+  "crossSurfaceParity": {
+    "captureScript": "scripts/capture-parity-evidence.mjs",
+    "fixture": "fixtures/developer/yarn-berry-graph",
+    "target": {
+      "os": "HarmonyOS",
+      "release": "6.0.0",
+      "runtime": "arkts",
+      "apiLevel": 20
+    },
+    "surfaces": {
+      "cli": {
+        "status": "PASS",
+        "report": "raw/cli-report.json",
+        "sha256": "3774d9d0814a5926eedf81746b98622bd7378acaae428ecbb0e48f348eb5b6df"
+      },
+      "mcp": {
+        "status": "PASS",
+        "report": "raw/mcp-report.json",
+        "sha256": "3774d9d0814a5926eedf81746b98622bd7378acaae428ecbb0e48f348eb5b6df",
+        "transport": "real stdio client, compat.scan, --allow-report-access"
+      },
+      "deveco": {
+        "status": "PASS",
+        "report": "raw/plugin-report-candidate.json",
+        "sha256": "3774d9d0814a5926eedf81746b98622bd7378acaae428ecbb0e48f348eb5b6df"
+      },
+      "web": {
+        "status": "PASS (projection)",
+        "report": "raw/web-readback.json",
+        "sha256": "8663603237821c2a1d3adaa573f1ec3b1f44f39be05859b4155062e7eb559963",
+        "note": "local import, no upload; rows and target line read from the page"
+      },
+      "ciAction": {
+        "status": "PENDING RUN",
+        "note": "retention step added to .github/workflows/quality.yml; not yet observed"
+      },
+      "vscode": { "status": "NOT-RUN this round" },
+      "cursor": { "status": "NOT-RUN", "note": "not installed on this host" }
+    },
+    "allCanonicalFieldsEqual": true,
+    "summary": "raw/parity-summary.json",
+    "summarySha256": "3b69f63b41d0a77fac90bcff3b236c6f62a74070827619317328914925c6e314"
+  },
+  "sideEffectsObserved": [
+    "An accidental click in the Plugins detail pane enabled bundled-plugin update downloads from plugins.jetbrains.com inside the isolated profile (log lines 7023-7032). The pending change was cancelled; the whole profile was deleted afterwards.",
+    "A Return keypress intended for a quit confirmation inserted a newline into the isolated copy of package.json. The file was restored from fixtures/developer/yarn-berry-graph and re-hashed; no repository file was involved.",
+    "The isolated IDE showed 'Project sync failed' because the copied fixture is not a HarmonyOS project. This does not affect the ArkCompat action."
+  ],
+  "artifacts": [
+    {
+      "path": "raw/cli-report.json",
+      "sha256": "3774d9d0814a5926eedf81746b98622bd7378acaae428ecbb0e48f348eb5b6df"
+    },
+    {
+      "path": "raw/plugin-report-candidate.json",
+      "sha256": "3774d9d0814a5926eedf81746b98622bd7378acaae428ecbb0e48f348eb5b6df"
+    },
+    {
+      "path": "raw/mcp-report.json",
+      "sha256": "3774d9d0814a5926eedf81746b98622bd7378acaae428ecbb0e48f348eb5b6df"
+    },
+    {
+      "path": "raw/parity-summary.json",
+      "sha256": "3b69f63b41d0a77fac90bcff3b236c6f62a74070827619317328914925c6e314"
+    },
+    {
+      "path": "raw/web-readback.json",
+      "sha256": "8663603237821c2a1d3adaa573f1ec3b1f44f39be05859b4155062e7eb559963"
+    },
+    {
+      "path": "raw/plugin-report-published-zip-observed.json",
+      "sha256": "add05b7be7786d5f64c2742f07aa964ff3d7a2d397f2ea046ad45d909bd10d84"
+    },
+    {
+      "path": "raw/deveco-action-observation.json",
+      "sha256": "b0635691bd860b220f47bf1081fb93c3d090713fef1f4212f46ae7774a647f97"
+    },
+    {
+      "path": "raw/idea-log-excerpt.txt",
+      "sha256": "2af6a2f1a61fb37c53ca167e798bdf567d5ea7fa55d2d2379e913a867dea936e"
+    },
+    {
+      "path": "raw/idea.log.gz",
+      "sha256": "1dae8a5da01827cd509ac5152c85399cf47f634d2169c116a9f9e1190e52076a"
+    },
+    {
+      "path": "screens/01-choose-plugin-file.jpg",
+      "sha256": "fa735ff7b0d804095f547e65fb48d4e7c284691d685c269ecf189a730dacdd7a"
+    },
+    {
+      "path": "screens/02-candidate-zip-selected.jpg",
+      "sha256": "050f2e449575420ca8cb9c4b3da9835aff55bc653c13fd4a47ad76a79d84b8f5"
+    },
+    {
+      "path": "screens/03-plugin-installed-enabled.jpg",
+      "sha256": "b383f2d7412b4fbf2fb25f221ccd8d3f8c4402f73362bbb8407a43f91c1d07b7"
+    },
+    {
+      "path": "screens/04-arkcompat-detail-0.1.0.jpg",
+      "sha256": "c987fb8190b7b05db846474dabb51e26f8ef04512420de085935b59ad95936f1"
+    },
+    {
+      "path": "screens/05-first-scan-notification.jpg",
+      "sha256": "b11ac82b97c69368431f3a67231d1491c0a77d2152a319324a197a3061d59f6e"
+    },
+    {
+      "path": "screens/06-caret-first-finding.jpg",
+      "sha256": "b80ebc45e20a08fa05e05cf5479ac69f7a420e2cc207ed5d6bd6fba6586da971"
+    },
+    {
+      "path": "screens/07-recoverable-input-error.jpg",
+      "sha256": "93f1d47738f5099f795ced371e6abf3ba9d3df69bc00ca40336ac93eef521628"
+    },
+    {
+      "path": "screens/08-recovery-scan.jpg",
+      "sha256": "5b8d0ed70907b688ed9c0b1e30bf547710701938af9118ac682d82c5815a6179"
+    }
+  ],
+  "boundaries": [
+    "One host, one fixture, one API/target tuple. Not a benchmark and not an accuracy claim.",
+    "The report comparison proves the plugin's subprocess output equals a separate CLI run at the same commit and inputs. It does not prove scanner correctness.",
+    "The published-ZIP run is reported as observed and is not relabeled as candidate evidence.",
+    "No legal, licensing or account agreement was accepted.",
+    "No repository file, user IDE profile, or user project was modified."
+  ]
+}

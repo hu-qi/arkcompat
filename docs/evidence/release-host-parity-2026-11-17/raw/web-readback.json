@@ -1,0 +1,52 @@
+{
+  "page": "http://127.0.0.1:4320/",
+  "importedFile": "raw/cli-report.json",
+  "importedSha256": "3774d9d0814a5926eedf81746b98622bd7378acaae428ecbb0e48f348eb5b6df",
+  "readback": {
+    "status": "Loaded cli-report.json locally. No upload.",
+    "target": "HarmonyOS 6.0.0 · arkts · API 20 · Scanner 0.1.0 · Schema 0.12.0",
+    "count": "Showing 4 of 4 matching findings (4 total).",
+    "coverage": "yarn-berry-lockfile-partial · 0 source files · not-evaluated",
+    "rows": [
+      [
+        "inventory.dependency300633cfbe7f4efa7c580a2d672b93b92a4b8723f89c38b82b3161439d1a376c",
+        "unknown",
+        "package.json:5:21",
+        "manifest-declaration: a"
+      ],
+      [
+        "inventory.dependencyf146dbb8101e5c091721e713e33aebfd9405a7ec032bf36c2f7b086112db7263",
+        "unknown",
+        "package.json:5:32",
+        "manifest-declaration: alias"
+      ],
+      [
+        "inventory.dependency1584318d3ee07eaa61a26f37bb051e0af58d980024374bd555a58c458a5bb13d",
+        "unknown",
+        "package.json:5:63",
+        "manifest-declaration: shared"
+      ],
+      [
+        "inventory.dependency448859e8040785a45f0d330a41c376636406295feafc3b753c89af2ad2bc4faa",
+        "unknown",
+        "package.json:6:25",
+        "manifest-declaration: host"
+      ]
+    ],
+    "limitations": [
+      "compatibility-not-evaluated",
+      "commonjs-exports-not-analyzed",
+      "unlisted-global-apis-not-analyzed",
+      "module-mutations-and-returned-values-not-analyzed",
+      "gitignore-not-applied",
+      "excluded-directories-not-analyzed",
+      "dependency-edge-unsupported · package.json",
+      "dependency-edge-missing · yarn-berry:a@npm:^1",
+      "dependency-ranges-partially-validated",
+      "lockfile-install-state-not-verified",
+      "yarn-peer-graph-not-recorded",
+      "yarn-hoisting-not-recorded",
+      "yarn-berry-root-workspace-links-not-resolved"
+    ]
+  }
+}

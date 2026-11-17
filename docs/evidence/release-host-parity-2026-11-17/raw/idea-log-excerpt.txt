@@ -1,0 +1,18 @@
+6132:[org.arkcompat.deveco]
+6136:[org.arkcompat.deveco]
+6154:2026-11-17 17:16:15,623 [1144194]   INFO - #c.i.i.p.DynamicPlugins - Plugin org.arkcompat.deveco loaded without restart in 11 ms
+6270:[org.arkcompat.deveco]
+6278:[org.arkcompat.deveco]
+6281:[org.arkcompat.deveco]
+7018:[org.arkcompat.deveco]
+7023:2026-11-17 17:30:02,824 [ 484332]   INFO - #c.i.o.u.i.PluginDownloader - downloading plugin Copyright(com.intellij.copyright) version 261.23567.28 from https://plugins.jetbrains.com/pluginManager?os=macOS%2027.2.1&build=IC-261.23567.138&updatedFrom=261.23
+7024:2026-11-17 17:30:02,826 [ 484334]   INFO - #c.i.o.u.i.PluginDownloader - downloading plugin Properties(com.intellij.properties) version 261.23567.28 from https://plugins.jetbrains.com/pluginManager?os=macOS%2027.2.1&build=IC-261.23567.138&updatedFrom=261.
+7025:2026-11-17 17:30:02,826 [ 484334]   INFO - #c.i.o.u.i.PluginDownloader - downloading plugin MCP Server(com.intellij.mcpServer) version 261.23567.174 from https://plugins.jetbrains.com/pluginManager?os=macOS%2027.2.1&build=IC-261.23567.138&updatedFrom=261.
+7026:2026-11-17 17:30:02,826 [ 484334]   INFO - #c.i.o.u.i.PluginDownloader - downloading plugin WebP Support(intellij.webp) version 261.22158.180 from https://plugins.jetbrains.com/pluginManager?os=macOS%2027.2.1&build=IC-261.23567.138&updatedFrom=261.23567.1
+7027:2026-11-17 17:30:02,826 [ 484334]   INFO - #c.i.o.u.i.PluginDownloader - downloading plugin Subversion(Subversion) version 261.23567.176 from https://plugins.jetbrains.com/pluginManager?os=macOS%2027.2.1&build=IC-261.23567.138&updatedFrom=261.23567.138.36
+7028:2026-11-17 17:30:02,826 [ 484334]   INFO - #c.i.o.u.i.PluginDownloader - downloading plugin Shell Script(com.jetbrains.sh) version 261.22158.195 from https://plugins.jetbrains.com/pluginManager?os=macOS%2027.2.1&build=IC-261.23567.138&updatedFrom=261.2356
+7029:2026-11-17 17:30:02,826 [ 484334]   INFO - #c.i.o.u.i.PluginDownloader - downloading plugin Natural Languages(tanvd.grazi) version 261.23567.71 from https://plugins.jetbrains.com/pluginManager?os=macOS%2027.2.1&build=IC-261.23567.138&updatedFrom=261.23567
+7030:2026-11-17 17:30:02,826 [ 484334]   INFO - #c.i.o.u.i.PluginDownloader - downloading plugin EditorConfig(org.editorconfig.editorconfigjetbrains) version 261.22158.182 from https://plugins.jetbrains.com/pluginManager?os=macOS%2027.2.1&build=IC-261.23567.13
+7031:2026-11-17 17:30:02,826 [ 484334]   INFO - #c.i.o.u.i.PluginDownloader - downloading plugin YAML(org.jetbrains.plugins.yaml) version 261.23567.28 from https://plugins.jetbrains.com/pluginManager?os=macOS%2027.2.1&build=IC-261.23567.138&updatedFrom=261.235
+7032:2026-11-17 17:30:02,826 [ 484334]   INFO - #c.i.o.u.i.PluginDownloader - downloading plugin Toml(org.toml.lang) version 261.22158.185 from https://plugins.jetbrains.com/pluginManager?os=macOS%2027.2.1&build=IC-261.23567.138&updatedFrom=261.23567.138.36.26
+7042:[org.arkcompat.deveco]
