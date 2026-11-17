@@ -170,29 +170,93 @@
   },
   "ci": {
     "workflow": ".github/workflows/quality.yml",
-    "job": "release-package (ubuntu-24.04, macos-15)",
-    "status": "PENDING_FIRST_RUN",
-    "runUrl": null,
-    "headSha": null,
-    "expectedArtifactSet": [
-      "SBOM.cdx.json",
-      "THIRD-PARTY-NOTICES.json",
-      "arkcompat-cli-portable.tar.gz",
-      "arkcompat-source.tar.gz",
-      "arkcompat-vscode.vsix",
-      "arkcompat-web.tar.gz",
-      "SHA256SUMS"
-    ],
-    "explicitlyAbsentInCi": [
-      "arkcompat-deveco.zip (hosted runners have no DevEco Studio; an unexpected ZIP fails verification)"
-    ],
+    "runId": 44041429819,
+    "runUrl": "https://github.com/hu-qi/arkcompat/actions/runs/44041429819",
+    "headSha": "16900c84a32afeff166ea2a6776fbbfbfa81aefa",
+    "status": "SUCCESS",
+    "conclusion": "success",
+    "pullRequest": "https://github.com/hu-qi/arkcompat/pull/123",
+    "jobs": {
+      "docs-integrity": "success",
+      "actionlint": "success",
+      "workspace (ubuntu-24.04, Node 22)": "success",
+      "workspace (ubuntu-24.04, Node 24)": "success",
+      "workspace (macos-15, Node 24)": "success",
+      "release-package (ubuntu-24.04)": "success",
+      "release-package (macos-15)": "success"
+    },
+    "releasePackage": {
+      "expectedArtifactSet": [
+        "SBOM.cdx.json",
+        "THIRD-PARTY-NOTICES.json",
+        "arkcompat-cli-portable.tar.gz",
+        "arkcompat-source.tar.gz",
+        "arkcompat-vscode.vsix",
+        "arkcompat-web.tar.gz",
+        "SHA256SUMS"
+      ],
+      "explicitlyAbsentInCi": [
+        "arkcompat-deveco.zip (hosted runners have no DevEco Studio; an unexpected ZIP fails verification)"
+      ],
+      "ubuntu24_04": {
+        "node": "24.22.2",
+        "pnpm": "10.34.9",
+        "vsce": "4.1.0",
+        "reproducible": {
+          "files": 7,
+          "identical": true
+        },
+        "checksumsVerified": "6/6",
+        "cliVersion": "arkcompat 0.1.0",
+        "cliScanFindings": 4,
+        "webStatus": 200,
+        "hashes": {
+          "SBOM.cdx.json": "1e97b08665343d691390d4ba378dfe6f9e5b90f8d7b91259e2e05886bb35cb48",
+          "THIRD-PARTY-NOTICES.json": "2d266f7f844a91a75164d3a5b939074234d06a257c4705bfe58871b73cc373f6",
+          "arkcompat-cli-portable.tar.gz": "2f8724a4e1906cad3f543bf7b1820a1a254c1ab54b2457d004b9c7ac370cbd14",
+          "arkcompat-source.tar.gz": "2214326f67c149797a9f9ee8cbea1b7ad72dbd1030efb3f909896cfd66693e78",
+          "arkcompat-vscode.vsix": "7f8499e1bc3fb4e0869df3ff4829295a4a2df607ed0335b85bbbc6a03deae33d",
+          "arkcompat-web.tar.gz": "33cf70591d40e39e9a008e47b110da7ac158ab75716f47b0a4cfb295c526de70"
+        }
+      },
+      "macos15": {
+        "node": "24.22.2",
+        "pnpm": "10.34.9",
+        "vsce": "4.1.0",
+        "reproducible": {
+          "files": 7,
+          "identical": true
+        },
+        "checksumsVerified": "6/6",
+        "cliVersion": "arkcompat 0.1.0",
+        "cliScanFindings": 4,
+        "webStatus": 200,
+        "hashes": {
+          "SBOM.cdx.json": "1e97b08665343d691390d4ba378dfe6f9e5b90f8d7b91259e2e05886bb35cb48",
+          "THIRD-PARTY-NOTICES.json": "2d266f7f844a91a75164d3a5b939074234d06a257c4705bfe58871b73cc373f6",
+          "arkcompat-cli-portable.tar.gz": "c58091330c98eb86745fa6f63ec1da8f96b337e656d94e0b908f12c56cac1c13",
+          "arkcompat-source.tar.gz": "9a15e03e33d256dfc9223e8f17f37b395126f0e3369ed117746e14a4f2496159",
+          "arkcompat-vscode.vsix": "7f8499e1bc3fb4e0869df3ff4829295a4a2df607ed0335b85bbbc6a03deae33d",
+          "arkcompat-web.tar.gz": "da44d62d87ed52844abec1b44c36db65a75b497a4a713c8e70f3595bb58268f1"
+        }
+      }
+    },
     "withinRunnerByteIdentityRequired": true,
     "crossRunnerByteIdentityClaimed": false,
-    "crossRunnerParity": "same expected set, verifier pass, version and non-empty scan, Web HTTP 200"
+    "crossRunnerObservation": {
+      "uncompressedCliTarIdentical": true,
+      "uncompressedWebTarIdentical": true,
+      "vsixIdentical": true,
+      "compressedTarBytesIdentical": false,
+      "explanation": "Linux and macOS runner images link different zlib builds, so identical uncompressed ustar payloads compress to different gzip bytes. Cross-runner parity is functional, not byte identity.",
+      "verificationMethod": "Downloaded both CI artifacts, gunzipped the CLI and Web archives and compared all 27,677,184 CLI tar bytes plus the Web tar bytes; extracted CLI trees had identical file sets, contents and modes."
+    },
+    "note": "Run 44041429819 passed on head 16900c8. Later commits in this PR are documentation/evidence only; they change source-archive bytes but not the built CLI/VSIX/Web/DevEco inputs."
   },
   "limitations": [
     "Local packaging evidence is bound to commit 18f9c57. Later documentation/evidence commits change only the source-archive bytes; built CLI/VSIX/Web/DevEco inputs are unchanged, and CI re-proves reproducibility at the pushed head.",
-    "CI results are recorded only from an observed run; a pending or failed run is not reported as a pass.",
+    "CI run 44041429819 passed on head 16900c8. The evidence commit that records it is a descendant; its own run is not self-referential and is not recorded inside this file.",
+    "Cross-runner compressed bytes differ because Linux and macOS runner images use different zlib builds; uncompressed tar payloads, extracted file contents and the VSIX are identical across those runners.",
     "Cursor and DevEco host UI were not exercised in this round; prior dated host evidence is not relabeled.",
     "Formal acceptance remains 0/5; no accuracy, substitute-recall or Huawei-adjudication result is established.",
     "The published v0.1.0 assets and release notes remain unchanged."

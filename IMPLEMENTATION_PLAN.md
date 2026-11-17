@@ -27,7 +27,7 @@ on the old behavior and pass on the fix.
 - Schema resolution: missing primary + valid fallback; non-ENOENT primary error
   is not bypassed; both absent produces a meaningful error.
 
-**Status**: In Progress
+**Status**: Complete
 
 ## Stage 2: add engineering packaging gate and run existing gates
 
@@ -44,7 +44,7 @@ on the old behavior and pass on the fix.
 **Tests**: `pnpm check`, targeted `vitest` files, local double packaging and
 `scripts/verify-release.mjs`.
 
-**Status**: Not Started
+**Status**: Complete
 
 ## Stage 3: reconcile evidence and open/review Draft PR
 
@@ -59,4 +59,4 @@ manifest, and land a Draft PR whose checks pass.
 
 **Tests**: `node scripts/validate-docs.mjs`; latest-head GitHub Actions checks.
 
-**Status**: Not Started
+**Status**: In Progress
