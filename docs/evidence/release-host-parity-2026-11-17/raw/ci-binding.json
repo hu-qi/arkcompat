@@ -1,0 +1,11 @@
+{
+  "checkedOutCommit": "2ccb1d26d62d767596d8ef709352ab9efa6d3c7d",
+  "headSha": "408bf14ccef134e3448ff689f2326b5f24ad37d5",
+  "ref": "refs/pull/123/merge",
+  "workflowRun": "https://github.com/hu-qi/arkcompat/actions/runs/44060570791",
+  "fixture": "fixtures/developer/yarn-berry-graph",
+  "target": { "os": "HarmonyOS", "release": "6.0.0", "runtime": "arkts", "apiLevel": 20 },
+  "actionReportSha256": "3774d9d0814a5926eedf81746b98622bd7378acaae428ecbb0e48f348eb5b6df",
+  "cliReportSha256": "3774d9d0814a5926eedf81746b98622bd7378acaae428ecbb0e48f348eb5b6df",
+  "byteIdentical": true
+}

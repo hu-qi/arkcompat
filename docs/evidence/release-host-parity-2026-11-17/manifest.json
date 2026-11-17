@@ -160,8 +160,17 @@
         "note": "local import, no upload; rows and target line read from the page"
       },
       "ciAction": {
-        "status": "PENDING RUN",
-        "note": "retention step added to .github/workflows/quality.yml; not yet observed"
+        "status": "PASS",
+        "workflowRun": "https://github.com/hu-qi/arkcompat/actions/runs/44060570791",
+        "headSha": "408bf14ccef134e3448ff689f2326b5f24ad37d5",
+        "checkedOutCommit": "2ccb1d26d62d767596d8ef709352ab9efa6d3c7d",
+        "ref": "refs/pull/123/merge",
+        "artifact": "arkcompat-action-parity",
+        "report": "raw/ci-action-report.json",
+        "sha256": "3774d9d0814a5926eedf81746b98622bd7378acaae428ecbb0e48f348eb5b6df",
+        "binding": "raw/ci-binding.json",
+        "bindingSha256": "abea423fdfc00f26a93c222a289c3dc8c86276c232eae3b7bf5bb5f7ce3bc55c",
+        "note": "Downloaded from the run above; byte-identical to the CLI report and to the local DevEco/CLI captures. GITHUB_SHA on pull_request runs is the merge commit, so the binding records headSha separately."
       },
       "vscode": { "status": "NOT-RUN this round" },
       "cursor": { "status": "NOT-RUN", "note": "not installed on this host" }
@@ -187,6 +196,14 @@
     {
       "path": "raw/mcp-report.json",
       "sha256": "3774d9d0814a5926eedf81746b98622bd7378acaae428ecbb0e48f348eb5b6df"
+    },
+    {
+      "path": "raw/ci-action-report.json",
+      "sha256": "3774d9d0814a5926eedf81746b98622bd7378acaae428ecbb0e48f348eb5b6df"
+    },
+    {
+      "path": "raw/ci-binding.json",
+      "sha256": "abea423fdfc00f26a93c222a289c3dc8c86276c232eae3b7bf5bb5f7ce3bc55c"
     },
     {
       "path": "raw/parity-summary.json",
