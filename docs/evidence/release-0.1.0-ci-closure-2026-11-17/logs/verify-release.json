@@ -1,0 +1,74 @@
+{
+  "directory": "<release-a>",
+  "artifacts": {
+    "arkcompat-cli-portable.tar.gz": {
+      "bytes": 5095708,
+      "sha256": "c58091330c98eb86745fa6f63ec1da8f96b337e656d94e0b908f12c56cac1c13"
+    },
+    "arkcompat-source.tar.gz": {
+      "bytes": 777325,
+      "sha256": "bb1f2ac66245e1ccd53b41382e90033eb37258eff7ad5c64ff3fa1c92b1fa2d1"
+    },
+    "arkcompat-vscode.vsix": {
+      "bytes": 5622493,
+      "sha256": "7f8499e1bc3fb4e0869df3ff4829295a4a2df607ed0335b85bbbc6a03deae33d"
+    },
+    "arkcompat-web.tar.gz": {
+      "bytes": 174038,
+      "sha256": "da44d62d87ed52844abec1b44c36db65a75b497a4a713c8e70f3595bb58268f1"
+    },
+    "arkcompat-deveco.zip": {
+      "bytes": 5621828,
+      "sha256": "8bb373417c58eda2dbf231c89225240110ba8ef65e764b8e47e2e7094d71926a"
+    },
+    "SBOM.cdx.json": {
+      "bytes": 15107,
+      "sha256": "1e97b08665343d691390d4ba378dfe6f9e5b90f8d7b91259e2e05886bb35cb48"
+    },
+    "THIRD-PARTY-NOTICES.json": {
+      "bytes": 5619,
+      "sha256": "2d266f7f844a91a75164d3a5b939074234d06a257c4705bfe58871b73cc373f6"
+    },
+    "SHA256SUMS": {
+      "bytes": 619,
+      "sha256": "ec61927bbcfaf65e1ed1e97a28011101810df721c4c0f95f5ec497bef140ca10"
+    }
+  },
+  "checks": {
+    "checksums": 7,
+    "internalCliChecksums": 1072,
+    "extractedFiles": {
+      "arkcompat-cli-portable.tar.gz": {
+        "entries": 1202,
+        "files": 1073
+      },
+      "arkcompat-source.tar.gz": {
+        "entries": 468,
+        "files": 335
+      },
+      "arkcompat-vscode.vsix": {
+        "entries": 1080,
+        "files": 1080
+      },
+      "arkcompat-web.tar.gz": {
+        "entries": 12,
+        "files": 10
+      },
+      "arkcompat-deveco.zip": {
+        "entries": 1074,
+        "files": 1074
+      }
+    },
+    "cli": {
+      "version": "arkcompat 0.1.0",
+      "findings": 4
+    },
+    "web": {
+      "status": 200
+    },
+    "reproducible": {
+      "files": 8,
+      "identical": true
+    }
+  }
+}

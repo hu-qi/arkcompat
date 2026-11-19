@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "1",
+  "issue": 5,
+  "task": "M3-05",
+  "assessment": "authored-cross-surface-report-regression",
+  "scope": "Amendment of report-stability-2026-11-12.json after the v0.1.0 release-identity correction. Schema compatibility and deterministic byte regression for canonical scan and assessment reports across JSON, Markdown, SARIF, CLI and Web parsing. This is engineering evidence, not formal accuracy, a real-project walkthrough, CLI beta publication or Issue #5 acceptance.",
+  "amends": "report-stability-2026-11-12.json",
+  "amendmentReason": "scannerVersion now identifies the 0.1.0 release instead of 0.0.0; the knowledge schema loader gained a bundled-consumer fallback. Schema and output hashes therefore changed while the report semantics did not.",
+  "baseCommit": "f64d4f33ad188f8fec4b38095e897a3747e3f933",
+  "host": {
+    "platform": "macOS 27.2.1 arm64",
+    "kernel": "Darwin 27.2.0",
+    "node": "22.23.4",
+    "pnpm": "10.34.9",
+    "ajv": "8.20.0"
+  },
+  "inputHashes": {
+    "fixtures/developer/source-api/package.json": "c895a5fd035bd0359784268cfd8086e675003807da76f00f5d9929a58dd3623e",
+    "fixtures/developer/source-api/src/imports.ts": "ff65581b74fd88a410b481d18e25dd09fb9b6de1514cf16f5f736694c8e9e7ce",
+    "fixtures/developer/source-api/src/loader.cjs": "a67140da0241386b963db836995437d9baaf75d8cbf0a3410013dd4424b08f96",
+    "data/knowledge/curated-provenance-snapshot.json": "71618d138a13785dfb2c05643f3d8da6c9e72b85b1d666f031ea3aa20de2bc99",
+    "packages/contracts/scan-report.schema.json": "7c56bb38aaecd2d382665d2ced0f58290c0327e82d826754e5dce04b76a8ff85",
+    "packages/contracts/assessment-report.schema.json": "38a39846d61c88250dc73133d28e9b3ec79b182384f5b4c76e0d2616143c489e"
+  },
+  "commands": [
+    "pnpm format",
+    "pnpm exec vitest run tests/report-stability.test.ts tests/reports.test.ts tests/scan.test.ts tests/assessment.test.ts tests/web-viewer.test.ts",
+    "pnpm check",
+    "git diff --check"
+  ],
+  "outputHashes": {
+    "scanJson": "0b89652094bdbd008393571efcbb7c049adc8f7b1b8c5dfa77a5a5e80f015742",
+    "scanMarkdown": "528c0057dd3d0438a8804f573e6db102ee43f2503cd40f3547d3b73df8e7d1d3",
+    "scanSarif": "649650e9b91379c12299e8c9fb96aa0520caf0defbec4d0df3fceca4d9a14bab",
+    "assessmentJson": "b684939d5be09db5981669fb44b1d1b81f0995ccaaf0cf6830265d68fb7a46cd",
+    "assessmentMarkdown": "2f641c0105eb73e5b6acb91c8f470007073a077d6cc46eafe9d1220289e73404"
+  },
+  "checks": [
+    {
+      "name": "scan JSON schema",
+      "expected": "The generated canonical scan report validates against scan-report.schema.json.",
+      "observed": "passed"
+    },
+    {
+      "name": "assessment JSON schema",
+      "expected": "The generated assessment report validates against assessment-report.schema.json.",
+      "observed": "passed"
+    },
+    {
+      "name": "repeated rendering bytes",
+      "expected": "Repeated scan JSON, Markdown, SARIF, assessment JSON and assessment Markdown renderings are byte-identical.",
+      "observed": "passed"
+    },
+    {
+      "name": "CLI and Web canonical semantics",
+      "expected": "Schema version, scanner version, target, snapshots, coverage and every finding ID, status, evidence, location and target are equal after the CLI JSON report is parsed by the Web model.",
+      "observed": "passed"
+    },
+    {
+      "name": "SARIF finding and location projection",
+      "expected": "Every SARIF result preserves the canonical finding ID, status, evidence and one-based start/column; SARIF 2.1.0 run properties preserve coverage.",
+      "observed": "passed"
+    }
+  ],
+  "surfaceDifferences": [
+    "JSON retains the complete dependency graph and source inventory.",
+    "Markdown and SARIF intentionally project canonical findings and metadata rather than reproduce the complete JSON graph.",
+    "SARIF maps each canonical location to a relative URI and one-based region while retaining canonical evidence and identifiers in result properties.",
+    "Markdown applies presentation escaping; it does not alter canonical finding values."
+  ],
+  "limitations": [
+    "The source-api input is an authored developer fixture and does not establish real-world dependency, API, replacement or missing-port accuracy.",
+    "The knowledge snapshot is used only to exercise deterministic assessment serialization; it does not provide reviewed compatibility guidance.",
+    "The regression does not replace a real authorized project walkthrough, an independent clean host, a public CLI beta or product-owner acceptance.",
+    "No runtime compatibility, SDK support or formal Issue #5 close condition is established."
+  ]
+}

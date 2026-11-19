@@ -23,7 +23,10 @@ the pinned [pnpm deploy](https://pnpm.io/10.x/cli/deploy) to stage production
 dependencies from the local store. It copies built entry points, runtime
 dependencies, schemas and the MIT license. Dependency lifecycle scripts are
 disabled. Keep each complete release directory together. Running the result
-requires Node, but no source checkout, pnpm or dependency installation.
+requires Node, but no source checkout, pnpm or dependency installation. The
+artifact bundles the CLI's JavaScript code and production dependencies only; it
+does not contain a Node executable, so "embedded runtime" must not be read as
+an embedded Node binary.
 
 Each release includes a CycloneDX 1.5 `SBOM.cdx.json`, a runtime
 `THIRD-PARTY-NOTICES.json` and `SHA256SUMS`. The packaging command validates

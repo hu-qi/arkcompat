@@ -7,9 +7,9 @@
 - **策略**：TypeScript First；确定性规则 + 版本化知识库 + 可选 AI 辅助分析。
 - **目标形态**：CLI / VS Code-Cursor / DevEco Studio / Web / MCP / CI/CD，共享同一扫描引擎。
 - **交付时间**：2026-12-23
-- **当前进度**：交付工作包完成率 **25%（2/8）**；正式验收完成率 **0%（0/5）**；正式版本尚未发布。
-- **进度核对日期**：2026-11-13；以下完成状态以已合并工程证据和 GitHub Actions 为准。
-- **当前主干**：`326c5610a6f296fcbc23603dd44f08d61b83bb4b`（PR #119）；该提交的正式验收声明已撤回，修正见 [PR #120](https://github.com/hu-qi/arkcompat/pull/120)。#3–#8 与 #11 已重新打开。PR #116/#117 为历史工程验证记录。
+- **当前进度**：交付工作包完成率 **25%（2/8）**；正式验收完成率 **0%（0/5）**。工程预览 **v0.1.0 已于 2026-11-13 发布**；已发布制品的三类 P1 缺陷及三处发布说明不准确尚未通过新版本替换。修复候选已推送至 [Draft PR #123](https://github.com/hu-qi/arkcompat/pull/123)，已通过分支 CI，尚未合并、发布或完成独立评审。
+- **进度核对日期**：2026-11-20；工作包按已合并证据计数，候选分支的验证增量单独列示。
+- **当前主干**：`f64d4f33ad188f8fec4b38095e897a3747e3f933`（v0.1.0 发布提交，[CI run 43411412558](https://github.com/hu-qi/arkcompat/actions/runs/43411412558) 五项必需 job 通过）。候选代码/CI 证据基线为 `94e5cf15b4348296601a4baa3f8ed2ede75df532`（`codex/v0.1.0-release-verification`），[CI run 44061963429](https://github.com/hu-qi/arkcompat/actions/runs/44061963429) **100%（7/7）** job 通过，含 Linux/macOS 打包验证。详见[发布验证](docs/RELEASE-0.1.0-VERIFICATION.md)、[CI 闭环记录](docs/RELEASE-0.1.0-CI-CLOSURE.md)与[后续事项](docs/RELEASE-0.1.0-FOLLOWUPS.md)。
 
 首个验收节点目标 HarmonyOS 6.0.0+，里程碑排期见 [ROADMAP](ROADMAP.md)。
 **[项目总控 TODO](docs/PROJECT-MASTER-TODO.md) 是项目总控与维护总览**，包含文档索引、
@@ -26,13 +26,23 @@
 
 **百分比口径**：按 [项目总控 TODO](docs/PROJECT-MASTER-TODO.md) 的 A1–A8 八个工作包等权计数，A1 安全边界、A2 供应链审计的工程切片已完成，S-01–S-10 决策已签署确认；其余各项按实测推进。正式验收按四项指标及知识库交付共五项计算。
 
+本轮候选分支的验证增量（不计入已合并工作包完成率）：
+
+| 核对项 | 已验证进度 | 证据与剩余边界 |
+| --- | --- | --- |
+| 候选 CI | **100%（7/7 job）** | 基线 `94e5cf1`；格式、lint、类型检查、607 项测试 / 41 个文件及文档检查通过；Linux/macOS 各自两次打包字节一致，不宣称跨系统压缩字节相同 |
+| 当前候选入口一致性 | **71.4%（5/7 个独立入口/宿主）** | CLI、MCP、Web、DevEco、CI action 已核对同一 fixture 的 4 条 finding；VS Code 本轮未重跑、Cursor 未安装，均为 `NOT-RUN` |
+| 修复发布 | **0%（0/1 次新补丁发布）** | F-01–F-03 已在候选修复，候选回归 F-04 也已修复；公开 v0.1.0 资产与说明仍待新版本替换 |
+
+入口分母将 VS Code 和 Cursor 分开计数；它们仍共用 VSIX 形态。上述一致性仅覆盖一个冻结 fixture（HarmonyOS 6.0.0 / ArkTS / API 20），不代表准确率或完整入口生命周期验收。DevEco 已实测安装、激活、扫描、定位与错误恢复，清理采用隔离 profile 删除，未验证 UI 卸载。见 [宿主与跨入口证据](docs/evidence/release-host-parity-2026-11-17/index.md)。
+
 | 里程碑            | 计划时间           | 状态                                                                                           |
 | ----------------- | ------------------ | ---------------------------------------------------------------------------------------------- |
 | M0 · 章程与可行性 | 2026-11-02 ~ 11-06 | ✅ Issue #1 已结项；后续验收范围、独立角色和发布决定继续由 #3–#8、#11 跟踪                     |
 | M1 · 确定性扫描   | 2026-11-07 ~ 11-16 | ▶ 部分实现（依赖图 / AST import / CLI 切片已验证，未过出口门禁）                               |
 | M2 · 知识库与评估 | 2026-11-17 ~ 11-27 | ▶ 部分实现（知识契约、离线查询与 Web/MCP 显式入口已验证，真实数据、独立评估和入库审批未闭环）  |
 | M3 · 建议与报告   | 2026-11-28 ~ 12-06 | ▶ 部分实现（三种报告、确定性解释与本地样例已验证，真实规则/知识和 Beta 未闭环）                |
-| M4 · 多形态入口   | 2026-12-07 ~ 12-14 | ▶ 部分实现（本地 CLI/IDE/Web/MCP/CI 切线与显式知识快照查询已验证，正式分发和全入口验收未闭环） |
+| M4 · 多形态入口   | 2026-12-07 ~ 12-14 | ▶ 部分实现（候选 5/7 入口/宿主完成局部一致性验证；VS Code/Cursor 本轮未跑，全入口验收未闭环） |
 | M5 · 发布候选     | 2026-12-15 ~ 12-19 | ▶ 工程准备已开展（安全边界、供应链审计、SBOM/通知/哈希已交付；独立评测、运行时/性能与最终裁定待完成） |
 | M6 · 正式验收     | 2026-12-20 ~ 12-23 | ◻ 未通过（正式验收 0/5；accepted SHA、发布制品、下载验证和最终签字尚未闭环） |
 
@@ -44,15 +54,16 @@ pnpm check
 pnpm --silent scan fixtures/developer/inventory --runtime arkts --release 6.0.0
 ```
 
-Node 22.13+（22 系列）或 Node 24，pnpm 10.34.9。实现范围、报告语义与限制见 [扫描原型说明](docs/SCANNER-SLICE.md)。
+Node 22.13+（22 系列）或 Node 24，pnpm 10.34.9。便携 CLI 和 VSIX **不内嵌 Node 可执行文件**（仅打包 JavaScript 依赖），目标机器必须提供上述 Node；DevEco 插件也不携带 Node，它用 IDE 自带的 `tools/node/bin/node` 执行随插件打包的 JavaScript CLI。实现范围、报告语义与限制见 [扫描原型说明](docs/SCANNER-SLICE.md)。
 
 ## Project documentation
 
+- [v0.1.0 发布验证 — 制品、重建、功能、安全、性能与入口结果](docs/RELEASE-0.1.0-VERIFICATION.md)
+- [v0.1.0 后续事项 — 本轮工程、后续工程与外部验收](docs/RELEASE-0.1.0-FOLLOWUPS.md)
 - [项目总控 TODO — 里程碑和 Issue 总览快照](docs/PROJECT-MASTER-TODO.md)
 - [项目完成 TODO — 按 T1–T9 勾选执行顺序、证据和 Issue 关闭条件](docs/PROJECT-TODO.md)
 - [项目执行台账 — 原子任务、命令、证据、责任与 Issue 关闭条件](docs/PROJECT-EXECUTION-LEDGER.md)
 - [验收与发布签字包 — S-01–S-10 人工决定、冻结记录和签字表](docs/ACCEPTANCE-SIGNOFF-PACKAGE.md)
-- [项目总控 TODO — 里程碑和 Issue 总览快照](docs/PROJECT-MASTER-TODO.md)
 - [项目完成行动清单 — 按 Issue 查看关闭路线](docs/PROJECT-COMPLETION-ACTIONS.md)
 - [项目完成计划 — A–E 阶段、依赖、排期与证据目录](docs/PROJECT-COMPLETION-PLAN.md)
 - [交付状态 — 工程证据、未完成门禁与发布状态](docs/DELIVERY-STATUS.md)

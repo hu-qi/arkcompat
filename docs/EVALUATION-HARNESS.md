@@ -1,6 +1,6 @@
 # Descriptive evaluation harness · Issue #7 / M5
 
-Private source-run `@arkcompat/evaluation`0.0.0 provides deterministic **generic binary judgment counts** and a local hashed evidence directory. It does not select/approve an official acceptance rubric, label samples, infer compatibility from inventory, verify independence, authenticate SDK/provenance or decide feature equivalence. Original80%/100% requirements and pending decisions are unchanged. Every result states `acceptance: not-adjudicated` and `independence: unverified`.
+Private source-run `@arkcompat/evaluation` 0.1.0 provides deterministic **generic binary judgment counts** and a local hashed evidence directory. It does not select/approve an official acceptance rubric, label samples, infer compatibility from inventory, verify independence, authenticate SDK/provenance or decide feature equivalence. Original80%/100% requirements and pending decisions are unchanged. Every result states `acceptance: not-adjudicated` and `independence: unverified`.
 
 ## Run the developer-only abstention example
 

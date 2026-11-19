@@ -1,0 +1,10 @@
+HTTP/1.1 200 OK
+Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+X-Content-Type-Options: nosniff
+Cache-Control: no-store
+Content-Type: text/html; charset=utf-8
+Date: Sun, 15 Nov 2026 04:59:40 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked
+

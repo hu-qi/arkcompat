@@ -9,6 +9,7 @@ import {
   scanProject,
 } from "@arkcompat/core";
 import type { AssessmentReportFormat, ReportFormat } from "@arkcompat/core";
+import { ARKCOMPAT_VERSION } from "@arkcompat/contracts";
 import type { TargetProfile } from "@arkcompat/contracts";
 
 import { readLocalUtf8 } from "./local-input.js";
@@ -16,11 +17,18 @@ import { readLocalUtf8 } from "./local-input.js";
 const usage =
   "Usage: arkcompat scan <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] [--timeout-ms <milliseconds>] [--format <json|markdown|sarif>]\n       arkcompat api-rules <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] --rules <snapshot.json>\n       arkcompat explain <project> --finding-id <sha256> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>]\n       arkcompat knowledge-export <snapshot.json>\n       arkcompat ohpm-evidence <capture.json> <package> <version> <observed-at-utc>";
 const assessUsage =
-  "       arkcompat assess <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] [--rules <snapshot.json>] [--knowledge <snapshot.json> --as-of <utc>] [--format <json|markdown>]";
+  "       arkcompat assess <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] [--rules <snapshot.json>] [--knowledge <snapshot.json> --as-of <utc>] [--format <json|markdown>]\n       arkcompat --version";
 const fullUsage = `${usage}\n${assessUsage}`;
 async function main(args: string[]) {
   if (args.length === 1 && (args[0] === "--help" || args[0] === "-h")) {
     console.log(fullUsage);
+    return;
+  }
+  if (
+    args.length === 1 &&
+    (args[0] === "--version" || args[0] === "-v" || args[0] === "version")
+  ) {
+    console.log(`arkcompat ${ARKCOMPAT_VERSION}`);
     return;
   }
   if (args[0] === "ohpm-evidence") {

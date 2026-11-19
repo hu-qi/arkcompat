@@ -2,7 +2,7 @@
   "name": "arkcompat-local",
   "displayName": "ArkCompat Local Inventory",
   "publisher": "arkcompat-local",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "license": "MIT",
   "main": "./dist/extension.cjs",

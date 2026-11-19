@@ -1,0 +1,126 @@
+### node /tmp/arkcompat-v010-verify/lifecycle-final/current/dist/index.js --version
+arkcompat 0.1.0
+exit=0
+
+### node /tmp/arkcompat-v010-verify/lifecycle-final/current/dist/index.js --help
+Usage: arkcompat scan <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] [--timeout-ms <milliseconds>] [--format <json|markdown|sarif>]
+       arkcompat api-rules <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] --rules <snapshot.json>
+       arkcompat explain <project> --finding-id <sha256> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>]
+       arkcompat knowledge-export <snapshot.json>
+       arkcompat ohpm-evidence <capture.json> <package> <version> <observed-at-utc>
+       arkcompat assess <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] [--rules <snapshot.json>] [--knowledge <snapshot.json> --as-of <utc>] [--format <json|markdown>]
+       arkcompat --version
+exit=0
+
+scan-exit=0
+{"scannerVersion":"0.1.0","schemaVersion":"0.12.0","dependencies":1,"findings":1,"statuses":["unknown"],"coverage":{"dependencyGraph":"declarations-only","compatibility":"not-evaluated","sourceFiles":0,"limitations":[{"code":"compatibility-not-evaluated"},{"code":"commonjs-exports-not-analyzed"},{"code":"unlisted-global-apis-not-analyzed"},{"code":"module-mutations-and-returned-values-not-analyzed"},{"code":"gitignore-not-applied"},{"code":"excluded-directories-not-analyzed"},{"code":"npm-lockfile-missing"},{"code":"transitive-dependencies-not-analyzed"}]}}
+### node /tmp/arkcompat-v010-verify/lifecycle-final/current/dist/index.js explain /tmp/arkcompat-v010-verify/lifecycle-final/project --finding-id e55af5a1a7538b8b08be856af2db0bc0d7e4c1dcc8b01d7527c8e4a13a381bcc --runtime arkts --release 6.0.0 --api-level 20
+{
+  "explanationVersion": "0.1.0",
+  "finding": {
+    "id": "e55af5a1a7538b8b08be856af2db0bc0d7e4c1dcc8b01d7527c8e4a13a381bcc",
+    "ruleId": "inventory.dependency",
+    "status": "unknown",
+    "tier": "rule-static",
+    "severity": "info",
+    "target": {
+      "os": "HarmonyOS",
+      "release": "6.0.0",
+      "runtime": "arkts",
+      "apiLevel": 20
+    },
+    "location": {
+      "path": "package.json",
+      "line": 1,
+      "column": 18
+    },
+    "evidence": [
+      {
+        "kind": "manifest-declaration",
+        "value": "sample"
+      }
+    ],
+    "explanation": "Inventory evidence only; compatibility has not been evaluated. No rules or knowledge snapshot loaded."
+  },
+  "source": {
+    "path": "package.json",
+    "line": 1,
+    "column": 18
+  },
+  "target": {
+    "os": "HarmonyOS",
+    "release": "6.0.0",
+    "runtime": "arkts",
+    "apiLevel": 20
+  },
+  "rule": {
+    "id": "inventory.dependency",
+    "status": "unknown",
+    "tier": "rule-static",
+    "severity": "info"
+  },
+  "evidence": [
+    {
+      "kind": "manifest-declaration",
+      "value": "sample"
+    }
+  ],
+  "explanation": "Inventory evidence only; compatibility has not been evaluated. No rules or knowledge snapshot loaded.",
+  "limitations": [
+    {
+      "code": "compatibility-not-evaluated"
+    },
+    {
+      "code": "commonjs-exports-not-analyzed"
+    },
+    {
+      "code": "unlisted-global-apis-not-analyzed"
+    },
+    {
+      "code": "module-mutations-and-returned-values-not-analyzed"
+    },
+    {
+      "code": "gitignore-not-applied"
+    },
+    {
+      "code": "excluded-directories-not-analyzed"
+    },
+    {
+      "code": "npm-lockfile-missing"
+    },
+    {
+      "code": "transitive-dependencies-not-analyzed"
+    }
+  ],
+  "recommendedAction": {
+    "code": "verify-reviewed-package-evidence",
+    "text": "Resolve the installed package version, then compare the exact source and target runtime profile with reviewed OHPM, port or pure-JavaScript evidence before changing dependency declarations.",
+    "compatibilityClaim": false,
+    "evidenceRequired": true
+  },
+  "snapshots": {
+    "rules": "none",
+    "knowledge": "none"
+  }
+}
+exit=0
+
+### node /tmp/arkcompat-v010-verify/lifecycle-final/current/dist/index.js scan /tmp/arkcompat-v010-verify/lifecycle-final/project --runtime arkts --release 0.0
+Invalid target: supply HarmonyOS release x.y.z, runtime and optional positive integer apiLevel
+exit=1
+
+### node /tmp/arkcompat-v010-verify/lifecycle-final/current/dist/index.js scan /tmp/arkcompat-v010-verify/lifecycle-final/does-not-exist --runtime arkts --release 6.0.0
+Filesystem error: ENOENT
+exit=1
+
+### node /tmp/arkcompat-v010-verify/lifecycle-final/current/dist/index.js scan /tmp/arkcompat-v010-verify/lifecycle-final/project --runtime arkts --release 6.0.0
+Invalid JSON in package.json
+exit=1
+
+Runtime provenance verified: 15 components, 16 dependency entries, 1070 files.
+provenance-intact-exit=0
+Checksum mismatch for dist/index.js.
+provenance-corrupt-exit=1
+arkcompat 0.1.0
+rollback-target-exit=0
+uninstall-exit=0

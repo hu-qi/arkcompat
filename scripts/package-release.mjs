@@ -14,6 +14,9 @@ import {
 import { tmpdir } from "node:os";
 import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { gzipSync } from "node:zlib";
+
+import { writeDeterministicTar } from "./deterministic-tar.mjs";
 
 const root = realpathSync(fileURLToPath(new URL("..", import.meta.url)));
 const [target, ...extra] = process.argv.slice(2);
@@ -58,6 +61,16 @@ function packageRelease() {
   if (existsSync(outDir)) {
     throw new Error(`Output directory already exists: ${outDir}`);
   }
+  if (
+    execFileSync("git", ["status", "--porcelain"], {
+      cwd: root,
+      encoding: "utf8",
+    }).trim()
+  ) {
+    throw new Error(
+      "Release packaging requires a clean worktree so the source archive matches the built artifacts.",
+    );
+  }
   mkdirSync(outDir, { recursive: true, mode: 0o755 });
 
   console.log(`Building ArkCompat release artifacts into: ${outDir}\n`);
@@ -70,11 +83,9 @@ function packageRelease() {
     ["archive", "--format=tar", "--prefix=arkcompat/", "HEAD"],
     { cwd: root, maxBuffer: 32 * 1024 * 1024 },
   );
-  const gzipOut = execFileSync("gzip", ["-n", "-9"], {
-    input: gitArchive,
-    maxBuffer: 32 * 1024 * 1024,
-  });
-  writeFileSync(sourceTar, gzipOut);
+  // Node's zlib writes a gzip header with a zero timestamp and a fixed OS
+  // byte, so the source archive does not depend on the host gzip build.
+  writeFileSync(sourceTar, gzipSync(gitArchive, { level: 9 }));
   console.log(`    Generated: ${sourceTar}`);
 
   // 2. Portable CLI runtime package
@@ -101,9 +112,7 @@ function packageRelease() {
       },
     );
     const cliTar = join(outDir, "arkcompat-cli-portable.tar.gz");
-    execFileSync("tar", ["-czf", cliTar, "-C", cliDeploy, "."], {
-      stdio: "inherit",
-    });
+    writeDeterministicTar(cliDeploy, cliTar);
     // Copy SBOM and notices to release root as standalone review artifacts
     copyFileSync(
       join(cliDeploy, "SBOM.cdx.json"),
@@ -177,15 +186,23 @@ function packageRelease() {
     mkdirSync(webDir, { recursive: true });
     const webApp = join(root, "apps/web");
     execFileSync("cp", ["-R", join(webApp, "dist"), webDir]);
-    for (const f of ["server.mjs", "package.json", "README.md"]) {
+    // Ship the bundled server entry: it includes the optional knowledge store
+    // and works without the pnpm workspace.
+    copyFileSync(
+      join(webApp, "dist/server.bundle.mjs"),
+      join(webDir, "server.mjs"),
+    );
+    copyFileSync(
+      join(webApp, "dist/knowledge.schema.json"),
+      join(webDir, "knowledge.schema.json"),
+    );
+    for (const f of ["package.json", "README.md"]) {
       if (existsSync(join(webApp, f)))
         copyFileSync(join(webApp, f), join(webDir, f));
     }
     copyFileSync(join(root, "LICENSE"), join(webDir, "LICENSE"));
     const webTar = join(outDir, "arkcompat-web.tar.gz");
-    execFileSync("tar", ["-czf", webTar, "-C", webStage, "arkcompat-web"], {
-      stdio: "inherit",
-    });
+    writeDeterministicTar(webStage, webTar);
     console.log(`    Generated: ${webTar}`);
   } finally {
     rmSync(webStage, { recursive: true, force: true });

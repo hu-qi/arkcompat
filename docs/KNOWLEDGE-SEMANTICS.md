@@ -1,6 +1,6 @@
 # Offline knowledge metadata processing · Issue #4 / M2
 
-The private `@arkcompat/knowledge`0.0.0 package adds semantic validation, conservative metadata matching and deterministic JSON export to [schema0.1.0](KNOWLEDGE-CONTRACT.md). It imports **no real mapping dataset**. The existing authored synthetic candidate remains the only fixture; scanner knowledge stays `none`, findings stay unknown. MCP and the local Web viewer can query only a snapshot explicitly selected by the operator at process startup, through this shared package.
+The private `@arkcompat/knowledge` 0.1.0 package adds semantic validation, conservative metadata matching and deterministic JSON export to [schema0.1.0](KNOWLEDGE-CONTRACT.md). It imports **no real mapping dataset**. The existing authored synthetic candidate remains the only fixture; scanner knowledge stays `none`, findings stay unknown. MCP and the local Web viewer can query only a snapshot explicitly selected by the operator at process startup, through this shared package.
 
 ## CLI export
 

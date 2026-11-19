@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { constants, readFileSync } from "node:fs";
+import { constants } from "node:fs";
 import { open } from "node:fs/promises";
 import { Ajv } from "ajv";
 import { minVersion, satisfies, validRange } from "semver";
@@ -9,17 +9,21 @@ import type {
   TargetProfile,
 } from "@arkcompat/contracts";
 
+import { readFirstAvailableSchema } from "./schema-file.js";
 import { cleanText, exactVersion, timestamp } from "./validation.js";
 export { inspectOhpmCapture, ohpmCaptureByteLimit } from "./ohpm-evidence.js";
 
 export const knowledgeSnapshotByteLimit = 2 * 1024 * 1024;
+// Workspace builds resolve the sibling contracts package. A bundled
+// single-file consumer (local Web viewer artifact) ships the schema next to its
+// entry point instead of the workspace layout.
 const ajv = new Ajv();
 const validate = ajv.compile<KnowledgeSnapshot>(
   JSON.parse(
-    readFileSync(
+    readFirstAvailableSchema([
       new URL("../../contracts/knowledge.schema.json", import.meta.url),
-      "utf8",
-    ),
+      new URL("./knowledge.schema.json", import.meta.url),
+    ]),
   ) as object,
 );
 const validateQuery = ajv.compile<KnowledgeQuery>({

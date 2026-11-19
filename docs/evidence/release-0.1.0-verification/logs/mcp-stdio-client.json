@@ -1,0 +1,35 @@
+{
+  "withoutGrant": {
+    "isError": true,
+    "text": "Report access is disabled; the operator must enable --allow-report-access."
+  },
+  "withGrant": {
+    "tools": [
+      {
+        "name": "compat.scan",
+        "readOnly": true
+      },
+      {
+        "name": "compat.explain",
+        "readOnly": true
+      },
+      {
+        "name": "compat.query_knowledge",
+        "readOnly": true
+      }
+    ],
+    "scannerVersion": "0.1.0",
+    "schemaVersion": "0.12.0",
+    "dependencies": 0,
+    "findings": 10,
+    "snapshots": {
+      "rules": "none",
+      "knowledge": "none"
+    },
+    "findingId": "8316963852f5c6a60ef43c54549ea806bed51c8bcd3235b97319bf3f4686cbd6",
+    "explainMatches": true,
+    "knowledge": {
+      "text": "{\"status\":\"unknown\",\"snapshot\":\"none\",\"replacements\":[],\"explanation\":\"No knowledge snapshot loaded; no verified substitute is available.\"}"
+    }
+  }
+}

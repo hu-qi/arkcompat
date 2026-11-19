@@ -1,0 +1,85 @@
+
+> arkcompat@0.1.0 check <repo>
+> pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && node scripts/validate-docs.mjs
+
+
+> arkcompat@0.1.0 format:check <repo>
+> prettier --check "{packages,apps,tests}/**/*.{ts,cts,json}" "*.{json,yaml,mjs}" .github/workflows/quality.yml "apps/web/*.{mjs,html,css}" ".github/actions/*/*.{mjs,yml}" "spikes/**/*.{mjs,ts,json}" "scripts/{deterministic-tar,package-cli,package-deveco,package-release,package-vscode,runtime-notices,runtime-sbom,validate-runtime-provenance,verify-release}.mjs"
+
+Checking formatting...
+All matched files use Prettier code style!
+
+> arkcompat@0.1.0 lint <repo>
+> eslint .
+
+
+> arkcompat@0.1.0 typecheck <repo>
+> tsc -b && tsc -p tests/tsconfig.json && tsc -p apps/web/tsconfig.json
+
+
+> arkcompat@0.1.0 test <repo>
+> pnpm build && vitest run --coverage
+
+
+> arkcompat@0.1.0 build <repo>
+> tsc -b && pnpm --filter @arkcompat/web build
+
+
+> @arkcompat/web@0.1.0 build <repo>/apps/web
+> node build.mjs
+
+Local report viewer built (schema 0.12.0, no runtime eval)
+
+ RUN  v5.1.0 <repo>
+      Coverage enabled with istanbul
+
+Usage: arkcompat scan <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] [--timeout-ms <milliseconds>] [--format <json|markdown|sarif>]
+       arkcompat api-rules <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] --rules <snapshot.json>
+       arkcompat explain <project> --finding-id <sha256> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>]
+       arkcompat knowledge-export <snapshot.json>
+       arkcompat ohpm-evidence <capture.json> <package> <version> <observed-at-utc>
+       arkcompat assess <project> --runtime <arkts|arkweb|react-native> --release <x.y.z> [--api-level <integer>] [--rules <snapshot.json>] [--knowledge <snapshot.json> --as-of <utc>] [--format <json|markdown>]
+       arkcompat --version
+
+ Test Files  41 passed (41)
+      Tests  607 passed (607)
+   Start at  15:46:21
+   Duration  14.95s (tests 88%, import 11%, transform 1%)
+
+[34m % [39m[2mCoverage report from [22m[33mistanbul[39m
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   94.64 |    91.81 |   98.18 |    96.5 |                   
+ core/src          |   94.21 |     91.6 |   98.09 |      96 |                   
+  api-rules.ts     |   96.66 |    95.08 |     100 |   98.73 | 162               
+  assessment.ts    |     100 |    98.71 |     100 |     100 | 59                
+  declarations.ts  |   96.55 |    92.85 |     100 |     100 | 25-27             
+  explanations.ts  |   91.66 |     87.5 |     100 |     100 | 43                
+  index.ts         |   96.51 |    95.16 |     100 |   96.98 | ...10,149,196,488 
+  lockfiles.ts     |   96.29 |    93.93 |     100 |   95.45 | 45                
+  npm-lock.ts      |   89.65 |    91.54 |     100 |   92.38 | ...77,186,191,232 
+  ...workspaces.ts |   96.55 |    91.66 |     100 |   98.14 | 138               
+  ohpm-lock.ts     |    96.9 |    96.61 |     100 |    96.8 | 89,105,172        
+  ohpm-modules.ts  |     100 |    97.36 |     100 |     100 | 47                
+  pnpm-lock.ts     |   91.52 |    86.62 |     100 |   94.93 | ...72,178,231,288 
+  ...workspaces.ts |   98.48 |    91.83 |     100 |     100 | 43,60-74,185      
+  reports.ts       |     100 |    93.65 |     100 |     100 | 155,164,196,210   
+  source.ts        |   94.17 |    89.85 |      90 |   94.91 | ...83,717-723,735 
+  ...-discovery.ts |   91.54 |    89.75 |     100 |   93.11 | ...12,518,591-594 
+  yarn-berry.ts    |   89.67 |       90 |     100 |   94.96 | ...91,208,240,267 
+  yarn-lock.ts     |    86.5 |    86.44 |     100 |   91.81 | ...13,154,178,201 
+  ...workspaces.ts |   98.58 |    93.18 |     100 |   99.23 | 129               
+ evaluation/src    |   96.13 |    90.85 |    97.5 |   99.51 |                   
+  index.ts         |   96.13 |    90.85 |    97.5 |   99.51 | 539               
+ knowledge/src     |   98.63 |    95.89 |     100 |   99.25 |                   
+  index.ts         |   98.23 |    94.39 |     100 |      99 | 213               
+-------------------|---------|----------|---------|---------|-------------------
+
+=============================== Coverage summary ===============================
+Statements   : 94.64% ( 2437/2575 )
+Branches     : 91.81% ( 2254/2455 )
+Functions    : 98.18% ( 324/330 )
+Lines        : 96.5% ( 2262/2344 )
+================================================================================
+Documentation integrity OK (64 Markdown files checked)

@@ -1,6 +1,6 @@
 # Local JSON report and knowledge lookup viewer · M4 / Issue #6
 
-An experimental source-run browser adapter displays the existing canonical scan report and can query one operator-selected local knowledge metadata snapshot through the same validated store used by MCP. It does not scan projects, execute source, evaluate compatibility, activate knowledge, recommend substitutions or call a remote model. Version remains private 0.0.0; no hosted service, published package or M4 completion is claimed.
+An experimental source-run browser adapter displays the existing canonical scan report and can query one operator-selected local knowledge metadata snapshot through the same validated store used by MCP. It does not scan projects, execute source, evaluate compatibility, activate knowledge, recommend substitutions or call a remote model. Version remains private 0.1.0; no hosted service, published package or M4 completion is claimed.
 
 ## Run locally
 

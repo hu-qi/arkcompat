@@ -1,21 +1,64 @@
-# Delivery status and next gates · 2026-11-12
+# Delivery status and next gates · 2026-11-20
 
 Issues #3, #4, #5, #6, #7, #8 and #11 remain open. Issues #1, #2 and #9 are
 closed; #1 is retained as the completed M0 history. The current main baseline is
-`b6ff4eb2702b90441118880aca88781271cb7a86`; the `READY-ENG-01`
+`f64d4f33ad188f8fec4b38095e897a3747e3f933` (the `v0.1.0` release commit);
+the earlier `READY-ENG-01`
 [PR #116](https://github.com/hu-qi/arkcompat/pull/116) was merged after
 [PR run 43236623133](https://github.com/hu-qi/arkcompat/actions/runs/43236623133)
 passed, and
 [main run 43237122871](https://github.com/hu-qi/arkcompat/actions/runs/43237122871)
 passed all five required jobs.
-The latest full gate passed 37 test files and 593 tests. A1 and `READY-ENG-01` are complete as
+The v0.1.0 release commit passed 37 test files and 593 tests. The unreleased
+fix candidate at evidence baseline `94e5cf1` passes 41 test files and 607 tests. A1 and `READY-ENG-01` are complete as
 engineering slice. A2 supply-chain audit evidence is complete and merged as an
-engineering slice; S-09 disposition and release authorization remain pending.
+engineering slice; S-09 and S-10 are recorded as approved/authorized
+(2026-11-13), while signing, clean-host acceptance and formal results remain
+pending.
 All original thresholds, target
 surfaces and human decision boundaries remain those in [PRD](PRD.md),
 [quality gates](QUALITY-GATES.md) and [decisions](DECISIONS.md). This snapshot
 distinguishes verified engineering from remaining work; it is not a release or
 acceptance sign-off.
+
+## v0.1.0 release verification · 2026-11-15
+
+An engineering preview `v0.1.0` was published on 2026-11-13 at
+`f64d4f33ad188f8fec4b38095e897a3747e3f933`. The release commit's five required
+CI jobs passed, all eight GitHub asset digests match the downloads, and
+`SHA256SUMS` verifies 7/7 listed files. Independent local verification then
+found three P1 defect categories in the published assets and one later candidate regression:
+
+- the portable CLI, VSIX, Web package, MCP server and scanner reports identify
+  as **0.0.0**, while the tag is 0.1.0; `arkcompat --version` was unsupported;
+- the published **Web artifact cannot start** outside the workspace
+  (`ERR_MODULE_NOT_FOUND @arkcompat/knowledge`);
+- release archives were **not byte-reproducible** and the source archive could
+  be built from a dirty worktree;
+- the fixed Web viewer initially rejected the published release's 0.0.0
+  reports despite an unchanged report schema.
+
+The release body also calls the DevEco plugin a Huawei official plugin, claims
+243 dependencies for the 12-package runtime notices, and omits the external Node
+22.13+/24 prerequisite. The published release was not modified.
+
+Fixes are pushed on `codex/v0.1.0-release-verification` as
+[Draft PR #123](https://github.com/hu-qi/arkcompat/pull/123), awaiting independent review,
+merge and a new release. Evidence baseline `94e5cf15b4348296601a4baa3f8ed2ede75df532`
+passed [run 44061963429](https://github.com/hu-qi/arkcompat/actions/runs/44061963429):
+**7/7 jobs (100%)**, including Linux/macOS packaging. Each runner's two builds match
+byte-for-byte; cross-OS compressed byte identity is not claimed.
+
+The 2026-11-17 host/parity record covers **5/7 separately counted surfaces/hosts
+(71.4%)** on one fixture: CLI, MCP, Web, DevEco and the downloaded CI action artifact.
+VS Code was not re-run this round; Cursor is absent. DevEco install/activation/scan/
+navigation/recovery were observed; cleanup removed the isolated profile rather than
+using a UI uninstall control. These checks establish output equality, not accuracy.
+Work-package completion remains **2/8 (25%)**, formal acceptance **0/5 (0%)**.
+See [release verification](RELEASE-0.1.0-VERIFICATION.md),
+[CI closure](RELEASE-0.1.0-CI-CLOSURE.md),
+[host/parity evidence](evidence/release-host-parity-2026-11-17/index.md) and
+[follow-ups](RELEASE-0.1.0-FOLLOWUPS.md).
 
 ## Work register
 
@@ -28,7 +71,7 @@ acceptance sign-off.
 | [#5 · M3 reports](https://github.com/hu-qi/arkcompat/issues/5)      | [JSON/Markdown/SARIF adapters and deterministic finding explanation](REPORT-FORMATS.md); JSON/Markdown assessment reports include location, target profile, rule/knowledge snapshots, limits and next actions; default JSON parity and a real public sample scan; M3-05 schemas, repeated bytes, CLI/Web semantics and SARIF projection are covered by [report stability evidence](evidence/report-stability-2026-11-12.json)                                                                                                                                                                                                                                                                                                                | Complete a real-project walkthrough and CLI beta installation/error-recovery documentation                                                                            | Report-contract engineering is complete for the authored fixture; reviewed migration advice, beta/release and independent sample acceptance remain open                |
 | [#6 · M4 entries](https://github.com/hu-qi/arkcompat/issues/6)      | [Local Web with operator-selected evidence metadata lookup](LOCAL-REPORT-VIEWER.md), [MCP with the same explicit knowledge store](LOCAL-MCP.md), [source-run CI](LOCAL-CI-ACTION.md), [portable CLI](CLI-PACKAGE-REHEARSAL.md), [installed VSIX in VS Code and Cursor](LOCAL-VSCODE.md), embedded VSIX [runtime provenance](RUNTIME-PROVENANCE.md), [DevEco disk-install probe](DEVECO-FEASIBILITY.md#install-from-disk-verified--2026-11-10--issue-6), and the [explicit DevEco product-adapter host smoke](DEVECO-FEASIBILITY.md#explicit-product-adapter-host-smoke--2026-11-11--issue-6) matched the shared CLI in scoped rehearsals                                                                                                     | Verify public distribution and expand shipped-surface parity                                                                                                          | Local host evidence only; public registries, DevEco trustlist/signing/updates, other hosts, and acceptance remain open                                                 |
 | [#7 · M5 verification](https://github.com/hu-qi/arkcompat/issues/7) | Required regressions, input/privacy audit, [evaluation harness](EVALUATION-HARNESS.md) with five prediction scopes, one actual [API 20 runtime probe](HARMONYOS-API20-RUNTIME.md), an [API 20 target/API 26 runtime lifecycle amendment](HARMONYOS-API20-RUNTIME.md#lifecycle-amendment--2026-11-11), and merged M5-05/M5-07 engineering slices                                                                                                                                                                                                                                                                                                                                                                                                             | Freeze the target matrix, complete shipped-surface checks, obtain independent labels/adjudication, and finish S-09 review                                      | The amended lifecycle probe still did not execute on API 20; no formal accuracy threshold is claimed                                                                   |
-| [#8 · M6 release](https://github.com/hu-qi/arkcompat/issues/8)      | MIT source baseline, same-commit delivery, [checksummed clean-extraction rehearsal](SOURCE-KIT-REHEARSAL.md), and [deterministic CycloneDX runtime SBOM, complete SHA-256 inventory and third-party notice generator](RUNTIME-PROVENANCE.md) verified in the portable CLI and embedded VSIX                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Real release walkthrough, signing/publication decision and adjudicated acceptance evidence                                                                            | No tag/release/sign-off or approved waiver; publication/acceptance remains gated                                                                                       |
+| [#8 · M6 release](https://github.com/hu-qi/arkcompat/issues/8)      | MIT source baseline, same-commit delivery, [checksummed clean-extraction rehearsal](SOURCE-KIT-REHEARSAL.md), [deterministic CycloneDX runtime SBOM, complete SHA-256 inventory and third-party notice generator](RUNTIME-PROVENANCE.md), and the published **v0.1.0** release at `f64d4f3` (8 assets, digests verified). Release verification found three published P1 defect categories, one candidate-only regression and three release-note misstatements; fixes are pushed in Draft PR #123 with green CI, but remain unmerged/unreleased. | Correct release metadata, publish a new patch release from reviewed/CI-passed fixes, complete signing/clean-host reproduction and adjudicated acceptance evidence | Published release exists but is not engineering-complete or formally accepted; no sign-off or approved waiver; acceptance remains 0/5 |
 | [#9 · legacy audit](https://github.com/hu-qi/arkcompat/issues/9)    | **Closed** after [PR #20](https://github.com/hu-qi/arkcompat/pull/20), main CI and mirror proof; 24/24 old tests reproduced, five probes/two public repos recorded                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | Retain [no-import decision](LEGACY-AUDIT.md); any future adoption needs a fresh scoped review                                                                         | Old metrics are not ArkCompat accuracy; no code/data adoption approved                                                                                                 |
 | [#11 · quality gates](https://github.com/hu-qi/arkcompat/issues/11) | Five required Actions jobs, administrator enforcement, strict branches, unit coverage, scan/knowledge schema regressions and a Linux Node24 [runtime provenance rehearsal](RUNTIME-PROVENANCE.md)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | Add benchmark/parity/release gates when their products exist                                                                                                          | Stage 0/1 plus artifact provenance mechanics complete; independent benchmark and release gates remain open                                                             |
 

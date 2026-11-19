@@ -1,6 +1,6 @@
 # Experimental local MCP adapter · Issue #6 / M4
 
-Private version0.0.0, source-run only. `compat.scan` calls the same `scanProject` as CLI; `compat.explain` returns its canonical finding/evidence/limitations unchanged. An operator may explicitly load one validated local knowledge snapshot for `compat.query_knowledge`; without that startup flag the tool returns unavailable/unknown. Loaded metadata queries return exact reviewed matches or exclusion reasons together with provenance, but they never generate migration advice, change scanner findings or assert compatibility. No remote model, registry request or package installation is made. Every scanner finding remains `unknown` and scan rules/knowledge snapshots remain `none`.
+Private version 0.1.0, source-run only. `compat.scan` calls the same `scanProject` as CLI; `compat.explain` returns its canonical finding/evidence/limitations unchanged. An operator may explicitly load one validated local knowledge snapshot for `compat.query_knowledge`; without that startup flag the tool returns unavailable/unknown. Loaded metadata queries return exact reviewed matches or exclusion reasons together with provenance, but they never generate migration advice, change scanner findings or assert compatibility. No remote model, registry request or package installation is made. Every scanner finding remains `unknown` and scan rules/knowledge snapshots remain `none`.
 
 ## Build and connect
 
