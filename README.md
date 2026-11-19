@@ -7,9 +7,9 @@
 - **策略**：TypeScript First；确定性规则 + 版本化知识库 + 可选 AI 辅助分析。
 - **目标形态**：CLI / VS Code-Cursor / DevEco Studio / Web / MCP / CI/CD，共享同一扫描引擎。
 - **交付时间**：2026-12-23
-- **当前进度**：交付工作包完成率 **25%（2/8）**；正式验收完成率 **0%（0/5）**。工程预览 **v0.1.0 已于 2026-11-13 发布**；已发布制品的三类 P1 缺陷及三处发布说明不准确尚未通过新版本替换。修复候选已推送至 [Draft PR #123](https://github.com/hu-qi/arkcompat/pull/123)，已通过分支 CI，尚未合并、发布或完成独立评审。
-- **进度核对日期**：2026-11-20；工作包按已合并证据计数，候选分支的验证增量单独列示。
-- **当前主干**：`f64d4f33ad188f8fec4b38095e897a3747e3f933`（v0.1.0 发布提交，[CI run 43411412558](https://github.com/hu-qi/arkcompat/actions/runs/43411412558) 五项必需 job 通过）。候选代码/CI 证据基线为 `94e5cf15b4348296601a4baa3f8ed2ede75df532`（`codex/v0.1.0-release-verification`），[CI run 44061963429](https://github.com/hu-qi/arkcompat/actions/runs/44061963429) **100%（7/7）** job 通过，含 Linux/macOS 打包验证。详见[发布验证](docs/RELEASE-0.1.0-VERIFICATION.md)、[CI 闭环记录](docs/RELEASE-0.1.0-CI-CLOSURE.md)与[后续事项](docs/RELEASE-0.1.0-FOLLOWUPS.md)。
+- **当前进度**：修复已通过 [PR #123](https://github.com/hu-qi/arkcompat/pull/123) 合并至 main；本轮入口一致性验证 **71.4%（5/7）**，合并前 CI **100%（7/7 job）**。交付工作包完成率仍为 **25%（2/8）**；正式验收完成率 **0%（0/5）**。工程预览 v0.1.0 的公开资产尚未被新补丁版本替换。
+- **进度核对日期**：2026-11-20（PR #123 合并后）；已合并修复、入口验证、工作包完成与正式验收分别计数。
+- **主干修复基线**：`e6f12f9512f1dda95ad745ddaf8d7fa064930b00`（PR #123 合并提交），GitHub、AtomGit、GitCode 的 main 已读回一致。PR head `ec9127e` 的 [CI run 44599466498](https://github.com/hu-qi/arkcompat/actions/runs/44599466498) **7/7 通过**；[合并后主干 CI run 44600437286](https://github.com/hu-qi/arkcompat/actions/runs/44600437286) 核对时 **5/7 通过、2/7 macOS job 排队**，未将排队项计为通过。发布标签 v0.1.0 仍指向 `f64d4f3`。详见[发布验证](docs/RELEASE-0.1.0-VERIFICATION.md)、[CI 闭环记录](docs/RELEASE-0.1.0-CI-CLOSURE.md)与[后续事项](docs/RELEASE-0.1.0-FOLLOWUPS.md)。
 
 首个验收节点目标 HarmonyOS 6.0.0+，里程碑排期见 [ROADMAP](ROADMAP.md)。
 **[项目总控 TODO](docs/PROJECT-MASTER-TODO.md) 是项目总控与维护总览**，包含文档索引、
@@ -26,13 +26,14 @@
 
 **百分比口径**：按 [项目总控 TODO](docs/PROJECT-MASTER-TODO.md) 的 A1–A8 八个工作包等权计数，A1 安全边界、A2 供应链审计的工程切片已完成，S-01–S-10 决策已签署确认；其余各项按实测推进。正式验收按四项指标及知识库交付共五项计算。
 
-本轮候选分支的验证增量（不计入已合并工作包完成率）：
+本轮已合并的工程增量（局部验证不代表整个 A3–A8 工作包完成，因此工作包计数仍为 2/8）：
 
 | 核对项 | 已验证进度 | 证据与剩余边界 |
 | --- | --- | --- |
-| 候选 CI | **100%（7/7 job）** | 基线 `94e5cf1`；格式、lint、类型检查、607 项测试 / 41 个文件及文档检查通过；Linux/macOS 各自两次打包字节一致，不宣称跨系统压缩字节相同 |
-| 当前候选入口一致性 | **71.4%（5/7 个独立入口/宿主）** | CLI、MCP、Web、DevEco、CI action 已核对同一 fixture 的 4 条 finding；VS Code 本轮未重跑、Cursor 未安装，均为 `NOT-RUN` |
-| 修复发布 | **0%（0/1 次新补丁发布）** | F-01–F-03 已在候选修复，候选回归 F-04 也已修复；公开 v0.1.0 资产与说明仍待新版本替换 |
+| 合并前 PR CI | **100%（7/7 job）** | PR head `ec9127e`；格式、lint、类型检查、607 项测试 / 41 个文件及文档检查通过；Linux/macOS 各自两次打包字节一致，不宣称跨系统压缩字节相同 |
+| 本轮入口一致性 | **71.4%（5/7 个独立入口/宿主）** | CLI、MCP、Web、DevEco、CI action 已核对同一 fixture 的 4 条 finding；VS Code 本轮未重跑、Cursor 未安装，均为 `NOT-RUN` |
+| 合并后主干 CI | **71.4%（5/7 job）** | run 44600437286 核对时 Linux 测试/打包、文档与工作流检查通过；两个 macOS job 排队，等待结果 |
+| 修复发布 | **0%（0/1 次新补丁发布）** | F-01–F-04 修复已合并 main；公开 v0.1.0 资产与说明仍待新版本替换 |
 
 入口分母将 VS Code 和 Cursor 分开计数；它们仍共用 VSIX 形态。上述一致性仅覆盖一个冻结 fixture（HarmonyOS 6.0.0 / ArkTS / API 20），不代表准确率或完整入口生命周期验收。DevEco 已实测安装、激活、扫描、定位与错误恢复，清理采用隔离 profile 删除，未验证 UI 卸载。见 [宿主与跨入口证据](docs/evidence/release-host-parity-2026-11-17/index.md)。
 
@@ -42,7 +43,7 @@
 | M1 · 确定性扫描   | 2026-11-07 ~ 11-16 | ▶ 部分实现（依赖图 / AST import / CLI 切片已验证，未过出口门禁）                               |
 | M2 · 知识库与评估 | 2026-11-17 ~ 11-27 | ▶ 部分实现（知识契约、离线查询与 Web/MCP 显式入口已验证，真实数据、独立评估和入库审批未闭环）  |
 | M3 · 建议与报告   | 2026-11-28 ~ 12-06 | ▶ 部分实现（三种报告、确定性解释与本地样例已验证，真实规则/知识和 Beta 未闭环）                |
-| M4 · 多形态入口   | 2026-12-07 ~ 12-14 | ▶ 部分实现（候选 5/7 入口/宿主完成局部一致性验证；VS Code/Cursor 本轮未跑，全入口验收未闭环） |
+| M4 · 多形态入口   | 2026-12-07 ~ 12-14 | ▶ 部分实现（已合并证据覆盖 5/7 入口/宿主的局部一致性验证；VS Code/Cursor 本轮未跑，全入口验收未闭环） |
 | M5 · 发布候选     | 2026-12-15 ~ 12-19 | ▶ 工程准备已开展（安全边界、供应链审计、SBOM/通知/哈希已交付；独立评测、运行时/性能与最终裁定待完成） |
 | M6 · 正式验收     | 2026-12-20 ~ 12-23 | ◻ 未通过（正式验收 0/5；accepted SHA、发布制品、下载验证和最终签字尚未闭环） |
 
