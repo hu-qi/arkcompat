@@ -91,5 +91,13 @@
     "Original fixture is not a full HarmonyOS project; IDE project-sync failure is visible.",
     "Removal was directory-level, not native UI uninstall.",
     "Earlier 6/7 publication record is retained as dated history; this follow-up adds the seventh host."
-  ]
+  ],
+  "fixture": {
+    "path": "fixtures/developer/yarn-berry-graph",
+    "sourceCommit": "f3c57e0e5f19832a9acf8111669f21377f9af46b",
+    "inputHashes": {
+      "package.json": "2fbd936045680855948aba2ffdcb716fc1c428cfd8c1b9d044f5ac126862c9ce",
+      "yarn.lock": "e03e4ce066449d7ca874f55ba886456759f98d987367ca26920a23d8fa8523db"
+    }
+  }
 }
