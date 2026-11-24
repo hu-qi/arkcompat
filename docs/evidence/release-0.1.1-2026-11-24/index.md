@@ -26,3 +26,12 @@ Current-round local semantic parity covers **6/7 hosts/surfaces (85.7%)**, on on
 The original DevEco application failed strict codesign with “resource fork, Finder information, or similar detritus not allowed”. An isolated APFS clone had extended attributes cleared and then passed strict signature validation. No signature check was bypassed and the user's installed app/profile was not modified. Candidate package bytes are bound by the verifier. The Web import hint still names schema 0.10.0; the actual parser/read-back correctly handles schema 0.12.0. This cosmetic pre-existing hint is retained as a known limitation.
 
 CLI/MCP reports carry no compatibility claim. Six public knowledge candidates remain unreviewed/inactive. No holdout labels, human signature, Huawei acceptance, real-device/AOT or full-host uninstall verdict follows from this evidence.
+
+
+## Published artifact verification
+
+[v0.1.1](https://github.com/hu-qi/arkcompat/releases/tag/v0.1.1) is published at `f3c57e0e5f19832a9acf8111669f21377f9af46b`. [Release-commit CI](https://github.com/hu-qi/arkcompat/actions/runs/45311509077) passed 7/7 jobs. [Publication manifest](publication.json) binds the tag object, source, channels and denominators; [three-remote read-backs](release-refs.json) retain the publication-time refs. The [final double-build verifier](release-verification.json) confirms 8/8 file identity; all runtime assets also match the host-tested candidate bytes. The source kit was rebuilt from the final release commit.
+
+[GitHub downloads](github-download-verification.json) and [AtomGit/GitCode downloads](atomgit-download-verification.json) each match all eight uploaded files, seven checksum-listed digests, 1,072 internal CLI digests, archive checks, provenance and CLI/Web smoke. AtomGit/GitCode API metadata returns the same repository ID 11253777, release commit and eight attachments; four additional auto-generated source archives are not included in the uploaded-asset denominator. One temporary DNS failure while downloading the last provenance assets recovered on a resumed GET; the final verifier passed. This is fresh extraction on the engineering host, not an independent reviewer clean-host acceptance.
+
+Isolated VS Code and Cursor extensions were successfully uninstalled after their scans; see [VS Code uninstall](vscode-uninstall.txt) and [Cursor uninstall](cursor-uninstall.txt). [Fresh dependency audit](audit-summary.json) reports 243 dependencies and zero advisories at observation time. Formal acceptance remains 0/5.

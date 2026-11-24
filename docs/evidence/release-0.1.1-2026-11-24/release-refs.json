@@ -1,0 +1,30 @@
+{
+  "date": "2026-11-24",
+  "stage": "After publication, before documentation-only follow-up",
+  "remotes": [
+    {
+      "remote": "origin",
+      "refs": {
+        "refs/heads/main": "f3c57e0e5f19832a9acf8111669f21377f9af46b",
+        "refs/tags/v0.1.1": "8deab10de47fc31ac62140108144ae091ebb3a4e",
+        "refs/tags/v0.1.1^{}": "f3c57e0e5f19832a9acf8111669f21377f9af46b"
+      }
+    },
+    {
+      "remote": "atomgit-https",
+      "refs": {
+        "refs/heads/main": "f3c57e0e5f19832a9acf8111669f21377f9af46b",
+        "refs/tags/v0.1.1": "8deab10de47fc31ac62140108144ae091ebb3a4e",
+        "refs/tags/v0.1.1^{}": "f3c57e0e5f19832a9acf8111669f21377f9af46b"
+      }
+    },
+    {
+      "remote": "gitcode",
+      "refs": {
+        "refs/heads/main": "f3c57e0e5f19832a9acf8111669f21377f9af46b",
+        "refs/tags/v0.1.1": "8deab10de47fc31ac62140108144ae091ebb3a4e",
+        "refs/tags/v0.1.1^{}": "f3c57e0e5f19832a9acf8111669f21377f9af46b"
+      }
+    }
+  ]
+}

@@ -1,24 +1,10 @@
 # ArkCompat 项目总控 TODO
 
-**更新日期：** 2026-11-20
+**更新日期：** 2026-11-24
 **计划验收日期：** 2026-12-23
-**主干修复基线：** `e6f12f9512f1dda95ad745ddaf8d7fa064930b00`
-（[PR #123](https://github.com/hu-qi/arkcompat/pull/123) 已合并；三个远端 main 已读回一致。
-PR head `ec9127e` 的 [CI run 44599466498](https://github.com/hu-qi/arkcompat/actions/runs/44599466498)
-7/7 job 通过；[主干 run 44600437286](https://github.com/hu-qi/arkcompat/actions/runs/44600437286)
-核对时 5/7 通过、2 个 macOS job 排队。发布标签 v0.1.0 仍指向 `f64d4f3`。）
 
-**当前工程状态：** A1 与 `READY-ENG-01` 为 `DONE`；A2 供应链审计工程切片为 `DONE`；
-S-01–S-10 决策已由项目负责人签署确认。**v0.1.0 工程预览已于 2026-11-13 发布**，但发布制品
-存在三类已发布 P1 缺陷（制品版本 0.0.0、Web 无法独立启动、归档不可重现）
-和三处发布说明不准确；F-04 是修复分支引入并修好的旧报告导入回归，未发布。
-修复已通过 [PR #123](https://github.com/hu-qi/arkcompat/pull/123) 合并 main，尚未发布新补丁版本。
-候选代码/CI 证据基线 `94e5cf1` 的 [run 44061963429](https://github.com/hu-qi/arkcompat/actions/runs/44061963429)
-通过 **7/7 job（100%）**，包含 41 个测试文件 / 607 项测试及 Linux/macOS 打包。
-按 VS Code/Cursor 分开计数，已合并证据覆盖 **5/7 入口/宿主（71.4%）** 在同一 fixture 上完成局部一致性验证；
-VS Code 本轮未重跑、Cursor 未安装。交付工作包完成率仍为 **2/8（25%）**，正式验收 **0/5（0%）**。
-详见 [发布验证](RELEASE-0.1.0-VERIFICATION.md)、[CI 闭环](RELEASE-0.1.0-CI-CLOSURE.md)
-和 [宿主与跨入口证据](evidence/release-host-parity-2026-11-17/index.md)。
+**2026-11-24 发布更新：** v0.1.1 工程预览补丁已发布；发布提交 `f3c57e0e5f19832a9acf8111669f21377f9af46b`，PR #125 合并，主干 CI [run 45311509077](https://github.com/hu-qi/arkcompat/actions/runs/45311509077) **7/7（100%）**。GitHub 与 AtomGit/GitCode 均提供 8 个制品文件，重新下载后全部校验并通过 CLI/Web smoke；本地双构建 **8/8（100%）** 文件一致。本轮入口局部一致性 **6/7（85.7%）**：CLI、MCP、Web、VS Code、Cursor、CI action；DevEco 新宿主启动遇到协议后取消，ZIP/内嵌 CLI 通过但未冒充宿主复测。工作包仍 **2/8（25%）**，正式验收仍 **0/5（0%）**。v0.1.0 原 tag、资产和历史问题保留。详见[发布说明](RELEASE-0.1.1.md)与[发布证据](evidence/release-0.1.1-2026-11-24/index.md)。
+
 **当前状态：** 工程基础持续交付；开放 Issue
 [#3](https://github.com/hu-qi/arkcompat/issues/3)、
 [#4](https://github.com/hu-qi/arkcompat/issues/4)、

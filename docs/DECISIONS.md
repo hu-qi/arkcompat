@@ -100,3 +100,8 @@ need a new owner decision. No confirmed decision above is reopened by this
 record, and none of them establishes accuracy, Huawei acceptance or formal
 completion. See [release verification](RELEASE-0.1.0-VERIFICATION.md) and
 [follow-ups](RELEASE-0.1.0-FOLLOWUPS.md).
+
+
+## v0.1.1 patch publication · 2026-11-24
+
+The owner explicitly authorized verification followed by publication to the applicable platforms on 2026-11-24. PR #125 delivers the already-merged fixes with patch identity 0.1.1 and corrected release notes. GitHub and the shared AtomGit/GitCode repository publish the eight separately packaged/integrity assets at `f3c57e0e5f19832a9acf8111669f21377f9af46b`; tag v0.1.0 is unchanged. Release-commit CI, repeated packaging and post-download smoke pass. Disk-install routes, deferred marketplaces/registries and checksum integrity remain unchanged. This is publication authorization and engineering evidence, not independent accuracy or final acceptance (0/5). See [release evidence](evidence/release-0.1.1-2026-11-24/index.md).
