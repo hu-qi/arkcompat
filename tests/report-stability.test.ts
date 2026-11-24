@@ -177,18 +177,18 @@ it("keeps report schemas, bytes, projections and CLI/Web semantics stable", asyn
     assessmentJson: sha256(assessmentJson),
     assessmentMarkdown: sha256(formatAssessmentReport(assessment, "markdown")),
   }).toEqual({
-    json: "0b89652094bdbd008393571efcbb7c049adc8f7b1b8c5dfa77a5a5e80f015742",
+    json: "cae46fc36f65c59e92272e1ba3ed078f8811850464dc8dde66d5a8c05858e365",
     markdown:
-      "528c0057dd3d0438a8804f573e6db102ee43f2503cd40f3547d3b73df8e7d1d3",
-    sarif: "649650e9b91379c12299e8c9fb96aa0520caf0defbec4d0df3fceca4d9a14bab",
+      "fe5554e5e2ca69749c121113ef6f90ff3acd5269c7c573ee5fe3b86188c55ccb",
+    sarif: "da6e66fd21c919e867da7f3e6e06e3ff55f352424de0ab014e03814604d6a204",
     assessmentJson:
-      "b684939d5be09db5981669fb44b1d1b81f0995ccaaf0cf6830265d68fb7a46cd",
+      "220b2ff5b5ef2e92f23fed94b9726a935ceda5457c4459f6f74c10f14b88f50a",
     assessmentMarkdown:
-      "2f641c0105eb73e5b6acb91c8f470007073a077d6cc46eafe9d1220289e73404",
+      "8d9bc21a877c68f4b9d870c38f625e12a3198920b9d09e07d7012d215f4dd5f4",
   });
 
   const evidence = JSON.parse(
-    await readFile("docs/evidence/report-stability-2026-11-15.json", "utf8"),
+    await readFile("docs/evidence/report-stability-2026-11-24.json", "utf8"),
   );
   expect({
     outputHashes: evidence.outputHashes,

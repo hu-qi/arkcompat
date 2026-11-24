@@ -55,9 +55,9 @@ it("runs the portable CLI after relocation without source, local paths or symlin
     expect(JSON.parse(manifest)).toMatchObject({
       license: "MIT",
       dependencies: {
-        "@arkcompat/contracts": "0.1.0",
-        "@arkcompat/core": "0.1.0",
-        "@arkcompat/knowledge": "0.1.0",
+        "@arkcompat/contracts": "0.1.1",
+        "@arkcompat/core": "0.1.1",
+        "@arkcompat/knowledge": "0.1.1",
       },
     });
     expect(await readdir(join(runtime, "node_modules"))).not.toContain(
@@ -126,9 +126,9 @@ it("runs the portable CLI after relocation without source, local paths or symlin
       specVersion: "1.5",
       rootDependencyCount: 3,
       components: [
-        ["@arkcompat", "contracts", "0.1.0"],
-        ["@arkcompat", "core", "0.1.0"],
-        ["@arkcompat", "knowledge", "0.1.0"],
+        ["@arkcompat", "contracts", "0.1.1"],
+        ["@arkcompat", "core", "0.1.1"],
+        ["@arkcompat", "knowledge", "0.1.1"],
         ["@yarnpkg", "lockfile", "1.1.0"],
         [undefined, "ajv", "8.20.0"],
         [undefined, "balanced-match", "4.0.4"],
