@@ -1,0 +1,44 @@
+{
+  "version": "1.147.0",
+  "fixture": "ArkCompatVsCodeProbe",
+  "installedVsix": true,
+  "count": 4,
+  "findings": [
+    {
+      "id": "300633cfbe7f4efa7c580a2d672b93b92a4b8723f89c38b82b3161439d1a376c",
+      "status": "unknown",
+      "location": {
+        "path": "package.json",
+        "line": 5,
+        "column": 21
+      }
+    },
+    {
+      "id": "f146dbb8101e5c091721e713e33aebfd9405a7ec032bf36c2f7b086112db7263",
+      "status": "unknown",
+      "location": {
+        "path": "package.json",
+        "line": 5,
+        "column": 32
+      }
+    },
+    {
+      "id": "1584318d3ee07eaa61a26f37bb051e0af58d980024374bd555a58c458a5bb13d",
+      "status": "unknown",
+      "location": {
+        "path": "package.json",
+        "line": 5,
+        "column": 63
+      }
+    },
+    {
+      "id": "448859e8040785a45f0d330a41c376636406295feafc3b753c89af2ad2bc4faa",
+      "status": "unknown",
+      "location": {
+        "path": "package.json",
+        "line": 6,
+        "column": 25
+      }
+    }
+  ]
+}

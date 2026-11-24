@@ -12,10 +12,10 @@ Scope: release the merged F-01–F-04 fixes with accurate identity and claims. T
 **Goal**: Obtain review and green required CI, double-build all available artifacts from a clean commit, and exercise packaged entry points.
 **Success Criteria**: Required PR/main jobs pass; per-host rebuild hashes match; verifier and available host smoke pass; unavailable hosts are explicit.
 **Tests**: verify-release --smoke; SHA256SUMS comparison; CLI/MCP/Web/IDE observations; CI package jobs.
-**Status**: In Progress
+**Status**: Complete
 
 ## Stage 3: Publish and verify platform read-backs
 **Goal**: Publish the patch to authorized available release channels and synchronize code/tags.
 **Success Criteria**: Published tag resolves to verified source; downloaded assets match checksums and pass smoke; GitHub/AtomGit/GitCode refs agree; remaining limitations documented.
 **Tests**: Release API read-back; fresh downloads; verify-release; git ls-remote.
-**Status**: Not Started
+**Status**: In Progress

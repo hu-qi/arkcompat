@@ -17,7 +17,7 @@ ArkCompat is an independent community project, not an official or certified Huaw
 | `arkcompat-cli-portable.tar.gz` | Portable JavaScript CLI; operator-provided Node 22.13+ (22 line) or Node 24 |
 | `arkcompat-vscode.vsix` | Local disk installation in VS Code/Cursor; extension API ^1.128.0; configure a trusted Node path in User settings |
 | `arkcompat-deveco.zip` | Install Plugin from Disk in DevEco Studio 26.0.0.865 on macOS arm64; executes JavaScript with IDE-provided Node |
-| `arkcompat-web.tar.gz` | Local viewer; operator-provided Node; run `node server.mjs` after extraction |
+| `arkcompat-web.tar.gz` | Local viewer; operator-provided Node 22.13+ (22 line) or Node 24; run `node server.mjs` after extraction |
 | `arkcompat-source.tar.gz` | Source from the release commit; build with pinned pnpm and Node |
 | `SBOM.cdx.json`, `THIRD-PARTY-NOTICES.json`, `SHA256SUMS` | Runtime provenance and integrity materials |
 
@@ -35,4 +35,4 @@ Runtime notices cover **12 third-party packages**, while the historical reposito
 
 ## Integrity and rollback
 
-Verify the downloaded assets with `shasum -a 256 -c SHA256SUMS` before installation. Signing/attestation is not supplied. Keep the previous installation and report files until smoke testing succeeds. To roll back, stop the local CLI/Web process, uninstall the new VSIX or remove the DevEco plugin, and restore the previous installation. v0.1.0 remains available as immutable historical evidence with its documented defects.
+Download every asset listed in `SHA256SUMS`, then verify them with `shasum -a 256 -c SHA256SUMS` before installation. Signing/attestation is not supplied. Keep the previous installation and report files until smoke testing succeeds. To roll back, stop the local CLI/Web process, uninstall the new VSIX or remove the DevEco plugin, and restore the previous installation. v0.1.0 remains available as immutable historical evidence with its documented defects.
