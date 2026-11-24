@@ -57,7 +57,7 @@ export interface Limitation {
  * Release identity of the ArkCompat engine that produced a report.
  * Keep this in sync with the workspace package versions and the release tag.
  */
-export const ARKCOMPAT_VERSION = "0.1.0" as const;
+export const ARKCOMPAT_VERSION = "0.1.1" as const;
 
 export interface ScanReport {
   schemaVersion: "0.12.0";

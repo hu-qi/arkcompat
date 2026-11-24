@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "1",
+  "issue": 5,
+  "task": "M3-05",
+  "assessment": "authored-cross-surface-report-regression",
+  "scope": "Patch 0.1.1 deterministic report regression. Engineering evidence only; formal acceptance remains 0/5.",
+  "amends": "report-stability-2026-11-15.json",
+  "amendmentReason": "Only producer identity changes from 0.1.0 to 0.1.1. Re-rendering the same report with scannerVersion 0.1.0 reproduces all five historical hashes.",
+  "baseCommit": "6e802a055cdc5a83fac712bd6b16186842ee85a4",
+  "host": {
+    "platform": "darwin",
+    "architecture": "arm64",
+    "node": "v22.23.4"
+  },
+  "inputHashes": {
+    "fixtures/developer/source-api/package.json": "c895a5fd035bd0359784268cfd8086e675003807da76f00f5d9929a58dd3623e",
+    "fixtures/developer/source-api/src/imports.ts": "ff65581b74fd88a410b481d18e25dd09fb9b6de1514cf16f5f736694c8e9e7ce",
+    "fixtures/developer/source-api/src/loader.cjs": "a67140da0241386b963db836995437d9baaf75d8cbf0a3410013dd4424b08f96",
+    "data/knowledge/curated-provenance-snapshot.json": "71618d138a13785dfb2c05643f3d8da6c9e72b85b1d666f031ea3aa20de2bc99",
+    "packages/contracts/scan-report.schema.json": "7c56bb38aaecd2d382665d2ced0f58290c0327e82d826754e5dce04b76a8ff85",
+    "packages/contracts/assessment-report.schema.json": "38a39846d61c88250dc73133d28e9b3ec79b182384f5b4c76e0d2616143c489e"
+  },
+  "commands": [
+    "pnpm format",
+    "pnpm exec vitest run tests/report-stability.test.ts tests/reports.test.ts tests/scan.test.ts tests/assessment.test.ts tests/web-viewer.test.ts",
+    "pnpm check",
+    "git diff --check"
+  ],
+  "outputHashes": {
+    "scanJson": "cae46fc36f65c59e92272e1ba3ed078f8811850464dc8dde66d5a8c05858e365",
+    "scanMarkdown": "fe5554e5e2ca69749c121113ef6f90ff3acd5269c7c573ee5fe3b86188c55ccb",
+    "scanSarif": "da6e66fd21c919e867da7f3e6e06e3ff55f352424de0ab014e03814604d6a204",
+    "assessmentJson": "220b2ff5b5ef2e92f23fed94b9726a935ceda5457c4459f6f74c10f14b88f50a",
+    "assessmentMarkdown": "8d9bc21a877c68f4b9d870c38f625e12a3198920b9d09e07d7012d215f4dd5f4"
+  },
+  "checks": [
+    {
+      "name": "scan JSON schema",
+      "expected": "The generated canonical scan report validates against scan-report.schema.json.",
+      "observed": "passed"
+    },
+    {
+      "name": "assessment JSON schema",
+      "expected": "The generated assessment report validates against assessment-report.schema.json.",
+      "observed": "passed"
+    },
+    {
+      "name": "repeated rendering bytes",
+      "expected": "Repeated scan JSON, Markdown, SARIF, assessment JSON and assessment Markdown renderings are byte-identical.",
+      "observed": "passed"
+    },
+    {
+      "name": "CLI and Web canonical semantics",
+      "expected": "Schema version, scanner version, target, snapshots, coverage and every finding ID, status, evidence, location and target are equal after the CLI JSON report is parsed by the Web model.",
+      "observed": "passed"
+    },
+    {
+      "name": "SARIF finding and location projection",
+      "expected": "Every SARIF result preserves the canonical finding ID, status, evidence and one-based start/column; SARIF 2.1.0 run properties preserve coverage.",
+      "observed": "passed"
+    }
+  ],
+  "surfaceDifferences": [
+    "JSON retains the complete dependency graph and source inventory.",
+    "Markdown and SARIF intentionally project canonical findings and metadata rather than reproduce the complete JSON graph.",
+    "SARIF maps each canonical location to a relative URI and one-based region while retaining canonical evidence and identifiers in result properties.",
+    "Markdown applies presentation escaping; it does not alter canonical finding values."
+  ],
+  "limitations": [
+    "The source-api input is an authored developer fixture and does not establish real-world dependency, API, replacement or missing-port accuracy.",
+    "The knowledge snapshot is used only to exercise deterministic assessment serialization; it does not provide reviewed compatibility guidance.",
+    "The regression does not replace a real authorized project walkthrough, an independent clean host, a public CLI beta or product-owner acceptance.",
+    "No runtime compatibility, SDK support or formal Issue #5 close condition is established."
+  ],
+  "observedDate": "2026-11-24"
+}

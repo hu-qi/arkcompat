@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>org.arkcompat.deveco</id>
   <name>ArkCompat</name>
-  <version>0.1.0</version>
+  <version>0.1.1</version>
   <vendor>ArkCompat contributors</vendor>
   <description>Explicit local inventory scans for HarmonyOS projects. No automatic scan, upload or inferred compatibility verdict.</description>
   <idea-version since-build="261.23567.138" until-build="261.23567.138"/>
