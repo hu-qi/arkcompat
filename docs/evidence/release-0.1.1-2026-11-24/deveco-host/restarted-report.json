@@ -1,0 +1,276 @@
+{
+  "schemaVersion": "0.12.0",
+  "scannerVersion": "0.1.1",
+  "snapshots": {
+    "rules": "none",
+    "knowledge": "none"
+  },
+  "target": {
+    "os": "HarmonyOS",
+    "release": "6.0.0",
+    "runtime": "arkts",
+    "apiLevel": 20
+  },
+  "dependencies": [
+    {
+      "name": "a",
+      "specifier": "^1",
+      "section": "dependencies",
+      "status": "unknown"
+    },
+    {
+      "name": "alias",
+      "specifier": "npm:@scope/real@^2",
+      "section": "dependencies",
+      "status": "unknown"
+    },
+    {
+      "name": "shared",
+      "specifier": "^1",
+      "section": "dependencies",
+      "status": "unknown"
+    },
+    {
+      "name": "host",
+      "specifier": "^1",
+      "section": "peerDependencies",
+      "status": "unknown"
+    }
+  ],
+  "dependencyGraph": {
+    "source": "yarn.lock",
+    "lockfileVersion": 8,
+    "nodes": [
+      {
+        "id": "yarn-berry:a@npm:^1",
+        "installName": "a",
+        "name": "a",
+        "version": "1.0.0",
+        "link": false
+      },
+      {
+        "id": "yarn-berry:alias@npm:@scope/real@^2",
+        "installName": "alias",
+        "name": "@scope/real",
+        "version": "2.1.0",
+        "link": false
+      },
+      {
+        "id": "yarn-berry:shared@npm:^1",
+        "installName": "shared",
+        "name": "shared",
+        "version": "1.2.0",
+        "link": false
+      },
+      {
+        "id": "yarn-berry:shared@npm:~1",
+        "installName": "shared",
+        "name": "shared",
+        "version": "1.2.0",
+        "link": false
+      }
+    ],
+    "edges": [
+      {
+        "from": "",
+        "name": "a",
+        "specifier": "^1",
+        "section": "dependencies",
+        "to": "yarn-berry:a@npm:^1",
+        "resolution": "locked"
+      },
+      {
+        "from": "",
+        "name": "alias",
+        "specifier": "npm:@scope/real@^2",
+        "section": "dependencies",
+        "to": "yarn-berry:alias@npm:@scope/real@^2",
+        "resolution": "locked"
+      },
+      {
+        "from": "",
+        "name": "shared",
+        "specifier": "^1",
+        "section": "dependencies",
+        "to": "yarn-berry:shared@npm:^1",
+        "resolution": "locked"
+      },
+      {
+        "from": "",
+        "name": "host",
+        "specifier": "^1",
+        "section": "peerDependencies",
+        "to": null,
+        "resolution": "unsupported"
+      },
+      {
+        "from": "yarn-berry:a@npm:^1",
+        "name": "native",
+        "specifier": "npm:^1",
+        "section": "optionalDependencies",
+        "to": null,
+        "resolution": "missing"
+      },
+      {
+        "from": "yarn-berry:a@npm:^1",
+        "name": "shared",
+        "specifier": "npm:~1",
+        "section": "dependencies",
+        "to": "yarn-berry:shared@npm:~1",
+        "resolution": "locked"
+      }
+    ]
+  },
+  "references": [],
+  "apiUsages": [],
+  "findings": [
+    {
+      "id": "300633cfbe7f4efa7c580a2d672b93b92a4b8723f89c38b82b3161439d1a376c",
+      "ruleId": "inventory.dependency",
+      "status": "unknown",
+      "tier": "rule-static",
+      "severity": "info",
+      "target": {
+        "os": "HarmonyOS",
+        "release": "6.0.0",
+        "runtime": "arkts",
+        "apiLevel": 20
+      },
+      "location": {
+        "path": "package.json",
+        "line": 5,
+        "column": 21
+      },
+      "evidence": [
+        {
+          "kind": "manifest-declaration",
+          "value": "a"
+        }
+      ],
+      "explanation": "Inventory evidence only; compatibility has not been evaluated. No rules or knowledge snapshot loaded."
+    },
+    {
+      "id": "f146dbb8101e5c091721e713e33aebfd9405a7ec032bf36c2f7b086112db7263",
+      "ruleId": "inventory.dependency",
+      "status": "unknown",
+      "tier": "rule-static",
+      "severity": "info",
+      "target": {
+        "os": "HarmonyOS",
+        "release": "6.0.0",
+        "runtime": "arkts",
+        "apiLevel": 20
+      },
+      "location": {
+        "path": "package.json",
+        "line": 5,
+        "column": 32
+      },
+      "evidence": [
+        {
+          "kind": "manifest-declaration",
+          "value": "alias"
+        }
+      ],
+      "explanation": "Inventory evidence only; compatibility has not been evaluated. No rules or knowledge snapshot loaded."
+    },
+    {
+      "id": "1584318d3ee07eaa61a26f37bb051e0af58d980024374bd555a58c458a5bb13d",
+      "ruleId": "inventory.dependency",
+      "status": "unknown",
+      "tier": "rule-static",
+      "severity": "info",
+      "target": {
+        "os": "HarmonyOS",
+        "release": "6.0.0",
+        "runtime": "arkts",
+        "apiLevel": 20
+      },
+      "location": {
+        "path": "package.json",
+        "line": 5,
+        "column": 63
+      },
+      "evidence": [
+        {
+          "kind": "manifest-declaration",
+          "value": "shared"
+        }
+      ],
+      "explanation": "Inventory evidence only; compatibility has not been evaluated. No rules or knowledge snapshot loaded."
+    },
+    {
+      "id": "448859e8040785a45f0d330a41c376636406295feafc3b753c89af2ad2bc4faa",
+      "ruleId": "inventory.dependency",
+      "status": "unknown",
+      "tier": "rule-static",
+      "severity": "info",
+      "target": {
+        "os": "HarmonyOS",
+        "release": "6.0.0",
+        "runtime": "arkts",
+        "apiLevel": 20
+      },
+      "location": {
+        "path": "package.json",
+        "line": 6,
+        "column": 25
+      },
+      "evidence": [
+        {
+          "kind": "manifest-declaration",
+          "value": "host"
+        }
+      ],
+      "explanation": "Inventory evidence only; compatibility has not been evaluated. No rules or knowledge snapshot loaded."
+    }
+  ],
+  "coverage": {
+    "dependencyGraph": "yarn-berry-lockfile-partial",
+    "compatibility": "not-evaluated",
+    "sourceFiles": 0,
+    "limitations": [
+      {
+        "code": "compatibility-not-evaluated"
+      },
+      {
+        "code": "commonjs-exports-not-analyzed"
+      },
+      {
+        "code": "unlisted-global-apis-not-analyzed"
+      },
+      {
+        "code": "module-mutations-and-returned-values-not-analyzed"
+      },
+      {
+        "code": "gitignore-not-applied"
+      },
+      {
+        "code": "excluded-directories-not-analyzed"
+      },
+      {
+        "code": "dependency-edge-unsupported",
+        "path": "package.json"
+      },
+      {
+        "code": "dependency-edge-missing",
+        "path": "yarn-berry:a@npm:^1"
+      },
+      {
+        "code": "dependency-ranges-partially-validated"
+      },
+      {
+        "code": "lockfile-install-state-not-verified"
+      },
+      {
+        "code": "yarn-peer-graph-not-recorded"
+      },
+      {
+        "code": "yarn-hoisting-not-recorded"
+      },
+      {
+        "code": "yarn-berry-root-workspace-links-not-resolved"
+      }
+    ]
+  }
+}

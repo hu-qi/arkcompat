@@ -59,5 +59,13 @@
     "No new DevEco host verdict: fresh host was cancelled at the user/SDK agreement.",
     "Marketplace/registry distribution and signing remain deferred.",
     "Pre-existing Web schema hint says 0.10.0; imported report reads correct 0.12.0."
-  ]
+  ],
+  "postPublicationHostFollowup": {
+    "date": "2026-11-24",
+    "parityPassed": 7,
+    "parityTotal": 7,
+    "devecoHost": "published ZIP native install, scan/navigation/recovery/restart pass; isolated directory removal verified",
+    "evidence": "deveco-host/manifest.json",
+    "supersedes": "roundParity is the earlier publication-time observation and remains historical"
+  }
 }
