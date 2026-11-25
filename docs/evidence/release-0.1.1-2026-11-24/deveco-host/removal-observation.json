@@ -1,0 +1,10 @@
+{
+  "method": "stop IDE, move task-owned installed plugin directory aside, restart IDE",
+  "nativeUiUninstall": false,
+  "pluginDirectoryPresent": false,
+  "scanActionPresent": false,
+  "actualUiFind": {
+    "match": null,
+    "snapshot_id": "sjw3usn3isaa1"
+  }
+}

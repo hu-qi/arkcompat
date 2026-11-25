@@ -1,0 +1,1646 @@
+{
+  "version": "2.6",
+  "ok": true,
+  "command": "snapshot",
+  "data": {
+    "app": "DevEco Studio",
+    "complete": false,
+    "nodes_observed": 163,
+    "ref_count": 106,
+    "snapshot_id": "s3aab1sheecmfo",
+    "tree": {
+      "children": [
+        {
+          "available_actions": [
+            "SetFocus"
+          ],
+          "children": [
+            {
+              "description": "ArkCompat inventory complete",
+              "name": "ArkCompat inventory complete",
+              "role": "statictext",
+              "value": "ArkCompat inventory complete"
+            },
+            {
+              "available_actions": [
+                "Click",
+                "SetFocus"
+              ],
+              "ref_id": "@s3aab1sheecmfo:e1",
+              "role": "link"
+            },
+            {
+              "available_actions": [
+                "Scroll",
+                "SetFocus"
+              ],
+              "children": [
+                {
+                  "available_actions": [
+                    "SetValue",
+                    "SetFocus",
+                    "TypeText"
+                  ],
+                  "children": [
+                    {
+                      "available_actions": [
+                        "SetValue",
+                        "SetFocus",
+                        "TypeText"
+                      ],
+                      "name": "text/html",
+                      "ref_id": "@s3aab1sheecmfo:e4",
+                      "role": "textfield",
+                      "states": [
+                        "offscreen"
+                      ]
+                    },
+                    {
+                      "available_actions": [
+                        "SetValue",
+                        "SetFocus",
+                        "TypeText"
+                      ],
+                      "name": "text/html",
+                      "ref_id": "@s3aab1sheecmfo:e5",
+                      "role": "textfield"
+                    },
+                    {
+                      "available_actions": [
+                        "SetValue",
+                        "SetFocus",
+                        "TypeText"
+                      ],
+                      "name": "text/html",
+                      "ref_id": "@s3aab1sheecmfo:e6",
+                      "role": "textfield",
+                      "states": [
+                        "offscreen"
+                      ]
+                    }
+                  ],
+                  "name": "4 canonical findings \u00b7 4 unknown \u00b7 0 other \u00b7 Schema 0.12.0 \u00b7 Report <verification-root>/reports/scan-9132676445257094639/report.json",
+                  "ref_id": "@s3aab1sheecmfo:e3",
+                  "role": "textfield",
+                  "value": "\n4 canonical findings \u00b7 4 unknown \u00b7 0 other \u00b7 Schema 0.12.0 \u00b7 Report <verification-root>/reports/scan-9132676445257094639/report.json"
+                },
+                {
+                  "role": "scrollbar",
+                  "states": [
+                    "offscreen"
+                  ],
+                  "value": "0"
+                },
+                {
+                  "role": "scrollbar",
+                  "states": [
+                    "offscreen"
+                  ],
+                  "value": "0"
+                }
+              ],
+              "ref_id": "@s3aab1sheecmfo:e2",
+              "role": "scrollarea",
+              "value": "0"
+            },
+            {
+              "available_actions": [
+                "Click",
+                "SetFocus"
+              ],
+              "name": "Open report",
+              "ref_id": "@s3aab1sheecmfo:e7",
+              "role": "link"
+            },
+            {
+              "available_actions": [
+                "Click",
+                "SetFocus"
+              ],
+              "name": "Open first finding",
+              "ref_id": "@s3aab1sheecmfo:e8",
+              "role": "link"
+            },
+            {
+              "available_actions": [
+                "Click",
+                "SetFocus"
+              ],
+              "name": "More",
+              "ref_id": "@s3aab1sheecmfo:e9",
+              "role": "link",
+              "states": [
+                "offscreen"
+              ]
+            },
+            {
+              "description": "ArkCompat",
+              "name": "ArkCompat",
+              "role": "statictext",
+              "value": "ArkCompat"
+            },
+            {
+              "available_actions": [
+                "Scroll",
+                "SetFocus"
+              ],
+              "children": [
+                {
+                  "available_actions": [
+                    "SetValue",
+                    "SetFocus",
+                    "TypeText"
+                  ],
+                  "children": [
+                    {
+                      "available_actions": [
+                        "SetValue",
+                        "SetFocus",
+                        "TypeText"
+                      ],
+                      "name": "text/html",
+                      "ref_id": "@s3aab1sheecmfo:e12",
+                      "role": "textfield",
+                      "states": [
+                        "offscreen"
+                      ]
+                    },
+                    {
+                      "available_actions": [
+                        "SetValue",
+                        "SetFocus",
+                        "TypeText"
+                      ],
+                      "name": "text/html",
+                      "ref_id": "@s3aab1sheecmfo:e13",
+                      "role": "textfield"
+                    },
+                    {
+                      "available_actions": [
+                        "SetValue",
+                        "SetFocus",
+                        "TypeText"
+                      ],
+                      "name": "text/html",
+                      "ref_id": "@s3aab1sheecmfo:e14",
+                      "role": "textfield"
+                    }
+                  ],
+                  "name": "No package.json, oh-package.json5 or lockfile was found in the current project.",
+                  "ref_id": "@s3aab1sheecmfo:e11",
+                  "role": "textfield",
+                  "value": "\nNo package.json, oh-package.json5 or lockfile was found in the current project."
+                },
+                {
+                  "role": "scrollbar",
+                  "states": [
+                    "offscreen"
+                  ],
+                  "value": "0"
+                },
+                {
+                  "role": "scrollbar",
+                  "states": [
+                    "offscreen"
+                  ],
+                  "value": "0"
+                }
+              ],
+              "ref_id": "@s3aab1sheecmfo:e10",
+              "role": "scrollarea",
+              "value": "0"
+            },
+            {
+              "description": "ArkCompat inventory complete",
+              "name": "ArkCompat inventory complete",
+              "role": "statictext",
+              "value": "ArkCompat inventory complete"
+            },
+            {
+              "available_actions": [
+                "Click",
+                "SetFocus"
+              ],
+              "ref_id": "@s3aab1sheecmfo:e15",
+              "role": "link"
+            },
+            {
+              "available_actions": [
+                "Scroll",
+                "SetFocus"
+              ],
+              "children": [
+                {
+                  "available_actions": [
+                    "SetValue",
+                    "SetFocus",
+                    "TypeText"
+                  ],
+                  "children": [
+                    {
+                      "available_actions": [
+                        "SetValue",
+                        "SetFocus",
+                        "TypeText"
+                      ],
+                      "name": "text/html",
+                      "ref_id": "@s3aab1sheecmfo:e18",
+                      "role": "textfield",
+                      "states": [
+                        "offscreen"
+                      ]
+                    },
+                    {
+                      "available_actions": [
+                        "SetValue",
+                        "SetFocus",
+                        "TypeText"
+                      ],
+                      "name": "text/html",
+                      "ref_id": "@s3aab1sheecmfo:e19",
+                      "role": "textfield"
+                    },
+                    {
+                      "available_actions": [
+                        "SetValue",
+                        "SetFocus",
+                        "TypeText"
+                      ],
+                      "name": "text/html",
+                      "ref_id": "@s3aab1sheecmfo:e20",
+                      "role": "textfield",
+                      "states": [
+                        "offscreen"
+                      ]
+                    }
+                  ],
+                  "name": "4 canonical findings \u00b7 4 unknown \u00b7 0 other \u00b7 Schema 0.12.0 \u00b7 Report <verification-root>/reports/scan-12331068344297954228/report.json",
+                  "ref_id": "@s3aab1sheecmfo:e17",
+                  "role": "textfield",
+                  "value": "\n4 canonical findings \u00b7 4 unknown \u00b7 0 other \u00b7 Schema 0.12.0 \u00b7 Report <verification-root>/reports/scan-12331068344297954228/report.json"
+                },
+                {
+                  "role": "scrollbar",
+                  "states": [
+                    "offscreen"
+                  ],
+                  "value": "0"
+                },
+                {
+                  "role": "scrollbar",
+                  "states": [
+                    "offscreen"
+                  ],
+                  "value": "0"
+                }
+              ],
+              "ref_id": "@s3aab1sheecmfo:e16",
+              "role": "scrollarea",
+              "value": "0"
+            },
+            {
+              "available_actions": [
+                "Click",
+                "SetFocus"
+              ],
+              "name": "Open report",
+              "ref_id": "@s3aab1sheecmfo:e21",
+              "role": "link"
+            },
+            {
+              "available_actions": [
+                "Click",
+                "SetFocus"
+              ],
+              "name": "Open first finding",
+              "ref_id": "@s3aab1sheecmfo:e22",
+              "role": "link"
+            },
+            {
+              "available_actions": [
+                "Click",
+                "SetFocus"
+              ],
+              "name": "More",
+              "ref_id": "@s3aab1sheecmfo:e23",
+              "role": "link",
+              "states": [
+                "offscreen"
+              ]
+            },
+            {
+              "available_actions": [
+                "SetFocus"
+              ],
+              "children": [
+                {
+                  "available_actions": [
+                    "Click",
+                    "SetFocus"
+                  ],
+                  "name": "Save All",
+                  "ref_id": "@s3aab1sheecmfo:e24",
+                  "role": "button",
+                  "states": [
+                    "offscreen"
+                  ]
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "SetFocus"
+                  ],
+                  "name": "Reload All from Disk",
+                  "ref_id": "@s3aab1sheecmfo:e25",
+                  "role": "button",
+                  "states": [
+                    "offscreen"
+                  ]
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "SetFocus"
+                  ],
+                  "name": "Back",
+                  "ref_id": "@s3aab1sheecmfo:e26",
+                  "role": "button",
+                  "states": [
+                    "disabled",
+                    "offscreen"
+                  ]
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "SetFocus"
+                  ],
+                  "name": "Forward",
+                  "ref_id": "@s3aab1sheecmfo:e27",
+                  "role": "button",
+                  "states": [
+                    "disabled",
+                    "offscreen"
+                  ]
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "SetFocus"
+                  ],
+                  "ref_id": "@s3aab1sheecmfo:e28",
+                  "role": "button",
+                  "states": [
+                    "offscreen"
+                  ]
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "SetFocus"
+                  ],
+                  "name": "Add Configuration",
+                  "ref_id": "@s3aab1sheecmfo:e29",
+                  "role": "button",
+                  "states": [
+                    "disabled",
+                    "offscreen"
+                  ]
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "SetFocus"
+                  ],
+                  "name": "Run",
+                  "ref_id": "@s3aab1sheecmfo:e30",
+                  "role": "button",
+                  "states": [
+                    "disabled",
+                    "offscreen"
+                  ]
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "SetFocus"
+                  ],
+                  "name": "Debug",
+                  "ref_id": "@s3aab1sheecmfo:e31",
+                  "role": "button",
+                  "states": [
+                    "disabled",
+                    "offscreen"
+                  ]
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "SetFocus"
+                  ],
+                  "name": "Run with Coverage",
+                  "ref_id": "@s3aab1sheecmfo:e32",
+                  "role": "button",
+                  "states": [
+                    "disabled",
+                    "offscreen"
+                  ]
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "SetFocus"
+                  ],
+                  "name": "Stop",
+                  "ref_id": "@s3aab1sheecmfo:e33",
+                  "role": "button",
+                  "states": [
+                    "disabled",
+                    "offscreen"
+                  ]
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "SetFocus"
+                  ],
+                  "name": "Search Everywhere",
+                  "ref_id": "@s3aab1sheecmfo:e34",
+                  "role": "button",
+                  "states": [
+                    "disabled",
+                    "offscreen"
+                  ]
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "SetFocus"
+                  ],
+                  "name": "IDE and Project Settings",
+                  "ref_id": "@s3aab1sheecmfo:e35",
+                  "role": "button",
+                  "states": [
+                    "offscreen"
+                  ]
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "SetFocus"
+                  ],
+                  "name": "Sign in",
+                  "ref_id": "@s3aab1sheecmfo:e36",
+                  "role": "button",
+                  "states": [
+                    "offscreen"
+                  ]
+                }
+              ],
+              "role": "group",
+              "states": [
+                "offscreen"
+              ],
+              "value": "0"
+            },
+            {
+              "available_actions": [
+                "SetFocus"
+              ],
+              "role": "group",
+              "value": "0"
+            },
+            {
+              "available_actions": [
+                "SetFocus"
+              ],
+              "children": [
+                {
+                  "available_actions": [
+                    "Click",
+                    "Toggle",
+                    "SetFocus"
+                  ],
+                  "name": "Project",
+                  "ref_id": "@s3aab1sheecmfo:e37",
+                  "role": "checkbox",
+                  "states": [
+                    "checked"
+                  ],
+                  "value": "1"
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "Toggle",
+                    "SetFocus"
+                  ],
+                  "name": "Structure",
+                  "ref_id": "@s3aab1sheecmfo:e38",
+                  "role": "checkbox",
+                  "value": "0"
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "Toggle",
+                    "SetFocus"
+                  ],
+                  "name": "Bookmarks",
+                  "ref_id": "@s3aab1sheecmfo:e39",
+                  "role": "checkbox",
+                  "value": "0"
+                }
+              ],
+              "name": "Left Stripe",
+              "role": "group",
+              "value": "0"
+            },
+            {
+              "available_actions": [
+                "SetFocus"
+              ],
+              "children": [
+                {
+                  "available_actions": [
+                    "Click",
+                    "Toggle",
+                    "SetFocus"
+                  ],
+                  "name": "Problems",
+                  "ref_id": "@s3aab1sheecmfo:e40",
+                  "role": "checkbox",
+                  "value": "0"
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "Toggle",
+                    "SetFocus"
+                  ],
+                  "name": "Terminal",
+                  "ref_id": "@s3aab1sheecmfo:e41",
+                  "role": "checkbox",
+                  "value": "0"
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "Toggle",
+                    "SetFocus"
+                  ],
+                  "name": "TODO",
+                  "ref_id": "@s3aab1sheecmfo:e42",
+                  "role": "checkbox",
+                  "value": "0"
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "Toggle",
+                    "SetFocus"
+                  ],
+                  "name": "Code Linter",
+                  "ref_id": "@s3aab1sheecmfo:e43",
+                  "role": "checkbox",
+                  "value": "0"
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "Toggle",
+                    "SetFocus"
+                  ],
+                  "name": "CodeScanner",
+                  "ref_id": "@s3aab1sheecmfo:e44",
+                  "role": "checkbox",
+                  "value": "0"
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "Toggle",
+                    "SetFocus"
+                  ],
+                  "name": "Migrate Assistant",
+                  "ref_id": "@s3aab1sheecmfo:e45",
+                  "role": "checkbox",
+                  "states": [
+                    "offscreen"
+                  ],
+                  "value": "0"
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "Toggle",
+                    "SetFocus"
+                  ],
+                  "name": "Log",
+                  "ref_id": "@s3aab1sheecmfo:e46",
+                  "role": "checkbox",
+                  "value": "0"
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "Toggle",
+                    "SetFocus"
+                  ],
+                  "name": "Version Control",
+                  "ref_id": "@s3aab1sheecmfo:e47",
+                  "role": "checkbox",
+                  "value": "0"
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "Toggle",
+                    "SetFocus"
+                  ],
+                  "name": "Services",
+                  "ref_id": "@s3aab1sheecmfo:e48",
+                  "role": "checkbox",
+                  "value": "0"
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "Toggle",
+                    "SetFocus"
+                  ],
+                  "name": "ArkUI Inspector",
+                  "ref_id": "@s3aab1sheecmfo:e49",
+                  "role": "checkbox",
+                  "value": "0"
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "Toggle",
+                    "SetFocus"
+                  ],
+                  "name": "Profiler",
+                  "ref_id": "@s3aab1sheecmfo:e50",
+                  "role": "checkbox",
+                  "value": "0"
+                }
+              ],
+              "name": "Bottom Stripe",
+              "role": "group",
+              "value": "0"
+            },
+            {
+              "available_actions": [
+                "SetFocus"
+              ],
+              "children": [
+                {
+                  "available_actions": [
+                    "Click",
+                    "Toggle",
+                    "SetFocus"
+                  ],
+                  "name": "Kit Assistant",
+                  "ref_id": "@s3aab1sheecmfo:e51",
+                  "role": "checkbox",
+                  "states": [
+                    "offscreen"
+                  ],
+                  "value": "0"
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "Toggle",
+                    "SetFocus"
+                  ],
+                  "name": "Notifications",
+                  "ref_id": "@s3aab1sheecmfo:e52",
+                  "role": "checkbox",
+                  "value": "0"
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "Toggle",
+                    "SetFocus"
+                  ],
+                  "name": "Coverage",
+                  "ref_id": "@s3aab1sheecmfo:e53",
+                  "role": "checkbox",
+                  "states": [
+                    "offscreen"
+                  ],
+                  "value": "0"
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "Toggle",
+                    "SetFocus"
+                  ],
+                  "name": "Quick Start",
+                  "ref_id": "@s3aab1sheecmfo:e54",
+                  "role": "checkbox",
+                  "states": [
+                    "offscreen"
+                  ],
+                  "value": "0"
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "Toggle",
+                    "SetFocus"
+                  ],
+                  "name": "Database Inspector",
+                  "ref_id": "@s3aab1sheecmfo:e55",
+                  "role": "checkbox",
+                  "value": "0"
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "Toggle",
+                    "SetFocus"
+                  ],
+                  "name": "API Reference",
+                  "ref_id": "@s3aab1sheecmfo:e56",
+                  "role": "checkbox",
+                  "states": [
+                    "offscreen"
+                  ],
+                  "value": "0"
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "Toggle",
+                    "SetFocus"
+                  ],
+                  "name": "Hvigor",
+                  "ref_id": "@s3aab1sheecmfo:e57",
+                  "role": "checkbox",
+                  "value": "0"
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "Toggle",
+                    "SetFocus"
+                  ],
+                  "name": "Device File Browser",
+                  "ref_id": "@s3aab1sheecmfo:e58",
+                  "role": "checkbox",
+                  "value": "0"
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "Toggle",
+                    "SetFocus"
+                  ],
+                  "name": "Satisfaction Survey",
+                  "ref_id": "@s3aab1sheecmfo:e59",
+                  "role": "checkbox",
+                  "value": "0"
+                }
+              ],
+              "name": "Right Stripe",
+              "role": "group",
+              "value": "0"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "available_actions": [
+                        "Click",
+                        "SetFocus"
+                      ],
+                      "ref_id": "@s3aab1sheecmfo:e60",
+                      "role": "button"
+                    },
+                    {
+                      "available_actions": [
+                        "Click",
+                        "SetFocus"
+                      ],
+                      "ref_id": "@s3aab1sheecmfo:e61",
+                      "role": "button"
+                    }
+                  ],
+                  "role": "scrollbar",
+                  "value": "0"
+                },
+                {
+                  "available_actions": [
+                    "SetFocus"
+                  ],
+                  "role": "group",
+                  "states": [
+                    "offscreen"
+                  ],
+                  "value": "0"
+                },
+                {
+                  "available_actions": [
+                    "SetFocus"
+                  ],
+                  "children": [
+                    {
+                      "available_actions": [
+                        "Click",
+                        "SetFocus"
+                      ],
+                      "name": "Sync Changes",
+                      "ref_id": "@s3aab1sheecmfo:e62",
+                      "role": "button",
+                      "states": [
+                        "disabled",
+                        "offscreen"
+                      ]
+                    },
+                    {
+                      "available_actions": [
+                        "Click",
+                        "SetFocus"
+                      ],
+                      "name": "Hide This Notification",
+                      "ref_id": "@s3aab1sheecmfo:e63",
+                      "role": "button",
+                      "states": [
+                        "disabled",
+                        "offscreen"
+                      ]
+                    }
+                  ],
+                  "name": "Action Toolbar",
+                  "role": "group",
+                  "states": [
+                    "offscreen"
+                  ],
+                  "value": "0"
+                },
+                {
+                  "available_actions": [
+                    "SetFocus"
+                  ],
+                  "role": "group",
+                  "states": [
+                    "offscreen"
+                  ],
+                  "value": "0"
+                },
+                {
+                  "available_actions": [
+                    "SetFocus"
+                  ],
+                  "children": [
+                    {
+                      "available_actions": [
+                        "Click",
+                        "SetFocus"
+                      ],
+                      "name": "Code changed:",
+                      "ref_id": "@s3aab1sheecmfo:e64",
+                      "role": "button",
+                      "states": [
+                        "offscreen"
+                      ]
+                    },
+                    {
+                      "available_actions": [
+                        "Click",
+                        "SetFocus"
+                      ],
+                      "name": "Hide",
+                      "ref_id": "@s3aab1sheecmfo:e65",
+                      "role": "button",
+                      "states": [
+                        "offscreen"
+                      ]
+                    }
+                  ],
+                  "name": "Action Toolbar",
+                  "role": "group",
+                  "states": [
+                    "offscreen"
+                  ],
+                  "value": "0"
+                },
+                {
+                  "available_actions": [
+                    "SetFocus"
+                  ],
+                  "children": [
+                    {
+                      "description": "3",
+                      "name": "3",
+                      "role": "statictext",
+                      "value": "3"
+                    },
+                    {
+                      "available_actions": [
+                        "Click",
+                        "SetFocus"
+                      ],
+                      "name": "Previous Highlighted Error",
+                      "ref_id": "@s3aab1sheecmfo:e66",
+                      "role": "button"
+                    },
+                    {
+                      "available_actions": [
+                        "Click",
+                        "SetFocus"
+                      ],
+                      "name": "Next Highlighted Error",
+                      "ref_id": "@s3aab1sheecmfo:e67",
+                      "role": "button"
+                    }
+                  ],
+                  "role": "group",
+                  "value": "0"
+                },
+                {
+                  "role": "statictext",
+                  "states": [
+                    "offscreen"
+                  ]
+                },
+                {
+                  "available_actions": [
+                    "Scroll",
+                    "SetFocus"
+                  ],
+                  "children": [
+                    {
+                      "role": "scrollbar",
+                      "states": [
+                        "offscreen"
+                      ],
+                      "value": "0"
+                    },
+                    {
+                      "available_actions": [
+                        "SetFocus"
+                      ],
+                      "role": "group",
+                      "value": "0"
+                    },
+                    {
+                      "available_actions": [
+                        "RightClick",
+                        "SetValue",
+                        "SetFocus",
+                        "TypeText"
+                      ],
+                      "name": "Editor for package.json",
+                      "ref_id": "@s3aab1sheecmfo:e69",
+                      "role": "textfield",
+                      "value": "{\n  \"name\": \"arkcompat-developer-berry-graph\",\n  \"private\": true,\n  \"packageManager\": \"yarn@4.0.0\",\n  \"dependencies\": { \"a\": \"^1\", \"alias\": \"npm:@scope/real@^2\", \"shared\": \"^1\" },\n  \"peerDependencies\": { \"host\": \"^1\" }\n}\n"
+                    }
+                  ],
+                  "ref_id": "@s3aab1sheecmfo:e68",
+                  "role": "scrollarea",
+                  "value": "0"
+                },
+                {
+                  "description": "Project sync failed. Basic functionality (e.g. editing, debugging) will not work properly.",
+                  "name": "Project sync failed. Basic functionality (e.g. editing, debugging) will not work properly.",
+                  "role": "statictext",
+                  "value": "Project sync failed. Basic functionality (e.g. editing, debugging) will not work properly."
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "SetFocus"
+                  ],
+                  "name": "Try Again",
+                  "ref_id": "@s3aab1sheecmfo:e70",
+                  "role": "link"
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "SetFocus"
+                  ],
+                  "name": "Show Log in Finder",
+                  "ref_id": "@s3aab1sheecmfo:e71",
+                  "role": "link"
+                },
+                {
+                  "role": "statictext"
+                }
+              ],
+              "name": "package.json, JSON file",
+              "role": "tablist",
+              "subtree_truncated": true
+            },
+            {
+              "available_actions": [
+                "SetFocus"
+              ],
+              "children": [
+                {
+                  "description": "Project",
+                  "name": "Project",
+                  "role": "statictext",
+                  "states": [
+                    "offscreen"
+                  ],
+                  "value": "Project"
+                },
+                {
+                  "available_actions": [
+                    "SetFocus"
+                  ],
+                  "name": "Project",
+                  "ref_id": "@s3aab1sheecmfo:e72",
+                  "role": "button"
+                },
+                {
+                  "available_actions": [
+                    "SetFocus"
+                  ],
+                  "role": "group",
+                  "value": "0"
+                },
+                {
+                  "available_actions": [
+                    "SetFocus"
+                  ],
+                  "children": [
+                    {
+                      "available_actions": [
+                        "Click",
+                        "SetFocus"
+                      ],
+                      "name": "New File or Directory\u2026",
+                      "ref_id": "@s3aab1sheecmfo:e73",
+                      "role": "button"
+                    },
+                    {
+                      "available_actions": [
+                        "Click",
+                        "SetFocus"
+                      ],
+                      "name": "Select Opened File (\u2325F1, 1)",
+                      "ref_id": "@s3aab1sheecmfo:e74",
+                      "role": "button"
+                    },
+                    {
+                      "available_actions": [
+                        "Click",
+                        "SetFocus"
+                      ],
+                      "name": "Expand Selected",
+                      "ref_id": "@s3aab1sheecmfo:e75",
+                      "role": "button"
+                    },
+                    {
+                      "available_actions": [
+                        "Click",
+                        "SetFocus"
+                      ],
+                      "name": "Collapse All",
+                      "ref_id": "@s3aab1sheecmfo:e76",
+                      "role": "button"
+                    },
+                    {
+                      "available_actions": [
+                        "Click",
+                        "SetFocus"
+                      ],
+                      "name": "Options",
+                      "ref_id": "@s3aab1sheecmfo:e77",
+                      "role": "button"
+                    },
+                    {
+                      "available_actions": [
+                        "Click",
+                        "SetFocus"
+                      ],
+                      "name": "Hide",
+                      "ref_id": "@s3aab1sheecmfo:e78",
+                      "role": "button"
+                    }
+                  ],
+                  "name": "Action Toolbar",
+                  "role": "group",
+                  "value": "0"
+                },
+                {
+                  "available_actions": [
+                    "Scroll",
+                    "SetFocus"
+                  ],
+                  "children": [
+                    {
+                      "available_actions": [
+                        "Select",
+                        "SetFocus"
+                      ],
+                      "children": [
+                        {
+                          "available_actions": [
+                            "Click",
+                            "RightClick",
+                            "SetFocus",
+                            "Expand",
+                            "Collapse"
+                          ],
+                          "children": [
+                            {
+                              "available_actions": [
+                                "Click",
+                                "RightClick"
+                              ],
+                              "children": [
+                                {
+                                  "available_actions": [
+                                    "Click",
+                                    "RightClick"
+                                  ],
+                                  "description": ".idea",
+                                  "name": ".idea",
+                                  "ref_id": "@s3aab1sheecmfo:e83",
+                                  "role": "statictext",
+                                  "value": ".idea"
+                                },
+                                {
+                                  "available_actions": [
+                                    "Click"
+                                  ],
+                                  "description": "package.json, JSON file",
+                                  "name": "package.json, JSON file",
+                                  "ref_id": "@s3aab1sheecmfo:e84",
+                                  "role": "statictext",
+                                  "value": "package.json, JSON file"
+                                },
+                                {
+                                  "available_actions": [
+                                    "Click"
+                                  ],
+                                  "description": "yarn.lock",
+                                  "name": "yarn.lock",
+                                  "ref_id": "@s3aab1sheecmfo:e85",
+                                  "role": "statictext",
+                                  "value": "yarn.lock"
+                                }
+                              ],
+                              "description": "ArkCompatProject \u2009<verification-root>/ArkCompatProject",
+                              "name": "0",
+                              "ref_id": "@s3aab1sheecmfo:e82",
+                              "role": "statictext",
+                              "value": "0"
+                            }
+                          ],
+                          "name": "ArkCompatProject \u2009<verification-root>/ArkCompatProject",
+                          "ref_id": "@s3aab1sheecmfo:e81",
+                          "role": "treeitem",
+                          "states": [
+                            "selected"
+                          ],
+                          "value": "0"
+                        },
+                        {
+                          "available_actions": [
+                            "Click",
+                            "SetFocus",
+                            "Expand",
+                            "Collapse"
+                          ],
+                          "children": [
+                            {
+                              "available_actions": [
+                                "Click"
+                              ],
+                              "description": "package.json, JSON file",
+                              "name": "0",
+                              "ref_id": "@s3aab1sheecmfo:e87",
+                              "role": "statictext",
+                              "states": [
+                                "offscreen"
+                              ],
+                              "value": "0"
+                            }
+                          ],
+                          "name": "package.json, JSON file",
+                          "ref_id": "@s3aab1sheecmfo:e86",
+                          "role": "treeitem",
+                          "states": [
+                            "selected",
+                            "offscreen"
+                          ],
+                          "value": "0"
+                        },
+                        {
+                          "available_actions": [
+                            "Click",
+                            "SetFocus",
+                            "Expand",
+                            "Collapse"
+                          ],
+                          "children": [
+                            {
+                              "available_actions": [
+                                "Click"
+                              ],
+                              "description": "yarn.lock",
+                              "name": "0",
+                              "ref_id": "@s3aab1sheecmfo:e89",
+                              "role": "statictext",
+                              "states": [
+                                "offscreen"
+                              ],
+                              "value": "0"
+                            }
+                          ],
+                          "name": "yarn.lock",
+                          "ref_id": "@s3aab1sheecmfo:e88",
+                          "role": "treeitem",
+                          "states": [
+                            "selected",
+                            "offscreen"
+                          ],
+                          "value": "0"
+                        },
+                        {
+                          "available_actions": [
+                            "Click",
+                            "RightClick",
+                            "SetFocus",
+                            "Expand",
+                            "Collapse"
+                          ],
+                          "children": [
+                            {
+                              "available_actions": [
+                                "Click",
+                                "RightClick"
+                              ],
+                              "description": "External Libraries, external library",
+                              "name": "0",
+                              "ref_id": "@s3aab1sheecmfo:e91",
+                              "role": "statictext",
+                              "value": "0"
+                            }
+                          ],
+                          "name": "External Libraries, external library",
+                          "ref_id": "@s3aab1sheecmfo:e90",
+                          "role": "treeitem",
+                          "states": [
+                            "selected"
+                          ],
+                          "value": "0"
+                        },
+                        {
+                          "available_actions": [
+                            "Click",
+                            "SetFocus",
+                            "Expand",
+                            "Collapse"
+                          ],
+                          "children": [
+                            {
+                              "available_actions": [
+                                "Click"
+                              ],
+                              "description": "Scratches and Consoles",
+                              "name": "0",
+                              "ref_id": "@s3aab1sheecmfo:e93",
+                              "role": "statictext",
+                              "value": "0"
+                            }
+                          ],
+                          "name": "Scratches and Consoles",
+                          "ref_id": "@s3aab1sheecmfo:e92",
+                          "role": "treeitem",
+                          "states": [
+                            "selected"
+                          ],
+                          "value": "0"
+                        }
+                      ],
+                      "name": "Project structure tree",
+                      "ref_id": "@s3aab1sheecmfo:e80",
+                      "role": "outline",
+                      "value": "0"
+                    },
+                    {
+                      "role": "scrollbar",
+                      "states": [
+                        "offscreen"
+                      ],
+                      "value": "0"
+                    },
+                    {
+                      "role": "scrollbar",
+                      "value": "0"
+                    }
+                  ],
+                  "ref_id": "@s3aab1sheecmfo:e79",
+                  "role": "scrollarea",
+                  "value": "0"
+                }
+              ],
+              "name": "Project Tool Window",
+              "role": "group",
+              "value": "0"
+            },
+            {
+              "available_actions": [
+                "SetFocus"
+              ],
+              "children": [
+                {
+                  "description": "Hide processes (1)",
+                  "name": "Hide processes (1)",
+                  "role": "statictext",
+                  "states": [
+                    "offscreen"
+                  ],
+                  "value": "Hide processes (1)"
+                },
+                {
+                  "role": "statictext",
+                  "states": [
+                    "offscreen"
+                  ]
+                },
+                {
+                  "role": "statictext",
+                  "states": [
+                    "offscreen"
+                  ]
+                },
+                {
+                  "role": "statictext",
+                  "states": [
+                    "offscreen"
+                  ]
+                },
+                {
+                  "description": "5:21",
+                  "name": "5:21",
+                  "role": "statictext",
+                  "value": "5:21"
+                },
+                {
+                  "description": "Language Services Button",
+                  "name": "Language Services Button",
+                  "role": "statictext",
+                  "states": [
+                    "offscreen"
+                  ],
+                  "value": "Language Services Button"
+                },
+                {
+                  "description": "LF",
+                  "name": "LF",
+                  "role": "statictext",
+                  "value": "LF"
+                },
+                {
+                  "description": "UTF-8",
+                  "name": "UTF-8",
+                  "role": "statictext",
+                  "value": "UTF-8"
+                },
+                {
+                  "description": "Column selection mode",
+                  "name": "Column selection mode",
+                  "role": "statictext",
+                  "states": [
+                    "offscreen"
+                  ],
+                  "value": "Column selection mode"
+                },
+                {
+                  "role": "statictext"
+                },
+                {
+                  "description": "2 spaces",
+                  "name": "2 spaces",
+                  "role": "statictext",
+                  "value": "2 spaces"
+                },
+                {
+                  "description": "JSON: package.json",
+                  "name": "JSON: package.json",
+                  "role": "statictext",
+                  "value": "JSON: package.json"
+                },
+                {
+                  "role": "statictext",
+                  "states": [
+                    "offscreen"
+                  ]
+                },
+                {
+                  "description": "Make file read-only",
+                  "name": "Make file read-only",
+                  "role": "statictext",
+                  "value": "Make file read-only"
+                },
+                {
+                  "role": "image",
+                  "states": [
+                    "offscreen"
+                  ]
+                },
+                {
+                  "role": "image"
+                }
+              ],
+              "name": "Status Bar",
+              "role": "group",
+              "value": "0"
+            },
+            {
+              "available_actions": [
+                "Scroll",
+                "SetFocus"
+              ],
+              "children": [
+                {
+                  "available_actions": [
+                    "SetFocus"
+                  ],
+                  "children": [
+                    {
+                      "available_actions": [
+                        "Click",
+                        "SetFocus"
+                      ],
+                      "name": "ArkCompatProject",
+                      "ref_id": "@s3aab1sheecmfo:e95",
+                      "role": "button"
+                    }
+                  ],
+                  "name": "Navigation Bar",
+                  "role": "group",
+                  "value": "0"
+                },
+                {
+                  "role": "scrollbar",
+                  "states": [
+                    "offscreen"
+                  ],
+                  "value": "0"
+                }
+              ],
+              "ref_id": "@s3aab1sheecmfo:e94",
+              "role": "scrollarea",
+              "value": "0"
+            },
+            {
+              "available_actions": [
+                "SetFocus"
+              ],
+              "children": [
+                {
+                  "available_actions": [
+                    "Click",
+                    "SetFocus"
+                  ],
+                  "name": "Add Configuration",
+                  "ref_id": "@s3aab1sheecmfo:e96",
+                  "role": "button"
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "SetFocus"
+                  ],
+                  "name": "Run",
+                  "ref_id": "@s3aab1sheecmfo:e97",
+                  "role": "button",
+                  "states": [
+                    "disabled"
+                  ]
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "SetFocus"
+                  ],
+                  "name": "Debug",
+                  "ref_id": "@s3aab1sheecmfo:e98",
+                  "role": "button",
+                  "states": [
+                    "disabled"
+                  ]
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "SetFocus"
+                  ],
+                  "name": "Run with Coverage",
+                  "ref_id": "@s3aab1sheecmfo:e99",
+                  "role": "button",
+                  "states": [
+                    "disabled"
+                  ]
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "SetFocus"
+                  ],
+                  "name": "Stop",
+                  "ref_id": "@s3aab1sheecmfo:e100",
+                  "role": "button",
+                  "states": [
+                    "disabled"
+                  ]
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "SetFocus"
+                  ],
+                  "name": "Search Everywhere",
+                  "ref_id": "@s3aab1sheecmfo:e101",
+                  "role": "button"
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "SetFocus"
+                  ],
+                  "name": "IDE and Project Settings",
+                  "ref_id": "@s3aab1sheecmfo:e102",
+                  "role": "button"
+                },
+                {
+                  "available_actions": [
+                    "Click",
+                    "SetFocus"
+                  ],
+                  "name": "Sign in",
+                  "ref_id": "@s3aab1sheecmfo:e103",
+                  "role": "button"
+                }
+              ],
+              "name": "Action Toolbar",
+              "role": "group",
+              "value": "0"
+            }
+          ],
+          "name": "Root Pane",
+          "role": "group",
+          "subtree_truncated": true,
+          "value": "0"
+        },
+        {
+          "available_actions": [
+            "Click"
+          ],
+          "name": "Close",
+          "ref_id": "@s3aab1sheecmfo:e104",
+          "role": "button"
+        },
+        {
+          "available_actions": [
+            "Click",
+            "RightClick"
+          ],
+          "children": [
+            {
+              "role": "group"
+            }
+          ],
+          "name": "Full Screen",
+          "ref_id": "@s3aab1sheecmfo:e105",
+          "role": "button"
+        },
+        {
+          "available_actions": [
+            "Click"
+          ],
+          "name": "Minimize",
+          "ref_id": "@s3aab1sheecmfo:e106",
+          "role": "button"
+        },
+        {
+          "name": "ArkCompatProject \u2013 package.json",
+          "role": "statictext",
+          "value": "ArkCompatProject \u2013 package.json"
+        }
+      ],
+      "name": "ArkCompatProject \u2013 package.json",
+      "role": "window",
+      "subtree_truncated": true
+    },
+    "truncated": true,
+    "window": {
+      "id": "w-684",
+      "title": "ArkCompatProject \u2013 package.json"
+    }
+  }
+}

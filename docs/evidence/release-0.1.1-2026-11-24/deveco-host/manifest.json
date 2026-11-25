@@ -1,0 +1,103 @@
+{
+  "date": "2026-11-24",
+  "scope": "Published v0.1.1 DevEco host follow-up; one authored fixture, no accuracy measurement",
+  "releasedCommit": "f3c57e0e5f19832a9acf8111669f21377f9af46b",
+  "archiveSha256": "db3ccef1a3727329bdf87ffd0a5292df665027192c2342c42f2467f2f36173b3",
+  "host": {
+    "os": "27.2.1",
+    "architecture": "arm64",
+    "version": "26.0.0.865",
+    "buildNumber": "261.23567.138.36.2600865",
+    "bundledNode": "v24.14.1",
+    "isolatedProfile": true,
+    "regularProfilesTouched": false
+  },
+  "installation": {
+    "route": "Native Install Plugin from Disk, owner operated; owner reported installed in chat",
+    "uiVersion": "0.1.1",
+    "enabled": true,
+    "filesByteMatchedToRelease": 1074,
+    "jarSha256": "beb7a7a846e9b1f8d6f514e81aab4613b080cb006ced84f523de97d17b316123",
+    "agreement": "No agreement displayed in recovered startup; agent did not accept one"
+  },
+  "scan": {
+    "successfulHostRuns": 3,
+    "findings": 4,
+    "allUnknown": true,
+    "reportSha256": "f87df8cbf60068addf1c7afad1cf6ec4ca37cd2f83fb49aea6250a462022cebd",
+    "freshCliByteIdentical": true,
+    "recoveryByteIdentical": true,
+    "restartByteIdentical": true,
+    "canonicalFieldsMatchRetainedCliMcp": true
+  },
+  "navigation": {
+    "action": "Open first finding",
+    "file": "package.json",
+    "line": 5,
+    "column": 21,
+    "evidence": "recovery-ui.json"
+  },
+  "errorRecovery": {
+    "removedInputs": [
+      "package.json",
+      "yarn.lock"
+    ],
+    "observedError": "No package.json, oh-package.json5 or lockfile was found in the current project.",
+    "restoredInputsByteIdenticalToFixture": true,
+    "reportUnchanged": true
+  },
+  "removal": {
+    "method": "Isolated plugin directory moved aside after shutdown; restarted host has no plugin directory or scan action",
+    "nativeUiUninstall": false,
+    "taskPluginBackupRetained": true
+  },
+  "screenshotsRetainedLocally": [
+    {
+      "name": "01-installed.png",
+      "sha256": "88bed4383b887dca1df1df0be9e3981e9891faca5adfa571d7f54454bcf6fa24"
+    },
+    {
+      "name": "02-scan-success.png",
+      "sha256": "67c3e822ae13a8263b9d6d7ccdd28603235b070b711f766f3fd12e0083aa055d"
+    },
+    {
+      "name": "03-navigation.png",
+      "sha256": "007aadeca27fca2b292d007afa3be066ad55d907a42c94c084ae88b329936bc7"
+    },
+    {
+      "name": "04-missing-input.png",
+      "sha256": "bd9e39e848b621a010790e4e4e24c8886db677bd37bdb8e0a6d0991655712d9a"
+    },
+    {
+      "name": "05-recovery.png",
+      "sha256": "fc8c28ae94e860b5272cbcd67bb7b6a86e0c35411013ef436c561001590e53bb"
+    },
+    {
+      "name": "06-restart-scan.png",
+      "sha256": "fda3edbf2b403da8e9ffa3a9aa4eb6d79ff2e6b579fa49c5f15763b57a4dd4fd"
+    }
+  ],
+  "publicEvidence": {
+    "cli-report.json": "f87df8cbf60068addf1c7afad1cf6ec4ca37cd2f83fb49aea6250a462022cebd",
+    "parity.json": "07974f01f294e5656f26d527a7d8cbc5827087a5b711547019cbc1ddb8c6131d",
+    "plugin-report.json": "f87df8cbf60068addf1c7afad1cf6ec4ca37cd2f83fb49aea6250a462022cebd",
+    "recovered-report.json": "f87df8cbf60068addf1c7afad1cf6ec4ca37cd2f83fb49aea6250a462022cebd",
+    "recovery-ui.json": "44dee874ce04692f31252f9ab1207a5bd6d871fbbf193bed429ac2d30a839385",
+    "removal-observation.json": "9cef219f50b1e21943c27746860fa1fdf6080db652ac190d0919309ce0b94d2c",
+    "restarted-report.json": "f87df8cbf60068addf1c7afad1cf6ec4ca37cd2f83fb49aea6250a462022cebd"
+  },
+  "limitations": [
+    "Single authored fixture, not independent accuracy or device/runtime acceptance.",
+    "Original fixture is not a full HarmonyOS project; IDE project-sync failure is visible.",
+    "Removal was directory-level, not native UI uninstall.",
+    "Earlier 6/7 publication record is retained as dated history; this follow-up adds the seventh host."
+  ],
+  "fixture": {
+    "path": "fixtures/developer/yarn-berry-graph",
+    "sourceCommit": "f3c57e0e5f19832a9acf8111669f21377f9af46b",
+    "inputHashes": {
+      "package.json": "2fbd936045680855948aba2ffdcb716fc1c428cfd8c1b9d044f5ac126862c9ce",
+      "yarn.lock": "e03e4ce066449d7ca874f55ba886456759f98d987367ca26920a23d8fa8523db"
+    }
+  }
+}

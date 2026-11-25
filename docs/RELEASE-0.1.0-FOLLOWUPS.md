@@ -1,5 +1,7 @@
 # ArkCompat v0.1.0 follow-ups · 2026-11-15 (updated 2026-11-17)
 
+**2026-11-24 发布更新：** v0.1.1 工程预览补丁已发布；发布提交 `f3c57e0e5f19832a9acf8111669f21377f9af46b`，PR #125 合并，主干 CI [run 45311509077](https://github.com/hu-qi/arkcompat/actions/runs/45311509077) **7/7（100%）**。GitHub 与 AtomGit/GitCode 均提供 8 个制品文件，重新下载后全部校验并通过 CLI/Web smoke；本地双构建 **8/8（100%）** 文件一致。本轮入口局部一致性 **7/7（100%）**：CLI、MCP、Web、VS Code、Cursor、CI action 与 DevEco 发布 ZIP 均有同一 fixture 的实际观察。DevEco 追加宿主验证已通过原生安装、加载、扫描、定位、错误恢复和重启；移除采用隔离插件目录搬移，未宣称原生 UI 卸载。工作包仍 **2/8（25%）**，正式验收仍 **0/5（0%）**。v0.1.0 原 tag、资产和历史问题保留。详见[发布说明](RELEASE-0.1.1.md)与[发布证据](evidence/release-0.1.1-2026-11-24/index.md)。
+
 This register separates work that can still be completed by engineering from work that depends on external data, named reviewers or Huawei/owner authorization. It follows [RELEASE-0.1.0-VERIFICATION](RELEASE-0.1.0-VERIFICATION.md); evidence is in [`docs/evidence/release-0.1.0-verification/`](evidence/release-0.1.0-verification/) and the 2026-11-17 [CI closure record](RELEASE-0.1.0-CI-CLOSURE.md).
 
 **Decision boundary (2026-11-17):** D-05 (DevEco `--disk-install` route confirmed; public marketplace deferred) and D-08 (MIT for original code) remain closed owner decisions and are not reopened here. Windows packaging, public-registry publication, signing and attestation stay optional follow-ups; they are not blockers for this engineering review round, and no such expansion is claimed.

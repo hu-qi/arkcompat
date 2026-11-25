@@ -1,30 +1,8 @@
-# Delivery status and next gates · 2026-11-20
+# Delivery status and next gates · 2026-11-24
 
-Issues #3, #4, #5, #6, #7, #8 and #11 remain open. Issues #1, #2 and #9 are
-closed; #1 is retained as the completed M0 history. The main fix-merge baseline is
-`e6f12f9512f1dda95ad745ddaf8d7fa064930b00` ([PR #123](https://github.com/hu-qi/arkcompat/pull/123), merged);
-the published `v0.1.0` tag still points to `f64d4f3`. GitHub, AtomGit and GitCode
-main read-backs matched the fix-merge SHA. PR head `ec9127e` passed
-[run 44599466498](https://github.com/hu-qi/arkcompat/actions/runs/44599466498),
-**7/7 jobs (100%)**. [Post-merge run 44600437286](https://github.com/hu-qi/arkcompat/actions/runs/44600437286)
-had **5/7 jobs passed (71.4%)**, with two macOS jobs queued at this check;
-the earlier `READY-ENG-01`
-[PR #116](https://github.com/hu-qi/arkcompat/pull/116) was merged after
-[PR run 43236623133](https://github.com/hu-qi/arkcompat/actions/runs/43236623133)
-passed, and
-[main run 43237122871](https://github.com/hu-qi/arkcompat/actions/runs/43237122871)
-passed all five required jobs.
-The v0.1.0 release commit passed 37 test files and 593 tests. The unreleased
-fix candidate at evidence baseline `94e5cf1` passes 41 test files and 607 tests. A1 and `READY-ENG-01` are complete as
-engineering slice. A2 supply-chain audit evidence is complete and merged as an
-engineering slice; S-09 and S-10 are recorded as approved/authorized
-(2026-11-13), while signing, clean-host acceptance and formal results remain
-pending.
-All original thresholds, target
-surfaces and human decision boundaries remain those in [PRD](PRD.md),
-[quality gates](QUALITY-GATES.md) and [decisions](DECISIONS.md). This snapshot
-distinguishes verified engineering from remaining work; it is not a release or
-acceptance sign-off.
+**2026-11-24 发布更新：** v0.1.1 工程预览补丁已发布；发布提交 `f3c57e0e5f19832a9acf8111669f21377f9af46b`，PR #125 合并，主干 CI [run 45311509077](https://github.com/hu-qi/arkcompat/actions/runs/45311509077) **7/7（100%）**。GitHub 与 AtomGit/GitCode 均提供 8 个制品文件，重新下载后全部校验并通过 CLI/Web smoke；本地双构建 **8/8（100%）** 文件一致。本轮入口局部一致性 **7/7（100%）**：CLI、MCP、Web、VS Code、Cursor、CI action 与 DevEco 发布 ZIP 均有同一 fixture 的实际观察。DevEco 追加宿主验证已通过原生安装、加载、扫描、定位、错误恢复和重启；移除采用隔离插件目录搬移，未宣称原生 UI 卸载。工作包仍 **2/8（25%）**，正式验收仍 **0/5（0%）**。v0.1.0 原 tag、资产和历史问题保留。详见[发布说明](RELEASE-0.1.1.md)与[发布证据](evidence/release-0.1.1-2026-11-24/index.md)。
+
+Issues #3–#8 and #11 remain open; no original acceptance gate was waived. The dated v0.1.0 records below describe historical evidence, not the current patch status.
 
 ## v0.1.0 release verification · 2026-11-15
 

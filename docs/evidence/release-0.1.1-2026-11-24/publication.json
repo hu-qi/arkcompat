@@ -1,0 +1,71 @@
+{
+  "date": "2026-11-24",
+  "release": "v0.1.1",
+  "releasedCommit": "f3c57e0e5f19832a9acf8111669f21377f9af46b",
+  "tagObject": "8deab10de47fc31ac62140108144ae091ebb3a4e",
+  "pullRequest": "https://github.com/hu-qi/arkcompat/pull/125",
+  "releaseCommitCi": {
+    "run": 45311509077,
+    "jobsPassed": 7,
+    "jobsTotal": 7
+  },
+  "localTests": {
+    "passed": 608,
+    "total": 608,
+    "files": 41
+  },
+  "workPackages": {
+    "done": 2,
+    "total": 8
+  },
+  "formalAcceptance": {
+    "done": 0,
+    "total": 5
+  },
+  "roundParity": {
+    "passed": 6,
+    "total": 7,
+    "fixture": "yarn-berry-graph",
+    "devecoHost": "cancelled-at-user-agreement"
+  },
+  "platforms": [
+    {
+      "name": "GitHub",
+      "url": "https://github.com/hu-qi/arkcompat/releases/tag/v0.1.1",
+      "uploadedAssets": 8,
+      "downloadedAssets": 8,
+      "verifier": "github-download-verification.json"
+    },
+    {
+      "name": "AtomGit/GitCode",
+      "repositoryId": 11253777,
+      "url": "https://atomgit.com/huqi/arkcompat/releases",
+      "aliases": [
+        "https://gitcode.com/huqi/arkcompat/releases"
+      ],
+      "uploadedAssets": 8,
+      "automaticSourceArchives": 4,
+      "downloadedUploadedAssets": 8,
+      "verifier": "atomgit-download-verification.json"
+    }
+  ],
+  "doubleBuild": {
+    "identical": 8,
+    "total": 8,
+    "verifier": "release-verification.json"
+  },
+  "limitations": [
+    "No independent clean-host reviewer or formal accuracy verdict.",
+    "No new DevEco host verdict: fresh host was cancelled at the user/SDK agreement.",
+    "Marketplace/registry distribution and signing remain deferred.",
+    "Pre-existing Web schema hint says 0.10.0; imported report reads correct 0.12.0."
+  ],
+  "postPublicationHostFollowup": {
+    "date": "2026-11-24",
+    "parityPassed": 7,
+    "parityTotal": 7,
+    "devecoHost": "published ZIP native install, scan/navigation/recovery/restart pass; isolated directory removal verified",
+    "evidence": "deveco-host/manifest.json",
+    "supersedes": "roundParity is the earlier publication-time observation and remains historical"
+  }
+}
