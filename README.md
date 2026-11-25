@@ -7,8 +7,8 @@
 - **策略**：TypeScript First；确定性规则 + 版本化知识库 + 可选 AI 辅助分析。
 - **目标形态**：CLI / VS Code-Cursor / DevEco Studio / Web / MCP / CI/CD，共享同一扫描引擎。
 - **交付时间**：2026-12-23
-- **当前进度**：工程预览补丁 [v0.1.1](https://github.com/hu-qi/arkcompat/releases/tag/v0.1.1) 已发布并通过下载验证；本轮入口局部一致性 **100%（7/7）**，发布主干 CI **100%（7/7 job）**。交付工作包完成率仍为 **25%（2/8）**；正式验收完成率 **0%（0/5）**。
-- **进度核对日期**：2026-11-24；发布、局部入口验证、工作包与正式验收分别计数。
+- **当前进度**：工程预览补丁 [v0.1.1](https://github.com/hu-qi/arkcompat/releases/tag/v0.1.1) 发布与下载验证 **100%（1/1）**；入口局部一致性 **100%（7/7）**。完整交付工作包 **25%（2/8）**；正式验收 **0%（0/5）**。
+- **进度核对日期**：2026-11-25（宿主原始证据日期：2026-11-24）；发布、局部入口验证、工作包与正式验收分别计数。
 - **发布代码基线**：`f3c57e0e5f19832a9acf8111669f21377f9af46b`（PR #125 合并提交）；发布时 GitHub、AtomGit、GitCode 的 main/tag 已读回一致。[发布主干 CI](https://github.com/hu-qi/arkcompat/actions/runs/45311509077) **7/7 通过**，本地 **608/608 测试**通过。不同形态的 8 个发布文件双构建一致，两个发布后端的下载与 CLI/Web smoke 通过。见[发布说明](docs/RELEASE-0.1.1.md)与[验证证据](docs/evidence/release-0.1.1-2026-11-24/index.md)。
 
 首个验收节点目标 HarmonyOS 6.0.0+，里程碑排期见 [ROADMAP](ROADMAP.md)。
