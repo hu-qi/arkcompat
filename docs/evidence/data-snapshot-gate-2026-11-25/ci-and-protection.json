@@ -1,0 +1,81 @@
+{
+  "issue": 11,
+  "date": "2026-11-25",
+  "assessment": "declared-metadata-and-integrity-only",
+  "candidateHead": "eb72faedc86df23aad79eecfc993b2673ae9bb91",
+  "run": "https://github.com/hu-qi/arkcompat/actions/runs/45618541880",
+  "job": {
+    "name": "data-snapshots",
+    "conclusion": "success"
+  },
+  "checkedOutCommit": "8e8b8bc023eeb83b61315284751c9a0da568fafe",
+  "artifact": "data-snapshot-metadata-not-acceptance",
+  "snapshots": 2,
+  "knowledgeCanonicalSha256": "bc7b2249df65b913404ac234e66b321d8c8c8a5fedd34248d3fd06f998a640fe",
+  "pinnedManifestMatchesCheckout": true,
+  "rejection": {
+    "stdoutBytes": 0,
+    "stderr": "Data snapshot gate failed: Snapshot digest mismatch: data/knowledge/curated-provenance-snapshot.json\n"
+  },
+  "recoveryByteIdentical": true,
+  "protection": {
+    "strict": true,
+    "administratorsEnforced": true,
+    "previousRequiredChecks": [
+      {
+        "context": "docs-integrity",
+        "app_id": 15368
+      },
+      {
+        "context": "actionlint",
+        "app_id": 15368
+      },
+      {
+        "context": "workspace (ubuntu-24.04, Node 22)",
+        "app_id": 15368
+      },
+      {
+        "context": "workspace (ubuntu-24.04, Node 24)",
+        "app_id": 15368
+      },
+      {
+        "context": "workspace (macos-15, Node 24)",
+        "app_id": 15368
+      }
+    ],
+    "requiredChecks": [
+      {
+        "context": "docs-integrity",
+        "app_id": 15368
+      },
+      {
+        "context": "actionlint",
+        "app_id": 15368
+      },
+      {
+        "context": "workspace (ubuntu-24.04, Node 22)",
+        "app_id": 15368
+      },
+      {
+        "context": "workspace (ubuntu-24.04, Node 24)",
+        "app_id": 15368
+      },
+      {
+        "context": "workspace (macos-15, Node 24)",
+        "app_id": 15368
+      },
+      {
+        "context": "data-snapshots",
+        "app_id": 15368
+      }
+    ]
+  },
+  "formalAcceptance": {
+    "passed": 0,
+    "total": 5
+  },
+  "workPackages": {
+    "done": 2,
+    "total": 8
+  }
+}
