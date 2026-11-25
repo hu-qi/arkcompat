@@ -126,3 +126,7 @@ The first required
 [main run](https://github.com/hu-qi/arkcompat/actions/runs/42976643727)
 passed all five jobs. Linux Node24 completed the double package, validation,
 determinism comparison, relocation smoke and upload in the same workspace job.
+
+## Stage 2 offline snapshot increment · 2026-11-25
+
+Issue #11 adds [the offline snapshot gate](DATA-SNAPSHOT-GATE.md) for the two bundled rules/knowledge datasets. It pins source bytes, schema/identity/counts and canonical export, rejects candidate promotion and retains a deliberate drift-rejection/recovery probe. This verifies declared metadata and integrity only; independent labels, actual source authentication, reviewed mappings and whole Stage 2 acceptance remain open. Run 45618541880 passed the new data job, and its downloaded artifact verifies drift rejection and restored-input recovery. Protection read-back retains strict mode, administrator enforcement and all five old required checks while adding `data-snapshots` bound to GitHub Actions app 15368; the complete final PR status remains a separate merge gate.

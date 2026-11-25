@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "entries": [
+    {
+      "kind": "knowledge",
+      "path": "data/knowledge/curated-provenance-snapshot.json",
+      "sha256": "71618d138a13785dfb2c05643f3d8da6c9e72b85b1d666f031ea3aa20de2bc99",
+      "snapshotId": "arkcompat-curated-public-candidates-2026-11-12",
+      "count": 6,
+      "canonicalSha256": "bc7b2249df65b913404ac234e66b321d8c8c8a5fedd34248d3fd06f998a640fe"
+    },
+    {
+      "kind": "rules",
+      "path": "data/rules/harmonyos-6.0-api20-rules.json",
+      "sha256": "c7a3629690decb8d54b09cde5d12e3fc346b7b401bcae53e3a26605eb684c537",
+      "snapshotId": "harmonyos-6.0-api20-public-static-v1",
+      "count": 16
+    }
+  ]
+}

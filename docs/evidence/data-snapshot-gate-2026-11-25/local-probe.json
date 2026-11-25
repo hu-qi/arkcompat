@@ -1,0 +1,20 @@
+{
+  "issue": 11,
+  "scope": "Offline metadata/integrity only; not source authentication or formal acceptance",
+  "negative": {
+    "mutation": "Append one newline to the candidate knowledge snapshot without updating its pin",
+    "exitCode": 1,
+    "stderr": "Data snapshot gate failed: Snapshot digest mismatch: data/knowledge/curated-provenance-snapshot.json\n"
+  },
+  "recovery": {
+    "restore": "Original snapshot bytes",
+    "exitCode": 0,
+    "evidenceByteIdentical": true
+  },
+  "verificationSha256": "e8aedc82e4459a8105f4311dce13c0c9fecd564b0c698ae280e17f13f7359329",
+  "tests": {
+    "newTestsPassed": 12,
+    "allTestsPassed": 620,
+    "files": 42
+  }
+}
