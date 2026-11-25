@@ -126,3 +126,7 @@ The first required
 [main run](https://github.com/hu-qi/arkcompat/actions/runs/42976643727)
 passed all five jobs. Linux Node24 completed the double package, validation,
 determinism comparison, relocation smoke and upload in the same workspace job.
+
+## Stage 2 offline snapshot increment · 2026-11-25
+
+Issue #11 adds [the offline snapshot gate](DATA-SNAPSHOT-GATE.md) for the two bundled rules/knowledge datasets. It pins source bytes, schema/identity/counts and canonical export, rejects candidate promotion and retains a deliberate drift-rejection/recovery probe. This verifies declared metadata and integrity only; independent labels, actual source authentication, reviewed mappings and whole Stage 2 acceptance remain open. A successful real PR run and required-status read-back are needed to establish enforcement.
